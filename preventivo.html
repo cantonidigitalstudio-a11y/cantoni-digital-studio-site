@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Richiedi Preventivo | Cantoni Digital Studio</title>
+  <meta name="description" content="Richiedi una proposta professionale per redesign o nuovo sito web.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html"><img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio" class="brand-logo"></a>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="case-studies.html">Case Studies</a>
+      </nav>
+      <a class="btn btn-primary" href="mailto:cantonidigitalstudio@gmail.com">Email Direct</a>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container cta-grid">
+      <div>
+        <p class="eyebrow">Preventivo operativo</p>
+        <h1>Compila il brief e ricevi proposta entro 24 ore</h1>
+        <p>Usiamo queste informazioni per inviarti una proposta mirata: struttura sito, tempi, costo, priorità operative.</p>
+        <ul class="contact-list">
+          <li><strong>Email:</strong> cantonidigitalstudio@gmail.com</li>
+          <li><strong>Copertura:</strong> Worldwide</li>
+          <li><strong>Lingue:</strong> IT / EN</li>
+        </ul>
+      </div>
+
+      <form class="lead-form" id="quoteForm" action="#" method="post">
+        <label>Nome attività / Company
+          <input type="text" name="company" required>
+        </label>
+        <label>Referente
+          <input type="text" name="contact" required>
+        </label>
+        <label>Email
+          <input type="email" name="email" required>
+        </label>
+        <label>Paese / mercato principale
+          <input type="text" name="country" required>
+        </label>
+        <label>URL sito attuale (se esiste)
+          <input type="url" name="website" placeholder="https://...">
+        </label>
+        <label>Tipo progetto
+          <select name="projectType" required>
+            <option value="">Seleziona</option>
+            <option>Redesign sito esistente</option>
+            <option>Nuovo sito da zero</option>
+            <option>Landing page lead generation</option>
+            <option>Manutenzione continuativa</option>
+          </select>
+        </label>
+        <label>Budget indicativo
+          <select name="budget" required>
+            <option value="">Seleziona</option>
+            <option>900 - 1.300 EUR</option>
+            <option>1.600 - 2.400 EUR</option>
+            <option>3.000+ EUR</option>
+          </select>
+        </label>
+        <label>Obiettivo principale
+          <textarea name="goal" rows="4" required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary btn-full">Invia richiesta preventivo</button>
+        <p class="form-note" id="quoteNote" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio" class="footer-logo">
+      <p>© <span id="year"></span> Cantoni Digital Studio.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
