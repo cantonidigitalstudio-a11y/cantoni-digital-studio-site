@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Excellentia VIP | Fleet and routes</title>
+  <meta name="description" content="Vehicle tiers, route logic and premium service standards for Excellentia VIP across Punta Cana and beyond.">
+  <link rel="icon" href="assets/excellentia-vip/brand/excellentia-vip-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="excellentia-vip.css?v=20260413b">
+</head>
+<body class="vip-page vip-fleet has-contact-dock">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="utility-bar">
+    <div class="container utility-row">
+      <p id="fleetUtilityText">Vehicle classes, route corridors and comfort fit for VIP arrivals.</p>
+      <div class="utility-links">
+        <a href="excellentia-vip.html">Back to home</a>
+        <a href="excellentia-vip-packages.html">Packages</a>
+        <select id="vipFleetLangPicker" class="vip-lang-picker" aria-label="Sprachauswahl">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="excellentia-vip.html" aria-label="Excellentia VIP">
+        <img class="brand-logo-image" src="assets/excellentia-vip/brand/excellentia-vip-logo.svg" alt="" aria-hidden="true">
+        <span class="brand-tagline">Fleet &amp; routes</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="excellentia-vip.html#concept">Overview</a>
+        <a href="excellentia-vip-packages.html">Packages</a>
+        <a href="#tiers">Fleet tiers</a>
+        <a href="#routes">Routes</a>
+        <a href="excellentia-vip-operations.html">Operations</a>
+      </nav>
+      <a class="btn btn-primary" href="excellentia-vip-booking.html">Open booking</a>
+    </div>
+  </header>
+
+  <div class="contact-strip">
+    <div class="container contact-strip-row">
+      <div class="contact-strip-copy">
+        <span>Punta Cana reservations line</span>
+        <strong data-vip-contact-display>+1 849-592-2222</strong>
+        <p class="contact-strip-meta" data-vip-contact-address-display>Av. España, Punta Cana 23301</p>
+      </div>
+      <div class="contact-strip-actions">
+        <a class="contact-pill contact-pill--primary" data-vip-contact="whatsapp" href="#">WhatsApp concierge</a>
+        <a class="contact-pill" data-vip-contact="call" href="#">Call now</a>
+        <a class="contact-pill" data-vip-contact="email" href="#">Email reservations</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero hero-compact">
+      <div class="container hero-compact-grid">
+        <div>
+          <p class="eyebrow" id="fleetHeroEyebrow">Fleet and route selection</p>
+          <h1 id="fleetHeroTitle">The right vehicle should be obvious in one look.</h1>
+          <p class="hero-lead" id="fleetHeroLead">
+            Guests should understand vehicle class, luggage comfort and route fit quickly, then continue into a request that preserves their choices.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#tiers">Compare fleet</a>
+            <a class="btn btn-quiet btn-quiet-light" href="#routes">See route fit</a>
+            <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-booking.html">Open booking</a>
+          </div>
+        </div>
+
+        <aside class="hero-stage package-stage">
+          <div class="stage-shell">
+            <div class="stage-header">
+              <span class="stage-pill">Fleet structure</span>
+              <strong>Vehicle, route, guest fit</strong>
+            </div>
+            <div class="stage-grid">
+              <article>
+                <span>SUV</span>
+                <strong>Fast premium arrival</strong>
+              </article>
+              <article>
+                <span>Van</span>
+                <strong>Family and group comfort</strong>
+              </article>
+              <article>
+                <span>Black</span>
+                <strong>High-visibility VIP arrival</strong>
+              </article>
+            </div>
+            <div class="stage-inline-route">
+              <span>Punta Cana Airport</span>
+              <i></i>
+              <span>Cap Cana · Bavaro · Uvero Alto · La Romana</span>
+            </div>
+            <div class="stage-stack">
+              <article class="stage-metric">
+                <span>Positioning</span>
+                <strong>Airport corridors, resort runs and private day plans</strong>
+              </article>
+              <article class="stage-metric">
+                <span>Service proof</span>
+                <strong>Vehicle choice builds confidence before the team replies</strong>
+              </article>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section benchmark-band benchmark-band-tight">
+      <div class="container">
+        <div class="section-head section-head-wide">
+          <p class="eyebrow">Route benchmark</p>
+          <h2>Route pricing should feel clear before premium details begin.</h2>
+          <p>
+            This page should show the transport baseline first, then where comfort, luggage and presentation justify the higher service tier.
+          </p>
+        </div>
+        <div class="benchmark-grid">
+          <article class="benchmark-card">
+            <span>Cap Cana</span>
+            <strong>From $35</strong>
+            <p>Best direct transfer for resort arrivals.</p>
+          </article>
+          <article class="benchmark-card">
+            <span>Bavaro</span>
+            <strong>From $39</strong>
+            <p>Core resort route for comfort and luggage.</p>
+          </article>
+          <article class="benchmark-card">
+            <span>Uvero Alto</span>
+            <strong>From $69</strong>
+            <p>Longer route where van and premium SUV upgrades make sense.</p>
+          </article>
+          <article class="benchmark-card">
+            <span>La Romana</span>
+            <strong>From $120</strong>
+            <p>Long-distance route that should justify premium pricing clearly.</p>
+          </article>
+          <article class="benchmark-card">
+            <span>Premium SUV</span>
+            <strong>$65 to $110</strong>
+            <p>Benchmark range used for Black Signature route combinations.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tiers" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" id="fleetTiersEyebrow">Fleet tiers</p>
+          <h2 id="fleetTiersTitle">Three vehicle roles. No guesswork for the guest.</h2>
+        </div>
+        <div class="fleet-grid">
+          <article class="fleet-card fleet-card-suv product-card">
+            <span class="card-visual fleet-media fleet-media--suv" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="fleet-type">Executive SUV</span>
+              <h3>Fast premium arrival</h3>
+              <p>For couples, executives and guests who want a refined private transfer without needing a larger vehicle.</p>
+              <ul>
+                <li>2-4 guests</li>
+                <li>Airport and city transfer focus</li>
+                <li>Strong default for premium direct routes</li>
+              </ul>
+              <a class="btn btn-quiet" href="excellentia-vip-booking.html?service=airport&package=signature&vehicle=suv">Use SUV</a>
+            </div>
+          </article>
+          <article class="fleet-card fleet-card-van product-card">
+            <span class="card-visual fleet-media fleet-media--van" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="fleet-type">Luxury Van</span>
+              <h3>Family and group comfort</h3>
+              <p>For family bookings, wedding groups and larger resort movements where comfort and luggage matter more.</p>
+              <ul>
+                <li>5-8 guests</li>
+                <li>Child-seat and luggage fit</li>
+                <li>Strong fit for concierge additions</li>
+              </ul>
+              <a class="btn btn-quiet" href="excellentia-vip-booking.html?service=airport&package=essential&vehicle=van&extras=childSeat">Use van</a>
+            </div>
+          </article>
+          <article class="fleet-card fleet-card-black product-card">
+            <span class="card-visual fleet-media fleet-media--black" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="fleet-type">Black Signature</span>
+              <h3>High-visibility VIP arrival</h3>
+              <p>For the guest who wants the vehicle itself to feel like part of the VIP product.</p>
+              <ul>
+                <li>Luxury-first presentation</li>
+                <li>Best for celebration or status-heavy bookings</li>
+                <li>Best fit for celebration and high-touch arrivals</li>
+              </ul>
+              <a class="btn btn-primary" href="excellentia-vip-booking.html?service=airport&package=black&vehicle=black&extras=champagne,flowers,signage">Use Black tier</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="routes" class="section section-contrast">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" id="fleetRoutesEyebrow">Route scenarios</p>
+          <h2 id="fleetRoutesTitle">Each corridor should feel like a real booking scenario, not generic transport copy.</h2>
+        </div>
+        <div class="destination-grid">
+          <article class="destination-card product-card">
+            <span class="card-visual destination-media destination-media--capcana" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="destination-tag">Airport</span>
+              <h3>Cap Cana direct arrivals</h3>
+              <p>The cleanest premium corridor for direct arrivals, with clear pricing logic for polished celebration service.</p>
+              <a class="btn btn-quiet" href="excellentia-vip-booking.html?service=airport&package=signature&vehicle=suv">Use Cap Cana</a>
+            </div>
+          </article>
+          <article class="destination-card product-card">
+            <span class="card-visual destination-media destination-media--bavaro" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="destination-tag">Resort</span>
+              <h3>Bavaro resort transfers</h3>
+              <p>Core resort traffic where arrival image, luggage comfort and child-seat logistics directly shape the booking choice.</p>
+              <a class="btn btn-quiet" href="excellentia-vip-booking.html?service=airport&package=signature&vehicle=suv&route=1">Use Bavaro</a>
+            </div>
+          </article>
+          <article class="destination-card product-card">
+            <span class="card-visual destination-media destination-media--uvero" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="destination-tag">Long route</span>
+              <h3>Uvero Alto premium corridor</h3>
+              <p>Longer airport runs where vehicle class and service tier need to justify the price clearly.</p>
+              <a class="btn btn-quiet" href="excellentia-vip-booking.html?service=airport&package=signature&vehicle=van&route=2">Use Uvero Alto</a>
+            </div>
+          </article>
+          <article class="destination-card product-card">
+            <span class="card-visual destination-media destination-media--laromana" aria-hidden="true"></span>
+            <div class="product-card-copy">
+              <span class="destination-tag">Distance</span>
+              <h3>La Romana and high-distance transfers</h3>
+              <p>Long-distance positioning where the premium presentation needs to feel intentional and service-led.</p>
+              <a class="btn btn-quiet" href="excellentia-vip-booking.html?service=airport&package=black&vehicle=black&route=3">Use La Romana</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta">
+      <div class="container final-cta-card">
+        <div>
+          <p class="eyebrow" id="fleetCloseEyebrow">Booking handoff</p>
+          <h2 id="fleetCloseTitle">Once the route feels right, the guest should move straight into booking.</h2>
+          <p id="fleetCloseLead">
+            Guests should be able to choose a tier, understand when it fits and continue straight into booking without losing context.
+          </p>
+        </div>
+        <div class="final-cta-actions">
+          <a class="btn btn-primary" href="excellentia-vip-booking.html">Open booking</a>
+          <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-packages.html">Packages</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-lockup">
+          <img class="footer-brand-logo" src="assets/excellentia-vip/brand/excellentia-vip-logo.svg" alt="Excellentia VIP">
+        </div>
+        <p>Fleet, route scenarios and service fit designed to lead directly into booking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="excellentia-vip.html">Home</a>
+        <a href="excellentia-vip-packages.html">Packages</a>
+        <a href="excellentia-vip-operations.html">Operations</a>
+        <a href="excellentia-vip-booking.html">Booking</a>
+      </div>
+      <p class="footer-note">Vehicle choice, route logic and guest intent should stay visible from first click to booking.</p>
+    </div>
+  </footer>
+
+  <div class="contact-dock" aria-label="Quick contact">
+    <a class="contact-pill contact-pill--primary" data-vip-contact="whatsapp" href="#">WhatsApp concierge</a>
+    <a class="contact-pill" data-vip-contact="call" href="#">Call now</a>
+    <a class="contact-pill" data-vip-contact="email" href="#">Email reservations</a>
+  </div>
+
+  <script src="site-config.js?v=20260412a"></script>
+  <script src="excellentia-vip-fleet-i18n.js?v=20260409d"></script>
+  <script src="excellentia-vip-localization-extras.js?v=20260413e"></script>
+  <script src="excellentia-vip-seo.js?v=20260412a"></script>
+  <script src="excellentia-vip-fx.js?v=20260409a"></script>
+</body>
+</html>

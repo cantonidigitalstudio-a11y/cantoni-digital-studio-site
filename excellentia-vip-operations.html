@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Excellentia VIP | Booking, confirmation and routing logic</title>
+  <meta name="description" content="Operational logic for Excellentia VIP covering request routing, WhatsApp and email confirmation, payment follow-up and team visibility.">
+  <link rel="icon" href="assets/excellentia-vip/brand/excellentia-vip-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="excellentia-vip.css?v=20260413b">
+</head>
+<body class="vip-page vip-operations has-contact-dock">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="utility-bar">
+    <div class="container utility-row">
+      <p id="opsUtilityText">See how one request becomes a real service handoff.</p>
+      <div class="utility-links">
+        <a href="excellentia-vip.html">Home</a>
+        <a href="excellentia-vip-packages.html">Packages</a>
+        <select id="vipOpsLangPicker" class="vip-lang-picker" aria-label="Language picker">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="it">Italiano</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="excellentia-vip.html" aria-label="Excellentia VIP">
+        <img class="brand-logo-image" src="assets/excellentia-vip/brand/excellentia-vip-logo.svg" alt="" aria-hidden="true">
+        <span class="brand-tagline">Booking flow</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="excellentia-vip.html">Home</a>
+        <a href="#flow">Flow</a>
+        <a href="#channels">Channels</a>
+        <a href="#payments">Payments</a>
+        <a href="#desk">Operations</a>
+      </nav>
+      <a class="btn btn-primary" href="excellentia-vip-booking.html">Open booking</a>
+    </div>
+  </header>
+
+  <div class="contact-strip">
+    <div class="container contact-strip-row">
+      <div class="contact-strip-copy">
+        <span>Punta Cana reservations line</span>
+        <strong data-vip-contact-display>+1 849-592-2222</strong>
+        <p class="contact-strip-meta" data-vip-contact-address-display>Av. España, Punta Cana 23301</p>
+      </div>
+      <div class="contact-strip-actions">
+        <a class="contact-pill contact-pill--primary" data-vip-contact="whatsapp" href="#">WhatsApp concierge</a>
+        <a class="contact-pill" data-vip-contact="call" href="#">Call now</a>
+        <a class="contact-pill" data-vip-contact="email" href="#">Email reservations</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero hero-compact">
+      <div class="container hero-compact-grid">
+        <div>
+          <p class="eyebrow" id="opsHeroEyebrow">Booking and confirmation flow</p>
+          <h1 id="opsHeroTitle">One request in. Every touchpoint updated.</h1>
+          <p class="hero-lead" id="opsHeroLead">
+            The guest should feel certainty immediately, and the team should receive the same booking story across email, WhatsApp and the shared booking record.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#flow">See flow</a>
+            <a class="btn btn-quiet btn-quiet-light" href="#channels">See channels</a>
+            <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-booking.html">Open booking</a>
+          </div>
+        </div>
+        <aside class="hero-stage package-stage">
+          <div class="stage-shell">
+            <div class="stage-header">
+              <span class="stage-pill">Operational promise</span>
+              <strong>Request captured and visible</strong>
+            </div>
+            <div class="stage-grid">
+              <article>
+                <span>Input</span>
+                <strong>Service, route, add-ons</strong>
+              </article>
+              <article>
+                <span>Delivery</span>
+                <strong>WhatsApp, email</strong>
+              </article>
+              <article>
+                <span>Team view</span>
+                <strong>Readable booking record</strong>
+              </article>
+            </div>
+            <div class="stage-stack">
+              <article class="stage-metric">
+                <span>Reliability</span>
+                <strong>No inquiry should disappear</strong>
+              </article>
+              <article class="stage-metric">
+                <span>Client clarity</span>
+                <strong>More trust, less manual work</strong>
+              </article>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="flow" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" id="opsFlowEyebrow">Confirmation flow</p>
+          <h2 id="opsFlowTitle">The next step should feel obvious the second the request is sent.</h2>
+        </div>
+        <div class="confirmation-grid">
+          <article class="confirmation-card">
+            <span>Step 1</span>
+            <strong>Guest builds the request</strong>
+            <p>Service, route, vehicle tier, schedule and add-ons are bundled into one clean request before routing starts.</p>
+          </article>
+          <article class="confirmation-card">
+            <span>Step 2</span>
+            <strong>Request is routed immediately</strong>
+            <p>The same request can reach WhatsApp and email at the same time so the team never depends on one fragile channel.</p>
+          </article>
+          <article class="confirmation-card">
+            <span>Step 3</span>
+            <strong>Business receives an ordered recap</strong>
+            <p>The summary must stay readable: no lost extras, no missing route data and no vague internal notes.</p>
+          </article>
+          <article class="confirmation-card">
+            <span>Step 4</span>
+            <strong>After payment everyone is notified</strong>
+            <p>Client email, client WhatsApp, operator email and operator WhatsApp should all fire from the same confirmed booking.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="channels" class="section section-contrast">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" id="opsChannelsEyebrow">Routing channels</p>
+          <h2 id="opsChannelsTitle">WhatsApp, email and the shared booking record should always reflect the same booking story.</h2>
+        </div>
+        <div class="channel-grid">
+          <article class="channel-card">
+            <span>WhatsApp</span>
+            <strong>Fast concierge routing</strong>
+            <p>The message should arrive pre-filled with route, vehicle, package and extras so the conversation can continue without retyping.</p>
+            <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-booking.html?service=airport&package=black&vehicle=black&extras=champagne,flowers">View WhatsApp path</a>
+          </article>
+          <article class="channel-card">
+            <span>Email</span>
+            <strong>Structured client and operator recap</strong>
+            <p>The business inbox and the operator inbox should receive the same booking summary with route, schedule, notes, extras and payment status.</p>
+            <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-booking.html?service=airport&package=signature&vehicle=suv">View email recap</a>
+          </article>
+          <article class="channel-card">
+            <span>Shared tracking</span>
+            <strong>Visible booking history</strong>
+            <p>A shared booking record should keep request history, guest details and status readable for the team.</p>
+            <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-booking.html?service=airport&package=signature&vehicle=suv">View request builder</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="payments" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" id="opsPaymentsEyebrow">Payment and notifications</p>
+          <h2 id="opsPaymentsTitle">A successful payment should trigger every confirmation that matters.</h2>
+        </div>
+        <div class="trust-grid">
+          <article class="trust-card">
+            <span>Client email</span>
+            <strong>Paid booking recap with all selected extras</strong>
+            <p>The client should receive a clean email summary with service, route, schedule, vehicle, add-ons, payment status and next step.</p>
+          </article>
+          <article class="trust-card">
+            <span>Operator email</span>
+            <strong>Driver or service lead receives the same paid detail</strong>
+            <p>The assigned operator must receive the full brief as soon as payment lands, without manual copy-paste.</p>
+          </article>
+          <article class="trust-card">
+            <span>Client WhatsApp</span>
+            <strong>Fast confirmation in the guest’s native channel</strong>
+            <p>WhatsApp should confirm payment, summarize the request and keep the conversation open for coordination.</p>
+          </article>
+          <article class="trust-card">
+            <span>Operator WhatsApp</span>
+            <strong>Instant update for the service team</strong>
+            <p>The operator or service lead should get a structured WhatsApp summary with booking code, route, guest name, occasion extras and schedule.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="desk" class="section section-contrast">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" id="opsDeskEyebrow">Service clarity</p>
+          <h2 id="opsDeskTitle">The team view should read like a live service board, not scattered notes.</h2>
+        </div>
+        <div class="close-grid">
+          <article class="close-card">
+            <strong>Client-facing flow</strong>
+            <p>Elegant and premium on the front end, with no confusion about what the guest selected or what happens next.</p>
+          </article>
+          <article class="close-card">
+            <strong>Booking clarity</strong>
+            <p>A request should stay easy to read, confirm and forward even when the team is moving fast between inbox and WhatsApp.</p>
+          </article>
+          <article class="close-card">
+            <strong>Ready to grow</strong>
+            <p>The same structure can absorb payment logic, service tools and richer reservation handling later without breaking the guest-facing flow.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta">
+      <div class="container final-cta-card">
+        <div>
+          <p class="eyebrow" id="opsCloseEyebrow">Request routing</p>
+          <h2 id="opsCloseTitle">The guest should feel handled before anyone needs to ask twice.</h2>
+          <p id="opsCloseLead">Strong booking operations protect the guest experience: clear routing, fast confirmations and one shared record for guest and team.</p>
+        </div>
+        <div class="final-cta-actions">
+          <a class="btn btn-primary" href="excellentia-vip-booking.html">Open booking</a>
+          <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-fleet.html">View fleet</a>
+          <a class="btn btn-quiet btn-quiet-light" href="excellentia-vip-packages.html">Packages</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-lockup">
+          <img class="footer-brand-logo" src="assets/excellentia-vip/brand/excellentia-vip-logo.svg" alt="Excellentia VIP">
+        </div>
+        <p>Booking routing, confirmation logic and guest-ready follow-up.</p>
+      </div>
+      <div class="footer-links">
+        <a href="excellentia-vip.html">Home</a>
+        <a href="excellentia-vip-packages.html">Packages</a>
+        <a href="excellentia-vip-fleet.html">Fleet</a>
+      </div>
+      <p class="footer-note">Every request should keep the same booking details across WhatsApp, email and the booking record.</p>
+    </div>
+  </footer>
+
+  <div class="contact-dock" aria-label="Quick contact">
+    <a class="contact-pill contact-pill--primary" data-vip-contact="whatsapp" href="#">WhatsApp concierge</a>
+    <a class="contact-pill" data-vip-contact="call" href="#">Call now</a>
+    <a class="contact-pill" data-vip-contact="email" href="#">Email reservations</a>
+  </div>
+
+  <script src="site-config.js?v=20260412a"></script>
+  <script src="excellentia-vip-operations-i18n.js?v=20260409d"></script>
+  <script src="excellentia-vip-localization-extras.js?v=20260413e"></script>
+  <script src="excellentia-vip-seo.js?v=20260412a"></script>
+  <script src="excellentia-vip-fx.js?v=20260409a"></script>
+</body>
+</html>

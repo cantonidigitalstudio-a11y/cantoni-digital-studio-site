@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Excellentia VIP | Internal reservations desk</title>
+  <meta name="description" content="Internal reservations desk for Excellentia VIP with booking ledger, invoice tracking, operator routing and itinerary control.">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link rel="icon" href="assets/excellentia-vip/brand/excellentia-vip-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="excellentia-vip.css?v=20260413b">
+</head>
+<body class="vip-page vip-admin">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="utility-bar">
+    <div class="container utility-row">
+      <p>Internal desk for reservations, invoice follow-up and operator assignment.</p>
+      <div class="utility-links">
+        <a href="excellentia-vip.html">Home</a>
+        <a href="excellentia-vip-booking.html">Booking</a>
+        <a href="excellentia-vip-packages.html">Packages</a>
+        <a href="excellentia-vip-operations.html">Operations</a>
+      </div>
+    </div>
+  </header>
+
+  <header class="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="excellentia-vip.html" aria-label="Excellentia VIP">
+        <img class="brand-logo-image" src="assets/excellentia-vip/brand/excellentia-vip-logo.svg" alt="" aria-hidden="true">
+        <span class="brand-tagline">Internal reservations desk</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="excellentia-vip-booking.html">Booking</a>
+        <a href="#control-board">Control board</a>
+        <a href="#ledger">Ledger</a>
+        <a href="#detail">Record detail</a>
+      </nav>
+      <a class="btn btn-primary" href="excellentia-vip-booking.html">Open booking flow</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-compact">
+      <div class="container admin-hero-grid">
+        <div class="admin-hero-copy">
+          <p class="eyebrow">Internal operations workspace</p>
+          <h1>Track every request, invoice field and operator handoff before the full backend lands.</h1>
+          <p class="hero-lead">
+            This desk turns the current static booking flow into an actual control surface: lead country, service timing, itinerary value, invoice refs, payment status, operator routing and notification follow-up live in one place.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" type="button" data-admin-action="import-current">Import current itinerary</button>
+            <button class="btn btn-secondary" type="button" data-admin-action="create-record">Create manual record</button>
+            <a class="btn btn-secondary" href="excellentia-vip-booking.html">Back to booking</a>
+          </div>
+        </div>
+        <aside class="hero-stage package-stage">
+          <div class="stage-shell admin-stage-shell">
+            <div class="stage-header">
+              <span class="stage-pill">Control board</span>
+              <strong>Reservations-first while backend handover is still pending</strong>
+            </div>
+            <div class="stage-grid">
+              <article>
+                <span>Lead capture</span>
+                <strong>Country, contact, schedule and pickup context stay attached to the record.</strong>
+              </article>
+              <article>
+                <span>Invoice follow-up</span>
+                <strong>Track estimated total, invoice ref, deposit, paid amount and billing stage.</strong>
+              </article>
+              <article>
+                <span>Operator routing</span>
+                <strong>Keep coordinator, driver or host assignment visible before confirmations go out.</strong>
+              </article>
+            </div>
+            <div class="admin-stage-note" id="adminStageNote">Checking current browser cart and intake state…</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="control-board" class="section section-dark">
+      <div class="container admin-shell">
+        <aside class="admin-sidebar">
+          <section class="admin-panel">
+            <div class="admin-panel-head">
+              <div>
+                <span class="summary-label">Pipeline</span>
+                <h2>Control board</h2>
+              </div>
+            </div>
+            <div class="admin-kpi-grid">
+              <article class="admin-kpi-card">
+                <span>Total records</span>
+                <strong id="adminKpiTotal">0</strong>
+                <p>Every structured request saved in this browser ledger.</p>
+              </article>
+              <article class="admin-kpi-card">
+                <span>Open pipeline</span>
+                <strong id="adminKpiOpen">0</strong>
+                <p>Requested, quoted or confirmed records still in motion.</p>
+              </article>
+              <article class="admin-kpi-card">
+                <span>Awaiting payment</span>
+                <strong id="adminKpiAwaiting">0</strong>
+                <p>Confirmed or invoiced records that are not fully paid yet.</p>
+              </article>
+              <article class="admin-kpi-card">
+                <span>Pipeline value</span>
+                <strong id="adminKpiRevenue">$0</strong>
+                <p>Estimated total currently sitting in the desk.</p>
+              </article>
+            </div>
+            <div class="admin-priority-head">
+              <div>
+                <span class="summary-label">Reservations priorities</span>
+                <h3>What needs attention now</h3>
+              </div>
+            </div>
+            <div id="adminPriorityGrid" class="admin-priority-grid"></div>
+            <div class="admin-actions">
+              <button class="btn btn-primary" type="button" data-admin-action="import-current">Import current itinerary</button>
+              <button class="btn btn-secondary" type="button" data-admin-action="create-record">New blank record</button>
+              <button class="btn btn-secondary" type="button" data-admin-action="export-json">Export JSON</button>
+              <button class="btn btn-secondary" type="button" data-admin-action="export-csv">Export CSV</button>
+            </div>
+            <div class="admin-sync-note" id="adminSyncNote">No staged browser itinerary detected yet.</div>
+            <div class="detail-grid admin-cloud-grid">
+              <div class="builder-block detail-span-two">
+                <label class="builder-label" for="adminApiKeyInput">Staff session or emergency key</label>
+                <input id="adminApiKeyInput" class="field" type="password" autocomplete="off" placeholder="Staff session is preferred. Only load the VIP admin key if local fallback is explicitly enabled.">
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button class="btn btn-primary" type="button" data-admin-action="connect-cloud">Load cloud ledger</button>
+              <button class="btn btn-secondary" type="button" data-admin-action="reload-cloud">Refresh cloud ledger</button>
+              <button class="btn btn-secondary" type="button" data-admin-action="clear-cloud-key">Clear key</button>
+            </div>
+            <div class="admin-sync-note" id="adminApiKeyStatus">No staff session detected yet. Use staff auth first, or load the emergency admin key only when fallback is enabled.</div>
+            <div class="admin-readiness-head">
+              <span class="summary-label">Live stack readiness</span>
+              <span id="adminReadinessPill" class="status-pill status-pill-muted">Waiting</span>
+            </div>
+            <div class="admin-sync-note" id="adminReadinessNote">Sign in with a staff session to inspect the live booking, notification and payment environment. Use the admin key only as a local fallback.</div>
+            <div id="adminReadinessGrid" class="admin-readiness-grid"></div>
+          </section>
+
+          <section class="admin-panel">
+            <div class="admin-panel-head">
+              <div>
+                <span class="summary-label">Search and status</span>
+                <h2>Pipeline filters</h2>
+              </div>
+            </div>
+            <label class="builder-label" for="adminSearch">Search by guest, code, country or reference</label>
+            <input id="adminSearch" class="field" type="search" placeholder="Carlos, EV-260403-001, Cap Cana, villa, invoice...">
+            <div id="adminFilterChips" class="admin-filter-grid"></div>
+            <div class="admin-note-stack">
+              <article class="admin-note-card">
+                <span>Current setup</span>
+                <strong>Browser ledger, not the final backend</strong>
+                <p>Useful now for reservations, quotes and invoice follow-up while supplier handover is unresolved.</p>
+              </article>
+              <article class="admin-note-card">
+                <span>Best use</span>
+                <strong>Import from booking or create manual desk records</strong>
+                <p>Keep the commercial summary and the operator handoff attached to the same internal record.</p>
+              </article>
+            </div>
+          </section>
+        </aside>
+
+        <div class="admin-main">
+          <section id="ledger" class="admin-panel">
+            <div class="admin-panel-head">
+              <div>
+                <span class="summary-label">Bookings ledger</span>
+                <h2 id="adminLedgerTitle">No records saved yet</h2>
+              </div>
+              <div class="cart-pill">
+                <span>Visible</span>
+                <strong id="adminVisibleCount">0</strong>
+              </div>
+            </div>
+            <div id="adminLedgerList" class="admin-ledger-list"></div>
+          </section>
+
+          <section id="detail" class="admin-panel admin-detail-panel">
+            <div class="admin-panel-head">
+              <div>
+                <span class="summary-label">Record detail</span>
+                <h2 id="adminDetailTitle">Select or create a booking record</h2>
+              </div>
+              <div class="admin-status-stack">
+                <span id="adminDetailStatus" class="status-pill status-pill-muted">No record selected</span>
+                <span id="adminDetailPayment" class="status-pill status-pill-muted">Payment pending</span>
+              </div>
+            </div>
+            <p id="adminDetailLead" class="admin-detail-lead">The selected record keeps guest data, itinerary items, invoice fields and operator routing in one place.</p>
+            <div id="adminContactRail" class="admin-contact-rail" hidden>
+              <a id="adminClientEmailLink" class="contact-pill" href="#" target="_blank" rel="noreferrer">Email client</a>
+              <a id="adminClientWhatsappLink" class="contact-pill contact-pill--primary" href="#" target="_blank" rel="noreferrer">WhatsApp client</a>
+              <a id="adminOperatorEmailLink" class="contact-pill" href="#" target="_blank" rel="noreferrer">Email operator</a>
+              <a id="adminOperatorWhatsappLink" class="contact-pill" href="#" target="_blank" rel="noreferrer">WhatsApp operator</a>
+            </div>
+
+            <div id="adminDetailEmpty" class="cart-item cart-item-empty">
+              <strong>No booking record selected yet</strong>
+              <p>Import the current browser itinerary from the booking flow or create a manual record to start the desk.</p>
+            </div>
+
+            <form id="adminDetailForm" class="admin-detail-form" hidden>
+              <div class="detail-grid">
+                <div class="builder-block">
+                  <label class="builder-label" for="detailCode">Booking code</label>
+                  <input id="detailCode" class="field" type="text" data-record-field="code">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailSource">Source</label>
+                  <input id="detailSource" class="field" type="text" data-record-field="source">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailLeadName">Lead name</label>
+                  <input id="detailLeadName" class="field" type="text" data-record-field="leadName">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailCountry">Country</label>
+                  <input id="detailCountry" class="field" type="text" data-record-field="country">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailEmail">Email</label>
+                  <input id="detailEmail" class="field" type="email" data-record-field="guestEmail">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailWhatsapp">WhatsApp</label>
+                  <input id="detailWhatsapp" class="field" type="text" data-record-field="guestWhatsapp">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailDate">Service date</label>
+                  <input id="detailDate" class="field" type="date" data-record-field="pickupDate">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailTime">Pickup time</label>
+                  <input id="detailTime" class="field" type="time" data-record-field="pickupTime">
+                </div>
+                <div class="builder-block detail-span-two">
+                  <label class="builder-label" for="detailPickup">Airport, hotel or villa</label>
+                  <input id="detailPickup" class="field" type="text" data-record-field="pickupPoint">
+                </div>
+                <div class="builder-block detail-span-two">
+                  <label class="builder-label" for="detailReference">Flight, villa or request reference</label>
+                  <input id="detailReference" class="field" type="text" data-record-field="reference">
+                </div>
+              </div>
+
+              <div class="invoice-band">
+                <div class="builder-block">
+                  <label class="builder-label" for="detailStatusSelect">Booking status</label>
+                  <select id="detailStatusSelect" class="field" data-record-field="status">
+                    <option value="requested">Requested</option>
+                    <option value="quoted">Quoted</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="invoiced">Invoiced</option>
+                    <option value="paid">Paid</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailPaymentSelect">Payment status</label>
+                  <select id="detailPaymentSelect" class="field" data-record-field="paymentStatus">
+                    <option value="pending">Pending</option>
+                    <option value="deposit">Deposit paid</option>
+                    <option value="paid">Paid in full</option>
+                    <option value="refunded">Refunded</option>
+                  </select>
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailInvoiceStatus">Invoice stage</label>
+                  <select id="detailInvoiceStatus" class="field" data-record-field="invoiceStatus">
+                    <option value="not_issued">Not issued</option>
+                    <option value="drafted">Drafted</option>
+                    <option value="sent">Sent</option>
+                    <option value="paid">Paid</option>
+                  </select>
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailInvoiceRef">Invoice reference</label>
+                  <input id="detailInvoiceRef" class="field" type="text" data-record-field="invoiceRef">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailEstimatedTotal">Estimated total (USD)</label>
+                  <input id="detailEstimatedTotal" class="field" type="number" min="0" step="1" data-record-field="estimatedTotal">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailInvoiceAmount">Invoice amount (USD)</label>
+                  <input id="detailInvoiceAmount" class="field" type="number" min="0" step="1" data-record-field="invoiceAmount">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailDepositAmount">Deposit amount (USD)</label>
+                  <input id="detailDepositAmount" class="field" type="number" min="0" step="1" data-record-field="depositAmount">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailPaidAmount">Paid amount (USD)</label>
+                  <input id="detailPaidAmount" class="field" type="number" min="0" step="1" data-record-field="paidAmount">
+                </div>
+              </div>
+
+              <div class="detail-grid">
+                <div class="builder-block">
+                  <label class="builder-label" for="detailOperatorName">Operator or coordinator</label>
+                  <input id="detailOperatorName" class="field" type="text" data-record-field="operatorName">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailOperatorEmail">Operator email</label>
+                  <input id="detailOperatorEmail" class="field" type="email" data-record-field="operatorEmail">
+                </div>
+                <div class="builder-block">
+                  <label class="builder-label" for="detailOperatorWhatsapp">Operator WhatsApp</label>
+                  <input id="detailOperatorWhatsapp" class="field" type="text" data-record-field="operatorWhatsapp">
+                </div>
+              </div>
+
+              <div class="admin-notification-grid">
+                <label class="admin-check-card">
+                  <input id="detailClientEmailSent" type="checkbox" data-record-field="clientEmailSent">
+                  <span>Client email sent</span>
+                </label>
+                <label class="admin-check-card">
+                  <input id="detailClientWhatsappSent" type="checkbox" data-record-field="clientWhatsappSent">
+                  <span>Client WhatsApp sent</span>
+                </label>
+                <label class="admin-check-card">
+                  <input id="detailOperatorEmailSent" type="checkbox" data-record-field="operatorEmailSent">
+                  <span>Operator email sent</span>
+                </label>
+                <label class="admin-check-card">
+                  <input id="detailOperatorWhatsappSent" type="checkbox" data-record-field="operatorWhatsappSent">
+                  <span>Operator WhatsApp sent</span>
+                </label>
+              </div>
+
+              <div class="builder-block">
+                <label class="builder-label" for="detailInternalNotes">Internal notes</label>
+                <textarea id="detailInternalNotes" class="field field-textarea" rows="4" data-record-field="internalNotes"></textarea>
+              </div>
+
+              <div class="admin-items-panel">
+                <div class="itinerary-head">
+                  <div>
+                    <span class="summary-label">Itinerary items</span>
+                    <h3 id="adminItemsTitle">No itinerary items yet</h3>
+                  </div>
+                  <div class="cart-pill">
+                    <span>Value</span>
+                    <strong id="adminEstimatedTotalValue">$0</strong>
+                  </div>
+                </div>
+                <div id="adminItemsList" class="admin-items-list"></div>
+              </div>
+
+              <div class="admin-items-panel admin-events-panel">
+                <div class="itinerary-head">
+                  <div>
+                    <span class="summary-label">Record activity</span>
+                    <h3 id="adminEventsTitle">No activity logged yet</h3>
+                  </div>
+                  <div class="cart-pill">
+                    <span>Entries</span>
+                    <strong id="adminEventsCount">0</strong>
+                  </div>
+                </div>
+                <div id="adminEventsList" class="admin-events-list"></div>
+              </div>
+
+              <div class="admin-actions">
+                <button class="btn btn-secondary" type="button" data-admin-action="copy-client-summary">Copy client summary</button>
+                <button class="btn btn-secondary" type="button" data-admin-action="copy-ops-summary">Copy ops brief</button>
+                <button class="btn btn-secondary" type="button" data-admin-action="duplicate-record">Duplicate record</button>
+                <button class="btn btn-secondary" type="button" data-admin-action="delete-record">Delete record</button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-lockup">
+          <img class="footer-brand-logo" src="assets/excellentia-vip/brand/excellentia-vip-logo.svg" alt="Excellentia VIP">
+        </div>
+        <p>Internal reservations workspace built on top of the current static stack, ready to evolve into a full backend later.</p>
+      </div>
+      <div class="footer-links">
+        <a href="excellentia-vip-booking.html">Booking flow</a>
+        <a href="excellentia-vip-operations.html">Operations</a>
+        <a href="excellentia-vip.html">Public site</a>
+      </div>
+      <p class="footer-note">Use this desk to keep sales, reservations and operator follow-up attached to the same structured record while the supplier handover remains open.</p>
+    </div>
+  </footer>
+
+  <script src="site-config.js?v=20260410b"></script>
+  <script src="excellentia-vip-catalog.js?v=20260413a"></script>
+  <script src="excellentia-vip.js?v=20260413a"></script>
+  <script src="excellentia-vip-admin.js?v=20260410b"></script>
+  <script src="excellentia-vip-fx.js?v=20260409a"></script>
+</body>
+</html>

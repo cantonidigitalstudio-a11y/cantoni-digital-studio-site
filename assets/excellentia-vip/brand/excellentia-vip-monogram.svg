@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none">
+  <defs>
+    <linearGradient id="excellentia-frame" x1="10" y1="8" x2="60" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7E4C6"/>
+      <stop offset=".48" stop-color="#D9B884"/>
+      <stop offset="1" stop-color="#8A6335"/>
+    </linearGradient>
+    <linearGradient id="excellentia-panel" x1="36" y1="4" x2="36" y2="68" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17120E"/>
+      <stop offset="1" stop-color="#0D0907"/>
+    </linearGradient>
+    <linearGradient id="excellentia-line" x1="22" y1="18" x2="55" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6DAB3"/>
+      <stop offset="1" stop-color="#C7904E"/>
+    </linearGradient>
+  </defs>
+  <rect x="4.75" y="4.75" width="62.5" height="62.5" rx="20" fill="url(#excellentia-panel)" stroke="url(#excellentia-frame)" stroke-width="1.5"/>
+  <path d="M24.5 20.5V51.5" stroke="url(#excellentia-line)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M24.5 20.5H39.25" stroke="url(#excellentia-line)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M24.5 36H36.25" stroke="url(#excellentia-line)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M24.5 51.5H39.25" stroke="url(#excellentia-line)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M42 20.5L51 51.5L60 20.5" stroke="url(#excellentia-line)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="56.5" cy="14.5" r="1.5" fill="#F6DEB8" fill-opacity=".9"/>
+</svg>
