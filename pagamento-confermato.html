@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pagamento confermato | Cantoni Digital Studio</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Conferma pagamento Cantoni Digital Studio e prossimi passi operativi.">
+  <link rel="stylesheet" href="styles.css?v=20260502a">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-wrap">
+      <p>Pagamento ricevuto · prossimi passi operativi</p>
+      <div class="topbar-right">
+        <a href="studio.html">Studio</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Cantoni Digital Studio">
+        <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio" class="brand-logo">
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="studio.html">Studio</a>
+        <a href="servizi.html">Servizi</a>
+        <a href="preventivo.html">Consultation</a>
+        <a href="termini-commerciali.html">Termini</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <a class="btn btn-primary" href="preventivo.html">Apri il flusso consulenza</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-pad">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Pagamento confermato</p>
+          <h1>Il pagamento è stato registrato. Adesso il percorso passa in mano allo studio.</h1>
+          <p class="lead">Questa conferma serve a due cose: dare al cliente un next step chiaro e dare all’admin interno un evento pulito di pagamento completato.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="preventivo.html">Torna al flusso consulenza</a>
+            <a class="btn btn-ghost" href="mailto:cantonidigitalstudio@gmail.com">Scrivi allo studio</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Payment summary">
+          <img src="assets/logo/cantoni_icona_quadrata.svg" alt="Cantoni monogram" class="hero-icon">
+          <h2>Riepilogo rapido</h2>
+          <ul>
+            <li><strong>Percorso:</strong> <span id="paymentPathLabel">Stripe checkout</span></li>
+            <li><strong>Modalità:</strong> <span id="paymentModeLabel">payment</span></li>
+            <li><strong>Stato:</strong> pagamento confermato</li>
+            <li><strong>Sessione:</strong> <span id="paymentSessionLabel">n/d</span></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-pad section-alt">
+      <div class="container trust-grid">
+        <article class="trust-card">
+          <h3>1. Se hai pagato la consulenza fase 1</h3>
+          <p>Prepari materiali, logo, offerta, struttura del business e dati reali. La call è riservata e non rimborsabile, come da termini pubblici.</p>
+        </article>
+        <article class="trust-card">
+          <h3>2. Se hai pagato la consulenza fase 2</h3>
+          <p>Lo studio entra nel blocco strategico: sito, funnel, posizionamento, criticità e proposta concreta costruita sui dati raccolti.</p>
+        </article>
+        <article class="trust-card">
+          <h3>3. Se hai attivato il supporto mensile</h3>
+          <p>Il business entra nel layer continuativo dello studio: visibilità, leva ecosistema, suggerimenti operativi e presidio ricorrente.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-brand-block">
+        <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio" class="footer-logo">
+        <p class="footer-summary">Cantoni Digital Studio gestisce build premium, funnel, promozione e supporto strategico continuativo.</p>
+        <p class="footer-meta">Inbox operativa: <a href="mailto:cantonidigitalstudio@gmail.com">cantonidigitalstudio@gmail.com</a></p>
+        <p class="footer-meta"><a href="termini-commerciali.html">Termini commerciali</a> · <a href="privacy.html">Privacy e cookie</a></p>
+        <p class="footer-copy">© <span id="year"></span> Cantoni Digital Studio</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="site-config.js?v=20260404d"></script>
+  <script src="app.js?v=20260502a"></script>
+  <script src="app-analytics.js?v=20260405d"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search || '');
+      var paymentPath = params.get('payment_path') || 'stripe_checkout';
+      var paymentMode = params.get('payment_mode') || 'payment';
+      var checkoutSessionId = params.get('checkout_session_id') || params.get('session_id') || '';
+
+      function humanizePaymentPath(value) {
+        var map = {
+          consultation_phase_1: 'Consultation phase 1',
+          consultation_phase_2: 'Consultation phase 2',
+          direct_package: 'Direct package',
+          ecosystem_membership: 'Ecosystem membership'
+        };
+        if (map[value]) return map[value];
+        return String(value || 'Stripe checkout').replace(/_/g, ' ').replace(/\b\w/g, function (char) { return char.toUpperCase(); });
+      }
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      if (byId('year')) byId('year').textContent = new Date().getFullYear();
+      if (byId('paymentPathLabel')) byId('paymentPathLabel').textContent = humanizePaymentPath(paymentPath);
+      if (byId('paymentModeLabel')) byId('paymentModeLabel').textContent = paymentMode === 'subscription' ? 'subscription' : 'payment';
+      if (byId('paymentSessionLabel')) byId('paymentSessionLabel').textContent = checkoutSessionId || 'n/d';
+
+      if (window.CDSApp && typeof window.CDSApp.createAnalyticsModule === 'function') {
+        var analytics = window.CDSApp.createAnalyticsModule();
+        if (typeof analytics.init === 'function') analytics.init();
+        analytics.track('stripe_checkout_completed', {
+          category: 'payment',
+          label: humanizePaymentPath(paymentPath),
+          paymentPath: paymentPath,
+          paymentMode: paymentMode,
+          paymentState: 'completed',
+          checkoutSessionId: checkoutSessionId,
+          pageOverride: 'payment_success'
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

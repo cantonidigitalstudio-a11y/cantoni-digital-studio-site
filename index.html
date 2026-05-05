@@ -3,182 +3,414 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cantoni Digital Studio | Global Web Conversion Studio</title>
-  <meta name="description" content="Cantoni Digital Studio: redesign e sviluppo siti web orientati a conversione per aziende in tutto il mondo.">
-  <meta name="keywords" content="web design globale, website redesign, conversion rate optimization, lead generation website">
-  <meta property="og:title" content="Cantoni Digital Studio | Global Web Conversion Studio">
-  <meta property="og:description" content="Siti professionali orientati a lead e vendite. Operatività mondiale via email.">
+  <title id="pageTitle">Cantoni Digital Studio | Website redesign for professional services</title>
+  <meta id="metaDescription" name="description" content="Cantoni Digital Studio builds commercial web infrastructure for serious service businesses: websites, e-commerce, applications, payments, data capture and automation.">
+  <meta id="ogTitle" property="og:title" content="Cantoni Digital Studio | Website redesign for professional services">
+  <meta id="ogDescription" property="og:description" content="Websites, e-commerce, applications, payments and automation built as one commercial system.">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="it_IT">
+  <meta id="ogUrl" property="og:url" content="https://cantonidigitalstudio.com/">
+  <meta property="og:site_name" content="Cantoni Digital Studio">
+  <meta id="twitterTitle" name="twitter:title" content="Cantoni Digital Studio | Website redesign for professional services">
+  <meta id="twitterDescription" name="twitter:description" content="Websites, e-commerce, applications, payments and automation built as one commercial system.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://cantonidigitalstudio.com/">
+  <link rel="alternate" hreflang="it" href="https://cantonidigitalstudio.com/?lang=it">
+  <link rel="alternate" hreflang="en" href="https://cantonidigitalstudio.com/?lang=en">
+  <link rel="alternate" hreflang="es" href="https://cantonidigitalstudio.com/?lang=es">
+  <link rel="alternate" hreflang="fr" href="https://cantonidigitalstudio.com/?lang=fr">
+  <link rel="alternate" hreflang="de" href="https://cantonidigitalstudio.com/?lang=de">
+  <link rel="alternate" hreflang="pt" href="https://cantonidigitalstudio.com/?lang=pt">
+  <link rel="alternate" hreflang="ar" href="https://cantonidigitalstudio.com/?lang=ar">
+  <link rel="alternate" hreflang="ru" href="https://cantonidigitalstudio.com/?lang=ru">
+  <link rel="alternate" hreflang="zh" href="https://cantonidigitalstudio.com/?lang=zh">
+  <link rel="alternate" hreflang="ja" href="https://cantonidigitalstudio.com/?lang=ja">
+  <link rel="alternate" hreflang="hi" href="https://cantonidigitalstudio.com/?lang=hi">
+  <link rel="alternate" hreflang="x-default" href="https://cantonidigitalstudio.com/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260502a">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Cantoni Digital Studio",
+    "url": "https://cantonidigitalstudio.com/",
+    "logo": "https://cantonidigitalstudio.com/assets/logo/cantoni_primary_horizontal_small.svg",
+    "email": "cantonidigitalstudio@gmail.com",
+    "description": "Independent digital studio focused on websites, e-commerce, applications, conversion architecture and multilingual delivery for service businesses.",
+    "areaServed": "Worldwide",
+    "knowsLanguage": ["Italian", "English"],
+    "founder": {
+      "@type": "Person",
+      "name": "Emanuele Cantoni"
+    },
+    "vatID": "IT02615510035",
+    "taxID": "CNTMNL96A19B019T",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via Bolco 31",
+      "addressLocality": "Arola",
+      "addressRegion": "VB",
+      "postalCode": "28899",
+      "addressCountry": "IT"
+    },
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "email": "cantonidigitalstudio@gmail.com",
+      "availableLanguage": ["Italian", "English"]
+    }],
+    "sameAs": [
+      "https://www.instagram.com/cantonidigitalstudio/",
+      "https://github.com/cantonidigitalstudio-a11y"
+    ]
+  }
+  </script>
 </head>
 <body>
+  <div class="topbar">
+    <div class="container topbar-wrap">
+      <p data-i18n="topbar_text">Site review + proposal workflow · IT / EN · reply target &lt;24h</p>
+      <div class="topbar-right">
+        <label class="lang-label" for="langPicker" data-i18n="lang_label">Language</label>
+        <select id="langPicker" class="lang-picker" aria-label="Language picker">
+          <option value="it">Italiano</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ar">العربية</option>
+          <option value="ru">Русский</option>
+          <option value="zh">中文</option>
+          <option value="ja">日本語</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+        <a href="preventivo.html#quoteForm" data-i18n="topbar_cta">Request proposal</a>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Cantoni Digital Studio">
         <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio logo" class="brand-logo">
       </a>
-      <nav class="main-nav" aria-label="Navigazione principale">
-        <a href="#servizi">Servizi</a>
-        <a href="#globale">Globale</a>
-        <a href="case-studies.html">Case Studies</a>
-        <a href="preventivo.html">Preventivo</a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="servizi.html" data-i18n="nav_services">Services</a>
+        <a href="#metodo" data-i18n="nav_method">Method</a>
+        <a href="#casi" data-i18n="nav_cases">Cases</a>
+        <a href="studio.html" data-i18n="nav_studio">Studio</a>
+        <a href="case-studies.html" data-i18n="nav_case_studies">Case Studies</a>
+        <a href="identita-operativa.html">Identità</a>
+        <a href="preventivo.html" data-i18n="nav_quote">Quote</a>
       </nav>
-      <a class="btn btn-primary" href="preventivo.html">Get Proposal</a>
+      <a class="btn btn-primary" href="preventivo.html#quoteForm" data-i18n="header_cta">Start Project</a>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero">
+    <section class="hero section-pad">
       <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Worldwide web growth partner</p>
-          <h1>Costruiamo siti che convertono in clienti, in qualsiasi mercato.</h1>
-          <p class="lead">
-            Cantoni Digital Studio supporta aziende locali e internazionali con redesign completo,
-            architettura conversione e supporto operativo continuo via email.
-          </p>
+          <p class="eyebrow" data-i18n="hero_eyebrow">Commercial infrastructure studio</p>
+          <h1 data-i18n="hero_title">Websites, e-commerce, applications, payments and automation built as one commercial system.</h1>
+          <p class="lead" data-i18n="hero_lead">We do not deliver a static showcase. We build the structure that explains the offer, sells products or services, supports applications, captures qualified demand and keeps improving after launch.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="preventivo.html">Richiedi proposta in 24h</a>
-            <a class="btn btn-ghost" href="case-studies.html">Vedi esempi operativi</a>
+            <a class="btn btn-primary" href="preventivo.html#quoteForm" data-i18n="hero_cta_1">Request written scope</a>
+            <a class="btn btn-ghost" href="#casi" data-i18n="hero_cta_2">See representative cases</a>
           </div>
-          <ul class="kpi-row" aria-label="Metriche">
-            <li><strong>24h</strong><span>first response</span></li>
-            <li><strong>IT/EN</strong><span>communication</span></li>
-            <li><strong>Global</strong><span>client coverage</span></li>
+          <ul class="hero-badges" aria-label="Advantages">
+            <li data-i18n="badge_1">Clear offer structure</li>
+            <li data-i18n="badge_2">Trust and proof gaps</li>
+            <li data-i18n="badge_3">Launch support and iteration</li>
           </ul>
+          <div class="kpi-grid" aria-label="Operational metrics">
+            <article><strong>&lt;24h</strong><span data-i18n="kpi_1">reply target</span></article>
+            <article><strong>72h</strong><span data-i18n="kpi_2">draft direction</span></article>
+            <article><strong data-i18n="kpi_3_value">Scope first</strong><span data-i18n="kpi_3">written before build</span></article>
+            <article><strong>IT / EN</strong><span data-i18n="kpi_4">working languages</span></article>
+          </div>
         </div>
-        <aside class="hero-card" aria-label="Offerta rapida">
-          <img src="assets/logo/cantoni_icona_quadrata.svg" alt="Monogramma Cantoni" class="hero-icon">
-          <h2>Fast conversion audit</h2>
-          <p>Audit tecnica e commerciale del sito attuale: UX, velocità, fiducia, percorso lead.</p>
+
+        <aside class="hero-panel" aria-label="Audit offer">
+          <img src="assets/logo/cantoni_icona_quadrata.svg" alt="Cantoni monogram" class="hero-icon">
+          <h2 data-i18n="panel_title">Manual business review before proposal</h2>
+          <p data-i18n="panel_text">A real first-pass review of the live site, offer, contact path, payment logic and visible trust signals. No generic PDF and no inflated promise.</p>
           <ul>
-            <li>3 criticità prioritarie</li>
-            <li>Roadmap di miglioramento</li>
-            <li>Preventivo strutturato per step</li>
+            <li data-i18n="panel_li_1">Homepage and service-page review</li>
+            <li data-i18n="panel_li_2">Trust and proof gaps</li>
+            <li data-i18n="panel_li_3">Written scope with priorities</li>
           </ul>
+          <p class="mini hero-panel-note" data-i18n="panel_note">This public site is the reference point we use when a prospect verifies who is writing, how we work and what happens next.</p>
+          <a href="preventivo.html#quoteForm" class="btn btn-light" data-i18n="panel_cta">Request audit</a>
         </aside>
       </div>
     </section>
 
-    <section id="servizi" class="section">
+    <section id="servizi" class="section-pad">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Servizi core</p>
-          <h2>Struttura completa per acquisire clienti online</h2>
+          <p class="eyebrow" data-i18n="services_eyebrow">Core services</p>
+          <h2 data-i18n="services_title">From website architecture to e-commerce, applications, transactions and monthly growth support</h2>
         </div>
         <div class="cards-3">
-          <article class="card">
-            <h3>Website Redesign</h3>
-            <p>Rifacciamo siti esistenti con focus su chiarezza, trust e conversione commerciale.</p>
+          <article class="card card-strong">
+            <h3 data-i18n="service_1_title">Website Redesign</h3>
+            <p data-i18n="service_1_text">We rebuild structure, messaging, proof and conversion paths so the site becomes a clearer sales system.</p>
           </article>
-          <article class="card">
-            <h3>New Website Build</h3>
-            <p>Sviluppo da zero con strategia, copy e funnel base orientato ai contatti qualificati.</p>
+          <article class="card card-strong">
+            <h3 data-i18n="service_2_title">E-commerce and application builds</h3>
+            <p data-i18n="service_2_text">Websites, e-commerce, web apps and mobile app paths with Google/Apple login, Stripe/PayPal payments, booking, client area and admin workflows when scope requires it.</p>
           </article>
-          <article class="card">
-            <h3>Ongoing Service</h3>
-            <p>Nuovi servizi, aggiornamenti contenuti, landing dedicate e supporto continuativo.</p>
+          <article class="card card-strong">
+            <h3 data-i18n="service_3_title">Continuous Management</h3>
+            <p data-i18n="service_3_text">Monthly updates, new landing pages, service extensions, automations, follow-up and ecosystem visibility.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="globale" class="section section-alt">
+    <section class="section-pad section-alt operating-system-band">
+      <div class="container ops-system-layout">
+        <div class="ops-system-copy">
+          <p class="eyebrow" data-i18n="ops_eyebrow">Commercial operating system</p>
+          <h2 data-i18n="ops_title">We do not sell a classic website. We build the commercial machine behind it.</h2>
+          <p class="lead" data-i18n="ops_lead">A serious digital system must explain the offer, route the buyer, collect useful data, support payments or bookings, handle application workflows and keep improving after launch.</p>
+        </div>
+        <div class="ops-system-panel" aria-label="Commercial infrastructure included">
+          <div class="ops-system-item">
+            <span>01</span>
+            <h3 data-i18n="ops_item_1_t">Transactions and pricing</h3>
+            <p data-i18n="ops_item_1_d">Packages, payment routes, consultation steps, booking logic and commercial conditions are structured so the client understands what happens before paying.</p>
+          </div>
+          <div class="ops-system-item">
+            <span>02</span>
+            <h3 data-i18n="ops_item_2_t">Data and conversion</h3>
+            <p data-i18n="ops_item_2_d">Forms, intent signals and contact paths are designed to collect the information needed to convert real visitors into qualified opportunities.</p>
+          </div>
+          <div class="ops-system-item">
+            <span>03</span>
+            <h3 data-i18n="ops_item_3_t">Automation and clarity</h3>
+            <p data-i18n="ops_item_3_d">Messages, follow-ups and page flows are simplified so the professional works with less friction and the buyer sees the next step clearly.</p>
+          </div>
+          <div class="ops-system-item">
+            <span>04</span>
+            <h3 data-i18n="ops_item_4_t">Cantoni ecosystem</h3>
+            <p data-i18n="ops_item_4_d">Selected clients can enter a quality network where promotions and visibility can reinforce compatible brands, not just one isolated page.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo" class="section-pad section-alt">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Operatività mondiale</p>
-          <h2>Come lavoriamo con aziende in ogni paese</h2>
+          <p class="eyebrow" data-i18n="method_eyebrow">Method</p>
+          <h2 data-i18n="method_title">Four-step delivery framework: review, scope, build, launch</h2>
         </div>
-        <div class="global-grid">
-          <article class="card">
-            <h3>Asynchronous-first</h3>
-            <p>Workflow professionale via email per evitare blocchi di fuso orario.</p>
-          </article>
-          <article class="card">
-            <h3>Sector-specific proposals</h3>
-            <p>Ogni offerta è scritta sul settore reale del cliente, non template generici.</p>
-          </article>
-          <article class="card">
-            <h3>Scalable delivery</h3>
-            <p>Implementazione a pacchetti: MVP, crescita, manutenzione mensile.</p>
-          </article>
-        </div>
-        <ul class="market-tags" aria-label="Copertura mercati">
-          <li>Europe</li>
-          <li>North America</li>
-          <li>LATAM</li>
-          <li>Middle East</li>
-          <li>Asia-Pacific</li>
-          <li>Africa</li>
-        </ul>
+        <ol class="timeline">
+          <li><span>01</span><div><h3 data-i18n="m1_title">Business scan</h3><p data-i18n="m1_text">We evaluate market, positioning and current funnel quality.</p></div></li>
+          <li><span>02</span><div><h3 data-i18n="m2_title">Conversion architecture</h3><p data-i18n="m2_text">We define page hierarchy, messaging, proof points and contact paths.</p></div></li>
+          <li><span>03</span><div><h3 data-i18n="m3_title">Build + revision</h3><p data-i18n="m3_text">Fast build, content validation and conversion-focused refinement.</p></div></li>
+          <li><span>04</span><div><h3 data-i18n="m4_title">Go-live + optimization</h3><p data-i18n="m4_text">Launch and continuous improvement roadmap for growth and new services.</p></div></li>
+        </ol>
       </div>
     </section>
 
-    <section class="section">
+    <section id="casi" class="section-pad">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Pacchetti</p>
-          <h2>Offerta commerciale</h2>
+          <p class="eyebrow" data-i18n="cases_eyebrow">Case benchmarks</p>
+          <h2 data-i18n="cases_title">Representative transformations we apply to service businesses</h2>
         </div>
-        <div class="pricing-grid">
-          <article class="price-card">
-            <h3>Starter</h3>
-            <p class="price">€900 - €1.300</p>
+        <div class="cases-grid">
+          <article class="case-card">
+            <p class="case-tag" data-i18n="case_1_tag">Local services</p>
+            <h3 data-i18n="case_1_title">From confusing showcase to lead system</h3>
             <ul>
-              <li>Sito vetrina + form lead</li>
-              <li>Ottimizzazione mobile</li>
-              <li>Consegna 5-7 giorni</li>
+              <li data-i18n="case_1_li_1">Offer rewritten with value-first structure</li>
+              <li data-i18n="case_1_li_2">Form simplified to key fields</li>
+              <li data-i18n="case_1_li_3">Trust layer: proof, FAQ, policy</li>
             </ul>
           </article>
-          <article class="price-card featured">
-            <p class="tag">Best for growth</p>
-            <h3>Growth</h3>
-            <p class="price">€1.600 - €2.400</p>
+          <article class="case-card">
+            <p class="case-tag" data-i18n="case_2_tag">Hospitality / premium</p>
+            <h3 data-i18n="case_2_title">Higher-tier positioning and stronger value perception</h3>
             <ul>
-              <li>SEO base + struttura servizi</li>
-              <li>Tracciamento conversioni</li>
-              <li>2 revisioni strategiche</li>
+              <li data-i18n="case_2_li_1">More authoritative interface</li>
+              <li data-i18n="case_2_li_2">Direct request flow</li>
+              <li data-i18n="case_2_li_3">Clear pricing narrative</li>
             </ul>
           </article>
-          <article class="price-card">
-            <h3>Premium</h3>
-            <p class="price">€3.000+</p>
+          <article class="case-card">
+            <p class="case-tag" data-i18n="case_3_tag">B2B services</p>
+            <h3 data-i18n="case_3_title">Reduced friction from homepage to quote request</h3>
             <ul>
-              <li>Funnel dedicato</li>
-              <li>Assistenza continuativa</li>
-              <li>Supporto commerciale via email</li>
+              <li data-i18n="case_3_li_1">New content architecture</li>
+              <li data-i18n="case_3_li_2">Intent-based CTAs</li>
+              <li data-i18n="case_3_li_3">Better sales follow-up quality</li>
             </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section cta-block">
+    <section class="section-pad section-alt home-livework-band">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="livework_eyebrow">Public work already online</p>
+          <h2 data-i18n="livework_title">Live brands already moving through the Cantoni delivery system</h2>
+          <p class="lead" data-i18n="livework_lead">These are not mockups. They are public work surfaces already online and usable while the wider Cantoni ecosystem keeps expanding.</p>
+        </div>
+        <div class="home-livework-shell">
+          <article class="home-livework-feature">
+            <div class="home-livework-feature-head">
+              <p class="case-tag" data-i18n="livework_1_tag">Luxury transport / concierge</p>
+              <h3 data-i18n="livework_1_title">Excellentia VIP</h3>
+              <p class="home-livework-domain"><a href="https://excellentiavip.com" target="_blank" rel="noreferrer">excellentiavip.com</a></p>
+            </div>
+            <p data-i18n="livework_1_text">Public luxury-transport brand with live home, packages, fleet, booking flow and operations surface already online.</p>
+            <div class="quote-tier-strip">
+              <span data-i18n="livework_1_point_1">Home, packages and premium positioning</span>
+              <span data-i18n="livework_1_point_2">Fleet, concierge and service structure</span>
+              <span data-i18n="livework_1_point_3">Booking path already public</span>
+            </div>
+            <p class="card-meta" data-i18n="livework_1_meta">Public domain live · luxury transport and concierge route.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://excellentiavip.com" target="_blank" rel="noreferrer" data-i18n="livework_1_cta">Open excellentiavip.com</a>
+              <a class="btn btn-ghost" href="case-studies.html" data-i18n="livework_system_cta">Open delivery patterns</a>
+            </div>
+          </article>
+          <div class="home-livework-stack">
+            <article class="card card-strong home-livework-card">
+              <p class="case-tag" data-i18n="livework_2_tag">Hosted bookings / public production</p>
+              <h3 data-i18n="livework_2_title">Destination Cocoa by Collins</h3>
+              <p class="home-livework-domain"><a href="https://destination-cocoa-site.netlify.app" target="_blank" rel="noreferrer">destination-cocoa-site.netlify.app</a></p>
+              <p data-i18n="livework_2_text">Public hosted-booking build for Punta Cana transfers, reservations and upsells, with live landing, booking and operations flow.</p>
+              <div class="quote-tier-strip">
+                <span data-i18n="livework_2_point_1">Booking and routing flow online</span>
+                <span data-i18n="livework_2_point_2">Upsell structure already visible</span>
+              </div>
+              <p class="card-meta" data-i18n="livework_2_meta">Public domain live · booking, routing and upsell structure already exposed.</p>
+              <div class="link-cluster">
+                <a class="pill-link" href="https://destination-cocoa-site.netlify.app" target="_blank" rel="noreferrer" data-i18n="livework_2_cta">Open Destination Cocoa</a>
+              </div>
+            </article>
+            <article class="card card-strong home-livework-card">
+              <p class="case-tag" data-i18n="livework_3_tag">Education / platform</p>
+              <h3 data-i18n="livework_3_title">EC8 Platform</h3>
+              <p class="home-livework-domain"><a href="https://ec8platform.com" target="_blank" rel="noreferrer">ec8platform.com</a></p>
+              <p data-i18n="livework_3_text">Public coaching and platform reference with positioning, offer structure and payment-ready digital architecture already online.</p>
+              <div class="quote-tier-strip">
+                <span data-i18n="livework_3_point_1">Live public domain already checkable</span>
+                <span data-i18n="livework_3_point_2">Offer, trust and platform structure exposed</span>
+              </div>
+              <div class="link-cluster">
+                <a class="pill-link" href="https://ec8platform.com" target="_blank" rel="noreferrer" data-i18n="livework_3_cta">Open EC8 Platform</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad section-alt home-proof-band" aria-labelledby="trustTitle">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="proof_eyebrow">Visible operating signals</p>
+          <h2 id="trustTitle" data-i18n="trust_title">Before any build starts, we review the website, write the scope and make the decision gate explicit.</h2>
+          <p class="lead" data-i18n="trust_lead">We do not sell vague redesign promises. The first serious step is a manual review of the live site and a written path that explains what changes, why it changes and what the intervention is meant to improve.</p>
+        </div>
+        <div class="home-proof-shell">
+          <div class="trust-grid home-proof-grid">
+            <article class="trust-card home-proof-card">
+              <h3 data-i18n="proof_1_t">Public site + operational inbox</h3>
+              <p data-i18n="proof_1_d">The studio is reachable through a live public site, direct pages and a single operational inbox.</p>
+            </article>
+            <article class="trust-card home-proof-card">
+              <h3 data-i18n="proof_2_t">Written scope before build</h3>
+              <p data-i18n="proof_2_d">A project starts only after the site has been reviewed and the implementation path has been written down.</p>
+            </article>
+            <article class="trust-card home-proof-card">
+              <h3 data-i18n="proof_3_t">Same thread from first contact to rollout</h3>
+              <p data-i18n="proof_3_d">No anonymous handoff between sales and delivery. The same written thread carries scope, milestones and launch support.</p>
+            </article>
+          </div>
+          <ol class="timeline home-proof-timeline">
+            <li>
+              <span>01</span>
+              <div>
+                <h3 data-i18n="trust_1_t">Manual review first</h3>
+                <p data-i18n="trust_1_d">We review the live website, contact path, offer clarity and visible trust gaps before discussing scope or pricing.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h3 data-i18n="trust_2_t">Written proposal, not vague promises</h3>
+                <p data-i18n="trust_2_d">Priorities, timing and milestones are documented in writing so the engagement is clear before kickoff.</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <h3 data-i18n="trust_3_t">Same operational thread</h3>
+                <p data-i18n="trust_3_d">The same inbox handles first contact, scope discussion and project coordination to avoid anonymous handoffs.</p>
+              </div>
+            </li>
+            <li>
+              <span>04</span>
+              <div>
+                <h3 data-i18n="trust_4_t">Build starts only after approval</h3>
+                <p data-i18n="trust_4_d">No work starts on assumptions. Scope, deliverables and commercial terms are approved before implementation.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <p class="section-note" data-i18n="proof_note">The goal is not to look polished for five seconds. It is to make the studio verifiable before any commercial decision is made.</p>
+      </div>
+    </section>
+    <section class="section-pad cta-band" id="contatto">
       <div class="container cta-grid">
         <div>
-          <p class="eyebrow">Ready to scale globally?</p>
-          <h2>Inviaci il tuo sito attuale, ricevi una proposta migliore entro 24 ore.</h2>
-          <p>Scrivi direttamente a <strong>cantonidigitalstudio@gmail.com</strong> o usa il form preventivo.</p>
+          <p class="eyebrow" data-i18n="cta_eyebrow">Start now</p>
+          <h2 data-i18n="cta_title">Send the live site. We tell you what is weak, what should change and what a serious implementation would require.</h2>
+          <p data-i18n="cta_text">Operational contact: <strong>cantonidigitalstudio@gmail.com</strong></p>
+          <p class="mini" data-i18n="cta_mini">Response SLA: within 24h · No mandatory call · Structured written proposal</p>
+          <div class="trust-inline-card" aria-label="What happens next">
+            <h3 data-i18n="contact_flow_title">What happens after you send a brief</h3>
+            <ol class="process-list">
+              <li><strong>1.</strong><span data-i18n="contact_flow_1">We review the live website and the commercial context manually.</span></li>
+              <li><strong>2.</strong><span data-i18n="contact_flow_2">You receive a written direction with priorities and delivery logic.</span></li>
+              <li><strong>3.</strong><span data-i18n="contact_flow_3">If the fit is right, scope and milestones are confirmed before build starts.</span></li>
+            </ol>
+          </div>
         </div>
         <form class="lead-form" id="leadForm" action="#" method="post">
-          <label>Business Name
+          <label data-i18n="form_business">Business name
             <input type="text" name="business" required>
           </label>
-          <label>Email
+          <label data-i18n="form_email">Email
             <input type="email" name="email" required>
           </label>
-          <label>Country / Market
+          <label data-i18n="form_site">Current website
+            <input type="url" name="website" placeholder="https://...">
+          </label>
+          <label data-i18n="form_market">Main market
             <input type="text" name="market" required>
           </label>
-          <label>Main Goal
+          <label data-i18n="form_goal">Main goal
             <textarea name="goal" rows="4" required></textarea>
           </label>
-          <button type="submit" class="btn btn-primary btn-full">Send Request</button>
+          <label class="consent-check">
+            <input type="checkbox" name="privacyAccepted" value="yes" required>
+            <span data-i18n="form_privacy_ack">I have read the privacy and cookie information and authorize Cantoni Digital Studio to process this request for commercial follow-up.</span>
+          </label>
+          <p class="mini terms-inline"><a href="privacy.html" target="_blank" rel="noreferrer" data-i18n="footer_privacy">Privacy and cookie notice</a></p>
+          <button type="submit" class="btn btn-primary btn-full" data-i18n="form_submit">Send request</button>
           <p class="form-note" id="formNote" aria-live="polite"></p>
         </form>
       </div>
@@ -186,12 +418,69 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-wrap">
-      <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio" class="footer-logo">
-      <p>© <span id="year"></span> Cantoni Digital Studio. Global web services.</p>
+    <div class="container footer-shell">
+      <div class="footer-brand-block">
+        <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio" class="footer-logo">
+        <p class="footer-summary" data-i18n="footer_summary_new">Cantoni Digital Studio is an independent digital studio focused on website redesign, conversion architecture and multilingual delivery for service businesses.</p>
+        <p class="footer-meta" data-i18n="footer_legal_identity">Professional identity: Emanuele Cantoni · VAT 02615510035 · CF CNTMNL96A19B019T</p>
+        <p class="footer-meta" data-i18n="footer_registered_office">Registered office: Via Bolco 31, Arola (VB) 28899, Italy</p>
+        <p class="footer-meta"><span data-i18n="footer_inbox_label">Operational inbox:</span> <a href="mailto:cantonidigitalstudio@gmail.com">cantonidigitalstudio@gmail.com</a></p>
+        <p class="footer-meta" data-i18n="footer_terms_note">Scope, milestones and commercial terms are confirmed in writing before any build starts.</p>
+        <p class="footer-meta"><a href="termini-commerciali.html" data-i18n="footer_terms">Commercial terms</a> · <a href="privacy.html" data-i18n="footer_privacy">Privacy and cookie notice</a></p>
+        <p class="footer-copy">© <span id="year"></span> Cantoni Digital Studio</p>
+      </div>
+      <div class="footer-columns">
+        <div class="footer-column">
+          <h3 data-i18n="footer_work_title">How we work</h3>
+          <ul class="footer-list">
+            <li data-i18n="footer_work_1">Manual review of the live website before any scope is proposed.</li>
+            <li data-i18n="footer_work_2">Written proposal with priorities, timing and implementation path.</li>
+            <li data-i18n="footer_work_3">Kickoff only after the written scope is approved.</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 data-i18n="footer_flow_title">Operational flow</h3>
+          <ul class="footer-list">
+            <li data-i18n="footer_flow_1">Response target within 24 hours on new qualified requests.</li>
+            <li data-i18n="footer_flow_2">Same written thread from first contact to launch support.</li>
+            <li data-i18n="footer_flow_3">Structured revision rounds and rollout handoff.</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 data-i18n="footer_nav_title">Navigate</h3>
+          <div class="footer-links footer-links-stack">
+            <a href="index.html" data-i18n="nav_home">Home</a>
+            <a href="studio.html" data-i18n="nav_studio">Studio</a>
+            <a href="servizi.html" data-i18n="nav_services">Services</a>
+            <a href="case-studies.html" data-i18n="nav_case_studies">Case Studies</a>
+            <a href="identita-operativa.html">Identità operativa</a>
+            <a href="preventivo.html" data-i18n="footer_quote">Request Quote</a>
+            <a href="privacy.html" data-i18n="footer_privacy">Privacy and cookie notice</a>
+            <a href="mailto:cantonidigitalstudio@gmail.com" data-i18n="footer_email">Email</a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3 data-i18n="footer_refs_title">Public references</h3>
+          <div class="footer-links footer-links-stack">
+            <a href="studio.html" data-i18n="footer_ref_1">Studio profile</a>
+            <a href="case-studies.html" data-i18n="footer_ref_2">Delivery patterns</a>
+            <a href="identita-operativa.html">Identità e canali</a>
+            <a href="preventivo.html" data-i18n="footer_ref_3">Quote brief</a>
+            <a href="https://www.instagram.com/cantonidigitalstudio/" target="_blank" rel="noreferrer" data-i18n="footer_ref_4">Instagram</a>
+            <a href="https://github.com/cantonidigitalstudio-a11y" target="_blank" rel="noreferrer" data-i18n="footer_ref_5">GitHub</a>
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="site-config.js?v=20260404d"></script>
+  <script src="app.js?v=20260502a"></script>
+  <script src="app-seo.js?v=20260405b"></script>
+  <script src="app-i18n.js?v=20260405b"></script>
+  <script src="app-forms.js?v=20260503b"></script>
+  <script src="app-fx.js?v=20260503b"></script>
+  <script src="app-analytics.js?v=20260405d"></script>
+  <script src="app-bootstrap.js?v=20260502a"></script>
 </body>
 </html>

@@ -1,0 +1,26 @@
+.cloudflare-pages/
+.excellentia-public/
+.playwright-cli/
+.DS_Store
+node_modules/
+output/
+
+# Local Netlify folder
+.netlify
+
+# Private/client material and generated operations data
+client-documents/
+assets/logo/generated/
+AUTOMATION_STATE.json
+scripts/.gmail-env.sh
+
+# Outreach/generated queues and review artifacts
+sales-kit/audits/
+sales-kit/generated/
+sales-kit/logs/
+sales-kit/previews/
+sales-kit/queue/
+sales-kit/quote-inputs/
+sales-kit/reply-drafts/
+sales-kit/research/
+sales-kit/simulations/

@@ -1,0 +1,40 @@
+{
+  "name": "cantoni_site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build:cloudflare": "bash scripts/build_cloudflare_public_dir.sh",
+    "test": "npm run test:i18n && npm run test:integrity && npm run test:smoke",
+    "test:vip": "npm run test:vip-cross-page && npm run test:vip-interactions && npm run test:vip-account && npm run test:vip-server",
+    "test:vip-account": "node scripts/verify_vip_account_flow.cjs",
+    "test:vip-cross-page": "node scripts/verify_vip_cross_page.cjs",
+    "test:vip-interactions": "node scripts/verify_vip_interactions.cjs",
+    "test:vip-server": "node scripts/verify_vip_server_logic.cjs",
+    "test:payments": "node scripts/verify_payment_links.cjs",
+    "test:browser": "node scripts/browser_site_smoke.cjs",
+    "test:artifact": "node scripts/verify_deploy_artifact.cjs",
+    "test:browser:artifact": "SITE_ROOT=.cloudflare-pages npm run test:browser",
+    "test:payments:artifact": "SITE_ROOT=.cloudflare-pages npm run test:payments",
+    "test:full": "npm test && npm run test:payments && npm run test:browser && npm run test:vip && npm run build:cloudflare && npm run test:artifact && npm run test:browser:artifact && npm run test:payments:artifact && git diff --check",
+    "deploy:cloudflare": "bash scripts/deploy_cloudflare_pages.sh",
+    "test:i18n": "node scripts/check_i18n.cjs",
+    "test:integrity": "node scripts/verify_site_integrity.cjs",
+    "test:smoke": "node scripts/smoke_site.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cantonidigitalstudio-a11y/cantoni-digital-studio-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cantonidigitalstudio-a11y/cantoni-digital-studio-site/issues"
+  },
+  "homepage": "https://github.com/cantonidigitalstudio-a11y/cantoni-digital-studio-site#readme",
+  "devDependencies": {
+    "playwright": "^1.58.2"
+  }
+}

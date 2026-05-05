@@ -2067,6 +2067,28 @@ h3 {
     background: rgba(255, 255, 255, 0.04);
   }
 
+  .vip-booking.has-contact-dock {
+    padding-bottom: 0;
+  }
+
+  .vip-booking .site-header {
+    position: static;
+  }
+
+  .vip-booking #addToCartCTA,
+  .vip-booking .summary-actions {
+    scroll-margin-top: 132px;
+    scroll-margin-bottom: 148px;
+  }
+
+  .vip-booking .contact-dock {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 16px 12px max(16px, env(safe-area-inset-bottom));
+  }
+
   .floating-cta {
     left: 12px;
     right: 12px;
