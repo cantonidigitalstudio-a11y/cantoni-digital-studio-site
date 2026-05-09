@@ -66,6 +66,52 @@
       return false;
     }
 
+    function getUrlParams() {
+      try { return new URLSearchParams(window.location.search || ''); } catch (e) { return new URLSearchParams(); }
+    }
+
+    function getAttribution() {
+      var params = getUrlParams();
+      var utmSource = params.get('utm_source') || '';
+      var utmMedium = params.get('utm_medium') || '';
+      var utmCampaign = params.get('utm_campaign') || '';
+      var fromBusinessCard = /business_card|biglietto/i.test(utmSource) ||
+        /print|offline/i.test(utmMedium) ||
+        /offline_intro|business_card/i.test(utmCampaign);
+
+      return {
+        source: fromBusinessCard ? 'business_card' : (utmSource || 'website'),
+        utmSource: utmSource,
+        utmMedium: utmMedium,
+        utmCampaign: utmCampaign,
+        fromBusinessCard: fromBusinessCard
+      };
+    }
+
+    function applyAttribution(form) {
+      if (!form || !form.elements) return;
+      var attribution = getAttribution();
+      var fields = {
+        leadSource: attribution.source,
+        utmSource: attribution.utmSource,
+        utmMedium: attribution.utmMedium,
+        utmCampaign: attribution.utmCampaign
+      };
+
+      Object.keys(fields).forEach(function (key) {
+        var field = form.elements.namedItem(key);
+        if (field) field.value = fields[key] || '';
+      });
+    }
+
+    function initBusinessCardEntry() {
+      var entry = document.getElementById('businessCardEntry');
+      if (!entry) return;
+      if (!getAttribution().fromBusinessCard) return;
+      entry.hidden = false;
+      document.body.classList.add('has-business-card-entry');
+    }
+
     function submitLeadWithJsonp(endpoint, payload) {
       return new Promise(function (resolve) {
         var callbackName = '__cdsLeadCallback_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
@@ -180,7 +226,11 @@
         estimateDetails: data.estimateDetails || '',
         termsAccepted: data.termsAccepted || '',
         privacyAccepted: data.privacyAccepted || '',
-        source: 'website',
+        leadSource: data.leadSource || '',
+        utmSource: data.utmSource || '',
+        utmMedium: data.utmMedium || '',
+        utmCampaign: data.utmCampaign || '',
+        source: data.leadSource || getAttribution().source || 'website',
         user_agent: navigator.userAgent || '',
         submitted_at: new Date().toISOString()
       };
@@ -305,8 +355,11 @@
       var leadForm = document.getElementById('leadForm');
       var quoteForm = document.getElementById('quoteForm');
 
+      initBusinessCardEntry();
       watchDraftPersistence(leadForm, 'cds_draft_lead_form');
       watchDraftPersistence(quoteForm, 'cds_draft_quote_form');
+      applyAttribution(leadForm);
+      applyAttribution(quoteForm);
       bindSubmit(leadForm, document.getElementById('formNote'), 'Lead Website Request', 'open_email_data', 'cds_draft_lead_form');
       bindSubmit(quoteForm, document.getElementById('quoteNote'), 'Consultation / Package Request', 'open_email_quote', 'cds_draft_quote_form');
     }

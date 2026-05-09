@@ -145,6 +145,21 @@ function checkCommercialCompliance(fileName, html, issues) {
   if (/<form\b/i.test(html) && !html.includes('name="privacyAccepted"')) {
     issues.push(`${fileName}: form missing explicit privacy acceptance field`);
   }
+
+  if (fileName === 'preventivo.html') {
+    const requiredBusinessCardSnippets = [
+      'id="businessCardEntry"',
+      'https://wa.me/393471961113',
+      'href="tel:+393471961113"',
+      'name="leadSource"',
+      'name="utmSource"',
+      'name="utmMedium"',
+      'name="utmCampaign"'
+    ];
+    for (const snippet of requiredBusinessCardSnippets) {
+      if (!html.includes(snippet)) issues.push(`${fileName}: missing business-card entry contract ${snippet}`);
+    }
+  }
 }
 
 function checkFxContract(issues) {

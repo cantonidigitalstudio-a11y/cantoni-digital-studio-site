@@ -171,6 +171,75 @@ async function assertFxBehavior(context) {
   await page.close();
 }
 
+async function assertBusinessCardEntry(context) {
+  const page = await context.newPage();
+  const issues = [];
+  attachGuards(page, issues);
+
+  await page.setViewportSize({ width: 850, height: 720 });
+  await page.goto('/preventivo.html?lang=it&utm_source=business_card&utm_medium=print&utm_campaign=offline_intro&smoke=1', { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('#businessCardEntry:not([hidden])', { timeout: 10000 });
+  await page.waitForSelector('#cdsCookieConsent', { timeout: 10000 });
+  await page.waitForFunction(() => document.documentElement.lang === 'it', null, { timeout: 10000 });
+
+  const snapshot = await page.evaluate(() => {
+    const form = document.querySelector('#quoteForm');
+    const cookieRect = document.querySelector('#cdsCookieConsent')?.getBoundingClientRect();
+    const actionOverlaps = Array.from(document.querySelectorAll('.business-card-entry-actions .btn')).filter((button) => {
+      const buttonRect = button.getBoundingClientRect();
+      return Boolean(cookieRect &&
+        cookieRect.left < buttonRect.right &&
+        cookieRect.right > buttonRect.left &&
+        cookieRect.top < buttonRect.bottom &&
+        cookieRect.bottom > buttonRect.top);
+    }).map((button) => button.textContent.trim());
+    return {
+      title: document.querySelector('#businessCardEntryTitle')?.textContent?.trim() || '',
+      whatsappHref: document.querySelector('#businessCardEntry a[href^="https://wa.me/"]')?.getAttribute('href') || '',
+      phoneHref: document.querySelector('#businessCardEntry a[href^="tel:"]')?.getAttribute('href') || '',
+      leadSource: form?.elements.namedItem('leadSource')?.value || '',
+      utmSource: form?.elements.namedItem('utmSource')?.value || '',
+      utmMedium: form?.elements.namedItem('utmMedium')?.value || '',
+      utmCampaign: form?.elements.namedItem('utmCampaign')?.value || '',
+      hidden: document.querySelector('#businessCardEntry')?.hidden,
+      cookieHeight: cookieRect ? Math.round(cookieRect.height) : 0,
+      cookieOverlappingActions: actionOverlaps,
+      horizontalOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+    };
+  });
+
+  assert.match(snapshot.title, /proposta reale/i, 'Business-card entry should show the Italian QR-specific promise');
+  assert.equal(snapshot.hidden, false, 'Business-card entry should be visible for print UTM traffic');
+  assert.ok(snapshot.whatsappHref.includes('393471961113'), 'Business-card entry should expose the printed WhatsApp number');
+  assert.equal(snapshot.phoneHref, 'tel:+393471961113', 'Business-card entry should expose the printed phone number');
+  assert.equal(snapshot.leadSource, 'business_card', 'Quote form should preserve business-card attribution');
+  assert.equal(snapshot.utmSource, 'business_card', 'Quote form should preserve utm_source');
+  assert.equal(snapshot.utmMedium, 'print', 'Quote form should preserve utm_medium');
+  assert.equal(snapshot.utmCampaign, 'offline_intro', 'Quote form should preserve utm_campaign');
+  assert.ok(snapshot.cookieHeight <= 170, `Business-card cookie banner should stay compact (${snapshot.cookieHeight}px)`);
+  assert.deepEqual(snapshot.cookieOverlappingActions, [], `Business-card cookie banner should not cover contact actions (${snapshot.cookieOverlappingActions.join(', ')})`);
+  assert.ok(snapshot.horizontalOverflow <= 2, `Business-card entry should not create horizontal overflow (${snapshot.horizontalOverflow}px)`);
+  assert.deepEqual(issues, [], `Business-card entry browser issues: ${issues.join(' | ')}`);
+
+  await page.click('.business-card-entry-actions .btn-primary');
+  await page.waitForFunction(() => window.location.hash === '#quoteEstimator', null, { timeout: 10000 });
+  const estimatorPosition = await page.evaluate(() => {
+    const estimatorRect = document.querySelector('#quoteEstimator')?.getBoundingClientRect();
+    const headerRect = document.querySelector('.site-header')?.getBoundingClientRect();
+    return {
+      estimatorTop: estimatorRect ? Math.round(estimatorRect.top) : -1,
+      headerBottom: headerRect ? Math.round(headerRect.bottom) : 0,
+      titleVisible: Boolean(document.querySelector('#quoteEstimatorTitle')?.getBoundingClientRect().bottom > 0)
+    };
+  });
+  assert.ok(
+    estimatorPosition.estimatorTop >= estimatorPosition.headerBottom + 8,
+    `Estimator anchor should land below sticky header (${JSON.stringify(estimatorPosition)})`
+  );
+  assert.equal(estimatorPosition.titleVisible, true, 'Estimator title should be visible after QR CTA click');
+  await page.close();
+}
+
 async function assertAnalyticsConsent(browser, baseUrl) {
   const essentialRequests = [];
   const essentialContext = await createContext(browser, baseUrl, { width: 1440, height: 1000 }, {
@@ -238,6 +307,7 @@ async function main() {
         }
         if (item.name === 'desktop') {
           await assertFxBehavior(context);
+          await assertBusinessCardEntry(context);
           await assertAnalyticsConsent(browser, baseUrl);
         }
       } finally {

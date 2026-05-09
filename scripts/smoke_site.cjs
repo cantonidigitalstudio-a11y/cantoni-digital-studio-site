@@ -457,6 +457,8 @@ async function testQuoteSubmitFallback(browser, baseUrl) {
     const starter = document.getElementById('fxStarter');
     return starter && starter.textContent.trim() !== '-';
   });
+  const essentialConsent = page.locator('[data-cookie-choice="essential"]');
+  if (await essentialConsent.count()) await essentialConsent.click();
 
   await page.fill('input[name="company"]', 'Beta Group');
   await page.fill('input[name="contact"]', 'Alice Doe');

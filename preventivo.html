@@ -26,7 +26,7 @@
   <link rel="alternate" hreflang="ja" href="https://cantonidigitalstudio.com/preventivo.html?lang=ja">
   <link rel="alternate" hreflang="hi" href="https://cantonidigitalstudio.com/preventivo.html?lang=hi">
   <link rel="alternate" hreflang="x-default" href="https://cantonidigitalstudio.com/preventivo.html">
-  <link rel="stylesheet" href="styles.css?v=20260502a">
+  <link rel="stylesheet" href="styles.css?v=20260509b">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script type="application/ld+json">
   {
@@ -76,6 +76,24 @@
           <p class="eyebrow" data-i18n="q_eyebrow">Consultation and project path</p>
           <h1 data-i18n="q_title">Choose the correct path: paid consultation, direct package or ongoing growth support</h1>
           <p class="lead" data-i18n="q_lead">Cantoni Digital Studio works through a premium model: structured consultation, direct build for trusted clients, or monthly ecosystem support for businesses that want to stay inside the studio network.</p>
+
+          <section class="business-card-entry" id="businessCardEntry" aria-labelledby="businessCardEntryTitle" hidden>
+            <div class="business-card-entry-copy">
+              <p class="eyebrow" data-i18n="q_card_entry_eyebrow">You scanned the business card</p>
+              <h2 id="businessCardEntryTitle" data-i18n="q_card_entry_title">Tell me what you want to build. I will turn it into a real proposal.</h2>
+              <p data-i18n="q_card_entry_text">Use the estimator below for a first range, then send the brief. If you prefer a direct conversation, contact the studio immediately and keep the same written thread.</p>
+            </div>
+            <div class="business-card-entry-actions" aria-label="Business card contact actions">
+              <a class="btn btn-primary" href="#quoteEstimator" data-i18n="q_card_entry_estimate">Open estimator</a>
+              <a class="btn btn-ghost" href="https://wa.me/393471961113?text=Ho%20scansionato%20il%20biglietto%20Cantoni%20Digital%20Studio%20e%20vorrei%20parlare%20di%20un%20progetto." target="_blank" rel="noreferrer" data-i18n="q_card_entry_whatsapp">Write on WhatsApp</a>
+              <a class="btn btn-ghost" href="tel:+393471961113" data-i18n="q_card_entry_call">Call the studio</a>
+            </div>
+            <ul class="business-card-entry-proof" aria-label="Fast trust checks">
+              <li><span data-i18n="q_card_entry_scope">Written scope before build</span></li>
+              <li><span data-i18n="q_card_entry_services">Sites, e-commerce, web apps, mobile apps and AI automations</span></li>
+              <li><span data-i18n="q_card_entry_contact">Official contact: cantonidigitalstudio@gmail.com</span></li>
+            </ul>
+          </section>
 
           <section class="quote-scope-strip" aria-labelledby="quoteScopeTitle">
             <div>
@@ -353,6 +371,10 @@
               </label>
               <input type="hidden" name="instantEstimate" id="instantEstimateField">
               <input type="hidden" name="estimateDetails" id="estimateDetailsField">
+              <input type="hidden" name="leadSource" id="leadSourceField">
+              <input type="hidden" name="utmSource" id="utmSourceField">
+              <input type="hidden" name="utmMedium" id="utmMediumField">
+              <input type="hidden" name="utmCampaign" id="utmCampaignField">
               <label class="consent-check">
                 <input type="checkbox" name="termsAccepted" value="yes" required>
                 <span data-i18n="q_terms_ack">I understand that booked consultation tranches and active monthly retainers are non-refundable once reserved or started, and that the commercial terms apply before any work begins.</span>
@@ -469,7 +491,7 @@
   <script src="app.js?v=20260502a"></script>
   <script src="app-seo.js?v=20260405b"></script>
   <script src="app-i18n.js?v=20260405b"></script>
-  <script src="app-forms.js?v=20260503b"></script>
+  <script src="app-forms.js?v=20260508a"></script>
   <script src="app-fx.js?v=20260503b"></script>
   <script src="app-quote-estimator.js?v=20260503a"></script>
   <script src="app-analytics.js?v=20260405d"></script>
