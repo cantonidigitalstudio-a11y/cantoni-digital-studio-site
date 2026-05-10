@@ -20,6 +20,17 @@ const REQUIRED_PUBLIC_REFERENCES = [
   'https://www.instagram.com/cantonidigitalstudio/'
 ];
 
+const BLOCKED_UNVERIFIED_PUBLIC_LINKS = [
+  {
+    href: 'https://www.facebook.com/cantonidigitalstudio',
+    reason: 'Facebook page is not publicly available in logged-out Browser QA'
+  },
+  {
+    href: 'https://www.tiktok.com/@cantonidigitalstudio',
+    reason: 'TikTok profile redirects to mandatory login in Browser QA'
+  }
+];
+
 const SAME_SITE_HOSTS = new Set([
   'cantonidigitalstudio.com',
   'www.cantonidigitalstudio.com',
@@ -127,6 +138,28 @@ function checkPublicReferences(fileName, html, issues) {
   if (!['index.html', 'studio.html', 'servizi.html', 'case-studies.html', 'preventivo.html'].includes(fileName)) return;
   const missing = REQUIRED_PUBLIC_REFERENCES.filter((reference) => !html.includes(reference));
   if (missing.length) issues.push(`${fileName}: missing public references ${missing.join(', ')}`);
+}
+
+function checkVerifiedSocialContract(fileName, html, issues) {
+  if (!PRIMARY_PAGES.has(fileName)) return;
+
+  for (const link of BLOCKED_UNVERIFIED_PUBLIC_LINKS) {
+    if (html.includes(link.href)) {
+      issues.push(`${fileName}: unverified public social link ${link.href} (${link.reason})`);
+    }
+  }
+
+  if (fileName === 'identita-operativa.html') {
+    const requiredSnippets = [
+      'Un profilo è ufficiale solo se è linkato da questa pagina.',
+      'https://www.instagram.com/cantonidigitalstudio/',
+      'https://github.com/cantonidigitalstudio-a11y',
+      'mailto:cantonidigitalstudio@gmail.com'
+    ];
+    for (const snippet of requiredSnippets) {
+      if (!html.includes(snippet)) issues.push(`${fileName}: missing official-channel contract ${snippet}`);
+    }
+  }
 }
 
 function checkCommercialCompliance(fileName, html, issues) {
@@ -278,6 +311,7 @@ async function auditFile(fileName, keys) {
 
   checkPrimarySeo(fileName, html, issues);
   checkPublicReferences(fileName, html, issues);
+  checkVerifiedSocialContract(fileName, html, issues);
   checkCommercialCompliance(fileName, html, issues);
   checkContentLeaks(fileName, html, issues);
   checkI18nKeys(fileName, html, keys, issues);

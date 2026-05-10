@@ -1,0 +1,44 @@
+# Cantoni Digital Studio - Social Profile Setup Checklist
+
+The current business-card print file includes full-color Facebook, Instagram and TikTok icons with `@cantonidigitalstudio`. Before using these channels in public proposals, verify each profile opens correctly in a logged-out browser, or treat Facebook/TikTok as reserved handles to activate immediately.
+
+## Browser QA - 2026-05-10
+
+- Instagram `https://www.instagram.com/cantonidigitalstudio/`: public page opens and title resolves to Cantoni Digital Studio.
+- TikTok `https://www.tiktok.com/@cantonidigitalstudio`: redirects to mandatory login, so it is not accepted yet as a public verification channel.
+- Facebook `https://www.facebook.com/cantonidigitalstudio`: shows content unavailable while logged out, so it is not accepted yet as a public verification channel.
+- Public site rule: do not publish Facebook/TikTok links on `cantonidigitalstudio.com` until they are public, branded, have first content, and pass logged-out Browser QA.
+
+## Handles
+
+- Instagram: `@cantonidigitalstudio` - already used by the site.
+- Facebook Page: `Cantoni Digital Studio` with preferred URL `facebook.com/cantonidigitalstudio`.
+- TikTok: `@cantonidigitalstudio`.
+- Optional but recommended for B2B: LinkedIn Company Page `Cantoni Digital Studio`.
+
+## Profile Copy
+
+Short bio:
+
+Siti, e-commerce, app e automazioni AI per aziende. Preventivi chiari, pagamenti integrati, delivery multilingua.
+
+Website:
+
+https://cantonidigitalstudio.com
+
+Contact email:
+
+cantonidigitalstudio@gmail.com
+
+Phone / WhatsApp:
+
++39 347 196 1113
+
+## Launch Checks
+
+- Use the same logo/avatar as the site: `assets/logo/cantoni_icona_quadrata.png`.
+- Use the same brand name everywhere: `Cantoni Digital Studio`.
+- Public link must open without login.
+- Bio must not promise impossible delivery or fixed prices without scope.
+- Instagram, Facebook and TikTok handles must be tested before adding them to a print order.
+- After Facebook/TikTok are public, update `identita-operativa.html`, footer references, JSON-LD `sameAs`, outreach templates and `scripts/verify_site_integrity.cjs`.
