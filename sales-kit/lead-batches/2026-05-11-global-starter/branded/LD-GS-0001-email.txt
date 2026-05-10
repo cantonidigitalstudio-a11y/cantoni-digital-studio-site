@@ -1,0 +1,24 @@
+Buongiorno,
+ho analizzato https://www.hparco.it/ (San Benedetto del Tronto, Italy) e il punto che mi ha colpito subito è questo: Hotel sul lungomare di San Benedetto del Tronto con ristorante, spiaggia privata e promessa di miglior tariffa diretta.
+Ho visto 3 aspetti concreti che oggi possono frenare richieste e conversioni:
+1. La promessa di prenotazione diretta non porta subito a un booking flow visibile
+2. Le CTA principali sono chiamata/email e non costruiscono un percorso di disponibilità/preventivo
+3. Servizi, camere e fiducia sono sparsi e poco orientati alla conversione mobile
+Le 3 priorità che proporrei sono:
+- Hero con CTA unica verso disponibilità o richiesta preventivo
+- Sequenza camere-servizi-recensioni-offerte con percorso commerciale più corto
+- Barra mobile con prenota/WhatsApp/email e tracking richieste
+Impatto economico realistico: +10% / +24% richieste dirette | +8% / +18% conversione mobile | Meno dipendenza da portali e telefonate
+Se può essere utile, vi preparo un breakdown breve con priorità e tempi indicativi, senza impegno.
+Emanuele Cantoni
+Cantoni Digital Studio
+https://cantonidigitalstudio.com
+
+Riferimenti pubblici:
+- Studio: https://cantonidigitalstudio.com/studio
+- Case studies: https://cantonidigitalstudio.com/case-studies.html
+- Instagram: https://www.instagram.com/cantonidigitalstudio/
+- Sito: https://cantonidigitalstudio.com/
+
+Cantoni Digital Studio
+cantonidigitalstudio@gmail.com
