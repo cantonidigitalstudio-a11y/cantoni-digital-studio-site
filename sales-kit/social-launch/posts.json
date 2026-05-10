@@ -1,0 +1,52 @@
+[
+  {
+    "id": "01-excellentia-vip",
+    "type": "portfolio",
+    "title": "Excellentia VIP",
+    "subtitle": "Luxury transport, concierge e booking flow",
+    "proof": "Sito live: excellentiavip.com",
+    "body": "Un sistema pubblico per servizi premium: pacchetti, flotta, richieste, routing operativo e fiducia prima del primo messaggio.",
+    "caption_it": "Excellentia VIP e un progetto live di luxury transport e concierge: sito, pacchetti, flotta, booking e struttura operativa pubblica. Non e solo una vetrina: e un percorso commerciale pensato per far capire valore, servizi e prossimo passo. Link: https://excellentiavip.com",
+    "cta": "Apri case study"
+  },
+  {
+    "id": "02-destination-cocoa",
+    "type": "portfolio",
+    "title": "Destination Cocoa",
+    "subtitle": "Booking turistico per Mr Collins",
+    "proof": "Sito live: destination-cocoa-site.netlify.app",
+    "body": "Transfer, esperienze, upsell e recap operativo in un flusso piu chiaro per cliente e team.",
+    "caption_it": "Destination Cocoa by Collins mostra un flusso pubblico di booking, transfer, upsell e routing operativo per un servizio turistico reale. Il lavoro non finisce sul design: serve chiarezza, richiesta pulita e passaggio operativo affidabile.",
+    "cta": "Vedi percorso"
+  },
+  {
+    "id": "03-ec8-platform",
+    "type": "portfolio",
+    "title": "EC8 Platform",
+    "subtitle": "Coaching, education e architettura digitale",
+    "proof": "Sito live: ec8platform.com",
+    "body": "Posizionamento, offerta, credibilita e struttura pronta per crescere con contenuti, piani e sistemi di pagamento.",
+    "caption_it": "EC8 Platform e una reference pubblica su coaching, education, posizionamento e architettura digitale. Un sito serio deve rendere leggibile l'offerta, aumentare fiducia e preparare la vendita senza confondere l'utente.",
+    "cta": "Apri reference"
+  },
+  {
+    "id": "04-metodo-preventivi",
+    "type": "method",
+    "title": "Preventivi dopo audit",
+    "subtitle": "Prima si controlla il sito reale",
+    "proof": "Dominio, CTA, contatti, mobile, trust e pagamenti",
+    "body": "Un preventivo serio nasce da problemi osservabili, priorita chiare e scope scritto. Niente prezzi generici mandati a freddo.",
+    "caption_it": "Prima di un preventivo serio controlliamo dominio reale, sito corrente, contatti, CTA, mobile, trust e problemi commerciali visibili. Prezzo e scope arrivano dopo: prima serve capire cosa va davvero costruito.",
+    "cta": "Richiedi audit"
+  },
+  {
+    "id": "05-servizi-completi",
+    "type": "services",
+    "title": "Siti, e-commerce, app",
+    "subtitle": "Pagamenti, login, dashboard e automazioni AI",
+    "proof": "Scope scritto + QA + delivery multilingua",
+    "body": "Costruiamo sistemi digitali per aziende: dalla prima pagina fino a checkout, area cliente, admin e gestione continuativa.",
+    "caption_it": "Cantoni Digital Studio realizza siti, e-commerce, web app, app, pagamenti, login, dashboard, booking e automazioni AI. Il punto non e fare pagine belle: il punto e costruire sistemi chiari, verificabili e vendibili.",
+    "cta": "Apri preventivo"
+  }
+]

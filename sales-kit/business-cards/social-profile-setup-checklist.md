@@ -4,14 +4,14 @@ The current business-card print file includes full-color Facebook, Instagram and
 
 ## Browser QA - 2026-05-10
 
-- Instagram `https://www.instagram.com/cantonidigitalstudio/`: public page opens and title resolves to Cantoni Digital Studio.
+- Instagram `https://www.instagram.com/cantonidigitalstudio/`: official handle exists, but the 2026-05-10 logged-out Browser session redirected to Instagram login. Treat it as the official studio handle, not as a standalone public proof channel.
 - TikTok `https://www.tiktok.com/@cantonidigitalstudio`: redirects to mandatory login, so it is not accepted yet as a public verification channel.
 - Facebook `https://www.facebook.com/cantonidigitalstudio`: shows content unavailable while logged out, so it is not accepted yet as a public verification channel.
 - Public site rule: do not publish Facebook/TikTok links on `cantonidigitalstudio.com` until they are public, branded, have first content, and pass logged-out Browser QA.
 
 ## Handles
 
-- Instagram: `@cantonidigitalstudio` - already used by the site.
+- Instagram: `@cantonidigitalstudio` - already used by the site as official handle.
 - Facebook Page: `Cantoni Digital Studio` with preferred URL `facebook.com/cantonidigitalstudio`.
 - TikTok: `@cantonidigitalstudio`.
 - Optional but recommended for B2B: LinkedIn Company Page `Cantoni Digital Studio`.
@@ -38,7 +38,7 @@ Phone / WhatsApp:
 
 - Use the same logo/avatar as the site: `assets/logo/cantoni_icona_quadrata.png`.
 - Use the same brand name everywhere: `Cantoni Digital Studio`.
-- Public link must open without login.
+- Facebook/TikTok public links must open without login before being added to the website. Instagram may show a platform login wall, so it must not be used as the only verification proof.
 - Bio must not promise impossible delivery or fixed prices without scope.
 - Instagram, Facebook and TikTok handles must be tested before adding them to a print order.
 - After Facebook/TikTok are public, update `identita-operativa.html`, footer references, JSON-LD `sameAs`, outreach templates and `scripts/verify_site_integrity.cjs`.
