@@ -81,18 +81,22 @@ function templateByLanguage(language, row, currency) {
     it: {
       subject: `${row.business_name}: 3 osservazioni concrete sul sito`,
       lines: [
-        `Ciao ${contact || row.business_name},`,
+        'Buongiorno,',
         '',
-        `ho analizzato ${website}${marketSuffix} e il punto che mi ha colpito subito e questo: ${opening}`,
+        `ho analizzato ${website}${marketSuffix} e il punto che mi ha colpito subito è questo: ${opening}`,
         '',
-        'Ho visto 3 problemi concreti che oggi possono frenare richieste e conversioni:',
+        'Ho visto 3 aspetti concreti che oggi possono frenare richieste e conversioni:',
         ...issues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
-        'Le 3 mosse che farei subito sono:',
+        'Le 3 priorità che proporrei sono:',
         ...improvements.map((item) => `- ${item}`),
         '',
         impact.length ? `Impatto economico realistico: ${impact.join(' | ')}` : '',
-        cta || 'Se vuoi, ti invio un breakdown breve con priorita, tempi indicativi e cosa avrebbe senso sistemare prima.'
+        cta || 'Se può essere utile, vi invio un breakdown breve con priorità, tempi indicativi e cosa avrebbe senso sistemare prima.',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
       ].filter(Boolean)
     },
     en: {

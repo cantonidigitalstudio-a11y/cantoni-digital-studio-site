@@ -41,7 +41,7 @@ function validateResearchRow(row) {
   if (row.status && !allowedStatuses.has(row.status)) problems.push(`invalid_batch_status:${row.status}`);
   if (Object.values(row).some(hasPlaceholder)) problems.push('placeholder_detected');
   if (row.website && !/^https?:\/\//i.test(row.website)) problems.push('website_must_be_absolute_url');
-  if (row.email && !/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(row.email)) problems.push('invalid_email');
+  if (row.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(row.email)) problems.push('invalid_email');
 
   const language = resolveLanguage(row);
   const currency = resolveCurrency(row);
