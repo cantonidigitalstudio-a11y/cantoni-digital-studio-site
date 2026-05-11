@@ -9,6 +9,12 @@ The current business-card print file includes full-color Facebook, Instagram and
 - Facebook `https://www.facebook.com/cantonidigitalstudio`: shows content unavailable while logged out, so it is not accepted yet as a public verification channel.
 - Public site rule: do not publish Facebook/TikTok links on `cantonidigitalstudio.com` until they are public, branded, have first content, and pass logged-out Browser QA.
 
+## Browser Setup Attempt - 2026-05-11
+
+- TikTok signup is open and ready, but Google OAuth is paused at password/manual verification for the official studio email.
+- Facebook Page creation accepts `Cantoni Digital Studio` and `Web designer`, but Meta blocks the final creation behind login/Page ownership.
+- The Facebook target must be a Page, not a personal profile with the company name.
+
 ## Handles
 
 - Instagram: `@cantonidigitalstudio` - already used by the site as official handle.

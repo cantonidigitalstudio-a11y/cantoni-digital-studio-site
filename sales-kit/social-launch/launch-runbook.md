@@ -6,6 +6,12 @@
 - Facebook Page is not created/public yet. Browser reached `Crea una Pagina`, with page name `Cantoni Digital Studio` and category attempt `Web designer`, then Facebook required login/Page ownership setup.
 - TikTok signup page opens. Google signup did not advance in Browser, so account creation still requires manual login/verification or a fresh authenticated browser session.
 
+## Browser Attempt - 2026-05-11
+
+- TikTok: opened `https://www.tiktok.com/signup`, selected Google login, chose "Usa un altro account" and entered the official studio email. Google then requested the account password before OAuth/consent, so the flow is paused at manual authentication.
+- Facebook: opened `https://www.facebook.com/pages/create`, selected the business/brand path, entered `Cantoni Digital Studio` as page name and `Web designer` as category. Facebook then opened "Non hai effettuato l'accesso" and requires login before the Page can be created.
+- Do not use a personal Facebook profile named as the company. The correct target is a Facebook Page owned by a real admin account or Meta Business setup, with the public page URL set to `facebook.com/cantonidigitalstudio` when Meta allows it.
+
 ## Sequence
 
 1. Update Instagram profile with the copy in `social-profile-copy.md`.
