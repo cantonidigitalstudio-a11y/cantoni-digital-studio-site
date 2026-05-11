@@ -8,6 +8,19 @@ const REQUIRED_LINKS = [
   'https://cantonidigitalstudio.com/case-studies.html',
   'https://www.instagram.com/cantonidigitalstudio/'
 ];
+const CLIENT_JARGON_PATTERNS = [
+  /\bCTA\b/i,
+  /\bhero\b/i,
+  /\bfunnel\b/i,
+  /\bbooking flow\b/i,
+  /\btracking richieste\b/i,
+  /\btrust layer\b/i,
+  /\bconversion-oriented\b/i,
+  /\bbreakdown\b/i,
+  /\bscope\b/i,
+  /\bconversioni?\b/i,
+  /\bconversione mobile\b/i
+];
 
 function getArg(name) {
   const prefix = `${name}=`;
@@ -17,6 +30,13 @@ function getArg(name) {
 
 function assert(condition, message, bucket) {
   if (!condition) bucket.push(message);
+}
+
+function assertNoClientJargon(value, prefix, bucket) {
+  const text = String(value || '');
+  CLIENT_JARGON_PATTERNS.forEach((pattern) => {
+    if (pattern.test(text)) bucket.push(`${prefix}:client_jargon:${pattern}`);
+  });
 }
 
 async function verifyHtmlFile(filePath) {
@@ -29,6 +49,7 @@ async function verifyHtmlFile(filePath) {
     assert(html.includes(link), `missing_link:${link}`, failures);
   }
   assert(html.includes(REQUIRED_REPLY_TO), 'reply_to_missing', failures);
+  assertNoClientJargon(html, 'html', failures);
   return { file: filePath, kind: 'html', ok: failures.length === 0, failures };
 }
 
@@ -50,6 +71,9 @@ async function verifyQueueFile(filePath) {
     for (const link of REQUIRED_LINKS) {
       assert((item.html_body || '').includes(link), `${prefix}:missing_link:${link}`, failures);
     }
+    assertNoClientJargon(item.body, `${prefix}:body`, failures);
+    assertNoClientJargon(item.text_body, `${prefix}:text_body`, failures);
+    assertNoClientJargon(item.html_body, `${prefix}:html_body`, failures);
   });
 
   return { file: filePath, kind: 'queue', ok: failures.length === 0, failures };

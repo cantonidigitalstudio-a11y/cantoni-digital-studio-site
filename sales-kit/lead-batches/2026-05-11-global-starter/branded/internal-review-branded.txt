@@ -8,19 +8,22 @@ Oggetto: Hotel Parco: 3 osservazioni concrete sul sito
 
 Buongiorno,
 ho analizzato https://www.hparco.it/ (San Benedetto del Tronto, Italy) e il punto che mi ha colpito subito è questo: Hotel sul lungomare di San Benedetto del Tronto con ristorante, spiaggia privata e promessa di miglior tariffa diretta.
-Ho visto 3 aspetti concreti che oggi possono frenare richieste e conversioni:
-1. La promessa di prenotazione diretta non porta subito a un booking flow visibile
-2. Le CTA principali sono chiamata/email e non costruiscono un percorso di disponibilità/preventivo
-3. Servizi, camere e fiducia sono sparsi e poco orientati alla conversione mobile
-Le 3 priorità che proporrei sono:
-- Hero con CTA unica verso disponibilità o richiesta preventivo
-- Sequenza camere-servizi-recensioni-offerte con percorso commerciale più corto
-- Barra mobile con prenota/WhatsApp/email e tracking richieste
-Impatto economico realistico: +10% / +24% richieste dirette | +8% / +18% conversione mobile | Meno dipendenza da portali e telefonate
-Se può essere utile, vi preparo un breakdown breve con priorità e tempi indicativi, senza impegno.
+Ho visto 3 aspetti concreti che oggi possono ridurre richieste, prenotazioni e contatti:
+1. La promessa di prenotare direttamente dal sito non porta subito a una pagina chiara dove controllare disponibilità o chiedere informazioni
+2. Oggi i principali inviti sono solo chiamata ed email: manca un percorso semplice per verificare disponibilità o chiedere un preventivo
+3. Servizi, camere e motivi per fidarsi sono distribuiti in più punti: da telefono non guidano abbastanza verso una richiesta
+
+Le 3 prime cose che sistemerei sono:
+- Prima parte del sito con un invito chiaro a verificare disponibilità o chiedere un preventivo
+- Ordine più chiaro tra camere, servizi, recensioni e offerte, così il visitatore capisce prima cosa fare
+- Da telefono, pulsanti sempre visibili per prenotare, scrivere su WhatsApp o mandare una email, con controllo delle richieste ricevute
+
+Risultato commerciale realistico: +10% / +24% richieste dirette | +8% / +18% richieste da telefono | Meno dipendenza da portali e telefonate
+Se può essere utile, vi preparo un riepilogo chiaro breve con priorità e tempi indicativi, senza impegno.
+
 Emanuele Cantoni
 Cantoni Digital Studio
-https://cantonidigitalstudio.com
+https://cantonidigitalstudio.com/
 
 Riferimenti pubblici:
 - Studio: https://cantonidigitalstudio.com/studio
@@ -37,19 +40,22 @@ Oggetto: Centro Vacanze Domus M.G.: 3 osservazioni concrete sul sito
 
 Buongiorno,
 ho analizzato https://www.domussanbenedetto.it/ (San Benedetto del Tronto, Italy) e il punto che mi ha colpito subito è questo: Centro vacanze a Porto d'Ascoli con camere, piscina, servizi per famiglie e prenotazione diretta tramite sito ufficiale.
-Ho visto 3 aspetti concreti che oggi possono frenare richieste e conversioni:
-1. Il booking è demandato a un flusso esterno e il valore diretto non è spiegato prima del click
-2. Contatti hotel e ufficio booking sono separati e possono creare frizione
-3. Servizi, offerte ed eventi sono presenti ma non ordinati come funnel commerciale mobile
-Le 3 priorità che proporrei sono:
-- Sezione hero con vantaggi diretti e CTA prenota/richiedi offerta più chiara
-- Percorso contatti unico con booking, telefono, email e WhatsApp ordinati
-- Landing offerte/famiglie con trust, servizi e disponibilità in sequenza
-Impatto economico realistico: +10% / +22% richieste dirette | +8% / +18% prenotazioni da mobile | Meno dispersione tra sito e booking esterno
-Se può essere utile, vi preparo un breakdown breve con priorità e tempi indicativi, senza impegno.
+Ho visto 3 aspetti concreti che oggi possono ridurre richieste, prenotazioni e contatti:
+1. La prenotazione porta fuori dal sito e prima del click non è abbastanza chiaro perché convenga prenotare direttamente
+2. I contatti dell’hotel e quelli per prenotare sono separati: questo può creare confusione nel momento in cui una persona vuole informazioni
+3. Servizi, offerte ed eventi ci sono, ma da telefono non seguono un percorso semplice che porti alla richiesta o alla prenotazione
+
+Le 3 prime cose che sistemerei sono:
+- Prima parte del sito con vantaggi diretti e pulsanti chiari per prenotare o richiedere un'offerta
+- Un solo percorso contatti, con prenotazione, telefono, email e WhatsApp messi in ordine chiaro
+- Pagina dedicata alle offerte e alle famiglie, con servizi, motivi di fiducia e disponibilità spiegati in ordine
+
+Risultato commerciale realistico: +10% / +22% richieste dirette | +8% / +18% prenotazioni da mobile | Meno dispersione tra sito e prenotazione esterno
+Se può essere utile, vi preparo un riepilogo chiaro breve con priorità e tempi indicativi, senza impegno.
+
 Emanuele Cantoni
 Cantoni Digital Studio
-https://cantonidigitalstudio.com
+https://cantonidigitalstudio.com/
 
 Riferimenti pubblici:
 - Studio: https://cantonidigitalstudio.com/studio

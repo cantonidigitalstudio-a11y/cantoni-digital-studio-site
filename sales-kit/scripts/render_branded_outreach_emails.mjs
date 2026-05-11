@@ -33,6 +33,43 @@ function stripIssuePrefix(line) {
   return line.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
 }
 
+const CLIENT_FRIENDLY_REWRITES = [
+  [/Hero con CTA unica verso disponibilità o richiesta preventivo/gi, 'Prima parte del sito con un invito chiaro a verificare disponibilità o chiedere un preventivo'],
+  [/Sezione hero con vantaggi diretti e CTA prenota\/richiedi offerta più chiara/gi, "Prima parte del sito con vantaggi diretti e pulsanti chiari per prenotare o richiedere un'offerta"],
+  [/Le CTA principali sono chiamata\/email e non costruiscono un percorso di disponibilità\/preventivo/gi, 'Oggi i principali inviti sono solo chiamata ed email: manca un percorso semplice per verificare disponibilità o chiedere un preventivo'],
+  [/La promessa di prenotazione diretta non porta subito a un booking flow visibile/gi, 'La promessa di prenotare direttamente dal sito non porta subito a una pagina chiara dove controllare disponibilità o chiedere informazioni'],
+  [/Servizi, camere e fiducia sono sparsi e poco orientati alla conversione mobile/gi, 'Servizi, camere e motivi per fidarsi sono distribuiti in più punti: da telefono non guidano abbastanza verso una richiesta'],
+  [/Servizi, offerte ed eventi sono presenti ma non ordinati come funnel commerciale mobile/gi, 'Servizi, offerte ed eventi ci sono, ma da telefono non seguono un percorso semplice che porti alla richiesta o alla prenotazione'],
+  [/Il booking è demandato a un flusso esterno e il valore diretto non è spiegato prima del click/gi, 'La prenotazione porta fuori dal sito e prima del click non è abbastanza chiaro perché convenga prenotare direttamente'],
+  [/Contatti hotel e ufficio booking sono separati e possono creare frizione/gi, 'I contatti dell’hotel e quelli per prenotare sono separati: questo può creare confusione nel momento in cui una persona vuole informazioni'],
+  [/Sequenza camere-servizi-recensioni-offerte con percorso commerciale più corto/gi, 'Ordine più chiaro tra camere, servizi, recensioni e offerte, così il visitatore capisce prima cosa fare'],
+  [/Barra mobile con prenota\/WhatsApp\/email e tracking richieste/gi, 'Da telefono, pulsanti sempre visibili per prenotare, scrivere su WhatsApp o mandare una email, con controllo delle richieste ricevute'],
+  [/Percorso contatti unico con booking, telefono, email e WhatsApp ordinati/gi, 'Un solo percorso contatti, con prenotazione, telefono, email e WhatsApp messi in ordine chiaro'],
+  [/Landing offerte\/famiglie con trust, servizi e disponibilità in sequenza/gi, 'Pagina dedicata alle offerte e alle famiglie, con servizi, motivi di fiducia e disponibilità spiegati in ordine'],
+  [/\bCTA\b/gi, 'pulsanti o inviti a prenotare'],
+  [/\bhero\b/gi, 'prima parte della pagina'],
+  [/\bfunnel commerciale mobile\b/gi, 'percorso semplice da telefono'],
+  [/\bfunnel\b/gi, 'percorso'],
+  [/\bbooking flow\b/gi, 'percorso di prenotazione'],
+  [/\bbooking\b/gi, 'prenotazione'],
+  [/\btracking richieste\b/gi, 'controllo delle richieste ricevute'],
+  [/\bconversione mobile\b/gi, 'richieste da telefono'],
+  [/\bconversioni\b/gi, 'richieste o prenotazioni'],
+  [/\bconversione\b/gi, 'richiesta o prenotazione'],
+  [/\btrust layer\b/gi, 'elementi di fiducia'],
+  [/\bconversion-oriented\b/gi, 'pensate per far arrivare richieste'],
+  [/\blanding\b/gi, 'pagina dedicata'],
+  [/\bbreakdown\b/gi, 'riepilogo chiaro'],
+  [/\bfrizione\b/gi, 'confusione']
+];
+
+function clientFriendlyCopy(value) {
+  return CLIENT_FRIENDLY_REWRITES.reduce(
+    (text, [pattern, replacement]) => text.replace(pattern, replacement),
+    String(value || '')
+  );
+}
+
 function displayLeadName(item) {
   return item.lead_name || item.business_name || String(item.subject || '').split(':')[0].trim() || item.lead_id || item.id || 'Lead';
 }
@@ -40,8 +77,8 @@ function displayLeadName(item) {
 function parsePlainBody(body = '') {
   const lines = body.split('\n').map((line) => line.trim()).filter(Boolean);
   const issueIntroIndex = lines.findIndex((line) => /^Ho visto\b/i.test(line));
-  const priorityIndex = lines.findIndex((line) => /^Le 3 priorit/i.test(line));
-  const impactIndex = lines.findIndex((line) => /^Impatto economico realistico:/i.test(line));
+  const priorityIndex = lines.findIndex((line) => /^Le 3 (priorit|prime cose)/i.test(line));
+  const impactIndex = lines.findIndex((line) => /^(Impatto economico realistico|Risultato commerciale realistico):/i.test(line));
   const ctaIndex = lines.findIndex((line) => /^Se può essere utile/i.test(line));
 
   const issueStart = issueIntroIndex >= 0 ? issueIntroIndex + 1 : 0;
@@ -50,13 +87,13 @@ function parsePlainBody(body = '') {
   const priorityEnd = impactIndex >= 0 ? impactIndex : lines.length;
 
   return {
-    greeting: lines[0] || 'Buongiorno,',
-    opening: issueIntroIndex > 1 ? lines.slice(1, issueIntroIndex).join(' ') : '',
-    issueIntro: issueIntroIndex >= 0 ? lines[issueIntroIndex] : 'Ho visto alcuni punti che possono limitare conversione e fiducia.',
-    issues: lines.slice(issueStart, issueEnd).map(stripIssuePrefix).filter(Boolean),
-    priorities: lines.slice(priorityStart, priorityEnd).map(stripIssuePrefix).filter(Boolean),
-    impact: impactIndex >= 0 ? lines[impactIndex].replace(/^Impatto economico realistico:\s*/i, '') : '',
-    cta: ctaIndex >= 0 ? lines[ctaIndex] : 'Se può essere utile, preparo una proposta operativa con priorità, tempi e percorso scritto.',
+    greeting: clientFriendlyCopy(lines[0] || 'Buongiorno,'),
+    opening: clientFriendlyCopy(issueIntroIndex > 1 ? lines.slice(1, issueIntroIndex).join(' ') : ''),
+    issueIntro: clientFriendlyCopy(issueIntroIndex >= 0 ? lines[issueIntroIndex] : 'Ho visto alcuni punti che possono ridurre richieste, prenotazioni e contatti.'),
+    issues: lines.slice(issueStart, issueEnd).map(stripIssuePrefix).map(clientFriendlyCopy).filter(Boolean),
+    priorities: lines.slice(priorityStart, priorityEnd).map(stripIssuePrefix).map(clientFriendlyCopy).filter(Boolean),
+    impact: clientFriendlyCopy(impactIndex >= 0 ? lines[impactIndex].replace(/^(Impatto economico realistico|Risultato commerciale realistico):\s*/i, '') : ''),
+    cta: clientFriendlyCopy(ctaIndex >= 0 ? lines[ctaIndex] : 'Se può essere utile, preparo un riepilogo chiaro con priorità, tempi e percorso scritto.'),
     signoff: lines.slice(Math.max(ctaIndex + 1, 0)).filter((line) => !/^Se può essere utile/i.test(line))
   };
 }
@@ -90,7 +127,7 @@ function renderReferenceFooter() {
         </div>
         <div style="font:400 13px/1.55 Arial,sans-serif;color:#5b6678;">
           ${BRAND_NAME}<br>
-          Siti, e-commerce, web app, app e automazioni AI con scope scritto, priorità operative e consegna verificabile.<br>
+          Siti, e-commerce, web app, app e automazioni AI con accordo scritto su cosa viene fatto, tempi chiari e consegna verificabile.<br>
           <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
         </div>
       </td>
@@ -153,7 +190,7 @@ function renderBrandedEmail(item, logoSrc, options = {}) {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#fffaf4;border:1px solid #f2d8b7;border-radius:14px;">
                 <tr>
                   <td style="padding:22px 22px 12px 22px;">
-                    <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a66a20;margin-bottom:14px;">Priorità suggerite</div>
+                    <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a66a20;margin-bottom:14px;">Prime cose da sistemare</div>
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">${listItems(parsed.priorities)}</table>
                   </td>
                 </tr>
@@ -166,7 +203,7 @@ function renderBrandedEmail(item, logoSrc, options = {}) {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#13254a;border-radius:14px;">
                 <tr>
                   <td style="padding:22px;">
-                    <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#f29d38;margin-bottom:9px;">Impatto economico realistico</div>
+                    <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#f29d38;margin-bottom:9px;">Risultato commerciale realistico</div>
                     <div style="font:700 18px/1.45 Arial,sans-serif;color:#ffffff;">${escapeHtml(parsed.impact)}</div>
                   </td>
                 </tr>
@@ -195,7 +232,7 @@ function renderBrandedEmail(item, logoSrc, options = {}) {
 }
 
 function renderTextEmail(item) {
-  return `${item.body.trim()}
+  return `${renderClientPlainBody(item)}
 
 Riferimenti pubblici:
 - Studio: ${LINKS.studio}
@@ -206,6 +243,31 @@ Riferimenti pubblici:
 ${BRAND_NAME}
 ${BRAND_EMAIL}
 `;
+}
+
+function renderClientPlainBody(item) {
+  const parsed = parsePlainBody(item.body);
+  const lines = [
+    parsed.greeting,
+    parsed.opening,
+    parsed.issueIntro,
+    ...parsed.issues.map((issue, index) => `${index + 1}. ${issue}`),
+    '',
+    'Le 3 prime cose che sistemerei sono:',
+    ...parsed.priorities.map((item) => `- ${item}`),
+    '',
+    parsed.impact ? `Risultato commerciale realistico: ${parsed.impact}` : '',
+    parsed.cta,
+    '',
+    'Emanuele Cantoni',
+    BRAND_NAME,
+    LINKS.site
+  ];
+
+  return lines.filter((line, index, all) => {
+    if (line) return true;
+    return all[index - 1] && all[index + 1];
+  }).join('\n');
 }
 
 function renderInternalReview(items, logoSrc) {
@@ -267,7 +329,7 @@ function renderInternalReview(items, logoSrc) {
                 <tr>
                   <td style="padding:20px;">
                     <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a66a20;margin-bottom:8px;">Regola commerciale</div>
-                    <div style="font:700 17px/1.5 Arial,sans-serif;color:#20304a;">Primo contatto senza prezzi: si mostra competenza reale, poi si confermano scope, tempi e proposta scritta solo dopo risposta.</div>
+                    <div style="font:700 17px/1.5 Arial,sans-serif;color:#20304a;">Primo contatto senza prezzi: si mostra competenza reale, poi si confermano cosa fare, tempi e proposta scritta solo dopo risposta.</div>
                   </td>
                 </tr>
               </table>
@@ -339,6 +401,7 @@ async function main() {
       ...item,
       sender_name: BRAND_NAME,
       reply_to: BRAND_EMAIL,
+      body: renderClientPlainBody(item),
       html_body: renderBrandedEmail(item, mailLogoSrc),
       text_body: text
     });

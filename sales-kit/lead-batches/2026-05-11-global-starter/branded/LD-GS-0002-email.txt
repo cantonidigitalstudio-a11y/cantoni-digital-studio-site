@@ -1,18 +1,21 @@
 Buongiorno,
 ho analizzato https://www.domussanbenedetto.it/ (San Benedetto del Tronto, Italy) e il punto che mi ha colpito subito è questo: Centro vacanze a Porto d'Ascoli con camere, piscina, servizi per famiglie e prenotazione diretta tramite sito ufficiale.
-Ho visto 3 aspetti concreti che oggi possono frenare richieste e conversioni:
-1. Il booking è demandato a un flusso esterno e il valore diretto non è spiegato prima del click
-2. Contatti hotel e ufficio booking sono separati e possono creare frizione
-3. Servizi, offerte ed eventi sono presenti ma non ordinati come funnel commerciale mobile
-Le 3 priorità che proporrei sono:
-- Sezione hero con vantaggi diretti e CTA prenota/richiedi offerta più chiara
-- Percorso contatti unico con booking, telefono, email e WhatsApp ordinati
-- Landing offerte/famiglie con trust, servizi e disponibilità in sequenza
-Impatto economico realistico: +10% / +22% richieste dirette | +8% / +18% prenotazioni da mobile | Meno dispersione tra sito e booking esterno
-Se può essere utile, vi preparo un breakdown breve con priorità e tempi indicativi, senza impegno.
+Ho visto 3 aspetti concreti che oggi possono ridurre richieste, prenotazioni e contatti:
+1. La prenotazione porta fuori dal sito e prima del click non è abbastanza chiaro perché convenga prenotare direttamente
+2. I contatti dell’hotel e quelli per prenotare sono separati: questo può creare confusione nel momento in cui una persona vuole informazioni
+3. Servizi, offerte ed eventi ci sono, ma da telefono non seguono un percorso semplice che porti alla richiesta o alla prenotazione
+
+Le 3 prime cose che sistemerei sono:
+- Prima parte del sito con vantaggi diretti e pulsanti chiari per prenotare o richiedere un'offerta
+- Un solo percorso contatti, con prenotazione, telefono, email e WhatsApp messi in ordine chiaro
+- Pagina dedicata alle offerte e alle famiglie, con servizi, motivi di fiducia e disponibilità spiegati in ordine
+
+Risultato commerciale realistico: +10% / +22% richieste dirette | +8% / +18% prenotazioni da mobile | Meno dispersione tra sito e prenotazione esterno
+Se può essere utile, vi preparo un riepilogo chiaro breve con priorità e tempi indicativi, senza impegno.
+
 Emanuele Cantoni
 Cantoni Digital Studio
-https://cantonidigitalstudio.com
+https://cantonidigitalstudio.com/
 
 Riferimenti pubblici:
 - Studio: https://cantonidigitalstudio.com/studio
