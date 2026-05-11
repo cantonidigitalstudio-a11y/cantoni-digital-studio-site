@@ -14,6 +14,19 @@ const LINKS = {
   instagram: 'https://www.instagram.com/cantonidigitalstudio/'
 };
 
+function svgDataUri(svg) {
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)
+    .replace(/'/g, '%27')
+    .replace(/"/g, '%22')}`;
+}
+
+const ICONS = {
+  site: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#13254a"/><path fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M24 9.5a14.5 14.5 0 1 0 0 29 14.5 14.5 0 0 0 0-29Zm0 0c4 4 6 8.8 6 14.5S28 34.5 24 38.5c-4-4-6-8.8-6-14.5s2-10.5 6-14.5ZM10.5 24h27"/></svg>`),
+  instagram: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="g" x1="6" y1="42" x2="42" y2="6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".25" stop-color="#fa7e1e"/><stop offset=".5" stop-color="#d62976"/><stop offset=".75" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect x="5" y="5" width="38" height="38" rx="12" fill="url(#g)"/><rect x="14" y="14" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="3"/><circle cx="24" cy="24" r="5.2" fill="none" stroke="#fff" stroke-width="3"/><circle cx="31" cy="17" r="1.9" fill="#fff"/></svg>`),
+  cases: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#f29d38"/><path fill="#13254a" d="M15 11h18l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V14a3 3 0 0 1 3-3Zm17 2.8V18h4.2L32 13.8ZM18 23h15v-3H18v3Zm0 7h15v-3H18v3Zm0 7h10v-3H18v3Z"/></svg>`),
+  email: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#eef3f8"/><path fill="none" stroke="#13254a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M12 16h24v17H12V16Zm0 1 12 10 12-10"/></svg>`)
+};
+
 function getArg(name, fallback = '') {
   const prefix = `${name}=`;
   const hit = process.argv.find((arg) => arg.startsWith(prefix));
@@ -117,6 +130,63 @@ function listItems(items) {
   `).join('');
 }
 
+function contactTile({ href, icon, alt, label, value }) {
+  return `
+    <td width="50%" valign="top" style="padding:6px;">
+      <a href="${href}" style="display:block;min-height:54px;padding:11px 12px;background:#ffffff;border:1px solid #dfe7f0;border-radius:13px;text-decoration:none;color:#13254a;">
+        <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+          <tr>
+            <td width="38" valign="middle"><img src="${icon}" width="32" height="32" alt="${alt}" style="display:block;width:32px;height:32px;border:0;border-radius:10px;"></td>
+            <td valign="middle" style="padding-left:10px;">
+              <div style="font:700 12px Arial,sans-serif;color:#7a8798;text-transform:uppercase;letter-spacing:.08em;">${label}</div>
+              <div style="font:700 13px/1.35 Arial,sans-serif;color:#13254a;">${value}</div>
+            </td>
+          </tr>
+        </table>
+      </a>
+    </td>
+  `;
+}
+
+function renderContactTiles() {
+  return `
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate;border-spacing:0;margin:10px -6px 0 -6px;">
+      <tr>
+        ${contactTile({
+          href: LINKS.site,
+          icon: ICONS.site,
+          alt: 'Logo sito Cantoni Digital Studio',
+          label: 'Sito ufficiale',
+          value: 'cantonidigitalstudio.com'
+        })}
+        ${contactTile({
+          href: LINKS.instagram,
+          icon: ICONS.instagram,
+          alt: 'Logo ufficiale Instagram Cantoni Digital Studio',
+          label: 'Instagram',
+          value: '@cantonidigitalstudio'
+        })}
+      </tr>
+      <tr>
+        ${contactTile({
+          href: LINKS.cases,
+          icon: ICONS.cases,
+          alt: 'Icona case studies Cantoni Digital Studio',
+          label: 'Case studies',
+          value: 'Lavori e risultati'
+        })}
+        ${contactTile({
+          href: `mailto:${BRAND_EMAIL}`,
+          icon: ICONS.email,
+          alt: 'Icona email Cantoni Digital Studio',
+          label: 'Email',
+          value: BRAND_EMAIL
+        })}
+      </tr>
+    </table>
+  `;
+}
+
 function renderCredibilityBlock() {
   return `
     <tr>
@@ -132,6 +202,7 @@ function renderCredibilityBlock() {
                 Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
                 Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
               </div>
+              ${renderContactTiles()}
             </td>
           </tr>
         </table>
@@ -153,6 +224,7 @@ function renderReferenceFooter() {
           Case studies: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
           Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
         </div>
+        ${renderContactTiles()}
         <div style="margin-bottom:14px;">
           <a href="${LINKS.studio}" style="${pillStyle}">Studio</a>
           <a href="${LINKS.cases}" style="${pillStyle}">Case studies</a>

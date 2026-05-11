@@ -13,6 +13,12 @@ const REQUIRED_VISIBLE_REFERENCES = [
   '@cantonidigitalstudio',
   'cantonidigitalstudio@gmail.com'
 ];
+const REQUIRED_ICON_ALTS = [
+  'Logo sito Cantoni Digital Studio',
+  'Logo ufficiale Instagram Cantoni Digital Studio',
+  'Icona case studies Cantoni Digital Studio',
+  'Icona email Cantoni Digital Studio'
+];
 const CLIENT_JARGON_PATTERNS = [
   /\bCTA\b/i,
   /\bhero\b/i,
@@ -56,6 +62,9 @@ async function verifyHtmlFile(filePath) {
   for (const reference of REQUIRED_VISIBLE_REFERENCES) {
     assert(html.includes(reference), `missing_visible_reference:${reference}`, failures);
   }
+  for (const alt of REQUIRED_ICON_ALTS) {
+    assert(html.includes(`alt="${alt}"`), `missing_reference_icon:${alt}`, failures);
+  }
   assert(html.includes(REQUIRED_REPLY_TO), 'reply_to_missing', failures);
   assertNoClientJargon(html, 'html', failures);
   return { file: filePath, kind: 'html', ok: failures.length === 0, failures };
@@ -81,6 +90,9 @@ async function verifyQueueFile(filePath) {
     }
     for (const reference of REQUIRED_VISIBLE_REFERENCES) {
       assert((item.html_body || '').includes(reference), `${prefix}:missing_visible_reference:${reference}`, failures);
+    }
+    for (const alt of REQUIRED_ICON_ALTS) {
+      assert((item.html_body || '').includes(`alt="${alt}"`), `${prefix}:missing_reference_icon:${alt}`, failures);
     }
     assertNoClientJargon(item.body, `${prefix}:body`, failures);
     assertNoClientJargon(item.text_body, `${prefix}:text_body`, failures);
