@@ -2,9 +2,15 @@
 
 ## Current State
 
-- Instagram handle exists: `https://www.instagram.com/cantonidigitalstudio/`. Current logged-out Browser QA redirects to Instagram login, so it is official but not a standalone public proof channel.
-- Facebook Page is not created/public yet. Browser reached `Crea una Pagina`, with page name `Cantoni Digital Studio` and category attempt `Web designer`, then Facebook required login/Page ownership setup.
-- TikTok signup page opens. Google signup did not advance in Browser, so account creation still requires manual login/verification or a fresh authenticated browser session.
+- Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-12 confirmed title `Cantoni Digital Studio (@cantonidigitalstudio)`, public profile copy, 3 posts and visible follower count after rejecting optional cookies.
+- Facebook Page is not created/public yet. Browser reached `Crea una Pagina`, but login with the official studio email returns that the address is not connected to a Facebook account. Do not create a fake personal profile named `Cantoni Digital Studio`; create the Page from a real owner profile or Meta Business account.
+- TikTok login/signup remains blocked in the Browser session. Browser QA on 2026-05-12 reached the email login form, but TikTok returned `Errore interno del server. Riprova piu tardi.` before profile access could be verified.
+
+## Browser Attempt - 2026-05-12
+
+- Instagram: opened `https://www.instagram.com/cantonidigitalstudio/`, rejected optional cookies, and confirmed the profile is visible with `Cantoni Digital Studio`, 3 posts and public follower data.
+- Facebook: opened `https://www.facebook.com/pages/create`, entered `Cantoni Digital Studio` and `Web designer`, then Facebook required login. The official studio email is not associated with a Facebook account, so Page creation is blocked until a real owner profile or Meta Business account is available.
+- TikTok: opened `https://www.tiktok.com/@cantonidigitalstudio`, was redirected to mandatory login, selected email/username login, and received an internal server error from TikTok. Retry later or complete login manually from a normal browser session before adding the link publicly.
 
 ## Browser Attempt - 2026-05-11
 
@@ -19,8 +25,8 @@
 3. Log in to Facebook with the profile that should own the Page.
 4. Create Facebook Page as `Cantoni Digital Studio`.
 5. Set category, about text, website, email and phone.
-6. Create TikTok account with the official Google/Gmail account or email path.
-7. Set handle `@cantonidigitalstudio` if available.
+6. Create or recover TikTok account with the official Google/Gmail account or email path.
+7. Set handle `@cantonidigitalstudio` if available and confirm the profile opens.
 8. Add first post or at least branded profile content.
 9. Verify Facebook and TikTok logged out.
 10. Only then update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.

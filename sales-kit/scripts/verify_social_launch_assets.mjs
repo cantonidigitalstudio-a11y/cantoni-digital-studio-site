@@ -90,7 +90,7 @@ async function run() {
   await assertFileContains(runbookFile, [
     'Instagram handle exists',
     'Facebook Page is not created/public yet',
-    'TikTok signup page opens',
+    'TikTok login/signup remains blocked',
     'Browser QA Gate'
   ]);
 
