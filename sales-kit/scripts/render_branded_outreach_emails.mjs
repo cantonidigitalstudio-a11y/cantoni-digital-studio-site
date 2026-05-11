@@ -29,6 +29,10 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;');
 }
 
+function tidyOutput(value) {
+  return String(value || '').replace(/[ \t]+$/gm, '');
+}
+
 function stripIssuePrefix(line) {
   return line.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
 }
@@ -113,12 +117,42 @@ function listItems(items) {
   `).join('');
 }
 
+function renderCredibilityBlock() {
+  return `
+    <tr>
+      <td style="padding:0 32px 22px 32px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#f7f9fc;border:1px solid #dfe7f0;border-radius:14px;">
+          <tr>
+            <td style="padding:18px 20px;">
+              <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a8798;margin-bottom:10px;">Chi ti sta scrivendo</div>
+              <div style="font:700 17px/1.45 Arial,sans-serif;color:#13254a;margin-bottom:8px;">${BRAND_NAME}</div>
+              <div style="font:400 14px/1.65 Arial,sans-serif;color:#34435a;">
+                Studio italiano che realizza siti, e-commerce, web app, app e automazioni AI con proposta scritta e lavoro continuativo dopo la consegna.<br>
+                Sito: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com</a><br>
+                Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
+                Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  `;
+}
+
 function renderReferenceFooter() {
   const pillStyle = 'display:inline-block;margin:0 8px 8px 0;padding:9px 12px;border-radius:999px;background:#eef3f8;color:#13254a;text-decoration:none;font:700 12px Arial,sans-serif;';
   return `
     <tr>
       <td style="padding:22px 32px 30px 32px;background:#f7f9fc;border-top:1px solid #dfe7f0;">
         <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a8798;margin-bottom:12px;">Riferimenti pubblici</div>
+        <div style="font:700 18px/1.35 Arial,sans-serif;color:#13254a;margin-bottom:12px;">${BRAND_NAME}</div>
+        <div style="font:400 14px/1.65 Arial,sans-serif;color:#34435a;margin-bottom:14px;">
+          Sito ufficiale: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">https://cantonidigitalstudio.com</a><br>
+          Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
+          Case studies: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
+          Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
+        </div>
         <div style="margin-bottom:14px;">
           <a href="${LINKS.studio}" style="${pillStyle}">Studio</a>
           <a href="${LINKS.cases}" style="${pillStyle}">Case studies</a>
@@ -126,9 +160,7 @@ function renderReferenceFooter() {
           <a href="${LINKS.site}" style="${pillStyle}">Sito</a>
         </div>
         <div style="font:400 13px/1.55 Arial,sans-serif;color:#5b6678;">
-          ${BRAND_NAME}<br>
           Siti, e-commerce, web app, app e automazioni AI con accordo scritto su cosa viene fatto, tempi chiari e consegna verificabile.<br>
-          <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
         </div>
       </td>
     </tr>
@@ -173,6 +205,7 @@ function renderBrandedEmail(item, logoSrc, options = {}) {
               <p style="margin:0 0 20px 0;color:#20304a;font:700 17px/1.55 Arial,sans-serif;">${escapeHtml(parsed.issueIntro)}</p>
             </td>
           </tr>
+          ${renderCredibilityBlock()}
           <tr>
             <td style="padding:0 32px 10px 32px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#f8fafc;border:1px solid #dfe7f0;border-radius:14px;">
@@ -395,21 +428,21 @@ async function main() {
     const safeId = String(item.lead_id || item.lead_name || 'lead').replace(/[^a-z0-9-]+/gi, '-');
     const html = renderBrandedEmail(item, previewLogoSrc);
     const text = renderTextEmail(item);
-    await fs.writeFile(path.join(outputDir, `${safeId}-email.html`), html);
-    await fs.writeFile(path.join(outputDir, `${safeId}-email.txt`), text);
+    await fs.writeFile(path.join(outputDir, `${safeId}-email.html`), tidyOutput(html));
+    await fs.writeFile(path.join(outputDir, `${safeId}-email.txt`), tidyOutput(text));
     brandedQueue.push({
       ...item,
       sender_name: BRAND_NAME,
       reply_to: BRAND_EMAIL,
       body: renderClientPlainBody(item),
-      html_body: renderBrandedEmail(item, mailLogoSrc),
-      text_body: text
+      html_body: tidyOutput(renderBrandedEmail(item, mailLogoSrc)),
+      text_body: tidyOutput(text)
     });
   }
 
   await fs.writeFile(path.join(outputDir, 'outreach_queue_branded.json'), `${JSON.stringify(brandedQueue, null, 2)}\n`);
-  await fs.writeFile(path.join(outputDir, 'internal-review-branded.html'), renderInternalReview(queue, previewLogoSrc));
-  await fs.writeFile(path.join(outputDir, 'internal-review-branded.txt'), renderInternalText(queue));
+  await fs.writeFile(path.join(outputDir, 'internal-review-branded.html'), tidyOutput(renderInternalReview(queue, previewLogoSrc)));
+  await fs.writeFile(path.join(outputDir, 'internal-review-branded.txt'), tidyOutput(renderInternalText(queue)));
 
   console.log(JSON.stringify({
     ok: true,

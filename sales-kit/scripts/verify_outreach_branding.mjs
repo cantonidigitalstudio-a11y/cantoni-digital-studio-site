@@ -8,6 +8,11 @@ const REQUIRED_LINKS = [
   'https://cantonidigitalstudio.com/case-studies.html',
   'https://www.instagram.com/cantonidigitalstudio/'
 ];
+const REQUIRED_VISIBLE_REFERENCES = [
+  'cantonidigitalstudio.com',
+  '@cantonidigitalstudio',
+  'cantonidigitalstudio@gmail.com'
+];
 const CLIENT_JARGON_PATTERNS = [
   /\bCTA\b/i,
   /\bhero\b/i,
@@ -48,6 +53,9 @@ async function verifyHtmlFile(filePath) {
   for (const link of REQUIRED_LINKS) {
     assert(html.includes(link), `missing_link:${link}`, failures);
   }
+  for (const reference of REQUIRED_VISIBLE_REFERENCES) {
+    assert(html.includes(reference), `missing_visible_reference:${reference}`, failures);
+  }
   assert(html.includes(REQUIRED_REPLY_TO), 'reply_to_missing', failures);
   assertNoClientJargon(html, 'html', failures);
   return { file: filePath, kind: 'html', ok: failures.length === 0, failures };
@@ -70,6 +78,9 @@ async function verifyQueueFile(filePath) {
     assert((item.html_body || '').includes('cid:cantoniLogo'), `${prefix}:logo_cid_missing`, failures);
     for (const link of REQUIRED_LINKS) {
       assert((item.html_body || '').includes(link), `${prefix}:missing_link:${link}`, failures);
+    }
+    for (const reference of REQUIRED_VISIBLE_REFERENCES) {
+      assert((item.html_body || '').includes(reference), `${prefix}:missing_visible_reference:${reference}`, failures);
     }
     assertNoClientJargon(item.body, `${prefix}:body`, failures);
     assertNoClientJargon(item.text_body, `${prefix}:text_body`, failures);
