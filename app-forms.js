@@ -278,6 +278,7 @@
           '<div class="footer-links footer-links-stack">' +
             '<a href="studio.html">' + escapeHtml(dict.q_ref_1 || 'Studio profile') + '</a>' +
             '<a href="https://www.instagram.com/cantonidigitalstudio/" target="_blank" rel="noreferrer">' + escapeHtml(dict.q_ref_3 || 'Instagram') + '</a>' +
+            '<a href="https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/" target="_blank" rel="noreferrer">Facebook</a>' +
             '<a href="https://github.com/cantonidigitalstudio-a11y" target="_blank" rel="noreferrer">' + escapeHtml(dict.q_ref_4 || 'GitHub') + '</a>' +
           '</div>';
       } else if (mode === 'fallback') {

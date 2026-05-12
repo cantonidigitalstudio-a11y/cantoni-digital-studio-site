@@ -17,7 +17,8 @@ const REQUIRED_PUBLIC_REFERENCES = [
   'https://excellentiavip.com',
   'https://destination-cocoa-site.netlify.app',
   'https://ec8platform.com',
-  'https://www.instagram.com/cantonidigitalstudio/'
+  'https://www.instagram.com/cantonidigitalstudio/',
+  'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/'
 ];
 
 const BLOCKED_UNVERIFIED_PUBLIC_LINKS = [
@@ -153,6 +154,7 @@ function checkVerifiedSocialContract(fileName, html, issues) {
     const requiredSnippets = [
       'Un profilo è ufficiale solo se è linkato da questa pagina.',
       'https://www.instagram.com/cantonidigitalstudio/',
+      'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
       'https://github.com/cantonidigitalstudio-a11y',
       'mailto:cantonidigitalstudio@gmail.com'
     ];

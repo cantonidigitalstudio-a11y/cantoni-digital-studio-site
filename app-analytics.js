@@ -219,6 +219,9 @@
       if (href && href.indexOf('instagram.com') !== -1) {
         return { name: 'social_click', category: 'social', href: href, label: label || 'Instagram' };
       }
+      if (href && href.indexOf('facebook.com') !== -1) {
+        return { name: 'social_click', category: 'social', href: href, label: label || 'Facebook' };
+      }
       if (href && href.indexOf('github.com') !== -1) {
         return { name: 'social_click', category: 'social', href: href, label: label || 'GitHub' };
       }
