@@ -6,7 +6,7 @@
   "scripts": {
     "build:cloudflare": "bash scripts/build_cloudflare_public_dir.sh",
     "build:business-card": "node scripts/render_business_card_assets.cjs",
-    "build:social": "node sales-kit/scripts/render_social_launch_assets.mjs",
+    "build:social": "node sales-kit/scripts/render_social_launch_assets.mjs && node sales-kit/scripts/render_social_cover_assets.mjs",
     "build:social:pack": "npm run build:social && node sales-kit/scripts/export_social_publish_pack.mjs",
     "build:lead-batch": "LEAD_PIPELINE_CSV=sales-kit/lead-batches/2026-05-11-global-starter/leads.csv OUTREACH_QUEUE_FILE=sales-kit/lead-batches/2026-05-11-global-starter/outreach_queue.json node sales-kit/scripts/build_outreach_queue_from_csv.mjs",
     "build:branded-outreach": "npm run build:lead-batch && node sales-kit/scripts/render_branded_outreach_emails.mjs",

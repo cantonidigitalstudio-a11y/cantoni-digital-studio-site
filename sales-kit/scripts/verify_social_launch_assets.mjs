@@ -10,6 +10,7 @@ const postsFile = path.join(launchDir, 'posts.json');
 const outputDir = path.join(launchDir, 'output');
 const profileCopyFile = path.join(launchDir, 'social-profile-copy.md');
 const runbookFile = path.join(launchDir, 'launch-runbook.md');
+const facebookCoverFile = path.join(outputDir, 'facebook-cover-cantoni.png');
 
 const forbiddenFragments = [
   '/Volumes/',
@@ -81,6 +82,15 @@ async function run() {
     }
   }
 
+  const facebookCover = await fs.readFile(facebookCoverFile);
+  const facebookCoverSize = readPngSize(facebookCover);
+  if (facebookCoverSize.width !== 1640 || facebookCoverSize.height !== 624) {
+    throw new Error(`facebook-cover-cantoni.png has ${facebookCoverSize.width}x${facebookCoverSize.height}, expected 1640x624`);
+  }
+  if (facebookCover.length < 180_000) {
+    throw new Error('facebook-cover-cantoni.png is unexpectedly small');
+  }
+
   await assertFileContains(profileCopyFile, [
     '@cantonidigitalstudio',
     'cantonidigitalstudio@gmail.com',
@@ -89,7 +99,7 @@ async function run() {
   ]);
   await assertFileContains(runbookFile, [
     'Instagram handle exists',
-    'Facebook Page is not created/public yet',
+    'Facebook Page exists',
     'TikTok profile exists',
     'Browser QA Gate'
   ]);

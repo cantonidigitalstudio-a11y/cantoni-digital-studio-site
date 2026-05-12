@@ -3,7 +3,7 @@
 ## Current State
 
 - Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-12 confirmed title `Cantoni Digital Studio (@cantonidigitalstudio)`, public profile copy, 3 posts and visible follower count after rejecting optional cookies.
-- Facebook Page is not created/public yet. Browser reached `Crea una Pagina`, but login with the official studio email returns that the address is not connected to a Facebook account. Do not create a fake personal profile named `Cantoni Digital Studio`; create the Page from a real owner profile or Meta Business account.
+- Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-12 confirmed Meta blocks duplicate creation with "gestisci già una Pagina di nome Cantoni Digital Studio". Logged-out/public Browser QA also shows the page name, follower area, category `Web designer` and live bio. Page management is reachable after switching into Page mode, but contact-field cleanup is currently blocked by Meta reCAPTCHA during re-login.
 - TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Browser QA on 2026-05-12 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA is still required before treating TikTok as a fully public proof channel.
 
 ## Browser Attempt - 2026-05-12
@@ -11,9 +11,11 @@
 - Instagram: opened `https://www.instagram.com/cantonidigitalstudio/`, rejected optional cookies, and confirmed the profile is visible with `Cantoni Digital Studio`, 3 posts and public follower data.
 - Instagram authenticated update: after phone approval/2FA, the profile bio was updated and verified live as `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
 - Instagram link limitation: the clickable website field still points to `zumu.be/ecantoni`; Instagram desktop shows that field as disabled and says link edits are available only from the mobile app. Fix from the phone app before treating Instagram as fully production-clean.
-- Facebook: opened `https://www.facebook.com/pages/create`, entered `Cantoni Digital Studio` and `Web designer`, then Facebook required login. The official studio email is not associated with a Facebook account, so Page creation is blocked until a real owner profile or Meta Business account is available.
+- Facebook: opened `https://www.facebook.com/pages/create`, entered `Cantoni Digital Studio` and `Web designer`, then Meta reported an existing managed Page with the same name. The existing Page was opened and Page mode was activated. Marketing-email opt-in in the Page welcome modal was disabled before continuing. Public business details still need final edit after manual reCAPTCHA completion; do not publish the private shipping/home address.
 - TikTok: opened `https://www.tiktok.com/@cantonidigitalstudio`, was redirected to mandatory login, selected email/username login, and received an internal server error from TikTok. Retry later or complete login manually from a normal browser session before adding the link publicly.
 - TikTok authenticated update: Google OAuth was completed from the TikTok login flow, the profile opened as `@cantonidigitalstudio`, and the live profile now shows the Cantoni logo, name `Cantoni Digital Studio`, handle `cantonidigitalstudio`, and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`.
+- Facebook cover asset: `npm run build:social` now generates `sales-kit/social-launch/output/facebook-cover-cantoni.png` at 1640 x 624 for the existing Page. Upload it only after reCAPTCHA is cleared and Page management is available.
+- Logged-out QA update: Facebook public page resolves and shows brand content; TikTok still redirects to mandatory login, so TikTok remains a reserved/branded handle rather than a public proof link.
 
 ## Browser Attempt - 2026-05-11
 
@@ -25,10 +27,10 @@
 
 1. Fix the Instagram clickable website link from the mobile app: replace `zumu.be/ecantoni` with `https://cantonidigitalstudio.com`.
 2. Publish or schedule the first portfolio post only after checking asset and caption.
-3. Log in to Facebook with the profile that should own the Page.
-4. Create Facebook Page as `Cantoni Digital Studio`.
-5. Set category, about text, website, email and phone.
-6. Run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
+3. Complete Facebook reCAPTCHA manually if Meta requests it during login.
+4. Open the existing Facebook Page `61589398630376` in Page management mode.
+5. Set category, about text, website, email and phone; do not add the private shipping/home address unless explicitly approved for public use.
+6. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`; current result is mandatory login.
 7. Add first TikTok portfolio/method post or at least branded profile content.
 8. If logged-out TikTok QA passes, add TikTok to public social references.
 9. Verify Facebook and TikTok logged out.
