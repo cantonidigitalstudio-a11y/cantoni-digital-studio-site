@@ -24,6 +24,5 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale.
 
 - Pubblicare prima tre contenuti portfolio, poi metodo e servizi.
 - Non modificare link o claim senza verificare il sito pubblico citato.
-- Non usare Facebook/TikTok finche non sono stati creati e verificati logged-out.
+- Facebook e TikTok sono brandizzati; usarli come prova pubblica solo dopo logged-out QA finale.
 - Usare Instagram solo dopo login sull account `@cantonidigitalstudio`.
-

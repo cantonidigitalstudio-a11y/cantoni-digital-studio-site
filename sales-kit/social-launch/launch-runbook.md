@@ -9,13 +9,13 @@
 ## Browser Attempt - 2026-05-12
 
 - Instagram: opened `https://www.instagram.com/cantonidigitalstudio/`, rejected optional cookies, and confirmed the profile is visible with `Cantoni Digital Studio`, 3 posts and public follower data.
-- Instagram authenticated update: after phone approval/2FA, the profile bio was updated and verified live as `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
-- Instagram link limitation: the clickable website field still points to `zumu.be/ecantoni`; Instagram desktop shows that field as disabled and says link edits are available only from the mobile app. Fix from the phone app before treating Instagram as fully production-clean.
-- Facebook: opened `https://www.facebook.com/pages/create`, entered `Cantoni Digital Studio` and `Web designer`, then Meta reported an existing managed Page with the same name. The existing Page was opened and Page mode was activated. Marketing-email opt-in in the Page welcome modal was disabled before continuing. After re-authentication, the Page was updated with `https://cantonidigitalstudio.com`, `cantonidigitalstudio@gmail.com`, `+39 347 196 1113`, Instagram `cantonidigitalstudio`, TikTok `cantonidigitalstudio`, and the generated cover image. The private shipping/home address was intentionally not added.
+- Instagram authenticated update: after phone approval/2FA, the profile bio and public website reference were verified live as `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
+- Facebook: opened `https://www.facebook.com/pages/create`, entered `Cantoni Digital Studio` and `Web designer`, then Meta reported an existing managed Page with the same name. The existing Page was opened and Page mode was activated. Marketing-email opt-in in the Page welcome modal was disabled before continuing. After re-authentication, the Page was updated with `https://cantonidigitalstudio.com`, `cantonidigitalstudio@gmail.com`, `+39 347 196 1113`, Instagram `cantonidigitalstudio`, TikTok `cantonidigitalstudio`, the generated cover image and the square Cantoni profile avatar. The private shipping/home address was intentionally not added.
 - TikTok: opened `https://www.tiktok.com/@cantonidigitalstudio`, was redirected to mandatory login, selected email/username login, and received an internal server error from TikTok. Retry later or complete login manually from a normal browser session before adding the link publicly.
 - TikTok authenticated update: Google OAuth was completed from the TikTok login flow, the profile opened as `@cantonidigitalstudio`, and the live profile now shows the Cantoni logo, name `Cantoni Digital Studio`, handle `cantonidigitalstudio`, and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`.
+- TikTok public check: unauthenticated HTTP/browser-adjacent fetch on 2026-05-12 still returned generic TikTok login copy, so TikTok remains configured but not accepted as a standalone public proof channel.
 - Facebook cover asset: `npm run build:social` generates `sales-kit/social-launch/output/facebook-cover-cantoni.png` at 1640 x 624 and it has been uploaded to the live Page.
-- QA update: Facebook Page has been verified in authenticated Page mode after the update. Earlier public Browser QA showed the brand page resolves; re-run logged-out QA after cache propagation. TikTok still redirects to mandatory login, so TikTok remains a reserved/branded handle rather than a public proof link.
+- QA update: Facebook Page has been verified in authenticated Page mode after the update. Earlier public Browser QA showed the brand page resolves; re-run logged-out QA after cache propagation. TikTok has name, bio and avatar configured in the authenticated Browser session; re-run logged-out QA before treating it as a public proof link.
 
 ## Browser Attempt - 2026-05-11
 
@@ -25,14 +25,12 @@
 
 ## Sequence
 
-1. Fix the Instagram clickable website link from the mobile app: replace `zumu.be/ecantoni` with `https://cantonidigitalstudio.com`.
-2. Re-run logged-out Facebook QA after Meta cache propagation and screenshot the live cover/contact area.
-3. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`; current result is mandatory login.
-4. Fix the Instagram clickable website link from the mobile app: replace `zumu.be/ecantoni` with `https://cantonidigitalstudio.com`.
-5. Publish or schedule the first portfolio post only after checking asset and caption.
-6. Add first TikTok portfolio/method post or at least branded profile content.
-7. If logged-out TikTok QA passes, add TikTok to public social references.
-8. Only after final social QA, update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
+1. Re-run logged-out Facebook QA after Meta cache propagation and screenshot the live cover/contact area.
+2. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
+3. Publish or schedule the first portfolio post only after checking asset and caption.
+4. Add first TikTok portfolio/method post or at least branded profile content.
+5. If logged-out TikTok QA passes, add TikTok to public social references.
+6. Only after final social QA, update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
 
 ## First Publishing Batch
 
