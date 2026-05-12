@@ -4,7 +4,7 @@
 
 - Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-12 confirmed title `Cantoni Digital Studio (@cantonidigitalstudio)`, public profile copy, 3 posts and visible follower count after rejecting optional cookies.
 - Facebook Page is not created/public yet. Browser reached `Crea una Pagina`, but login with the official studio email returns that the address is not connected to a Facebook account. Do not create a fake personal profile named `Cantoni Digital Studio`; create the Page from a real owner profile or Meta Business account.
-- TikTok login/signup remains blocked in the Browser session. Browser QA on 2026-05-12 reached the email login form, but TikTok returned `Errore interno del server. Riprova piu tardi.` before profile access could be verified.
+- TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Browser QA on 2026-05-12 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA is still required before treating TikTok as a fully public proof channel.
 
 ## Browser Attempt - 2026-05-12
 
@@ -13,6 +13,7 @@
 - Instagram link limitation: the clickable website field still points to `zumu.be/ecantoni`; Instagram desktop shows that field as disabled and says link edits are available only from the mobile app. Fix from the phone app before treating Instagram as fully production-clean.
 - Facebook: opened `https://www.facebook.com/pages/create`, entered `Cantoni Digital Studio` and `Web designer`, then Facebook required login. The official studio email is not associated with a Facebook account, so Page creation is blocked until a real owner profile or Meta Business account is available.
 - TikTok: opened `https://www.tiktok.com/@cantonidigitalstudio`, was redirected to mandatory login, selected email/username login, and received an internal server error from TikTok. Retry later or complete login manually from a normal browser session before adding the link publicly.
+- TikTok authenticated update: Google OAuth was completed from the TikTok login flow, the profile opened as `@cantonidigitalstudio`, and the live profile now shows the Cantoni logo, name `Cantoni Digital Studio`, handle `cantonidigitalstudio`, and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`.
 
 ## Browser Attempt - 2026-05-11
 
@@ -27,9 +28,9 @@
 3. Log in to Facebook with the profile that should own the Page.
 4. Create Facebook Page as `Cantoni Digital Studio`.
 5. Set category, about text, website, email and phone.
-6. Create or recover TikTok account with the official Google/Gmail account or email path.
-7. Set handle `@cantonidigitalstudio` if available and confirm the profile opens.
-8. Add first post or at least branded profile content.
+6. Run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
+7. Add first TikTok portfolio/method post or at least branded profile content.
+8. If logged-out TikTok QA passes, add TikTok to public social references.
 9. Verify Facebook and TikTok logged out.
 10. Only then update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
 
