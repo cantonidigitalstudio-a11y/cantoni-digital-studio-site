@@ -12,6 +12,8 @@ The current business-card print file includes full-color Facebook, Instagram and
 ## Browser QA - 2026-05-12
 
 - Instagram `https://www.instagram.com/cantonidigitalstudio/`: public Browser QA passed after rejecting optional cookies. The page title is `Cantoni Digital Studio (@cantonidigitalstudio)`, and the visible profile shows `Cantoni Digital Studio`, 3 posts and public follower data.
+- Instagram authenticated update passed after phone approval/2FA. Live bio now reads: `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
+- Instagram clickable website link still needs mobile-app correction. Desktop edit shows `zumu.be/ecantoni` as a disabled field and explicitly says website links can be edited only from the Instagram app.
 - Facebook Page creation: blocked. The official studio email is not connected to a Facebook account, so Meta will not let the Browser create the Page from that login. Correct path: use a real owner profile or Meta Business account, then create a Page named `Cantoni Digital Studio`; do not create a fake personal profile named as the studio.
 - TikTok `https://www.tiktok.com/@cantonidigitalstudio`: still not accepted as a public verification channel in this Browser session. TikTok redirects to mandatory login and the email login flow returned an internal server error on 2026-05-12.
 
@@ -32,7 +34,9 @@ The current business-card print file includes full-color Facebook, Instagram and
 
 Short bio:
 
-Siti, e-commerce, app e automazioni AI per aziende. Preventivi chiari, pagamenti integrati, delivery multilingua.
+Siti, e-commerce, web app e app
+Automazioni AI e crescita digitale
+cantonidigitalstudio.com
 
 Website:
 
@@ -50,6 +54,7 @@ Phone / WhatsApp:
 
 - Use the same logo/avatar as the site: `assets/logo/cantoni_icona_quadrata.png`.
 - Use the same brand name everywhere: `Cantoni Digital Studio`.
+- Instagram mobile-app task: replace the old clickable link `zumu.be/ecantoni` with `https://cantonidigitalstudio.com`.
 - Facebook/TikTok public links must open without login before being added to the website. Instagram may show a platform login wall, so it must not be used as the only verification proof.
 - Bio must not promise impossible delivery or fixed prices without scope.
 - Instagram, Facebook and TikTok handles must be tested before adding them to a print order.
