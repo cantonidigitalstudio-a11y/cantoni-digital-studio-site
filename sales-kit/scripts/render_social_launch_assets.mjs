@@ -35,6 +35,7 @@ function htmlFor(post, logoDataUri) {
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="icon" href="data:,">
   <style>
     * { box-sizing: border-box; }
     body {

@@ -95,7 +95,7 @@ async function run() {
     '@cantonidigitalstudio',
     'cantonidigitalstudio@gmail.com',
     'https://cantonidigitalstudio.com',
-    'Do not publish Facebook/TikTok links'
+    'Do not use Facebook/TikTok as standalone proof links'
   ]);
   await assertFileContains(runbookFile, [
     'Instagram handle exists',

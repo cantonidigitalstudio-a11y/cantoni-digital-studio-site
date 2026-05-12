@@ -16,7 +16,7 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale.
 4. Preventivi dopo audit
    - immagine: `04-04-metodo-preventivi.png`
    - caption: `04-04-metodo-preventivi.caption.txt`
-5. Siti, e-commerce, app
+5. Siti, e-commerce, web app e app
    - immagine: `05-05-servizi-completi.png`
    - caption: `05-05-servizi-completi.caption.txt`
 
@@ -25,4 +25,4 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale.
 - Pubblicare prima tre contenuti portfolio, poi metodo e servizi.
 - Non modificare link o claim senza verificare il sito pubblico citato.
 - Facebook e TikTok sono brandizzati; usarli come prova pubblica solo dopo logged-out QA finale.
-- Usare Instagram solo dopo login sull account `@cantonidigitalstudio`.
+- Usare Instagram solo dopo login sull'account `@cantonidigitalstudio`.

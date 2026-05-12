@@ -4,13 +4,13 @@ Use only the official account `cantonidigitalstudio@gmail.com`.
 
 ## Instagram
 
-Status: official handle exists, but the current logged-out Browser QA redirects to Instagram login. Use it as the official studio handle, not as the only public proof channel.
+Status: official handle exists. Browser QA on 2026-05-12 shows the public profile, bio and `cantonidigitalstudio.com`; do not use Instagram as the only public proof channel because Instagram may still show cookie/login walls in some sessions.
 
 Handle:
 `@cantonidigitalstudio`
 
 Bio:
-`Siti, e-commerce, app e automazioni AI. Login, pagamenti, booking e admin. Preventivi seri dopo audit.`
+`Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`
 
 Website:
 `https://cantonidigitalstudio.com`
@@ -23,7 +23,7 @@ Category:
 
 ## Facebook Page
 
-Status: prepared in Browser, but blocked by Facebook login and Page ownership setup.
+Status: live Page recovered/created in Page management mode and updated with cover, square avatar, website, email, phone, Instagram and TikTok. Re-run logged-out QA after Meta cache propagation before using it as standalone public proof.
 
 Page name:
 `Cantoni Digital Studio`
@@ -46,11 +46,14 @@ Phone:
 `+39 347 196 1113`
 
 Public URL target:
+`https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`
+
+Preferred future vanity URL, if Meta allows it:
 `https://www.facebook.com/cantonidigitalstudio`
 
 ## TikTok
 
-Status: signup page opens, but account creation requires Google/Facebook/email authentication and likely verification.
+Status: account exists and opens in the authenticated Browser as `@cantonidigitalstudio`, with Cantoni logo, name and bio. The unauthenticated check still returns generic TikTok login copy, so keep logged-out QA pending before treating it as standalone public proof.
 
 Preferred handle:
 `@cantonidigitalstudio`
@@ -59,7 +62,7 @@ Name:
 `Cantoni Digital Studio`
 
 Bio:
-`Siti, e-commerce, app e automazioni AI. Portfolio e metodo.`
+`Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`
 
 Website:
 `https://cantonidigitalstudio.com`
@@ -72,9 +75,9 @@ First content format:
 
 ## Publication Rule
 
-Do not publish Facebook/TikTok links on the website until the public profile opens without login and contains:
+Do not use Facebook/TikTok as standalone proof links in proposals until the public profile opens without login and contains:
 - correct logo/avatar
 - brand name
-- website link
+- website link where the platform allows it
 - first post or visible profile content
 - successful logged-out Browser QA

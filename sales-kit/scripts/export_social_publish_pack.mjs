@@ -20,7 +20,8 @@ function buildCaption(post, index) {
     '#Ecommerce',
     '#WebApp',
     '#App',
-    '#AutomazioniAI'
+    '#AutomazioniAI',
+    '#VisibilitaAI'
   ];
   return [
     cleanText(post.caption_it),
@@ -67,9 +68,8 @@ async function run() {
   manifestLines.push('');
   manifestLines.push('- Pubblicare prima tre contenuti portfolio, poi metodo e servizi.');
   manifestLines.push('- Non modificare link o claim senza verificare il sito pubblico citato.');
-  manifestLines.push('- Non usare Facebook/TikTok finche non sono stati creati e verificati logged-out.');
-  manifestLines.push('- Usare Instagram solo dopo login sull account `@cantonidigitalstudio`.');
-  manifestLines.push('');
+  manifestLines.push('- Facebook e TikTok sono brandizzati; usarli come prova pubblica solo dopo logged-out QA finale.');
+  manifestLines.push("- Usare Instagram solo dopo login sull'account `@cantonidigitalstudio`.");
 
   await fs.writeFile(path.join(packDir, 'manifest.md'), `${manifestLines.join('\n')}\n`, 'utf8');
 

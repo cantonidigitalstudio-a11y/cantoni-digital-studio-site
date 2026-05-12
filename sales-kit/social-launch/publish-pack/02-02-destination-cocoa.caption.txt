@@ -1,5 +1,5 @@
-Destination Cocoa by Collins mostra un flusso pubblico di booking, transfer, upsell e routing operativo per un servizio turistico reale. Il lavoro non finisce sul design: serve chiarezza, richiesta pulita e passaggio operativo affidabile.
+Destination Cocoa by Collins mostra un flusso pubblico di booking, transfer, upsell e routing operativo per un servizio turistico reale. Il lavoro non finisce sul design: serve chiarezza per il cliente, richiesta pulita e passaggio operativo affidabile per il team. Link: https://destination-cocoa-site.netlify.app
 
 Portfolio reale, progetto pubblico e metodo operativo scritto.
 
-#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI
+#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI #VisibilitaAI
