@@ -10,6 +10,7 @@ const postsFile = path.join(launchDir, 'posts.json');
 const outputDir = path.join(launchDir, 'output');
 const profileCopyFile = path.join(launchDir, 'social-profile-copy.md');
 const runbookFile = path.join(launchDir, 'launch-runbook.md');
+const ipadRunbookFile = path.join(rootDir, 'ipad-wireless-fallback-runbook.md');
 const facebookCoverFile = path.join(outputDir, 'facebook-cover-cantoni.png');
 
 const forbiddenFragments = [
@@ -95,13 +96,25 @@ async function run() {
     '@cantonidigitalstudio',
     'cantonidigitalstudio@gmail.com',
     'https://cantonidigitalstudio.com',
-    'Do not use Facebook/TikTok as standalone proof links'
+    'Facebook is accepted as a standalone proof link',
+    'Do not use TikTok as a standalone proof link'
   ]);
   await assertFileContains(runbookFile, [
     'Instagram handle exists',
     'Facebook Page exists',
     'TikTok profile exists',
+    'iPad wireless fallback is enabled and verified',
+    'zumu.be/ecantoni',
+    'Facebook logged-out QA',
+    'TikTok logged-out QA',
     'Browser QA Gate'
+  ]);
+  await assertFileContains(ipadRunbookFile, [
+    'CoreDevice transport after USB removal: `localNetwork`',
+    'Developer Mode: `enabled`',
+    '`idevice_id -n` lists `00008103-001E45811133001E`',
+    'Instagram (`com.burbn.instagram`) on this iPad',
+    'xcrun devicectl device info displays'
   ]);
 
   console.log(JSON.stringify({

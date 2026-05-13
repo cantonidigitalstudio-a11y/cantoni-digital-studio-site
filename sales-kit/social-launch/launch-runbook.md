@@ -2,9 +2,16 @@
 
 ## Current State
 
-- Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-12 confirmed title `Cantoni Digital Studio (@cantonidigitalstudio)`, public profile copy, 3 posts and visible follower count after rejecting optional cookies.
-- Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-12 confirmed Meta blocks duplicate creation with "gestisci già una Pagina di nome Cantoni Digital Studio". Page management is active and the live Page now has cover image, public website, email, phone, Instagram and TikTok links. No private address is published.
+- Instagram handle exists and opens in the authenticated Browser: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-13 confirmed name, bio, category, 3 posts and visible follower count. Open issue: the profile website link still resolves as `zumu.be/ecantoni`; Instagram web disables the website field and states that link edits are available only from the mobile app. Fix from the Instagram mobile app before using Instagram as the cleanest public proof channel.
+- Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-13 confirmed the public page opens without account access, shows `Cantoni Digital Studio`, `Web designer`, the about copy, phone, email, website, Instagram and TikTok references. No private address is published.
 - TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Browser QA on 2026-05-12 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA is still required before treating TikTok as a fully public proof channel.
+- iPad wireless fallback is enabled and verified on 2026-05-13: Developer Mode is active, `idevice_id -n` lists the iPad, CoreDevice reports `transportType: localNetwork`, and display inspection works without USB. Instagram is not installed on that iPad (`com.burbn.instagram` absent from the app list), so the Instagram link fix still requires installing Instagram on the iPad or using the already logged-in iPhone.
+
+## Browser QA - 2026-05-13
+
+- Instagram authenticated QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. Website link issue remains: the clickable link is still `zumu.be/ecantoni`, and Instagram web blocks editing it.
+- Facebook logged-out QA: the public page opens and exposes the studio name, category, about copy, `347 196 1113`, `cantonidigitalstudio@gmail.com`, `cantonidigitalstudio.com`, Instagram and TikTok references. This is now acceptable as a public proof channel.
+- TikTok logged-out QA: `https://www.tiktok.com/@cantonidigitalstudio` redirects to mandatory login (`/login?redirect_url=...&enter_method=mandatory`). Keep TikTok out of public site proof links until this changes or until first content/public visibility is verified.
 
 ## Browser Attempt - 2026-05-12
 
@@ -25,12 +32,13 @@
 
 ## Sequence
 
-1. Re-run logged-out Facebook QA after Meta cache propagation and screenshot the live cover/contact area.
-2. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
-3. Publish or schedule the first portfolio post only after checking asset and caption.
-4. Add first TikTok portfolio/method post or at least branded profile content.
-5. If logged-out TikTok QA passes, add TikTok to public social references.
-6. Only after final social QA, update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
+1. Install Instagram on the wireless iPad or use the already logged-in iPhone, then fix the Instagram profile link from the mobile app: remove `zumu.be/ecantoni` and set `https://cantonidigitalstudio.com`.
+2. Re-run Instagram QA and capture evidence that the clickable profile link is the studio domain.
+3. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
+4. Publish or schedule the first portfolio post only after checking asset and caption.
+5. Add first TikTok portfolio/method post or at least branded profile content.
+6. If logged-out TikTok QA passes, add TikTok to public social references.
+7. Only after final social QA, update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
 
 ## First Publishing Batch
 

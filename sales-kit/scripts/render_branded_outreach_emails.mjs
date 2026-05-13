@@ -7,11 +7,15 @@ const DEFAULT_OUTPUT_DIR = 'sales-kit/lead-batches/2026-05-11-global-starter/bra
 const LOGO_PATH = 'assets/logo/generated/cantoni_primary_horizontal_email.png';
 const BRAND_EMAIL = 'cantonidigitalstudio@gmail.com';
 const BRAND_NAME = 'Cantoni Digital Studio';
+const BRAND_PHONE_DISPLAY = '+39 347 196 1113';
+const BRAND_PHONE_TEL = '+393471961113';
 const LINKS = {
   studio: 'https://cantonidigitalstudio.com/studio',
   cases: 'https://cantonidigitalstudio.com/case-studies.html',
   site: 'https://cantonidigitalstudio.com/',
-  instagram: 'https://www.instagram.com/cantonidigitalstudio/'
+  instagram: 'https://www.instagram.com/cantonidigitalstudio/',
+  facebook: 'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+  whatsapp: `https://wa.me/${BRAND_PHONE_TEL.replace(/^\+/, '')}`
 };
 
 function svgDataUri(svg) {
@@ -23,8 +27,11 @@ function svgDataUri(svg) {
 const ICONS = {
   site: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#13254a"/><path fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M24 9.5a14.5 14.5 0 1 0 0 29 14.5 14.5 0 0 0 0-29Zm0 0c4 4 6 8.8 6 14.5S28 34.5 24 38.5c-4-4-6-8.8-6-14.5s2-10.5 6-14.5ZM10.5 24h27"/></svg>`),
   instagram: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="g" x1="6" y1="42" x2="42" y2="6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".25" stop-color="#fa7e1e"/><stop offset=".5" stop-color="#d62976"/><stop offset=".75" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect x="5" y="5" width="38" height="38" rx="12" fill="url(#g)"/><rect x="14" y="14" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="3"/><circle cx="24" cy="24" r="5.2" fill="none" stroke="#fff" stroke-width="3"/><circle cx="31" cy="17" r="1.9" fill="#fff"/></svg>`),
+  facebook: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#1877f2"/><path fill="#fff" d="M28.8 25.8h4.1l.8-5.1h-4.9v-3.3c0-1.4.7-2.8 2.9-2.8h2.2v-4.4s-2-.3-3.9-.3c-4 0-6.7 2.4-6.7 6.9v3.9h-4.5v5.1h4.5V38h5.5V25.8Z"/></svg>`),
   cases: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#f29d38"/><path fill="#13254a" d="M15 11h18l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V14a3 3 0 0 1 3-3Zm17 2.8V18h4.2L32 13.8ZM18 23h15v-3H18v3Zm0 7h15v-3H18v3Zm0 7h10v-3H18v3Z"/></svg>`),
-  email: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#eef3f8"/><path fill="none" stroke="#13254a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M12 16h24v17H12V16Zm0 1 12 10 12-10"/></svg>`)
+  email: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#eef3f8"/><path fill="none" stroke="#13254a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M12 16h24v17H12V16Zm0 1 12 10 12-10"/></svg>`),
+  phone: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#23a455"/><path fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" d="M18.2 12.5 22 20l-3.1 2.4c1.7 3.6 4.1 6 7.7 7.7L29 27l6.7 3.8c.6.3.9 1 .7 1.7-.8 3.2-2.7 4.7-5.8 4.7-9.9 0-19.8-9.9-19.8-19.8 0-3.1 1.5-5 4.7-5.8.8-.2 1.5.1 1.9.9Z"/></svg>`),
+  studio: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#13254a"/><path fill="#f29d38" d="M12 14h24v4H12v-4Zm0 8h18v4H12v-4Zm0 8h24v4H12v-4Z"/><path fill="#fff" d="M34 21h4v14h-4z"/></svg>`)
 };
 
 function getArg(name, fallback = '') {
@@ -132,7 +139,7 @@ function listItems(items) {
 
 function contactTile({ href, icon, alt, label, value }) {
   return `
-    <td width="50%" valign="top" style="padding:6px;">
+    <td width="100%" valign="top" style="padding:6px;">
       <a href="${href}" style="display:block;min-height:54px;padding:11px 12px;background:#ffffff;border:1px solid #dfe7f0;border-radius:13px;text-decoration:none;color:#13254a;">
         <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
           <tr>
@@ -150,7 +157,7 @@ function contactTile({ href, icon, alt, label, value }) {
 
 function renderContactTiles() {
   return `
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate;border-spacing:0;margin:10px -6px 0 -6px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate;border-spacing:0;margin:10px 0 0 0;">
       <tr>
         ${contactTile({
           href: LINKS.site,
@@ -159,6 +166,17 @@ function renderContactTiles() {
           label: 'Sito ufficiale',
           value: 'cantonidigitalstudio.com'
         })}
+      </tr>
+      <tr>
+        ${contactTile({
+          href: LINKS.facebook,
+          icon: ICONS.facebook,
+          alt: 'Logo ufficiale Facebook Cantoni Digital Studio',
+          label: 'Facebook',
+          value: 'Pagina ufficiale'
+        })}
+      </tr>
+      <tr>
         ${contactTile({
           href: LINKS.instagram,
           icon: ICONS.instagram,
@@ -175,12 +193,32 @@ function renderContactTiles() {
           label: 'Case studies',
           value: 'Lavori e risultati'
         })}
+      </tr>
+      <tr>
         ${contactTile({
           href: `mailto:${BRAND_EMAIL}`,
           icon: ICONS.email,
           alt: 'Icona email Cantoni Digital Studio',
           label: 'Email',
           value: BRAND_EMAIL
+        })}
+      </tr>
+      <tr>
+        ${contactTile({
+          href: LINKS.whatsapp,
+          icon: ICONS.phone,
+          alt: 'Icona telefono WhatsApp Cantoni Digital Studio',
+          label: 'Telefono',
+          value: BRAND_PHONE_DISPLAY
+        })}
+      </tr>
+      <tr>
+        ${contactTile({
+          href: LINKS.studio,
+          icon: ICONS.studio,
+          alt: 'Icona profilo studio Cantoni Digital Studio',
+          label: 'Studio',
+          value: 'Profilo operativo'
         })}
       </tr>
     </table>
@@ -198,9 +236,12 @@ function renderCredibilityBlock() {
               <div style="font:700 17px/1.45 Arial,sans-serif;color:#13254a;margin-bottom:8px;">${BRAND_NAME}</div>
               <div style="font:400 14px/1.65 Arial,sans-serif;color:#34435a;">
                 Studio italiano che realizza siti, e-commerce, web app, app e automazioni AI con proposta scritta e lavoro continuativo dopo la consegna.<br>
+                Quando serve, continuiamo a migliorare contenuti, fiducia, richieste, presenza su Google e visibilità anche nelle risposte delle intelligenze artificiali.<br>
                 Sito: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com</a><br>
+                Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale</a><br>
                 Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
-                Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
+                Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
+                Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
               </div>
               ${renderContactTiles()}
             </td>
@@ -220,19 +261,23 @@ function renderReferenceFooter() {
         <div style="font:700 18px/1.35 Arial,sans-serif;color:#13254a;margin-bottom:12px;">${BRAND_NAME}</div>
         <div style="font:400 14px/1.65 Arial,sans-serif;color:#34435a;margin-bottom:14px;">
           Sito ufficiale: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">https://cantonidigitalstudio.com</a><br>
+          Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale Cantoni Digital Studio</a><br>
           Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
           Case studies: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
-          Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a>
+          Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
+          Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
         </div>
         ${renderContactTiles()}
         <div style="margin-bottom:14px;">
           <a href="${LINKS.studio}" style="${pillStyle}">Studio</a>
           <a href="${LINKS.cases}" style="${pillStyle}">Case studies</a>
+          <a href="${LINKS.facebook}" style="${pillStyle}">Facebook</a>
           <a href="${LINKS.instagram}" style="${pillStyle}">Instagram</a>
           <a href="${LINKS.site}" style="${pillStyle}">Sito</a>
         </div>
         <div style="font:400 13px/1.55 Arial,sans-serif;color:#5b6678;">
           Siti, e-commerce, web app, app e automazioni AI con accordo scritto su cosa viene fatto, tempi chiari e consegna verificabile.<br>
+          Dopo il lancio possiamo continuare a migliorare contenuti, fiducia, richieste, presenza su Google e visibilità nelle risposte delle intelligenze artificiali.
         </div>
       </td>
     </tr>
@@ -256,9 +301,9 @@ function renderBrandedEmail(item, logoSrc, options = {}) {
 </head>
 <body style="margin:0;padding:0;background:#eef2f7;">
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(preheader)}</div>
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#eef2f7;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#eef2f7;table-layout:fixed;">
     <tr>
-      <td align="center" style="padding:26px 14px;">
+      <td align="center" style="padding:26px 0;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;max-width:760px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #dce4ee;box-shadow:0 18px 45px rgba(19,37,74,.10);">
           <tr>
             <td style="padding:28px 32px;background:#13254a;">
@@ -342,11 +387,14 @@ function renderTextEmail(item) {
 Riferimenti pubblici:
 - Studio: ${LINKS.studio}
 - Case studies: ${LINKS.cases}
+- Facebook: ${LINKS.facebook}
 - Instagram: ${LINKS.instagram}
+- Telefono/WhatsApp: ${BRAND_PHONE_DISPLAY}
 - Sito: ${LINKS.site}
 
 ${BRAND_NAME}
 ${BRAND_EMAIL}
+${BRAND_PHONE_DISPLAY}
 `;
 }
 
@@ -414,9 +462,9 @@ function renderInternalReview(items, logoSrc) {
   <title>Preview bozze outreach - Cantoni Digital Studio</title>
 </head>
 <body style="margin:0;padding:0;background:#eef2f7;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#eef2f7;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#eef2f7;table-layout:fixed;">
     <tr>
-      <td align="center" style="padding:26px 14px;">
+      <td align="center" style="padding:26px 0;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;max-width:820px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #dce4ee;box-shadow:0 18px 45px rgba(19,37,74,.10);">
           <tr>
             <td style="padding:30px;background:#13254a;">

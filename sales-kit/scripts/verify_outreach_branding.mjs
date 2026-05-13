@@ -6,18 +6,26 @@ const REQUIRED_REPLY_TO = 'cantonidigitalstudio@gmail.com';
 const REQUIRED_LINKS = [
   'https://cantonidigitalstudio.com/studio',
   'https://cantonidigitalstudio.com/case-studies.html',
-  'https://www.instagram.com/cantonidigitalstudio/'
+  'https://www.instagram.com/cantonidigitalstudio/',
+  'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+  'https://wa.me/393471961113'
 ];
 const REQUIRED_VISIBLE_REFERENCES = [
   'cantonidigitalstudio.com',
   '@cantonidigitalstudio',
-  'cantonidigitalstudio@gmail.com'
+  'pagina ufficiale Cantoni Digital Studio',
+  'cantonidigitalstudio@gmail.com',
+  '+39 347 196 1113',
+  'visibilità nelle risposte delle intelligenze artificiali'
 ];
 const REQUIRED_ICON_ALTS = [
   'Logo sito Cantoni Digital Studio',
   'Logo ufficiale Instagram Cantoni Digital Studio',
+  'Logo ufficiale Facebook Cantoni Digital Studio',
   'Icona case studies Cantoni Digital Studio',
-  'Icona email Cantoni Digital Studio'
+  'Icona email Cantoni Digital Studio',
+  'Icona telefono WhatsApp Cantoni Digital Studio',
+  'Icona profilo studio Cantoni Digital Studio'
 ];
 const CLIENT_JARGON_PATTERNS = [
   /\bCTA\b/i,

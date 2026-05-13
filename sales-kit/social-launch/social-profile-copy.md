@@ -4,7 +4,7 @@ Use only the official account `cantonidigitalstudio@gmail.com`.
 
 ## Instagram
 
-Status: official handle exists. Browser QA on 2026-05-12 shows the public profile, bio and `cantonidigitalstudio.com`; do not use Instagram as the only public proof channel because Instagram may still show cookie/login walls in some sessions.
+Status: official handle exists. Browser QA on 2026-05-13 shows the profile name, bio, category, posts and follower data in the authenticated Browser. Open issue: the clickable website link still resolves as `zumu.be/ecantoni`, while Instagram web disables the website field and says link edits are available only from the mobile app. The wireless iPad fallback is connected and verified, but Instagram is not installed on that iPad yet. Fix this from the Instagram app on the iPad after installation, or from the already logged-in iPhone, before using Instagram as the cleanest public proof channel.
 
 Handle:
 `@cantonidigitalstudio`
@@ -23,7 +23,7 @@ Category:
 
 ## Facebook Page
 
-Status: live Page recovered/created in Page management mode and updated with cover, square avatar, website, email, phone, Instagram and TikTok. Re-run logged-out QA after Meta cache propagation before using it as standalone public proof.
+Status: live Page recovered/created in Page management mode and updated with cover, square avatar, website, email, phone, Instagram and TikTok. Logged-out Browser QA on 2026-05-13 confirmed the public Page opens and shows the studio identity, about copy and contact references, so Facebook is accepted as a public proof channel.
 
 Page name:
 `Cantoni Digital Studio`
@@ -75,7 +75,7 @@ First content format:
 
 ## Publication Rule
 
-Do not use Facebook/TikTok as standalone proof links in proposals until the public profile opens without login and contains:
+Facebook is accepted as a standalone proof link after the 2026-05-13 logged-out Browser QA. Do not use TikTok as a standalone proof link in proposals until the public profile opens without login and contains:
 - correct logo/avatar
 - brand name
 - website link where the platform allows it
