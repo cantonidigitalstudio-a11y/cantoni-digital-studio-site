@@ -113,7 +113,9 @@ async function run() {
     'CoreDevice transport after USB removal: `localNetwork`',
     'Developer Mode: `enabled`',
     '`idevice_id -n` lists `00008103-001E45811133001E`',
-    'Instagram (`com.burbn.instagram`) on this iPad',
+    'Instagram is now installed on the iPad as `com.burbn.instagram`',
+    '`com.cantonidigitalstudio.WebDriverAgentRunner.xctrunner`',
+    'trust the Apple Development certificate',
     'xcrun devicectl device info displays'
   ]);
 

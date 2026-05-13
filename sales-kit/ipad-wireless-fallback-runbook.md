@@ -16,7 +16,19 @@ Purpose: use the iPad as a fallback operational screen for mobile-only flows, es
 
 ## Current Blocker
 
-The wireless fallback is ready. The remaining blocker for the Instagram link fix is app availability: `xcrun devicectl device info apps --include-all-apps` does not list Instagram (`com.burbn.instagram`) on this iPad.
+The wireless fallback is ready and Instagram is now installed on the iPad as `com.burbn.instagram`.
+
+The remaining blocker for full automated Instagram control is iOS developer trust. A temporary WebDriverAgent runner was built, device-registered, signed and installed as:
+
+- App: `WebDriverAgentRunner-Runner`
+- Bundle id: `com.cantonidigitalstudio.WebDriverAgentRunner.xctrunner`
+- Signing identity shown by Xcode: `Apple Development: emanuelec297@gmail.com`
+
+iOS currently refuses to launch it until the developer certificate is trusted on the iPad. Apple requires this confirmation from the device UI:
+
+`Settings` -> `General` -> `VPN & Device Management` -> Developer App -> trust the Apple Development certificate.
+
+After that trust step, rerun the WDA launch and continue with the Instagram mobile-only profile link edit.
 
 Do not mark the Instagram link fix as complete until one of these is true:
 
@@ -31,6 +43,7 @@ xcrun devicectl device info details --device 6018B42D-C568-5956-8363-074A52E2A6E
 idevice_id -n
 xcrun devicectl device info displays --device 6018B42D-C568-5956-8363-074A52E2A6E0
 xcrun devicectl device info apps --device 6018B42D-C568-5956-8363-074A52E2A6E0 --include-all-apps
+xcrun devicectl device info apps --device 6018B42D-C568-5956-8363-074A52E2A6E0 --include-all-apps | rg -i 'Instagram|WebDriverAgent'
 ```
 
 Success criteria:
@@ -39,6 +52,7 @@ Success criteria:
 - `transportType` is `localNetwork` after USB is disconnected.
 - `idevice_id -n` lists `00008103-001E45811133001E`.
 - display inspection works over wireless.
+- app inventory lists both `com.burbn.instagram` and `com.cantonidigitalstudio.WebDriverAgentRunner.xctrunner`.
 
 ## First Mobile-Only Task
 
