@@ -12,6 +12,7 @@ const profileCopyFile = path.join(launchDir, 'social-profile-copy.md');
 const runbookFile = path.join(launchDir, 'launch-runbook.md');
 const ipadRunbookFile = path.join(rootDir, 'ipad-wireless-fallback-runbook.md');
 const facebookCoverFile = path.join(outputDir, 'facebook-cover-cantoni.png');
+const instagramAvatarFile = path.join(outputDir, 'instagram-avatar-cantoni.png');
 
 const forbiddenFragments = [
   '/Volumes/',
@@ -92,10 +93,20 @@ async function run() {
     throw new Error('facebook-cover-cantoni.png is unexpectedly small');
   }
 
+  const instagramAvatar = await fs.readFile(instagramAvatarFile);
+  const instagramAvatarSize = readPngSize(instagramAvatar);
+  if (instagramAvatarSize.width !== 1080 || instagramAvatarSize.height !== 1080) {
+    throw new Error(`instagram-avatar-cantoni.png has ${instagramAvatarSize.width}x${instagramAvatarSize.height}, expected 1080x1080`);
+  }
+  if (instagramAvatar.length < 80_000) {
+    throw new Error('instagram-avatar-cantoni.png is unexpectedly small');
+  }
+
   await assertFileContains(profileCopyFile, [
     '@cantonidigitalstudio',
     'cantonidigitalstudio@gmail.com',
     'https://cantonidigitalstudio.com',
+    'instagram-avatar-cantoni.png',
     'Facebook is accepted as a standalone proof link',
     'Do not use TikTok as a standalone proof link'
   ]);

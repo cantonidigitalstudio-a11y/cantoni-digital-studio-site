@@ -7,11 +7,11 @@ Partire con proposte internazionali solo quando il brand pubblico è coerente, i
 ## Stato al 2026-05-13
 
 - Sito preview Cloudflare: pronto per verifica commerciale e preventivo.
-- Instagram: handle ufficiale `@cantonidigitalstudio`; Browser QA del 2026-05-13 mostra profilo, bio e contenuti. Il link cliccabile è ancora `zumu.be/ecantoni` e va corretto da app mobile in `https://cantonidigitalstudio.com`.
+- Instagram: handle ufficiale `@cantonidigitalstudio`; Browser QA del 2026-05-13 mostra profilo, bio e contenuti. Il link cliccabile è ancora `zumu.be/ecantoni` e va corretto da app mobile in `https://cantonidigitalstudio.com`. L'avatar ufficiale da caricare è `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
 - Facebook: Pagina Cantoni Digital Studio creata/recuperata e brandizzata con cover, avatar, sito, email, telefono, Instagram e TikTok. QA logged-out del 2026-05-13 passata: la pagina è utilizzabile come prova pubblica.
 - TikTok: account `@cantonidigitalstudio` creato e brandizzato con logo, nome e bio. Resta da rifare QA logged-out, perché il profilo rimanda ancora a login obbligatorio.
 - iPad fallback: collegamento wireless verificato il 2026-05-13 (`transportType: localNetwork`, `idevice_id -n` vede l'iPad, display inspection attiva). Instagram ora risulta installato sull'iPad. Il runner WebDriverAgent è stato firmato e installato, ma iOS richiede ancora il trust manuale del certificato sviluppatore in `Impostazioni > Generali > VPN e gestione dispositivo` prima di permettere il controllo automatico completo.
-- Asset social: prima batch da 5 post generata in `sales-kit/social-launch/output/`.
+- Asset social: prima batch da 5 post generata in `sales-kit/social-launch/output/`, più cover Facebook e avatar Instagram centrato.
 - Email operativa: usare solo `cantonidigitalstudio@gmail.com`.
 
 ## Gate prima di mandare proposte mondiali
