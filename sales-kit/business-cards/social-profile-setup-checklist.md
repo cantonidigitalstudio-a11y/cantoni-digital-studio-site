@@ -23,7 +23,12 @@ The current business-card print file includes full-color Facebook, Instagram and
 - Instagram authenticated Browser QA confirms the profile exists with brand name, category, bio, 3 posts and visible follower data. Issue found: the clickable profile website link is still `zumu.be/ecantoni`; Instagram web disables the `Sito web` field and says link edits are available only from the mobile app. Required fix: change the Instagram app profile link to `https://cantonidigitalstudio.com`.
 - Facebook logged-out Browser QA confirms the Page opens publicly at `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/` and shows studio name, category, about copy, phone, email, website and social references. Facebook is accepted as a public proof channel.
 - TikTok logged-out Browser QA still redirects to mandatory login for `https://www.tiktok.com/@cantonidigitalstudio`. TikTok remains configured but not accepted as a standalone public proof channel.
-- iPad wireless fallback is now operational: Developer Mode enabled, CoreDevice `transportType: localNetwork`, network discovery sees the iPad, and display inspection works after unplugging USB. Instagram is not installed on that iPad, so the link fix requires installing Instagram there or using the already logged-in iPhone.
+- iPad wireless fallback is now operational: Developer Mode enabled, CoreDevice `transportType: localNetwork`, network discovery sees the iPad, and display inspection works after unplugging USB. Current app inventory now lists both Instagram and WebDriverAgent, but WebDriverAgent still needs iOS developer-certificate trust before automated control can run.
+
+## Browser QA - 2026-05-14
+
+- Instagram public Browser QA confirms the profile link is now `cantonidigitalstudio.com`; `zumu.be/ecantoni` no longer appears in the public profile. The bio still reads `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
+- Remaining Instagram issue: replace the current profile image with `sales-kit/social-launch/output/instagram-avatar-cantoni.png`. The in-app Browser reports file uploads are not supported, Chrome fallback reaches Instagram 2FA, and iPad WDA remains blocked until the developer certificate is trusted in iOS settings.
 
 ## Browser Setup Attempt - 2026-05-11
 
@@ -63,7 +68,7 @@ Phone / WhatsApp:
 - Use the same square logo/avatar as the site ecosystem: `assets/logo/generated/cantoni_avatar_gmail_dark.png`.
 - Use the same brand name everywhere: `Cantoni Digital Studio`.
 - Facebook/TikTok public links must open without login before being used as standalone proof links. Facebook now passes logged-out QA; TikTok is branded in the authenticated session and still needs logged-out QA. Instagram may show a platform cookie/login wall, so it must not be used as the only verification proof until the profile link is corrected.
-- Instagram profile link must be corrected from `zumu.be/ecantoni` to `https://cantonidigitalstudio.com` in the mobile app before using Instagram as the cleanest proof link. The wireless iPad is ready for this only after Instagram is installed on it.
+- Instagram profile link is corrected to `https://cantonidigitalstudio.com`; replace the avatar with the centered generated asset before using Instagram as the cleanest proof link.
 - Bio must not promise impossible delivery or fixed prices without scope.
 - Instagram, Facebook and TikTok handles must be tested before adding them to a print order.
 - After Facebook/TikTok are public, update `identita-operativa.html`, footer references, JSON-LD `sameAs`, outreach templates and `scripts/verify_site_integrity.cjs`.

@@ -4,7 +4,7 @@ Use only the official account `cantonidigitalstudio@gmail.com`.
 
 ## Instagram
 
-Status: official handle exists. Browser QA on 2026-05-13 shows the profile name, bio, category, posts and follower data in the authenticated Browser. Open issue: the clickable website link still resolves as `zumu.be/ecantoni`, while Instagram web disables the website field and says link edits are available only from the mobile app. The wireless iPad fallback is connected and verified, Instagram is installed, and a WebDriverAgent runner is installed; iOS still needs manual trust of the developer certificate in `Impostazioni > Generali > VPN e gestione dispositivo` before automated mobile control can finish the profile link fix. Do not use Instagram as the cleanest public proof channel until the clickable link is changed to the studio domain and rechecked publicly.
+Status: official handle exists. Browser QA on 2026-05-14 confirms the public profile shows the studio bio and the clickable website link is now `cantonidigitalstudio.com`; `zumu.be/ecantoni` no longer appears in the public Browser profile. Remaining issue: replace the profile avatar with the centered generated asset below. The Codex in-app Browser cannot upload files, Chrome fallback reaches Instagram 2FA, and the iPad WebDriverAgent fallback still needs manual trust of the developer certificate in `Impostazioni > Generali > VPN e gestione dispositivo` before automated mobile control can finish the avatar upload.
 
 Profile avatar asset:
 `sales-kit/social-launch/output/instagram-avatar-cantoni.png`

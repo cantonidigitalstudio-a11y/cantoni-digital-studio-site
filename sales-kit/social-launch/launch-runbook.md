@@ -2,10 +2,14 @@
 
 ## Current State
 
-- Instagram handle exists and opens in the authenticated Browser: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-13 confirmed name, bio, category, 3 posts and visible follower count. Open issue: the profile website link still resolves as `zumu.be/ecantoni`; Instagram web disables the website field and states that link edits are available only from the mobile app. Fix from the Instagram mobile app before using Instagram as the cleanest public proof channel. The official avatar file is `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
+- Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-14 confirmed name, bio, category, 3 posts, visible follower count and clickable website link `cantonidigitalstudio.com`; the old `zumu.be/ecantoni` link is no longer visible. Open issue: replace the profile avatar with the centered generated asset at `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
 - Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-13 confirmed the public page opens without account access, shows `Cantoni Digital Studio`, `Web designer`, the about copy, phone, email, website, Instagram and TikTok references. No private address is published.
 - TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Browser QA on 2026-05-12 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA is still required before treating TikTok as a fully public proof channel.
 - iPad wireless fallback is enabled and verified on 2026-05-13: Developer Mode is active, `idevice_id -n` lists the iPad, CoreDevice reports the device as paired/available, display inspection works without USB, and Instagram is installed as `com.burbn.instagram`. The WebDriverAgent runner is installed, but iOS still requires trust of the Apple Development certificate before full automated mobile control can change the Instagram link and avatar.
+
+## Browser QA - 2026-05-14
+
+- Instagram public Browser QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. The clickable profile link is now `cantonidigitalstudio.com`; `zumu.be/ecantoni` does not appear in the public Browser profile. Avatar replacement is still pending because the in-app Browser explicitly blocks file uploads, Chrome fallback is paused at Instagram 2FA, and iPad WDA launch is blocked until the developer certificate is trusted on device.
 
 ## Browser QA - 2026-05-13
 
@@ -32,8 +36,8 @@
 
 ## Sequence
 
-1. Install Instagram on the wireless iPad or use the already logged-in iPhone, then fix the Instagram profile link from the mobile app: remove `zumu.be/ecantoni` and set `https://cantonidigitalstudio.com`.
-2. Re-run Instagram QA and capture evidence that the clickable profile link is the studio domain.
+1. Replace the Instagram profile avatar with `sales-kit/social-launch/output/instagram-avatar-cantoni.png` after either completing Instagram 2FA in Chrome fallback or trusting the iPad WebDriverAgent developer certificate.
+2. Re-run Instagram QA and capture evidence that the clickable profile link remains the studio domain and the profile avatar is centered.
 3. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
 4. Publish or schedule the first portfolio post only after checking asset and caption.
 5. Add first TikTok portfolio/method post or at least branded profile content.
