@@ -58,7 +58,7 @@
       if (lang === 'it') {
         return {
           title: 'Privacy e cookie',
-          body: 'Usiamo dati essenziali per lingua, bozze e funzionamento del sito. Analytics e misurazione commerciale partono solo se li autorizzi.',
+          body: 'Dati essenziali per lingua e bozze. Analytics solo se li autorizzi.',
           essential: 'Solo essenziali',
           analytics: 'Accetta analytics',
           privacy: 'Privacy e cookie'
@@ -66,7 +66,7 @@
       }
       return {
         title: 'Privacy and cookies',
-        body: 'We use essential data for language, drafts and site operation. Analytics and commercial measurement run only if you allow them.',
+        body: 'Essential data for language and drafts. Analytics only if you allow them.',
         essential: 'Essential only',
         analytics: 'Accept analytics',
         privacy: 'Privacy notice'

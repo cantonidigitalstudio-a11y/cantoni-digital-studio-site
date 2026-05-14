@@ -240,6 +240,70 @@ async function assertBusinessCardEntry(context) {
   await page.close();
 }
 
+async function assertQuoteVisualLayout(context, viewportName) {
+  const page = await context.newPage();
+  const issues = [];
+  attachGuards(page, issues);
+
+  await page.goto('/preventivo.html?lang=it&smoke=1', { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('.quote-intro h1', { timeout: 10000 });
+  await page.waitForSelector('.quote-rail .form-shell', { timeout: 10000 });
+  await page.waitForSelector('#cdsCookieConsent', { timeout: 10000 });
+
+  const snapshot = await page.evaluate(() => {
+    const rect = (selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return null;
+      const box = element.getBoundingClientRect();
+      return {
+        x: Math.round(box.x),
+        y: Math.round(box.y),
+        width: Math.round(box.width),
+        height: Math.round(box.height),
+        right: Math.round(box.right),
+        bottom: Math.round(box.bottom)
+      };
+    };
+
+    return {
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
+      overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      h1: rect('.quote-intro h1'),
+      intro: rect('.quote-intro'),
+      form: rect('.quote-rail .form-shell'),
+      body: rect('.quote-body'),
+      cookie: rect('#cdsCookieConsent')
+    };
+  });
+
+  assert.ok(snapshot.overflow <= 2, `Quote layout should not create horizontal overflow (${snapshot.overflow}px)`);
+  assert.ok(snapshot.h1 && snapshot.h1.height <= 310, `Quote hero headline should stay controlled (${JSON.stringify(snapshot.h1)})`);
+  assert.ok(snapshot.form && snapshot.form.width >= 320, `Quote form should remain usable (${JSON.stringify(snapshot.form)})`);
+  assert.ok(snapshot.cookie && snapshot.cookie.height <= 155, `Cookie banner should stay compact (${JSON.stringify(snapshot.cookie)})`);
+
+  if (viewportName === 'mobile') {
+    assert.ok(
+      snapshot.form.y < snapshot.viewportHeight * 0.78,
+      `Mobile quote form should appear before the first screen is exhausted (${JSON.stringify(snapshot.form)})`
+    );
+    assert.ok(
+      snapshot.body.y > snapshot.form.y,
+      `Mobile quote details should follow the intake form (${JSON.stringify({ body: snapshot.body, form: snapshot.form })})`
+    );
+    assert.ok(snapshot.cookie.height <= 112, `Mobile cookie banner should stay compact (${JSON.stringify(snapshot.cookie)})`);
+  } else {
+    assert.ok(
+      snapshot.form.x > snapshot.h1.right,
+      `Desktop quote form should sit in a distinct right rail (${JSON.stringify({ h1: snapshot.h1, form: snapshot.form })})`
+    );
+    assert.ok(snapshot.form.width >= 380, `Desktop quote rail should not be compressed (${JSON.stringify(snapshot.form)})`);
+  }
+
+  assert.deepEqual(issues, [], `Quote visual layout browser issues: ${issues.join(' | ')}`);
+  await page.close();
+}
+
 async function assertAnalyticsConsent(browser, baseUrl) {
   const essentialRequests = [];
   const essentialContext = await createContext(browser, baseUrl, { width: 1440, height: 1000 }, {
@@ -305,6 +369,7 @@ async function main() {
         for (const pageItem of pages) {
           await assertPageHealthy(context, pageItem.path, pageItem.title, pageItem);
         }
+        await assertQuoteVisualLayout(context, item.name);
         if (item.name === 'desktop') {
           await assertFxBehavior(context);
           await assertBusinessCardEntry(context);
