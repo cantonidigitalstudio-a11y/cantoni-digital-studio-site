@@ -15,6 +15,7 @@ const LINKS = {
   site: 'https://cantonidigitalstudio.com/',
   instagram: 'https://www.instagram.com/cantonidigitalstudio/',
   facebook: 'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+  tiktok: 'https://www.tiktok.com/@cantonidigitalstudio',
   whatsapp: `https://wa.me/${BRAND_PHONE_TEL.replace(/^\+/, '')}`
 };
 
@@ -28,6 +29,7 @@ const ICONS = {
   site: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#13254a"/><path fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M24 9.5a14.5 14.5 0 1 0 0 29 14.5 14.5 0 0 0 0-29Zm0 0c4 4 6 8.8 6 14.5S28 34.5 24 38.5c-4-4-6-8.8-6-14.5s2-10.5 6-14.5ZM10.5 24h27"/></svg>`),
   instagram: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="g" x1="6" y1="42" x2="42" y2="6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".25" stop-color="#fa7e1e"/><stop offset=".5" stop-color="#d62976"/><stop offset=".75" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect x="5" y="5" width="38" height="38" rx="12" fill="url(#g)"/><rect x="14" y="14" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="3"/><circle cx="24" cy="24" r="5.2" fill="none" stroke="#fff" stroke-width="3"/><circle cx="31" cy="17" r="1.9" fill="#fff"/></svg>`),
   facebook: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#1877f2"/><path fill="#fff" d="M28.8 25.8h4.1l.8-5.1h-4.9v-3.3c0-1.4.7-2.8 2.9-2.8h2.2v-4.4s-2-.3-3.9-.3c-4 0-6.7 2.4-6.7 6.9v3.9h-4.5v5.1h4.5V38h5.5V25.8Z"/></svg>`),
+  tiktok: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#111111"/><path fill="#25f4ee" d="M20.7 19.9v12.2a4.2 4.2 0 1 1-4.2-4.2c.4 0 .8.1 1.2.2v-5.4a9.8 9.8 0 1 0 8.7 9.7V17.5c1.9 2 4.3 3.1 7.2 3.2v-5.3c-2.3-.2-4.5-1.5-5.8-3.4h-7.1v7.9Z"/><path fill="#fe2c55" d="M23.1 18.1v13.6a4.2 4.2 0 0 1-6.1 3.7 4.2 4.2 0 0 0 7.2-3V18.9c2 2.1 4.7 3.3 7.7 3.5v-1.8c-2.8-.1-5.3-1.3-7.2-3.2v.7h-1.6Z"/><path fill="#fff" d="M22.4 13.7v18.7a6 6 0 1 1-6-6c.4 0 .9 0 1.3.1v-2a8 8 0 1 0 6.8 7.9V15.6c2 2 4.6 3.2 7.4 3.3V17c-2.9-.2-5.6-1.5-7.5-3.3h-2Z"/></svg>`),
   cases: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#f29d38"/><path fill="#13254a" d="M15 11h18l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V14a3 3 0 0 1 3-3Zm17 2.8V18h4.2L32 13.8ZM18 23h15v-3H18v3Zm0 7h15v-3H18v3Zm0 7h10v-3H18v3Z"/></svg>`),
   email: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#eef3f8"/><path fill="none" stroke="#13254a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M12 16h24v17H12V16Zm0 1 12 10 12-10"/></svg>`),
   phone: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#23a455"/><path fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" d="M18.2 12.5 22 20l-3.1 2.4c1.7 3.6 4.1 6 7.7 7.7L29 27l6.7 3.8c.6.3.9 1 .7 1.7-.8 3.2-2.7 4.7-5.8 4.7-9.9 0-19.8-9.9-19.8-19.8 0-3.1 1.5-5 4.7-5.8.8-.2 1.5.1 1.9.9Z"/></svg>`),
@@ -187,6 +189,15 @@ function renderContactTiles() {
       </tr>
       <tr>
         ${contactTile({
+          href: LINKS.tiktok,
+          icon: ICONS.tiktok,
+          alt: 'Logo ufficiale TikTok Cantoni Digital Studio',
+          label: 'TikTok',
+          value: '@cantonidigitalstudio'
+        })}
+      </tr>
+      <tr>
+        ${contactTile({
           href: LINKS.cases,
           icon: ICONS.cases,
           alt: 'Icona case studies Cantoni Digital Studio',
@@ -240,6 +251,7 @@ function renderCredibilityBlock() {
                 Sito: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com</a><br>
                 Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale</a><br>
                 Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
+                TikTok: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
                 Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
                 Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
               </div>
@@ -263,6 +275,7 @@ function renderReferenceFooter() {
           Sito ufficiale: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">https://cantonidigitalstudio.com</a><br>
           Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale Cantoni Digital Studio</a><br>
           Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
+          TikTok: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
           Case studies: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
           Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
           Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
@@ -273,6 +286,7 @@ function renderReferenceFooter() {
           <a href="${LINKS.cases}" style="${pillStyle}">Case studies</a>
           <a href="${LINKS.facebook}" style="${pillStyle}">Facebook</a>
           <a href="${LINKS.instagram}" style="${pillStyle}">Instagram</a>
+          <a href="${LINKS.tiktok}" style="${pillStyle}">TikTok</a>
           <a href="${LINKS.site}" style="${pillStyle}">Sito</a>
         </div>
         <div style="font:400 13px/1.55 Arial,sans-serif;color:#5b6678;">
@@ -389,6 +403,7 @@ Riferimenti pubblici:
 - Case studies: ${LINKS.cases}
 - Facebook: ${LINKS.facebook}
 - Instagram: ${LINKS.instagram}
+- TikTok: ${LINKS.tiktok}
 - Telefono/WhatsApp: ${BRAND_PHONE_DISPLAY}
 - Sito: ${LINKS.site}
 

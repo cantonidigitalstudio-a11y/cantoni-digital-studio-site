@@ -71,7 +71,11 @@ async function snapshotPage(page, channel) {
   const data = await page.evaluate(() => ({
     title: document.title || '',
     url: window.location.href || '',
-    text: document.body ? document.body.innerText || '' : ''
+    text: document.body ? document.body.innerText || '' : '',
+    metadata: Array.from(document.querySelectorAll('meta'))
+      .map((meta) => meta.getAttribute('content') || '')
+      .filter(Boolean)
+      .join(' ')
   }));
   const screenshot = path.join(SCREENSHOT_DIR, `cantoni-public-channel-${channel.id}-${Date.now()}.png`);
   await page.screenshot({ path: screenshot, fullPage: false }).catch(() => {});
@@ -80,6 +84,7 @@ async function snapshotPage(page, channel) {
     title: data.title,
     finalUrl: data.url,
     text: normalize(data.text),
+    proofText: normalize([data.title, data.metadata, data.text].join(' ')),
     screenshot
   };
 }
@@ -90,16 +95,14 @@ function validatePublicProof(channel, result) {
 
   for (const snippet of channel.requiredText || []) {
     assert.ok(
-      result.text.toLowerCase().includes(snippet.toLowerCase()) ||
-        result.title.toLowerCase().includes(snippet.toLowerCase()),
+      result.proofText.toLowerCase().includes(snippet.toLowerCase()),
       `${channel.id}: missing public proof text "${snippet}"`
     );
   }
 
   for (const snippet of channel.forbiddenText || []) {
     assert.equal(
-      result.text.toLowerCase().includes(snippet.toLowerCase()) ||
-        result.title.toLowerCase().includes(snippet.toLowerCase()),
+      result.proofText.toLowerCase().includes(snippet.toLowerCase()),
       false,
       `${channel.id}: forbidden stale text "${snippet}"`
     );
@@ -117,8 +120,7 @@ function validateLoginGated(channel, result) {
 
   for (const snippet of channel.requiredWhenPublic || []) {
     assert.ok(
-      result.text.toLowerCase().includes(snippet.toLowerCase()) ||
-        result.title.toLowerCase().includes(snippet.toLowerCase()),
+      result.proofText.toLowerCase().includes(snippet.toLowerCase()),
       `${channel.id}: public profile opened but missing "${snippet}"`
     );
   }
