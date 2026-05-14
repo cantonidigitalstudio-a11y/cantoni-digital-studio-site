@@ -2,14 +2,15 @@
 
 ## Current State
 
-- Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. Browser QA on 2026-05-14 confirmed name, bio, category, 3 posts, visible follower count and clickable website link `cantonidigitalstudio.com`; the old `zumu.be/ecantoni` link is no longer visible. Open issue: replace the profile avatar with the centered generated asset at `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
+- Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. QA on 2026-05-14 confirmed name, bio, category, 3 posts, visible follower count, clickable website link `cantonidigitalstudio.com`, no old `zumu.be/ecantoni` link, and the centered official profile avatar from `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
 - Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-13 confirmed the public page opens without account access, shows `Cantoni Digital Studio`, `Web designer`, the about copy, phone, email, website, Instagram and TikTok references. No private address is published.
 - TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Browser QA on 2026-05-12 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA is still required before treating TikTok as a fully public proof channel.
 - iPad wireless fallback is enabled and verified on 2026-05-13: Developer Mode is active, `idevice_id -n` lists the iPad, CoreDevice reports the device as paired/available, display inspection works without USB, and Instagram is installed as `com.burbn.instagram`. The WebDriverAgent runner is installed, but iOS still requires trust of the Apple Development certificate before full automated mobile control can change the Instagram link and avatar.
 
 ## Browser QA - 2026-05-14
 
-- Instagram public Browser QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. The clickable profile link is now `cantonidigitalstudio.com`; `zumu.be/ecantoni` does not appear in the public Browser profile. Avatar replacement is still pending because the in-app Browser explicitly blocks file uploads, Chrome fallback is paused at Instagram 2FA, and iPad WDA launch is blocked until the developer certificate is trusted on device.
+- Instagram QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. The clickable profile link is `cantonidigitalstudio.com`; `zumu.be/ecantoni` does not appear. Avatar replacement completed with the centered official asset; screenshot evidence: `/tmp/instagram-cantoni-avatar-persistent-final.png` and `/tmp/instagram-cantoni-public-final-clean.png`.
+- TikTok logged-out QA: `https://www.tiktok.com/@cantonidigitalstudio` still redirects to `tiktok.com/login?...enter_method=mandatory`; screenshot evidence: `/tmp/tiktok-cantoni-logged-out-final.png`. Keep TikTok out of standalone proof links.
 
 ## Browser QA - 2026-05-13
 
@@ -36,13 +37,11 @@
 
 ## Sequence
 
-1. Replace the Instagram profile avatar with `sales-kit/social-launch/output/instagram-avatar-cantoni.png` after either completing Instagram 2FA in Chrome fallback or trusting the iPad WebDriverAgent developer certificate.
-2. Re-run Instagram QA and capture evidence that the clickable profile link remains the studio domain and the profile avatar is centered.
-3. Re-run logged-out TikTok QA for `https://www.tiktok.com/@cantonidigitalstudio`.
-4. Publish or schedule the first portfolio post only after checking asset and caption.
-5. Add first TikTok portfolio/method post or at least branded profile content.
-6. If logged-out TikTok QA passes, add TikTok to public social references.
-7. Only after final social QA, update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
+1. Publish or schedule the first portfolio post only after checking asset and caption.
+2. Add first TikTok portfolio/method post or at least branded profile content.
+3. Re-run TikTok logged-out QA after first content/public-profile propagation.
+4. If logged-out TikTok QA passes, add TikTok to public social references.
+5. Only after final social QA, update `identita-operativa.html`, footer, JSON-LD `sameAs`, outreach templates and integrity tests.
 
 ## First Publishing Batch
 

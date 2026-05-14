@@ -27,8 +27,9 @@ The current business-card print file includes full-color Facebook, Instagram and
 
 ## Browser QA - 2026-05-14
 
-- Instagram public Browser QA confirms the profile link is now `cantonidigitalstudio.com`; `zumu.be/ecantoni` no longer appears in the public profile. The bio still reads `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
-- Remaining Instagram issue: replace the current profile image with `sales-kit/social-launch/output/instagram-avatar-cantoni.png`. The in-app Browser reports file uploads are not supported, Chrome fallback reaches Instagram 2FA, and iPad WDA remains blocked until the developer certificate is trusted in iOS settings.
+- Instagram QA confirms the profile link is `cantonidigitalstudio.com`; `zumu.be/ecantoni` no longer appears in the profile. The bio reads `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
+- Instagram avatar replacement completed with `sales-kit/social-launch/output/instagram-avatar-cantoni.png`; evidence: authenticated `/tmp/instagram-cantoni-avatar-persistent-final.png`, public logged-out `/tmp/instagram-cantoni-public-final-clean.png`.
+- TikTok logged-out QA rerun: `https://www.tiktok.com/@cantonidigitalstudio` still redirects to mandatory login, so TikTok remains configured but not accepted as a standalone proof channel.
 
 ## Browser Setup Attempt - 2026-05-11
 
@@ -68,7 +69,7 @@ Phone / WhatsApp:
 - Use the same square logo/avatar as the site ecosystem: `assets/logo/generated/cantoni_avatar_gmail_dark.png`.
 - Use the same brand name everywhere: `Cantoni Digital Studio`.
 - Facebook/TikTok public links must open without login before being used as standalone proof links. Facebook now passes logged-out QA; TikTok is branded in the authenticated session and still needs logged-out QA. Instagram may show a platform cookie/login wall, so it must not be used as the only verification proof until the profile link is corrected.
-- Instagram profile link is corrected to `https://cantonidigitalstudio.com`; replace the avatar with the centered generated asset before using Instagram as the cleanest proof link.
+- Instagram profile link is corrected to `https://cantonidigitalstudio.com`; the centered generated avatar is live.
 - Bio must not promise impossible delivery or fixed prices without scope.
 - Instagram, Facebook and TikTok handles must be tested before adding them to a print order.
 - After Facebook/TikTok are public, update `identita-operativa.html`, footer references, JSON-LD `sameAs`, outreach templates and `scripts/verify_site_integrity.cjs`.
