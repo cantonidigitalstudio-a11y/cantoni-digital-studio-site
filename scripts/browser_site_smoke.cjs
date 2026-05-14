@@ -118,6 +118,18 @@ async function assertPageHealthy(context, urlPath, expectedTitlePart, options = 
   const snapshot = await page.evaluate(() => ({
     title: document.title,
     h1: document.querySelector('h1')?.textContent?.trim() || '',
+    h1Rect: (() => {
+      const element = document.querySelector('h1');
+      if (!element) return null;
+      const box = element.getBoundingClientRect();
+      return { width: Math.round(box.width), height: Math.round(box.height) };
+    })(),
+    cookieRect: (() => {
+      const element = document.querySelector('#cdsCookieConsent');
+      if (!element) return null;
+      const box = element.getBoundingClientRect();
+      return { width: Math.round(box.width), height: Math.round(box.height) };
+    })(),
     canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href') || '',
     robots: document.querySelector('meta[name="robots"]')?.getAttribute('content') || '',
     privacyLinks: document.querySelectorAll('a[href="privacy.html"]').length,
@@ -137,6 +149,19 @@ async function assertPageHealthy(context, urlPath, expectedTitlePart, options = 
   assert.ok(snapshot.termsLinks >= 1 || urlPath.includes('termini-commerciali'), `${urlPath}: should expose commercial terms link`);
   assert.ok(snapshot.emailLinks >= 1, `${urlPath}: should expose operating email`);
   assert.ok(snapshot.horizontalOverflow <= 2, `${urlPath}: should not create horizontal overflow (${snapshot.horizontalOverflow}px)`);
+  if (snapshot.h1Rect) {
+    const headlineLimit = options.viewportName === 'mobile' ? 224 : 320;
+    assert.ok(
+      snapshot.h1Rect.height <= headlineLimit,
+      `${urlPath}: h1 should stay visually controlled on ${options.viewportName || 'viewport'} (${JSON.stringify(snapshot.h1Rect)})`
+    );
+  }
+  if (snapshot.cookieRect && options.viewportName === 'mobile') {
+    assert.ok(
+      snapshot.cookieRect.height <= 96,
+      `${urlPath}: mobile cookie banner should stay compact (${JSON.stringify(snapshot.cookieRect)})`
+    );
+  }
   assert.deepEqual(issues, [], `${urlPath}: browser issues: ${issues.join(' | ')}`);
   await page.close();
 }
@@ -367,7 +392,10 @@ async function main() {
       const context = await createContext(browser, baseUrl, item.viewport);
       try {
         for (const pageItem of pages) {
-          await assertPageHealthy(context, pageItem.path, pageItem.title, pageItem);
+          await assertPageHealthy(context, pageItem.path, pageItem.title, {
+            ...pageItem,
+            viewportName: item.name
+          });
         }
         await assertQuoteVisualLayout(context, item.name);
         if (item.name === 'desktop') {
