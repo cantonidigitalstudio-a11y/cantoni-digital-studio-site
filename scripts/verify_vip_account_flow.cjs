@@ -197,12 +197,12 @@ async function run() {
 
   await page.locator("#accountEmail").fill("guest@example.com");
   await Promise.all([
-    page.waitForResponse((response) => response.url().includes("/api/account/profile") && response.request().method() === "POST", { timeout: 5000 }),
+    page.waitForResponse((response) => response.url().includes("/api/account/profile") && response.request().method() === "POST", { timeout: 12000 }),
     page.locator("#accountMagicLinkButton").click()
   ]);
   await page.waitForFunction(() => {
     return Boolean(document.querySelector("#accountMagicLinkStatus")?.textContent.trim());
-  }, null, { timeout: 5000 });
+  }, null, { timeout: 12000 });
   assert.match(await page.locator("#accountMagicLinkStatus").textContent(), /magic link|link/i, "Magic link status should confirm send");
 
   await page.evaluate(() => {

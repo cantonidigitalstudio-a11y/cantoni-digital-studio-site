@@ -155,6 +155,8 @@ function checkVerifiedSocialContract(fileName, html, issues) {
       'Un profilo è ufficiale solo se è linkato da questa pagina.',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+      'TikTok configurato',
+      '@cantonidigitalstudio',
       'https://github.com/cantonidigitalstudio-a11y',
       'mailto:cantonidigitalstudio@gmail.com'
     ];
