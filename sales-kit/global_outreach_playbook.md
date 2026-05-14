@@ -51,6 +51,7 @@ Generare clienti internazionali per siti, e-commerce, web app, app mobile, autom
 - Sito ufficiale: `https://cantonidigitalstudio.com`.
 - Email: `cantonidigitalstudio@gmail.com`.
 - Telefono/WhatsApp: `+39 347 196 1113`.
+- Link WhatsApp pubblico: `https://wa.me/393471961113`.
 - Instagram: `https://www.instagram.com/cantonidigitalstudio/`.
 - Facebook: `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`.
 - TikTok: `https://www.tiktok.com/@cantonidigitalstudio`, da usare come canale ufficiale ma non come unica prova pubblica finche resta login-gated per alcuni visitatori sloggati.
@@ -59,15 +60,23 @@ Generare clienti internazionali per siti, e-commerce, web app, app mobile, autom
 ## Audit gate obbligatorio prima di qualunque preventivo
 Un preventivo puo essere creato solo se queste condizioni sono tutte vere:
 - il sito e stato consultato live e non solo tramite dati CRM storici
-- sono stati annotati almeno 3 problemi concreti e osservabili sul sito corrente
-- ogni problema ha una soluzione specifica legata a pagine, sezioni o funnel reali
+- se il vecchio dominio rimanda a un nuovo dominio, il preventivo usa il dominio nuovo verificato
+- sono stati controllati sito, mobile, velocita percepita, menu, contatti, form, prenotazioni, pagamenti, cookie, privacy e termini
+- sono stati controllati i canali social pubblici del cliente: Instagram, Facebook, TikTok, YouTube, LinkedIn o altri canali rilevanti del settore
+- sono state controllate le recensioni o piattaforme di fiducia rilevanti: Google Business Profile, Tripadvisor, Trustpilot, Booking, Expedia, TheFork, Airbnb o marketplace verticali
+- e stata letta la presenza commerciale reale: offerte, prezzi, servizi, audience, area servita, differenze rispetto ai competitor e frizioni nella richiesta
+- sono stati annotati almeno 3 problemi concreti e osservabili sul sito corrente o sull ecosistema pubblico del cliente
+- ogni problema ha una soluzione specifica legata a pagine, sezioni, percorso contatto, social, recensioni o operativita reale
 - il prezzo e motivato da deliverable reali, non solo dal pacchetto standard
 - e stata verificata la lingua commerciale corretta del cliente
 - e stata verificata la valuta corretta del mercato cliente
-- esiste evidenza audit scritta con riferimenti a pagine, sezioni o comportamenti osservati
+- esiste evidenza audit scritta con riferimenti a pagine, sezioni, screenshot, recensioni, social o comportamenti osservati
 - esiste una pricing rationale scritta che giustifica scope e investimento
+- il documento finale spiega i termini tecnici in parole normali, cosi il cliente capisce cosa compra anche se non conosce il web
 
 Se una sola condizione manca, il lead resta in audit e il preventivo non si manda.
+
+Protocollo operativo completo: `sales-kit/full_quote_audit_standard.md`.
 
 ## Contact exclusion gate
 Prima di aggiungere un lead a qualunque batch:

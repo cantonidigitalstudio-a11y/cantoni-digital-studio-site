@@ -17,6 +17,21 @@
 - TikTok: https://www.tiktok.com/@cantonidigitalstudio
 - Email: cantonidigitalstudio@gmail.com
 - Telefono / WhatsApp: +39 347 196 1113
+- WhatsApp diretto: https://wa.me/393471961113
+
+## 0. Audit obbligatorio prima del prezzo
+Prima di scrivere il preventivo, compilare o allegare evidenza seguendo `sales-kit/full_quote_audit_standard.md`.
+
+Il preventivo non e valido se manca una verifica reale di:
+- sito live corretto e dominio/canonical attuale
+- versione mobile e percorso da telefono
+- contatti, form, WhatsApp, telefono, email, prenotazione o checkout
+- privacy, cookie, termini, pagamenti e fiducia minima
+- social pubblici: Instagram, Facebook, TikTok, YouTube, LinkedIn o canali di settore
+- recensioni e reputazione: Google Business Profile, Tripadvisor, Trustpilot, Booking, Expedia, TheFork, Airbnb o marketplace rilevanti
+- competitor e mercato realmente servito
+- presenza su Google e nelle risposte delle intelligenze artificiali quando il cliente dipende dalla ricerca
+- screenshot, link o note che provino cio che e stato visto
 
 ## 1. Sintesi progetto
 Scrivere 4-6 righe che dimostrino di aver capito:
@@ -84,3 +99,4 @@ Spiegare sempre in modo semplice:
 - Il cliente deve capire cosa compra anche se non conosce parole tecniche.
 - Vietato lasciare gergo non spiegato: CTA, hero, funnel, UX, SEO tecnico, scope.
 - La proposta deve sembrare Cantoni Digital Studio: logo, sito, social, contatti e riferimenti pubblici devono essere presenti.
+- Se mancano social, recensioni, contatti o prove, scrivere "da verificare" internamente e non trasformarlo in affermazione commerciale.

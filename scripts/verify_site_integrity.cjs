@@ -18,7 +18,8 @@ const REQUIRED_PUBLIC_REFERENCES = [
   'https://destination-cocoa-site.netlify.app',
   'https://ec8platform.com',
   'https://www.instagram.com/cantonidigitalstudio/',
-  'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/'
+  'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+  'https://wa.me/393471961113'
 ];
 
 const BLOCKED_UNVERIFIED_PUBLIC_LINKS = [
@@ -155,6 +156,8 @@ function checkVerifiedSocialContract(fileName, html, issues) {
       'Un profilo è ufficiale solo se è linkato da questa pagina.',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+      'WhatsApp operativo',
+      'https://wa.me/393471961113',
       'TikTok configurato',
       '@cantonidigitalstudio',
       'https://github.com/cantonidigitalstudio-a11y',
@@ -177,6 +180,9 @@ function checkCommercialCompliance(fileName, html, issues) {
   }
   if (!html.includes('mailto:cantonidigitalstudio@gmail.com')) {
     issues.push(`${fileName}: missing operating email link`);
+  }
+  if (!html.includes('https://wa.me/393471961113')) {
+    issues.push(`${fileName}: missing operating WhatsApp link`);
   }
 
   if (/<form\b/i.test(html) && !html.includes('name="privacyAccepted"')) {
