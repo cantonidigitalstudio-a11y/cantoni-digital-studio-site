@@ -59,7 +59,7 @@ Preferred future vanity URL, if Meta allows it:
 
 ## TikTok
 
-Status: account exists and opens in the authenticated Browser as `@cantonidigitalstudio`, with Cantoni logo, name and bio. The unauthenticated check still returns generic TikTok login copy, so keep logged-out QA pending before treating it as standalone public proof.
+Status: account exists and opens in the authenticated Google OAuth session as `@cantonidigitalstudio`, with Cantoni logo, name and bio. QA rerun on 2026-05-14 confirmed the authenticated profile; evidence: `/tmp/tiktok-profile-after-google.png`. The unauthenticated check still redirects to TikTok login; evidence: `/tmp/tiktok-cantoni-public-google-final.png`. Keep TikTok out of standalone proof links until logged-out QA passes.
 
 Preferred handle:
 `@cantonidigitalstudio`

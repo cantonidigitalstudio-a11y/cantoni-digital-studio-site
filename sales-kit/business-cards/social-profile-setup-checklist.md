@@ -29,11 +29,12 @@ The current business-card print file includes full-color Facebook, Instagram and
 
 - Instagram QA confirms the profile link is `cantonidigitalstudio.com`; `zumu.be/ecantoni` no longer appears in the profile. The bio reads `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`.
 - Instagram avatar replacement completed with `sales-kit/social-launch/output/instagram-avatar-cantoni.png`; evidence: authenticated `/tmp/instagram-cantoni-avatar-persistent-final.png`, public logged-out `/tmp/instagram-cantoni-public-final-clean.png`.
-- TikTok logged-out QA rerun: `https://www.tiktok.com/@cantonidigitalstudio` still redirects to mandatory login, so TikTok remains configured but not accepted as a standalone proof channel.
+- TikTok authenticated QA rerun after Google login: `https://www.tiktok.com/@cantonidigitalstudio` opens as `Cantoni Digital Studio`, handle `cantonidigitalstudio`, official centered logo and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Evidence: `/tmp/tiktok-profile-after-google.png`.
+- TikTok logged-out QA rerun: `https://www.tiktok.com/@cantonidigitalstudio` still redirects to mandatory login (`/login?...enter_method=mandatory`), so TikTok remains configured but not accepted as a standalone proof channel. Evidence: `/tmp/tiktok-cantoni-public-google-final.png`.
 
 ## Browser Setup Attempt - 2026-05-11
 
-- TikTok signup is open and ready, but Google OAuth is paused at password/manual verification for the official studio email.
+- Historical note only: TikTok signup originally paused at Google password/manual verification on 2026-05-11; resolved on 2026-05-14 by using the Google OAuth path for the official studio account.
 - Facebook Page creation accepts `Cantoni Digital Studio` and `Web designer`, but Meta blocks the final creation behind login/Page ownership.
 - The Facebook target must be a Page, not a personal profile with the company name.
 
@@ -68,7 +69,7 @@ Phone / WhatsApp:
 
 - Use the same square logo/avatar as the site ecosystem: `assets/logo/generated/cantoni_avatar_gmail_dark.png`.
 - Use the same brand name everywhere: `Cantoni Digital Studio`.
-- Facebook/TikTok public links must open without login before being used as standalone proof links. Facebook now passes logged-out QA; TikTok is branded in the authenticated session and still needs logged-out QA. Instagram may show a platform cookie/login wall, so it must not be used as the only verification proof until the profile link is corrected.
+- Facebook/TikTok public links must open without login before being used as standalone proof links. Facebook now passes logged-out QA; TikTok is branded in the authenticated Google session, but logged-out QA still redirects to login. Instagram now passes profile-link and avatar QA, but should still not be the only verification proof.
 - Instagram profile link is corrected to `https://cantonidigitalstudio.com`; the centered generated avatar is live.
 - Bio must not promise impossible delivery or fixed prices without scope.
 - Instagram, Facebook and TikTok handles must be tested before adding them to a print order.

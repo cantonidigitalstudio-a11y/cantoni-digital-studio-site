@@ -4,13 +4,14 @@
 
 - Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. QA on 2026-05-14 confirmed name, bio, category, 3 posts, visible follower count, clickable website link `cantonidigitalstudio.com`, no old `zumu.be/ecantoni` link, and the centered official profile avatar from `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
 - Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-13 confirmed the public page opens without account access, shows `Cantoni Digital Studio`, `Web designer`, the about copy, phone, email, website, Instagram and TikTok references. No private address is published.
-- TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Browser QA on 2026-05-12 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA is still required before treating TikTok as a fully public proof channel.
+- TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Google OAuth QA on 2026-05-14 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA still redirects to mandatory login, so TikTok is not a standalone public proof channel yet.
 - iPad wireless fallback is enabled and verified on 2026-05-13: Developer Mode is active, `idevice_id -n` lists the iPad, CoreDevice reports the device as paired/available, display inspection works without USB, and Instagram is installed as `com.burbn.instagram`. The WebDriverAgent runner is installed, but iOS still requires trust of the Apple Development certificate before full automated mobile control can change the Instagram link and avatar.
 
 ## Browser QA - 2026-05-14
 
 - Instagram QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. The clickable profile link is `cantonidigitalstudio.com`; `zumu.be/ecantoni` does not appear. Avatar replacement completed with the centered official asset; screenshot evidence: `/tmp/instagram-cantoni-avatar-persistent-final.png` and `/tmp/instagram-cantoni-public-final-clean.png`.
-- TikTok logged-out QA: `https://www.tiktok.com/@cantonidigitalstudio` still redirects to `tiktok.com/login?...enter_method=mandatory`; screenshot evidence: `/tmp/tiktok-cantoni-logged-out-final.png`. Keep TikTok out of standalone proof links.
+- TikTok authenticated QA: Google login completes through `Continua con Google`, and the profile opens as `@cantonidigitalstudio` with the correct logo, name and bio; screenshot evidence: `/tmp/tiktok-profile-after-google.png`.
+- TikTok logged-out QA: `https://www.tiktok.com/@cantonidigitalstudio` still redirects to `tiktok.com/login?...enter_method=mandatory`; screenshot evidence: `/tmp/tiktok-cantoni-public-google-final.png`. Keep TikTok out of standalone proof links.
 
 ## Browser QA - 2026-05-13
 
