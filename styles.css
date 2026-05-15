@@ -806,6 +806,11 @@ h3 { color: var(--navy); font-size: 1.14rem; }
   background: rgba(11,46,89,.08);
 }
 
+.pill-link-muted {
+  cursor: default;
+  opacity: .84;
+}
+
 .support-card {
   display: grid;
   gap: 10px;
@@ -1128,6 +1133,84 @@ h3 { color: var(--navy); font-size: 1.14rem; }
   margin-bottom: 8px;
 }
 
+.case-proof-panel {
+  margin-top: 28px;
+  padding: 26px;
+  border: 1px solid rgba(11,46,89,.10);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(244,248,252,.96) 52%, rgba(255,247,238,.92) 100%);
+  box-shadow: 0 22px 46px rgba(11,42,74,.08);
+}
+
+.case-proof-head {
+  max-width: 76ch;
+  margin-bottom: 18px;
+}
+
+.case-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.case-proof-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid rgba(11,46,89,.10);
+  border-radius: 20px;
+  background: rgba(255,255,255,.92);
+}
+
+.case-proof-card h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.22;
+}
+
+.case-proof-card-dark {
+  background: #13254a;
+  border-color: #13254a;
+  color: #fff;
+}
+
+.case-proof-card-dark p,
+.case-proof-card-dark .case-tag {
+  color: rgba(255,255,255,.82);
+}
+
+.case-proof-card-dark .pill-link {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-color: rgba(255,255,255,.16);
+}
+
+.case-proof-list {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+}
+
+.case-proof-list div {
+  display: grid;
+  gap: 4px;
+}
+
+.case-proof-list dt {
+  color: var(--orange);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.case-proof-list dd {
+  margin: 0;
+  color: #40516a;
+  font-size: .92rem;
+  line-height: 1.48;
+}
+
 .footer-shell {
   display: grid;
   grid-template-columns: minmax(280px, 1.05fr) minmax(0, 1.4fr);
@@ -1214,6 +1297,7 @@ h3 { color: var(--navy); font-size: 1.14rem; }
 
   .home-livework-shell,
   .home-proof-grid,
+  .case-proof-grid,
   .cases-shell,
   .cases-pattern-grid,
   .studio-proof-grid {

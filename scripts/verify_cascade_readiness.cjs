@@ -36,6 +36,33 @@ const REQUIRED_TEXT = [
       'Visibilita nelle risposte delle intelligenze artificiali',
       'Vietato lasciare gergo non spiegato'
     ]
+  },
+  {
+    file: 'case-studies.html',
+    contains: [
+      'What a client can verify immediately',
+      'Public proof must answer a simple question',
+      'Premium service website with booking logic',
+      'Tourism booking surface, upsell and routing',
+      'Platform positioning and payment-ready architecture',
+      'Where a prospect can verify the studio',
+      'https://excellentiavip.com',
+      'https://destination-cocoa-site.netlify.app',
+      'https://ec8platform.com',
+      'https://www.instagram.com/cantonidigitalstudio/',
+      'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+      'https://wa.me/393471961113'
+    ]
+  },
+  {
+    file: 'sales-kit/social-launch/posts.json',
+    contains: [
+      'Reference verificabile: https://excellentiavip.com',
+      'Reference verificabile: https://destination-cocoa-site.netlify.app',
+      'Reference verificabile: https://ec8platform.com',
+      'social, recensioni, competitor',
+      'web app, app mobile'
+    ]
   }
 ];
 

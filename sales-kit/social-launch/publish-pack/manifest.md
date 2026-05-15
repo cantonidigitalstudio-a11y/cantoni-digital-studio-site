@@ -24,5 +24,5 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale.
 
 - Pubblicare prima tre contenuti portfolio, poi metodo e servizi.
 - Non modificare link o claim senza verificare il sito pubblico citato.
-- Facebook e TikTok sono brandizzati; usarli come prova pubblica solo dopo logged-out QA finale.
-- Usare Instagram solo dopo login sull'account `@cantonidigitalstudio`.
+- Facebook ora passa QA pubblica; TikTok resta brandizzato ma non va usato come prova autonoma finche apre login obbligatorio.
+- Usare Instagram dopo login sull'account `@cantonidigitalstudio`; correggere il link profilo da mobile prima di usarlo come prova principale.

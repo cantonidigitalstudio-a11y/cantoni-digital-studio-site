@@ -1,4 +1,4 @@
-Destination Cocoa by Collins mostra un flusso pubblico di booking, transfer, upsell e routing operativo per un servizio turistico reale. Il lavoro non finisce sul design: serve chiarezza per il cliente, richiesta pulita e passaggio operativo affidabile per il team. Link: https://destination-cocoa-site.netlify.app
+Destination Cocoa by Collins mostra un flusso pubblico per booking turistico, transfer, upsell e routing operativo. Quando un servizio dipende da richieste pulite e passaggi interni chiari, il sito deve aiutare anche l'organizzazione, non solo fare bella figura. Reference verificabile: https://destination-cocoa-site.netlify.app
 
 Portfolio reale, progetto pubblico e metodo operativo scritto.
 

@@ -15,6 +15,8 @@
 - Gate preventivo da CRM: `sales-kit/scripts/create_quote_input_from_lead.mjs` genera input preventivo solo se il lead ha audit completo, motivazione prezzo, tempistiche e deliverable; i lead ancora in ricerca vengono bloccati.
 - Gate scelta soluzione: ogni preventivo da CRM richiede `recommended_solution_type`, `solution_type_rationale` e `payment_readiness` per distinguere sito, e-commerce, web app, app, piattaforma, automazioni AI o gestione continuativa.
 - Outreach visual: loghi social nel template email sostituiti con icone riconoscibili e coerenti con i colori ufficiali; il blocco "Studio profilo operativo" e stato rimosso dai riquadri contatto.
+- Portfolio pubblico rafforzato: `case-studies.html` ora spiega cosa puo verificare subito un cliente, che tipo di soluzione dimostra ogni reference e quali canali pubblici usare come prova.
+- Social pack aggiornato: le caption chiariscono reference verificabili, distinzione sito/e-commerce/web app/app e audit prima del prezzo.
 - Batch starter: Hotel Parco e Centro Vacanze Domus restano pronti per bozza iniziale; Blume resta `RESEARCH_VERIFIED` e non va contattato finche non passa la seconda verifica.
 
 ## Verifiche eseguite
@@ -46,7 +48,7 @@
 1. Sistemare profili social esterni: WhatsApp Business nome/foto se confermato, Instagram/Facebook/TikTok contenuti clienti e coerenza bio/link.
 2. Pulizia repo: separare commit-ready, materiali interni, generati e file da ignorare.
 3. QA visuale live del sito pubblico su desktop, iPhone, iPad e Samsung.
-4. Rifinitura pagina portfolio/case studies con prove concrete per Mr Collins, Excellentia VIP, EC8 Platform e altri lavori approvati.
-5. Preparazione primo batch outreach piccolo, massimo 10 lead, con revisione manuale.
+4. Preparazione primo batch outreach piccolo, massimo 10 lead, con revisione manuale.
+5. Pubblicazione manuale dei primi contenuti social solo dopo approvazione esplicita delle caption e immagini.
 6. Verifica Gmail preflight solo su `cantonidigitalstudio@gmail.com`.
 7. Invio solo dopo approvazione esplicita.

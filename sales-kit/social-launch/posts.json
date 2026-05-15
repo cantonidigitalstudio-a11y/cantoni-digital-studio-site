@@ -3,30 +3,30 @@
     "id": "01-excellentia-vip",
     "type": "portfolio",
     "title": "Excellentia VIP",
-    "subtitle": "Luxury transport, concierge e flusso booking",
-    "proof": "Sito live: excellentiavip.com",
-    "body": "Un sistema pubblico per servizi premium: pacchetti, flotta, richieste, routing operativo e fiducia prima del primo messaggio.",
-    "caption_it": "Excellentia VIP è un progetto live di luxury transport e concierge: sito, pacchetti, flotta, booking e struttura operativa pubblica. Non è una semplice vetrina: è un percorso commerciale pensato per far capire valore, servizi e prossimo passo prima del primo contatto. Link: https://excellentiavip.com",
+    "subtitle": "Sito premium, booking e struttura operativa",
+    "proof": "Verificabile: excellentiavip.com",
+    "body": "Un servizio costoso deve essere chiaro, credibile e facile da richiedere da telefono: pacchetti, flotta, percorso booking e fiducia prima del primo messaggio.",
+    "caption_it": "Excellentia VIP è un progetto pubblico di luxury transport e concierge. Qui il lavoro non è solo estetico: il sito deve spiegare valore, pacchetti, flotta, percorso di prenotazione e prossimo passo in modo credibile anche da mobile. Reference verificabile: https://excellentiavip.com",
     "cta": "Apri case study"
   },
   {
     "id": "02-destination-cocoa",
     "type": "portfolio",
     "title": "Destination Cocoa",
-    "subtitle": "Booking turistico per Mr Collins",
-    "proof": "Sito live: destination-cocoa-site.netlify.app",
-    "body": "Transfer, esperienze, upsell e recap operativo in un flusso più chiaro per cliente e team.",
-    "caption_it": "Destination Cocoa by Collins mostra un flusso pubblico di booking, transfer, upsell e routing operativo per un servizio turistico reale. Il lavoro non finisce sul design: serve chiarezza per il cliente, richiesta pulita e passaggio operativo affidabile per il team. Link: https://destination-cocoa-site.netlify.app",
+    "subtitle": "Booking turistico, upsell e routing",
+    "proof": "Verificabile: destination-cocoa-site.netlify.app",
+    "body": "Transfer, esperienze, servizi extra e recap operativo devono stare in un percorso più chiaro per cliente e team.",
+    "caption_it": "Destination Cocoa by Collins mostra un flusso pubblico per booking turistico, transfer, upsell e routing operativo. Quando un servizio dipende da richieste pulite e passaggi interni chiari, il sito deve aiutare anche l'organizzazione, non solo fare bella figura. Reference verificabile: https://destination-cocoa-site.netlify.app",
     "cta": "Vedi percorso"
   },
   {
     "id": "03-ec8-platform",
     "type": "portfolio",
     "title": "EC8 Platform",
-    "subtitle": "Coaching, education e architettura digitale",
-    "proof": "Sito live: ec8platform.com",
-    "body": "Posizionamento, offerta, credibilità e struttura pronta per crescere con contenuti, piani e sistemi di pagamento.",
-    "caption_it": "EC8 Platform è una reference pubblica su coaching, education, posizionamento e architettura digitale. Un sito serio deve rendere leggibile l'offerta, aumentare fiducia e preparare la vendita senza confondere l'utente. Link: https://ec8platform.com",
+    "subtitle": "Piattaforma, offerta e pagamenti",
+    "proof": "Verificabile: ec8platform.com",
+    "body": "Posizionamento, fiducia, prodotto digitale e struttura pronta a crescere con contenuti, piani e sistemi di pagamento.",
+    "caption_it": "EC8 Platform è una reference pubblica su coaching, education, posizionamento e architettura digitale. Un sistema serio deve rendere leggibile l'offerta, sostenere fiducia e preparare la conversione senza confondere l'utente. Reference verificabile: https://ec8platform.com",
     "cta": "Apri reference"
   },
   {
@@ -34,9 +34,9 @@
     "type": "method",
     "title": "Preventivi dopo audit",
     "subtitle": "Prima si controlla il sito reale",
-    "proof": "Dominio, contatti, mobile, fiducia, pagamenti e ricerca",
+    "proof": "Dominio, mobile, contatti, social, recensioni e ricerca",
     "body": "Un preventivo serio nasce da problemi osservabili, priorità chiare e scope scritto. Niente prezzi generici mandati a freddo.",
-    "caption_it": "Prima di un preventivo serio controlliamo dominio reale, sito corrente, contatti, percorso mobile, fiducia, problemi commerciali visibili e margini di crescita organica. Prezzo e scope arrivano dopo: prima serve capire cosa va davvero costruito e come farlo rendere nel tempo.",
+    "caption_it": "Prima di un preventivo serio controlliamo dominio reale, sito corrente, percorso mobile, contatti, social, recensioni, competitor e presenza nelle ricerche. Prezzo e scope arrivano dopo: prima serve capire se serve un sito, un e-commerce, una web app, un'app o una gestione continuativa.",
     "cta": "Richiedi audit"
   },
   {
@@ -44,9 +44,9 @@
     "type": "services",
     "title": "Siti, e-commerce, web app e app",
     "subtitle": "Pagamenti, login, dashboard, app e automazioni AI",
-    "proof": "Scope scritto + QA + delivery multilingua",
-    "body": "Costruiamo sistemi digitali per aziende: dalla prima pagina fino a checkout, area cliente, admin, app e crescita continuativa.",
-    "caption_it": "Cantoni Digital Studio realizza siti, e-commerce, web app, app, pagamenti, login, dashboard, booking e automazioni AI. Il punto non è fare pagine belle: il punto è costruire sistemi chiari, verificabili e vendibili, poi migliorarli nel tempo con contenuti, fiducia, conversione, ricerca e visibilità nelle risposte AI.",
+    "proof": "Scope scritto, QA, pagamenti e delivery multilingua",
+    "body": "Costruiamo sistemi digitali per aziende: sito pubblico, checkout, area cliente, admin, app mobile e crescita continuativa.",
+    "caption_it": "Cantoni Digital Studio realizza siti, e-commerce, web app, app mobile, pagamenti, login, dashboard, booking e automazioni AI. Il punto non è fare pagine belle: il punto è costruire sistemi chiari, verificabili e vendibili, poi migliorarli nel tempo con contenuti, fiducia, conversione, ricerca e visibilità nelle risposte AI.",
     "cta": "Apri preventivo"
   }
 ]
