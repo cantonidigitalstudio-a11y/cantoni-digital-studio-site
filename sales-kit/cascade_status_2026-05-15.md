@@ -10,6 +10,10 @@
 - WhatsApp pubblico: aggiunto come canale visibile su pagine primarie, identita operativa, termini, privacy, pagina pagamento confermato e riferimenti post-form.
 - Preventivi seri: aggiunto `sales-kit/full_quote_audit_standard.md` con gate obbligatorio su sito live, mobile, contatti, social, recensioni, competitor, ricerca e AI visibility prima di qualunque prezzo.
 - Gate preventivi: aggiunto `npm run test:quote-audit-standard` dentro `npm run test:outreach-readiness`.
+- Numero WhatsApp confermato: `+39 347 196 1113` / `https://wa.me/393471961113`.
+- Gate CRM rafforzato: `READY_TO_CONTACT` richiede ora campi audit strutturati su dominio, mobile, contatti, social, recensioni, competitor, ricerca/AI visibility ed evidenze.
+- Gate preventivo da CRM: `sales-kit/scripts/create_quote_input_from_lead.mjs` genera input preventivo solo se il lead ha audit completo, motivazione prezzo, tempistiche e deliverable; i lead ancora in ricerca vengono bloccati.
+- Batch starter: Hotel Parco e Centro Vacanze Domus restano pronti per bozza iniziale; Blume resta `RESEARCH_VERIFIED` e non va contattato finche non passa la seconda verifica.
 
 ## Verifiche eseguite
 - `npm test`
@@ -18,8 +22,15 @@
 - `npm run test:artifact`
 - `npm run test:full`
 - `git diff --check`
+- `npm run test:lead-batch`
+- `npm run test:starter-queue`
+- `npm run test:quote-audit-standard`
+- `npm run test:outreach-readiness`
+- Generazione preventivo di prova da `LD-GS-0001` in `/tmp/cantoni-quote-gate`: passata.
+- Blocco preventivo da `LD-GS-0003`: passato, perche resta `RESEARCH_VERIFIED`.
 - QA Playwright su `sales-kit/lead-batches/2026-05-11-global-starter/branded/internal-review-branded.html`
 - QA browser interno su preview locale `http://127.0.0.1:4192/`: 8 pagine pubbliche, link WhatsApp visibili, zero errori console, nessun overflow orizzontale nel pannello.
+- QA browser interno su `internal-review-branded.html`: logo, sito, WhatsApp, Instagram, Facebook, TikTok presenti; zero errori console; nessun overflow.
 
 ## Regole da non violare
 - Non inviare email automatiche senza approvazione esplicita.
@@ -27,7 +38,7 @@
 - Non fare pagamenti o azioni irreversibili senza conferma live.
 - Usare solo l identita Cantoni Digital Studio per outreach e supporto.
 - TikTok e canale ufficiale, ma non va usato come unica prova pubblica finche alcuni visitatori sloggati vedono login obbligatorio.
-- Il numero WhatsApp pubblicato resta `+39 347 196 1113` / `https://wa.me/393471961113`, gia coerente con i materiali. Il numero dettato in seguito con una cifra in piu va confermato prima di sostituire il link pubblico.
+- Il numero WhatsApp pubblicato resta `+39 347 196 1113` / `https://wa.me/393471961113`, confermato come corretto.
 
 ## Prossima cascata
 1. Sistemare profili social esterni: WhatsApp Business nome/foto se confermato, Instagram/Facebook/TikTok contenuti clienti e coerenza bio/link.

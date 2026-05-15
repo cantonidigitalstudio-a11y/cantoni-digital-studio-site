@@ -33,6 +33,29 @@ export const REQUIRED_READY_FIELDS = [
   'notes'
 ];
 
+export const REQUIRED_READY_AUDIT_FIELDS = [
+  'audit_date',
+  'current_domain_verified',
+  'mobile_experience_checked',
+  'contact_flow_checked',
+  'social_channels_checked',
+  'review_platforms_checked',
+  'competitors_checked',
+  'search_ai_visibility_checked',
+  'evidence_refs'
+];
+
+export const REQUIRED_QUOTE_FIELDS = [
+  ...REQUIRED_READY_FIELDS,
+  ...REQUIRED_READY_AUDIT_FIELDS,
+  'recommended_package_price',
+  'timeline',
+  'base_deliverables',
+  'growth_deliverables',
+  'monthly_deliverables',
+  'pricing_rationale'
+];
+
 const EU_COUNTRIES = new Set([
   'austria', 'belgium', 'bulgaria', 'croatia', 'cyprus', 'czech republic', 'czechia', 'denmark',
   'estonia', 'finland', 'france', 'germany', 'greece', 'hungary', 'ireland', 'italy', 'latvia',
@@ -206,6 +229,62 @@ export function splitAuditField(value) {
     .filter(Boolean);
 }
 
+function containsWeakAuditValue(value) {
+  return /\b(?:placeholder|example\.com|todo|tbd|dummy|lorem)\b/i.test(String(value || ''));
+}
+
+function containsUnresolvedQuoteValue(value) {
+  return /\b(?:partial|second-pass|not ready|hold:|to verify|da verificare|ricontrollare|pending)\b/i
+    .test(String(value || ''));
+}
+
+function validateDateField(value, field) {
+  const text = String(value || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return `${field}_must_be_iso_date`;
+  return null;
+}
+
+function validatePipeCount(row, field, minimum, label) {
+  const values = splitAuditField(row[field]);
+  if (values.length < minimum) return `${label || field}_requires_${minimum}_items`;
+  if (values.some(containsWeakAuditValue)) return `${label || field}_contains_placeholder`;
+  return null;
+}
+
+export function validateReadyAuditEvidence(row) {
+  const problems = [];
+  const missing = REQUIRED_READY_AUDIT_FIELDS.filter((field) => !String(row[field] || '').trim());
+
+  if (missing.length) problems.push(`missing_audit_required:${missing.join('|')}`);
+
+  const dateProblem = row.audit_date ? validateDateField(row.audit_date, 'audit_date') : null;
+  if (dateProblem) problems.push(dateProblem);
+
+  [
+    'current_domain_verified',
+    'mobile_experience_checked',
+    'contact_flow_checked',
+    'search_ai_visibility_checked'
+  ].forEach((field) => {
+    const value = String(row[field] || '').trim();
+    if (value && value.length < 25) problems.push(`${field}_too_short`);
+    if (containsWeakAuditValue(value)) problems.push(`${field}_contains_placeholder`);
+  });
+
+  [
+    validatePipeCount(row, 'social_channels_checked', 2, 'social_channels'),
+    validatePipeCount(row, 'review_platforms_checked', 2, 'review_platforms'),
+    validatePipeCount(row, 'competitors_checked', 2, 'competitors'),
+    validatePipeCount(row, 'evidence_refs', 2, 'evidence_refs')
+  ].filter(Boolean).forEach((problem) => problems.push(problem));
+
+  if (row.evidence_refs && !/https?:\/\/|screenshot|browser|qa|tmp\//i.test(row.evidence_refs)) {
+    problems.push('evidence_refs_must_reference_urls_or_screenshots');
+  }
+
+  return problems;
+}
+
 export function resolveMarketSummary(row) {
   const explicit = [
     row.market_scope_summary,
@@ -235,6 +314,10 @@ export function validateLeadForQueue(row) {
     problems.push(`missing_required:${missing.join('|')}`);
   }
 
+  if (row.status === 'READY_TO_CONTACT') {
+    problems.push(...validateReadyAuditEvidence(row));
+  }
+
   const currency = resolveCurrency(row);
   const language = resolveLanguage(row);
   if (!currency) problems.push('currency_unresolved');
@@ -246,6 +329,40 @@ export function validateLeadForQueue(row) {
     problems,
     language,
     currency
+  };
+}
+
+export function validateLeadForQuote(row) {
+  const missing = REQUIRED_QUOTE_FIELDS.filter((field) => !String(row[field] || '').trim());
+  const problems = [];
+  const allowedQuoteStatuses = new Set(['READY_TO_CONTACT', 'REPLIED', 'QUOTE_IN_PROGRESS']);
+
+  if (!allowedQuoteStatuses.has(row.status)) {
+    problems.push(`quote_status_not_allowed:${row.status || 'EMPTY'}`);
+  }
+
+  if (missing.length) problems.push(`missing_quote_required:${missing.join('|')}`);
+
+  problems.push(...validateReadyAuditEvidence(row));
+
+  REQUIRED_READY_AUDIT_FIELDS.forEach((field) => {
+    if (containsUnresolvedQuoteValue(row[field])) problems.push(`${field}_contains_unresolved_quote_note`);
+  });
+
+  if (splitAuditField(row.top_3_issues_found).length < 3) problems.push('quote_requires_3_issues');
+  if (splitAuditField(row.top_3_improvements_proposed).length < 3) problems.push('quote_requires_3_improvements');
+  if (splitAuditField(row.expected_business_impact_range).length < 2) problems.push('quote_requires_2_business_impacts');
+
+  if (String(row.pricing_rationale || '').trim().length < 70) {
+    problems.push('pricing_rationale_too_short');
+  }
+
+  return {
+    ok: problems.length === 0,
+    missing,
+    problems,
+    language: resolveLanguage(row),
+    currency: resolveCurrency(row)
   };
 }
 

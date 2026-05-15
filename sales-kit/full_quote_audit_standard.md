@@ -73,6 +73,21 @@ Ogni audit che genera una proposta deve contenere:
 - Rischi o dati mancanti da confermare.
 - Prossimo passo chiaro per il cliente.
 
+## 8. Campi CRM obbligatori
+Un lead puo diventare `READY_TO_CONTACT` solo se nel CRM o nel CSV batch sono compilati questi campi audit:
+
+- `audit_date`: data ISO dell audit, esempio `2026-05-15`.
+- `current_domain_verified`: dominio live/canonical/redirect controllato.
+- `mobile_experience_checked`: cosa e stato visto da telefono o viewport mobile.
+- `contact_flow_checked`: telefono, email, WhatsApp, form, booking o checkout verificati senza transazioni reali.
+- `social_channels_checked`: canali trovati o assenti, separati da `|`.
+- `review_platforms_checked`: Google Business Profile, Tripadvisor, Booking, Trustpilot o piattaforme rilevanti, separate da `|`.
+- `competitors_checked`: almeno due competitor o alternative reali, separati da `|`.
+- `search_ai_visibility_checked`: nota su ricerca Google, brand query, categoria e possibile lavoro di visibilita AI.
+- `evidence_refs`: URL, screenshot o note Browser/QA, separati da `|`.
+
+Un preventivo generato da CRM richiede anche `pricing_rationale`, prezzo consigliato, tempistiche e deliverable. Se questi campi mancano, lo script di generazione deve bloccarsi.
+
 ## Stop rule
 Non inviare il preventivo se:
 

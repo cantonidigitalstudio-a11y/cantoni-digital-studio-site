@@ -103,6 +103,7 @@ Queste sono fasce di partenza, non prezzi automatici. Ogni proposta deve essere 
 
 ## Tool operativo
 - Generatore preventivi: `node sales-kit/scripts/generate_personalized_quote.mjs --input <file.json>`
+- Generatore input da CRM: `node sales-kit/scripts/create_quote_input_from_lead.mjs --lead-id <LEAD_ID>`; si blocca se mancano audit completo, evidenze e motivazione prezzo.
 - Locale map: `sales-kit/market_locale_rules.json`
 - FX rates baseline: `sales-kit/fx_rates.json`
 - CRM validator: `node sales-kit/scripts/validate_day1_pipeline.mjs`
