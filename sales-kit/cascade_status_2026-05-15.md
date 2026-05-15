@@ -37,6 +37,8 @@
 - QA browser interno su preview locale `http://127.0.0.1:4192/`: 8 pagine pubbliche, link WhatsApp visibili, zero errori console, nessun overflow orizzontale nel pannello.
 - QA browser interno su `internal-review-branded.html`: logo, sito, WhatsApp, Instagram, Facebook, TikTok presenti; zero errori console; nessun overflow.
 - `node sales-kit/scripts/gmail_preflight.mjs`: bloccato correttamente con `AUTH_REQUIRED`, quindi non esiste una sessione Gmail locale pronta per invii da `cantonidigitalstudio@gmail.com`.
+- Worker outreach Apps Script validato in dry-run su copie temporanee: `LD-GS-0001` verso `info@hparco.it` e `LD-GS-0002` verso `domusmg@13maggio.com`, `send_enabled=false`, nessun invio reale.
+- Finestra Chrome isolata aperta sul login Gmail con profilo dedicato Cantoni: `user_data_dir=/Volumes/Lexar/playwright-profiles/cantoni-gmail`, `profile_directory=Profile 18`, account atteso `cantonidigitalstudio@gmail.com`.
 
 ## Regole da non violare
 - Non inviare email automatiche senza approvazione esplicita.
@@ -53,5 +55,5 @@
 3. QA visuale live del sito pubblico su desktop, iPhone, iPad e Samsung.
 4. Preparazione primo batch outreach piccolo, massimo 10 lead, con revisione manuale.
 5. Pubblicazione manuale dei primi contenuti social solo dopo approvazione esplicita delle caption e immagini.
-6. Rifare login/preflight Gmail solo su `cantonidigitalstudio@gmail.com`; finche il preflight resta `AUTH_REQUIRED`, nessun invio.
+6. Completare login Gmail nel profilo dedicato Cantoni, poi rilanciare `node sales-kit/scripts/gmail_preflight.mjs`; finche il preflight resta `AUTH_REQUIRED`, nessun invio.
 7. Invio solo dopo approvazione esplicita.
