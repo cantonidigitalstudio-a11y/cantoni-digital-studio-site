@@ -13,6 +13,8 @@
 - Numero WhatsApp confermato: `+39 347 196 1113` / `https://wa.me/393471961113`.
 - Gate CRM rafforzato: `READY_TO_CONTACT` richiede ora campi audit strutturati su dominio, mobile, contatti, social, recensioni, competitor, ricerca/AI visibility ed evidenze.
 - Gate preventivo da CRM: `sales-kit/scripts/create_quote_input_from_lead.mjs` genera input preventivo solo se il lead ha audit completo, motivazione prezzo, tempistiche e deliverable; i lead ancora in ricerca vengono bloccati.
+- Gate scelta soluzione: ogni preventivo da CRM richiede `recommended_solution_type`, `solution_type_rationale` e `payment_readiness` per distinguere sito, e-commerce, web app, app, piattaforma, automazioni AI o gestione continuativa.
+- Outreach visual: loghi social nel template email sostituiti con icone riconoscibili e coerenti con i colori ufficiali; il blocco "Studio profilo operativo" e stato rimosso dai riquadri contatto.
 - Batch starter: Hotel Parco e Centro Vacanze Domus restano pronti per bozza iniziale; Blume resta `RESEARCH_VERIFIED` e non va contattato finche non passa la seconda verifica.
 
 ## Verifiche eseguite

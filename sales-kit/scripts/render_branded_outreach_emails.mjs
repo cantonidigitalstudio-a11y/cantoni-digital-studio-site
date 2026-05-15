@@ -26,14 +26,13 @@ function svgDataUri(svg) {
 }
 
 const ICONS = {
-  site: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#13254a"/><path fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M24 9.5a14.5 14.5 0 1 0 0 29 14.5 14.5 0 0 0 0-29Zm0 0c4 4 6 8.8 6 14.5S28 34.5 24 38.5c-4-4-6-8.8-6-14.5s2-10.5 6-14.5ZM10.5 24h27"/></svg>`),
-  instagram: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="g" x1="6" y1="42" x2="42" y2="6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#feda75"/><stop offset=".25" stop-color="#fa7e1e"/><stop offset=".5" stop-color="#d62976"/><stop offset=".75" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect x="5" y="5" width="38" height="38" rx="12" fill="url(#g)"/><rect x="14" y="14" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="3"/><circle cx="24" cy="24" r="5.2" fill="none" stroke="#fff" stroke-width="3"/><circle cx="31" cy="17" r="1.9" fill="#fff"/></svg>`),
-  facebook: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#1877f2"/><path fill="#fff" d="M28.8 25.8h4.1l.8-5.1h-4.9v-3.3c0-1.4.7-2.8 2.9-2.8h2.2v-4.4s-2-.3-3.9-.3c-4 0-6.7 2.4-6.7 6.9v3.9h-4.5v5.1h4.5V38h5.5V25.8Z"/></svg>`),
-  tiktok: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#111111"/><path fill="#25f4ee" d="M20.7 19.9v12.2a4.2 4.2 0 1 1-4.2-4.2c.4 0 .8.1 1.2.2v-5.4a9.8 9.8 0 1 0 8.7 9.7V17.5c1.9 2 4.3 3.1 7.2 3.2v-5.3c-2.3-.2-4.5-1.5-5.8-3.4h-7.1v7.9Z"/><path fill="#fe2c55" d="M23.1 18.1v13.6a4.2 4.2 0 0 1-6.1 3.7 4.2 4.2 0 0 0 7.2-3V18.9c2 2.1 4.7 3.3 7.7 3.5v-1.8c-2.8-.1-5.3-1.3-7.2-3.2v.7h-1.6Z"/><path fill="#fff" d="M22.4 13.7v18.7a6 6 0 1 1-6-6c.4 0 .9 0 1.3.1v-2a8 8 0 1 0 6.8 7.9V15.6c2 2 4.6 3.2 7.4 3.3V17c-2.9-.2-5.6-1.5-7.5-3.3h-2Z"/></svg>`),
-  cases: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#f29d38"/><path fill="#13254a" d="M15 11h18l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V14a3 3 0 0 1 3-3Zm17 2.8V18h4.2L32 13.8ZM18 23h15v-3H18v3Zm0 7h15v-3H18v3Zm0 7h10v-3H18v3Z"/></svg>`),
+  site: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#13254a"/><circle cx="22.5" cy="23.5" r="14" fill="none" stroke="#fff" stroke-width="4.2"/><path fill="#13254a" stroke="#13254a" stroke-width="6" d="M31 12h10v25H31z"/><path fill="none" stroke="#f29d38" stroke-width="4.2" stroke-linecap="round" d="M31 17c3.6 1.8 5.7 5 5.7 8.9 0 6.2-4.8 10.6-11.7 10.6h-9"/><path fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M18 24h12v7H18z"/></svg>`),
+  instagram: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><radialGradient id="igA" cx="30%" cy="107%" r="115%"><stop offset="0" stop-color="#feda75"/><stop offset=".18" stop-color="#fa7e1e"/><stop offset=".42" stop-color="#d62976"/><stop offset=".70" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></radialGradient></defs><rect x="4" y="4" width="40" height="40" rx="12" fill="url(#igA)"/><rect x="14" y="14" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="24" cy="24" r="5.2" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="31" cy="17" r="2" fill="#fff"/></svg>`),
+  facebook: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#1877F2"/><path fill="#fff" d="M30 25.6h-4.2V41h-6.4V25.6H16v-5.5h3.4v-3.5c0-4.7 2.8-7.3 7.1-7.3 2.1 0 4.3.4 4.3.4v4.7h-2.4c-2.4 0-3.1 1.5-3.1 3v2.7h5.3l-.6 5.5Z"/></svg>`),
+  tiktok: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#010101"/><path fill="#25F4EE" d="M22.2 18.9v13.7a5.7 5.7 0 1 1-5.7-5.7c.5 0 1 .1 1.5.2v-5.8a11.5 11.5 0 1 0 10 11.4V20.4c2.1 2 4.7 3.1 7.5 3.2v-5.8c-2.9-.3-5.2-1.8-6.7-4.5h-6.6v5.6Z"/><path fill="#FE2C55" d="M24.6 16.9v13.7a5.7 5.7 0 0 1-8.1 5.2 5.7 5.7 0 0 0 10.5-3.2V20.4c2.1 2 4.8 3.2 7.7 3.2v-2.2c-2.9-.1-5.5-1.3-7.5-3.2v-1.3h-2.6Z"/><path fill="#fff" d="M23.3 14.2v18.4a7.1 7.1 0 1 1-7.1-7.1c.6 0 1.2.1 1.8.2v-3.1a10.2 10.2 0 1 0 8.9 10.1V18.3c2.1 2 4.8 3.2 7.8 3.3v-3.1c-3-.2-5.7-1.8-7.3-4.3h-4.1Z"/></svg>`),
+  cases: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#f29d38"/><rect x="11" y="14" width="26" height="20" rx="4" fill="#13254a"/><path fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" d="M16 21h16M16 27h10"/><path fill="#fff" d="M20 12h8a3 3 0 0 1 3 3h-3a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1h-3a3 3 0 0 1 3-3Z"/></svg>`),
   email: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#eef3f8"/><path fill="none" stroke="#13254a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M12 16h24v17H12V16Zm0 1 12 10 12-10"/></svg>`),
-  phone: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#23a455"/><path fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" d="M18.2 12.5 22 20l-3.1 2.4c1.7 3.6 4.1 6 7.7 7.7L29 27l6.7 3.8c.6.3.9 1 .7 1.7-.8 3.2-2.7 4.7-5.8 4.7-9.9 0-19.8-9.9-19.8-19.8 0-3.1 1.5-5 4.7-5.8.8-.2 1.5.1 1.9.9Z"/></svg>`),
-  studio: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" rx="14" fill="#13254a"/><path fill="#f29d38" d="M12 14h24v4H12v-4Zm0 8h18v4H12v-4Zm0 8h24v4H12v-4Z"/><path fill="#fff" d="M34 21h4v14h-4z"/></svg>`)
+  phone: svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#25D366"/><path fill="#fff" d="M24.1 10.5c-7.4 0-13.4 5.9-13.4 13.2 0 2.5.7 4.9 2 6.9L10.5 38l7.7-2c1.8 1 3.9 1.5 6 1.5 7.4 0 13.4-5.9 13.4-13.2S31.5 10.5 24.1 10.5Zm0 24.4c-1.9 0-3.6-.5-5.2-1.4l-.4-.2-4.5 1.2 1.2-4.3-.3-.4c-1.1-1.7-1.7-3.6-1.7-5.6 0-5.9 4.9-10.7 10.9-10.7S35 18.4 35 24.3 30.1 34.9 24.1 34.9Zm6-8c-.3-.2-2-1-2.3-1.1-.3-.1-.6-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-1-1.7-2.1-1.9-2.4-.2-.3 0-.5.2-.7l.6-.7c.2-.2.3-.4.4-.6.1-.2.1-.5 0-.7-.1-.2-.8-1.9-1.1-2.6-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.7.1-1 .5-.3.3-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.8c.2.3 2.6 4 6.4 5.6.9.4 1.6.6 2.2.8.9.3 1.7.2 2.4.1.7-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.2-.1-.4-.2-.7-.4Z"/></svg>`)
 };
 
 function getArg(name, fallback = '') {
@@ -171,65 +170,56 @@ function renderContactTiles() {
       </tr>
       <tr>
         ${contactTile({
-          href: LINKS.facebook,
-          icon: ICONS.facebook,
-          alt: 'Logo ufficiale Facebook Cantoni Digital Studio',
-          label: 'Facebook',
-          value: 'Pagina ufficiale'
+          href: LINKS.cases,
+          icon: ICONS.cases,
+          alt: 'Portfolio lavori Cantoni Digital Studio',
+          label: 'Portfolio',
+          value: 'Lavori pubblici'
         })}
       </tr>
       <tr>
         ${contactTile({
           href: LINKS.instagram,
           icon: ICONS.instagram,
-          alt: 'Logo ufficiale Instagram Cantoni Digital Studio',
+          alt: 'Logo Instagram ufficiale',
           label: 'Instagram',
           value: '@cantonidigitalstudio'
         })}
       </tr>
       <tr>
         ${contactTile({
+          href: LINKS.facebook,
+          icon: ICONS.facebook,
+          alt: 'Logo Facebook ufficiale',
+          label: 'Facebook',
+          value: 'Pagina ufficiale'
+        })}
+      </tr>
+      <tr>
+        ${contactTile({
           href: LINKS.tiktok,
           icon: ICONS.tiktok,
-          alt: 'Logo ufficiale TikTok Cantoni Digital Studio',
+          alt: 'Logo TikTok ufficiale',
           label: 'TikTok',
           value: '@cantonidigitalstudio'
         })}
       </tr>
       <tr>
         ${contactTile({
-          href: LINKS.cases,
-          icon: ICONS.cases,
-          alt: 'Icona case studies Cantoni Digital Studio',
-          label: 'Case studies',
-          value: 'Lavori e risultati'
+          href: LINKS.whatsapp,
+          icon: ICONS.phone,
+          alt: 'Logo WhatsApp ufficiale',
+          label: 'WhatsApp',
+          value: BRAND_PHONE_DISPLAY
         })}
       </tr>
       <tr>
         ${contactTile({
           href: `mailto:${BRAND_EMAIL}`,
           icon: ICONS.email,
-          alt: 'Icona email Cantoni Digital Studio',
+          alt: 'Email Cantoni Digital Studio',
           label: 'Email',
           value: BRAND_EMAIL
-        })}
-      </tr>
-      <tr>
-        ${contactTile({
-          href: LINKS.whatsapp,
-          icon: ICONS.phone,
-          alt: 'Icona telefono WhatsApp Cantoni Digital Studio',
-          label: 'Telefono',
-          value: BRAND_PHONE_DISPLAY
-        })}
-      </tr>
-      <tr>
-        ${contactTile({
-          href: LINKS.studio,
-          icon: ICONS.studio,
-          alt: 'Icona profilo studio Cantoni Digital Studio',
-          label: 'Studio',
-          value: 'Profilo operativo'
         })}
       </tr>
     </table>
@@ -276,14 +266,14 @@ function renderReferenceFooter() {
           Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale Cantoni Digital Studio</a><br>
           Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
           TikTok: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
-          Case studies: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
+          Portfolio lavori: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
           Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
           Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
         </div>
         ${renderContactTiles()}
         <div style="margin-bottom:14px;">
-          <a href="${LINKS.studio}" style="${pillStyle}">Studio</a>
-          <a href="${LINKS.cases}" style="${pillStyle}">Case studies</a>
+          <a href="${LINKS.studio}" style="${pillStyle}">Chi siamo</a>
+          <a href="${LINKS.cases}" style="${pillStyle}">Portfolio lavori</a>
           <a href="${LINKS.facebook}" style="${pillStyle}">Facebook</a>
           <a href="${LINKS.instagram}" style="${pillStyle}">Instagram</a>
           <a href="${LINKS.tiktok}" style="${pillStyle}">TikTok</a>

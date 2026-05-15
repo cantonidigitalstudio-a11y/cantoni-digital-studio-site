@@ -48,12 +48,26 @@ export const REQUIRED_READY_AUDIT_FIELDS = [
 export const REQUIRED_QUOTE_FIELDS = [
   ...REQUIRED_READY_FIELDS,
   ...REQUIRED_READY_AUDIT_FIELDS,
+  'recommended_solution_type',
+  'solution_type_rationale',
+  'payment_readiness',
   'recommended_package_price',
   'timeline',
   'base_deliverables',
   'growth_deliverables',
   'monthly_deliverables',
   'pricing_rationale'
+];
+
+export const VALID_SOLUTION_TYPES = [
+  'website',
+  'website_redesign',
+  'ecommerce',
+  'web_app',
+  'mobile_app',
+  'platform',
+  'automation_ai',
+  'monthly_growth'
 ];
 
 const EU_COUNTRIES = new Set([
@@ -345,6 +359,11 @@ export function validateLeadForQuote(row) {
 
   problems.push(...validateReadyAuditEvidence(row));
 
+  const solutionType = normalize(row.recommended_solution_type);
+  if (solutionType && !VALID_SOLUTION_TYPES.includes(solutionType)) {
+    problems.push(`invalid_solution_type:${row.recommended_solution_type}`);
+  }
+
   REQUIRED_READY_AUDIT_FIELDS.forEach((field) => {
     if (containsUnresolvedQuoteValue(row[field])) problems.push(`${field}_contains_unresolved_quote_note`);
   });
@@ -355,6 +374,12 @@ export function validateLeadForQuote(row) {
 
   if (String(row.pricing_rationale || '').trim().length < 70) {
     problems.push('pricing_rationale_too_short');
+  }
+  if (String(row.solution_type_rationale || '').trim().length < 70) {
+    problems.push('solution_type_rationale_too_short');
+  }
+  if (String(row.payment_readiness || '').trim().length < 50) {
+    problems.push('payment_readiness_too_short');
   }
 
   return {

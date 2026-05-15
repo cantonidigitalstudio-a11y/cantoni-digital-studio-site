@@ -34,6 +34,9 @@ const REQUIRED_DOCS = [
       'review_platforms_checked',
       'competitors_checked',
       'pricing_rationale',
+      'recommended_solution_type',
+      'solution_type_rationale',
+      'payment_readiness',
       'Non inviare il preventivo'
     ]
   },
@@ -53,6 +56,7 @@ const REQUIRED_DOCS = [
       'REQUIRED_READY_AUDIT_FIELDS',
       'validateReadyAuditEvidence',
       'validateLeadForQuote',
+      'VALID_SOLUTION_TYPES',
       'social_channels_checked',
       'review_platforms_checked',
       'competitors_checked',
@@ -65,6 +69,8 @@ const REQUIRED_DOCS = [
       'validateLeadForQuote',
       'Quote input gate failed',
       'audit_evidence',
+      'recommended_solution_type',
+      'payment_readiness',
       'pricing_rationale'
     ]
   },

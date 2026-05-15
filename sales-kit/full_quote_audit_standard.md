@@ -88,6 +88,27 @@ Un lead puo diventare `READY_TO_CONTACT` solo se nel CRM o nel CSV batch sono co
 
 Un preventivo generato da CRM richiede anche `pricing_rationale`, prezzo consigliato, tempistiche e deliverable. Se questi campi mancano, lo script di generazione deve bloccarsi.
 
+## 9. Scelta corretta del tipo di soluzione
+Prima di mandare un prezzo bisogna classificare cosa serve davvero. Non proporre app, e-commerce o web app per alzare il preventivo: la soluzione deve essere collegata al problema osservato.
+
+Campi obbligatori prima del preventivo:
+
+- `recommended_solution_type`: uno tra `website`, `website_redesign`, `ecommerce`, `web_app`, `mobile_app`, `platform`, `automation_ai`, `monthly_growth`.
+- `solution_type_rationale`: perche quella soluzione e corretta e perche le alternative non sono prioritarie.
+- `payment_readiness`: quale pagamento puo essere mandato subito se il cliente risponde interessato.
+
+Regole pratiche:
+
+- `website` o `website_redesign`: quando il problema e fiducia, chiarezza, contatto, prenotazione o presenza pubblica.
+- `ecommerce`: solo quando il cliente deve vendere prodotti/servizi online con catalogo, carrello, pagamenti e gestione ordini.
+- `web_app`: quando serve un sistema operativo con login, dashboard, dati, ruoli, gestione interna o area cliente.
+- `mobile_app`: quando serve davvero una presenza installabile, uso ricorrente, notifiche, funzioni native o distribuzione App Store/Play Store.
+- `platform`: quando ci sono piu ruoli, pagamenti, workflow, dati e crescita modulare.
+- `automation_ai`: quando il valore viene da automazioni, follow-up, contenuti, routing lead, documenti o supporto decisionale.
+- `monthly_growth`: quando il lavoro principale e miglioramento continuo di contenuti, fiducia, ricerca Google, visibilita AI e conversione.
+
+Se il cliente risponde interessato ma non esiste ancora scope scritto, il link pagamento immediato corretto e la consulenza/analisi iniziale da 250 EUR. Per pacchetti completi si manda pagamento solo dopo scope scritto e conferma del percorso.
+
 ## Stop rule
 Non inviare il preventivo se:
 

@@ -22,13 +22,12 @@ const REQUIRED_VISIBLE_REFERENCES = [
 ];
 const REQUIRED_ICON_ALTS = [
   'Logo sito Cantoni Digital Studio',
-  'Logo ufficiale Instagram Cantoni Digital Studio',
-  'Logo ufficiale Facebook Cantoni Digital Studio',
-  'Logo ufficiale TikTok Cantoni Digital Studio',
-  'Icona case studies Cantoni Digital Studio',
-  'Icona email Cantoni Digital Studio',
-  'Icona telefono WhatsApp Cantoni Digital Studio',
-  'Icona profilo studio Cantoni Digital Studio'
+  'Portfolio lavori Cantoni Digital Studio',
+  'Logo Instagram ufficiale',
+  'Logo Facebook ufficiale',
+  'Logo TikTok ufficiale',
+  'Logo WhatsApp ufficiale',
+  'Email Cantoni Digital Studio'
 ];
 const CLIENT_JARGON_PATTERNS = [
   /\bCTA\b/i,
