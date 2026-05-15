@@ -20,7 +20,8 @@ const csvFile = process.env.LEAD_BATCH_CSV
 const allowedStatuses = new Set([
   'RESEARCH_PENDING',
   'RESEARCH_VERIFIED',
-  'READY_TO_CONTACT'
+  'READY_TO_CONTACT',
+  'CONTACTED'
 ]);
 
 function normalize(value) {
@@ -54,6 +55,18 @@ function validateResearchRow(row) {
     if (splitAuditField(row.top_3_issues_found).length < 3) problems.push('ready_requires_3_issues');
     if (splitAuditField(row.top_3_improvements_proposed).length < 3) problems.push('ready_requires_3_improvements');
     if (!String(row.notes || '').toLowerCase().includes('live')) problems.push('ready_notes_must_include_live_verification');
+  }
+
+  if (row.status === 'CONTACTED') {
+    if (!/sent|inviata|inviato/i.test(row.last_action || '')) {
+      problems.push('contacted_requires_sent_last_action');
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(row.next_action_date || '')) {
+      problems.push('contacted_requires_next_action_date');
+    }
+    if (/nessuna email inviata/i.test(row.notes || '')) {
+      problems.push('contacted_notes_contradict_send_state');
+    }
   }
 
   return problems;
@@ -99,6 +112,7 @@ async function run() {
     file: csvFile,
     rows: rows.length,
     ready_to_contact: rows.filter((row) => row.status === 'READY_TO_CONTACT').length,
+    contacted: rows.filter((row) => row.status === 'CONTACTED').length,
     problems
   }, null, 2));
 
