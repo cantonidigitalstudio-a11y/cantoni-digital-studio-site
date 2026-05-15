@@ -9,13 +9,14 @@ const BRAND_EMAIL = 'cantonidigitalstudio@gmail.com';
 const BRAND_NAME = 'Cantoni Digital Studio';
 const BRAND_PHONE_DISPLAY = '+39 347 196 1113';
 const BRAND_PHONE_TEL = '+393471961113';
+const TIKTOK_HANDLE = '@cantonidigitalstudio';
+const TIKTOK_DISCLOSURE = 'canale configurato; alcuni browser possono richiedere login';
 const LINKS = {
   studio: 'https://cantonidigitalstudio.com/studio',
   cases: 'https://cantonidigitalstudio.com/case-studies.html',
   site: 'https://cantonidigitalstudio.com/',
   instagram: 'https://www.instagram.com/cantonidigitalstudio/',
   facebook: 'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
-  tiktok: 'https://www.tiktok.com/@cantonidigitalstudio',
   whatsapp: `https://wa.me/${BRAND_PHONE_TEL.replace(/^\+/, '')}`
 };
 
@@ -139,9 +140,11 @@ function listItems(items) {
 }
 
 function contactTile({ href, icon, alt, label, value }) {
+  const tag = href ? 'a' : 'div';
+  const hrefAttr = href ? ` href="${href}"` : '';
   return `
     <td width="100%" valign="top" style="padding:6px;">
-      <a href="${href}" style="display:block;min-height:54px;padding:11px 12px;background:#ffffff;border:1px solid #dfe7f0;border-radius:13px;text-decoration:none;color:#13254a;">
+      <${tag}${hrefAttr} style="display:block;min-height:54px;padding:11px 12px;background:#ffffff;border:1px solid #dfe7f0;border-radius:13px;text-decoration:none;color:#13254a;">
         <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
           <tr>
             <td width="38" valign="middle"><img src="${icon}" width="32" height="32" alt="${alt}" style="display:block;width:32px;height:32px;border:0;border-radius:10px;"></td>
@@ -151,7 +154,7 @@ function contactTile({ href, icon, alt, label, value }) {
             </td>
           </tr>
         </table>
-      </a>
+      </${tag}>
     </td>
   `;
 }
@@ -197,11 +200,10 @@ function renderContactTiles() {
       </tr>
       <tr>
         ${contactTile({
-          href: LINKS.tiktok,
           icon: ICONS.tiktok,
           alt: 'Logo TikTok ufficiale',
-          label: 'TikTok',
-          value: '@cantonidigitalstudio'
+          label: 'TikTok configurato',
+          value: `${TIKTOK_HANDLE} - ${TIKTOK_DISCLOSURE}`
         })}
       </tr>
       <tr>
@@ -241,7 +243,7 @@ function renderCredibilityBlock() {
                 Sito: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com</a><br>
                 Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale</a><br>
                 Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
-                TikTok: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
+                TikTok configurato: <span style="color:#13254a;font-weight:700;">${TIKTOK_HANDLE} (${TIKTOK_DISCLOSURE})</span><br>
                 Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
                 Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
               </div>
@@ -265,7 +267,7 @@ function renderReferenceFooter() {
           Sito ufficiale: <a href="${LINKS.site}" style="color:#13254a;font-weight:700;text-decoration:none;">https://cantonidigitalstudio.com</a><br>
           Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">pagina ufficiale Cantoni Digital Studio</a><br>
           Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
-          TikTok: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
+          TikTok configurato: <span style="color:#13254a;font-weight:700;">${TIKTOK_HANDLE} (${TIKTOK_DISCLOSURE})</span><br>
           Portfolio lavori: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
           Email: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
           Telefono/WhatsApp: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
@@ -276,7 +278,7 @@ function renderReferenceFooter() {
           <a href="${LINKS.cases}" style="${pillStyle}">Portfolio lavori</a>
           <a href="${LINKS.facebook}" style="${pillStyle}">Facebook</a>
           <a href="${LINKS.instagram}" style="${pillStyle}">Instagram</a>
-          <a href="${LINKS.tiktok}" style="${pillStyle}">TikTok</a>
+          <span style="${pillStyle}">TikTok configurato</span>
           <a href="${LINKS.site}" style="${pillStyle}">Sito</a>
         </div>
         <div style="font:400 13px/1.55 Arial,sans-serif;color:#5b6678;">
@@ -393,7 +395,7 @@ Riferimenti pubblici:
 - Case studies: ${LINKS.cases}
 - Facebook: ${LINKS.facebook}
 - Instagram: ${LINKS.instagram}
-- TikTok: ${LINKS.tiktok}
+- TikTok configurato: ${TIKTOK_HANDLE} (${TIKTOK_DISCLOSURE})
 - Telefono/WhatsApp: ${BRAND_PHONE_DISPLAY}
 - Sito: ${LINKS.site}
 

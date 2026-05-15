@@ -11,7 +11,8 @@ const REQUIRED_TEXT = [
       'https://cantonidigitalstudio.com/',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
-      'https://www.tiktok.com/@cantonidigitalstudio',
+      'TikTok configurato',
+      'canale configurato; alcuni browser possono richiedere login',
       'cantonidigitalstudio@gmail.com',
       '+39 347 196 1113',
       'visibilità anche nelle risposte delle intelligenze artificiali'
@@ -22,7 +23,8 @@ const REQUIRED_TEXT = [
     contains: [
       'siti, e-commerce, web app, app mobile, automazioni AI',
       'Scrivere per persone normali',
-      'TikTok: `https://www.tiktok.com/@cantonidigitalstudio`',
+      'TikTok configurato: `@cantonidigitalstudio`',
+      'puo richiedere login',
       'Gestione continuativa',
       'visibilita nelle risposte delle intelligenze artificiali'
     ]

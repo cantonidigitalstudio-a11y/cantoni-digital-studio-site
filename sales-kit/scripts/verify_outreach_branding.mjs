@@ -8,14 +8,17 @@ const REQUIRED_LINKS = [
   'https://cantonidigitalstudio.com/case-studies.html',
   'https://www.instagram.com/cantonidigitalstudio/',
   'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
-  'https://www.tiktok.com/@cantonidigitalstudio',
   'https://wa.me/393471961113'
+];
+const FORBIDDEN_LINKS = [
+  'https://www.tiktok.com/@cantonidigitalstudio'
 ];
 const REQUIRED_VISIBLE_REFERENCES = [
   'cantonidigitalstudio.com',
   '@cantonidigitalstudio',
   'pagina ufficiale Cantoni Digital Studio',
-  'TikTok',
+  'TikTok configurato',
+  'canale configurato; alcuni browser possono richiedere login',
   'cantonidigitalstudio@gmail.com',
   '+39 347 196 1113',
   'visibilità nelle risposte delle intelligenze artificiali'
@@ -69,6 +72,9 @@ async function verifyHtmlFile(filePath) {
   for (const link of REQUIRED_LINKS) {
     assert(html.includes(link), `missing_link:${link}`, failures);
   }
+  for (const link of FORBIDDEN_LINKS) {
+    assert(!html.includes(`href="${link}"`) && !html.includes(`href='${link}'`), `forbidden_public_proof_link:${link}`, failures);
+  }
   for (const reference of REQUIRED_VISIBLE_REFERENCES) {
     assert(html.includes(reference), `missing_visible_reference:${reference}`, failures);
   }
@@ -97,6 +103,13 @@ async function verifyQueueFile(filePath) {
     assert((item.html_body || '').includes('cid:cantoniLogo'), `${prefix}:logo_cid_missing`, failures);
     for (const link of REQUIRED_LINKS) {
       assert((item.html_body || '').includes(link), `${prefix}:missing_link:${link}`, failures);
+    }
+    for (const link of FORBIDDEN_LINKS) {
+      assert(
+        !(item.html_body || '').includes(`href="${link}"`) && !(item.html_body || '').includes(`href='${link}'`),
+        `${prefix}:forbidden_public_proof_link:${link}`,
+        failures
+      );
     }
     for (const reference of REQUIRED_VISIBLE_REFERENCES) {
       assert((item.html_body || '').includes(reference), `${prefix}:missing_visible_reference:${reference}`, failures);
