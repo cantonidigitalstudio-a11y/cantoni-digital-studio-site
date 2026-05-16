@@ -101,15 +101,51 @@ function runNode(args, options = {}) {
   });
 }
 
+function createRuntimeFixtureCsv(sourceCsv, outputCsv, failures) {
+  const code = `
+    import fs from 'node:fs/promises';
+    import { parseCsv, stringifyCsv } from './sales-kit/scripts/lib/lead_pipeline_utils.mjs';
+
+    const [sourceCsv, outputCsv] = process.argv.slice(1);
+    const raw = await fs.readFile(sourceCsv, 'utf8');
+    const headers = raw.split(/\\r?\\n/, 1)[0].split(',');
+    const rows = parseCsv(raw);
+    const ready = rows.find((row) => row.lead_id === 'LD-GS-0001');
+    const blocked = rows.find((row) => row.lead_id === 'LD-GS-0003');
+    if (!ready || !blocked) throw new Error('Quote gate fixture leads missing');
+
+    const fixtureReady = {
+      ...ready,
+      status: 'READY_TO_CONTACT',
+      last_action: 'QA fixture prepared for quote gate runtime',
+      next_action_date: '',
+      notes: 'Browser live QA fixture: homepage, footer, phones and public contact evidence verified for quote gate runtime. No live email action is performed by this fixture.'
+    };
+
+    await fs.writeFile(outputCsv, stringifyCsv([fixtureReady, blocked], headers), 'utf8');
+  `;
+
+  const result = runNode(['--input-type=module', '-e', code, sourceCsv, outputCsv]);
+  if (result.status !== 0) {
+    failures.push(`quote gate runtime: could not create fixture csv: ${result.stderr || result.stdout}`);
+  }
+}
+
 function verifyQuoteGateRuntime(failures) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cantoni-quote-gate-'));
   const inputDir = path.join(tempDir, 'input');
   const outputDir = path.join(tempDir, 'generated');
+  const fixtureCsv = path.join(tempDir, 'leads.csv');
   fs.mkdirSync(inputDir, { recursive: true });
   fs.mkdirSync(outputDir, { recursive: true });
+  createRuntimeFixtureCsv('sales-kit/lead-batches/2026-05-11-global-starter/leads.csv', fixtureCsv, failures);
+  if (failures.length) {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+    return;
+  }
 
   const env = {
-    LEAD_PIPELINE_CSV: 'sales-kit/lead-batches/2026-05-11-global-starter/leads.csv',
+    LEAD_PIPELINE_CSV: fixtureCsv,
     QUOTE_INPUT_OUTPUT_DIR: inputDir
   };
 
