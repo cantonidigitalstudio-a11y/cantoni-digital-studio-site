@@ -76,6 +76,7 @@
     function removeConsentBanner() {
       var existing = document.getElementById('cdsCookieConsent');
       if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      document.body.classList.remove('has-cookie-consent-open');
     }
 
     function renderConsentBanner() {
@@ -108,6 +109,7 @@
       });
 
       document.body.appendChild(banner);
+      document.body.classList.add('has-cookie-consent-open');
     }
 
     function getSessionId() {

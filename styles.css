@@ -161,6 +161,10 @@ h3 { color: var(--navy); font-size: 1.14rem; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
+
+body.has-cookie-consent-open {
+  padding-bottom: 118px;
+}
 .trust-card h4 {
   margin: 0;
   color: var(--navy);
@@ -225,10 +229,10 @@ h3 { color: var(--navy); font-size: 1.14rem; }
     bottom: 13px;
     width: calc(100vw - 26px);
     grid-template-columns: 1fr;
-    gap: 6px;
-    max-height: 94px;
-    overflow: auto;
-    padding: 8px 9px;
+    gap: 5px;
+    max-height: 82px;
+    overflow: hidden;
+    padding: 7px 8px;
     border-radius: 16px;
   }
   .cookie-consent h2 {
@@ -241,19 +245,24 @@ h3 { color: var(--navy); font-size: 1.14rem; }
   }
   .cookie-consent p {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-size: .72rem;
+    font-size: .68rem;
     line-height: 1.25;
   }
   .cookie-consent-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
   }
   .cookie-consent-actions .btn {
-    min-height: 34px;
-    padding: 7px 8px;
-    font-size: .76rem;
+    min-height: 31px;
+    padding: 6px 7px;
+    font-size: .72rem;
+  }
+
+  body.has-cookie-consent-open {
+    padding-bottom: 108px;
   }
 }
 
@@ -2086,7 +2095,13 @@ body.has-business-card-entry .cookie-consent .btn {
 @media (max-width: 560px) {
   .quote-page h1 {
     max-width: none;
-    font-size: 1.96rem;
+    font-size: 1.72rem;
+    line-height: 1.08;
+  }
+
+  .quote-page .lead {
+    font-size: .95rem;
+    line-height: 1.48;
   }
 
   #estimateRange {
@@ -2100,24 +2115,25 @@ body.has-business-card-entry .cookie-consent .btn {
 
   body.has-business-card-entry .cookie-consent {
     grid-template-columns: 1fr;
-    gap: 6px;
-    max-height: 94px;
-    padding: 8px 9px;
+    gap: 5px;
+    max-height: 82px;
+    overflow: hidden;
+    padding: 7px 8px;
   }
 
   body.has-business-card-entry .cookie-consent p {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-size: .72rem;
+    font-size: .68rem;
     line-height: 1.25;
   }
 
   body.has-business-card-entry .cookie-consent .btn {
-    min-height: 34px;
-    padding: 7px 8px;
-    font-size: .76rem;
+    min-height: 31px;
+    padding: 6px 7px;
+    font-size: .72rem;
   }
 }
 
