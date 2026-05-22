@@ -12,7 +12,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
-const batchDir = path.join(rootDir, 'lead-batches/2026-05-11-global-starter');
+const batchDir = path.join(rootDir, 'fixtures/lead-batches/sanitized-starter');
 const csvFile = process.env.LEAD_BATCH_CSV
   ? path.resolve(process.env.LEAD_BATCH_CSV)
   : path.join(batchDir, 'leads.csv');

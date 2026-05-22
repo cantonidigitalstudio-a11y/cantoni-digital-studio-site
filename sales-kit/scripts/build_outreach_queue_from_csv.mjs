@@ -442,6 +442,7 @@ async function run() {
     }
   });
 
+  await fs.mkdir(path.dirname(outFile), { recursive: true });
   await fs.writeFile(outFile, JSON.stringify(queue, null, 2), 'utf8');
   console.log(
     JSON.stringify(

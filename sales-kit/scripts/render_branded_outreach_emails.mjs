@@ -2,8 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 
-const DEFAULT_QUEUE = 'sales-kit/lead-batches/2026-05-11-global-starter/outreach_queue.json';
-const DEFAULT_OUTPUT_DIR = 'sales-kit/lead-batches/2026-05-11-global-starter/branded';
+const DEFAULT_QUEUE = 'sales-kit/generated/outreach-fixtures/sanitized-starter/outreach_queue.json';
+const DEFAULT_OUTPUT_DIR = 'sales-kit/generated/outreach-fixtures/sanitized-starter/branded';
 const LOGO_PATH = 'assets/logo/generated/cantoni_primary_horizontal_email.png';
 const BRAND_EMAIL = 'cantonidigitalstudio@gmail.com';
 const BRAND_NAME = 'Cantoni Digital Studio';

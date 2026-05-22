@@ -200,3 +200,33 @@ Protezione applicata:
   eventuale de-tracking futuro;
 - il README lead chiarisce che in Git devono stare solo esempi sanificati,
   script, regole e documentazione.
+
+## Aggiornamento cascata 15:35 CEST - fixture pubbliche
+
+Correzione ulteriore:
+
+- creato fixture pubblico sanificato:
+  `sales-kit/fixtures/lead-batches/sanitized-starter/leads.csv`;
+- spostati i gate `build:lead-batch`, `test:lead-batch`,
+  `test:starter-queue`, `build:branded-outreach` e
+  `test:branded-outreach` su fixture/generati sanificati;
+- `scripts/verify_quote_audit_standard.cjs` ora usa il fixture sanificato per
+  il test runtime del preventivo;
+- rimossi dal tracking Git, senza cancellarli dal disco locale, i dati lead
+  reali sotto `sales-kit/lead-batches/2026-05-11-global-starter/` e
+  `sales-kit/lead_pipeline.csv`.
+
+Nota importante:
+
+- questa rimozione pulisce il ramo corrente, ma non cancella automaticamente la
+  storia Git gia pubblicata. Una pulizia completa della history richiede una
+  procedura separata e coordinata (`git filter-repo`/rotazione branch), da fare
+  solo con conferma esplicita perche riscrive la storia.
+
+Verifiche dopo la correzione:
+
+- `npm run test:lead-batch`: passato su fixture sanificato.
+- `npm run test:starter-queue`: passato su output generato sanificato.
+- `npm run test:branded-outreach`: passato su review generata sanificata.
+- `npm run test:quote-audit-standard`: passato.
+- `npm run test:full`: passato.

@@ -138,7 +138,7 @@ function verifyQuoteGateRuntime(failures) {
   const fixtureCsv = path.join(tempDir, 'leads.csv');
   fs.mkdirSync(inputDir, { recursive: true });
   fs.mkdirSync(outputDir, { recursive: true });
-  createRuntimeFixtureCsv('sales-kit/lead-batches/2026-05-11-global-starter/leads.csv', fixtureCsv, failures);
+  createRuntimeFixtureCsv('sales-kit/fixtures/lead-batches/sanitized-starter/leads.csv', fixtureCsv, failures);
   if (failures.length) {
     fs.rmSync(tempDir, { recursive: true, force: true });
     return;
@@ -157,7 +157,13 @@ function verifyQuoteGateRuntime(failures) {
     failures.push(`quote gate runtime: READY lead failed unexpectedly: ${createReady.stderr || createReady.stdout}`);
   }
 
-  const readyInput = path.join(inputDir, 'hotel-parco-italy-ld-gs-0001.json');
+  const readyInputName = fs.readdirSync(inputDir).find((file) => file.endsWith('-ld-gs-0001.json'));
+  const readyInput = readyInputName ? path.join(inputDir, readyInputName) : '';
+  if (!readyInput) {
+    failures.push('quote gate runtime: READY lead input file was not generated');
+    fs.rmSync(tempDir, { recursive: true, force: true });
+    return;
+  }
   const generateReady = runNode(
     ['sales-kit/scripts/generate_personalized_quote.mjs', '--input', readyInput, '--output-dir', outputDir]
   );
