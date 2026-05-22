@@ -36,3 +36,10 @@ sales-kit/social-launch/daily-publish-pack/**/ffmpeg-list.txt
 
 # Device/browser proof screenshots are local QA evidence, not source.
 sales-kit/device-qa/**/*.png
+
+# Generated business-card print/proof exports. Keep HTML/SVG/MD source files in
+# git; regenerate or archive these binaries outside the repo when needed.
+sales-kit/business-cards/*.pdf
+sales-kit/business-cards/*.png
+sales-kit/business-cards/preview-*/
+sales-kit/business-cards/support/*.png

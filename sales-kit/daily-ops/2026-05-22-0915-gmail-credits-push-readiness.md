@@ -143,3 +143,36 @@ Esito:
 - nessun post pubblicato.
 - nessun pagamento.
 - nessun deploy produzione.
+
+## Aggiornamento cascata 15:05 CEST - igiene worktree
+
+Stato rilevato dopo il push social:
+
+- branch allineato a `cantoni/codex/cantoni-production-grade-preview`;
+- modifiche residue principali: pipeline lead, batch outreach storici e prove
+  biglietto da visita;
+- nessun nuovo invio email, nessuna pubblicazione social, nessun deploy.
+
+Decisione tecnica applicata:
+
+- i sorgenti dei biglietti restano in Git (`HTML`, `SVG`, `MD`, template);
+- PDF e PNG dei biglietti sono trattati come export/prove locali, quindi
+  ignorati da Git per non sporcare i commit;
+- i batch lead e `sales-kit/lead_pipeline.csv` non vengono cancellati o
+  normalizzati automaticamente: contengono stato commerciale reale e vanno
+  committati solo con allowlist dopo review specifica.
+
+Stato da non confondere:
+
+- `sales-kit/lead-batches/2026-05-15-global-50/`: storico dei 50 lead
+  contattati e follow-up D3, non file temporanei da eliminare.
+- `sales-kit/lead-batches/2026-05-17-*`: batch preparati/review per lead
+  successivi, da usare solo dopo controllo Gmail e approvazione invio.
+- `sales-kit/business-cards/*.pdf` e `*.png`: prove o export per stampa, utili
+  localmente ma non sorgente applicativo.
+
+Prossima decisione:
+
+1. review pipeline lead e batch storici;
+2. scegliere cosa committare come archivio commerciale privato;
+3. lasciare fuori dal deploy pubblico ogni file non necessario o sensibile.
