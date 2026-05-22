@@ -1,0 +1,10 @@
+Hook: Non tutti hanno bisogno dello stesso progetto digitale.
+
+Scene:
+1. Mostra: sito, e-commerce, web app, app
+2. Spiega quando ha senso ogni soluzione
+3. Chiudi: prima obiettivo, poi tecnologia
+
+Caption: Siti, e-commerce, web app e app: scegliamo la soluzione dopo aver capito il lavoro reale.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

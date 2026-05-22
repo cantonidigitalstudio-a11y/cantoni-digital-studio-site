@@ -78,11 +78,61 @@ const CLIENT_FRIENDLY_REWRITES = [
   [/\bfrizione\b/gi, 'confusione']
 ];
 
-function clientFriendlyCopy(value) {
+function clientFriendlyCopy(value, language = 'it') {
+  if (language !== 'it') return String(value || '');
   return CLIENT_FRIENDLY_REWRITES.reduce(
     (text, [pattern, replacement]) => text.replace(pattern, replacement),
     String(value || '')
   );
+}
+
+function polishCopyForLanguage(value, language = 'it') {
+  let text = String(value || '');
+  if (language === 'it') {
+    const replacements = [
+      [/\bpuo\b/gi, 'può'],
+      [/\bpiu\b/gi, 'più'],
+      [/\bvisibilita\b/gi, 'visibilità'],
+      [/\battivita\b/gi, 'attività'],
+      [/\bqualita\b/gi, 'qualità'],
+      [/\bperche\b/gi, 'perché'],
+      [/\bpoiche\b/gi, 'poiché'],
+      [/\bL Essenziale\b/g, "L'Essenziale"],
+      [/\bdell esperienza\b/gi, "dell'esperienza"],
+      [/\bl utente\b/gi, "l'utente"]
+    ];
+    replacements.forEach(([pattern, replacement]) => {
+      text = text.replace(pattern, replacement);
+    });
+  }
+  if (language === 'es') {
+    const replacements = [
+      [/\bhistorico\b/gi, 'histórico'],
+      [/\bequipada\b/gi, 'equipada'],
+      [/\btodavia\b/gi, 'todavía'],
+      [/\bmovil\b/gi, 'móvil'],
+      [/\butil\b/gi, 'útil'],
+      [/\bdispersion\b/gi, 'dispersión'],
+      [/\bintencion\b/gi, 'intención'],
+      [/\bpeticion\b/gi, 'petición'],
+      [/\bubicacion\b/gi, 'ubicación'],
+      [/\bpagina\b/gi, 'página'],
+      [/\bdecision\b/gi, 'decisión'],
+      [/\bacompana\b/gi, 'acompaña'],
+      [/\bMas\b/g, 'Más'],
+      [/\bmas\b/g, 'más'],
+      [/\bperdida\b/gi, 'pérdida'],
+      [/\bMejor\b/g, 'Mejor'],
+      [/\bbusqueda\b/gi, 'búsqueda'],
+      [/\banalisis\b/gi, 'análisis'],
+      [/\bque conviene\b/gi, 'qué conviene'],
+      [/\bte envio\b/gi, 'te envío']
+    ];
+    replacements.forEach(([pattern, replacement]) => {
+      text = text.replace(pattern, replacement);
+    });
+  }
+  return text;
 }
 
 function resolveAuditedAsset(language, row) {
@@ -94,7 +144,7 @@ function resolveAuditedAsset(language, row) {
     es: `la presencia online de ${business}`,
     fr: `la presence en ligne de ${business}`,
     de: `den Online-Auftritt von ${business}`,
-    pt: `a presenca online de ${business}`,
+    pt: `a presença online de ${business}`,
     ja: `${business}のオンライン導線`,
     ar: `الحضور الرقمي الخاص بـ ${business}`,
     zh: `${business} 的线上呈现`,
@@ -103,27 +153,54 @@ function resolveAuditedAsset(language, row) {
   return fallback[language] || fallback.en;
 }
 
+function subjectByLanguage(language, row) {
+  const name = row.business_name || 'your website';
+  const solution = String(row.recommended_solution_type || '').toLowerCase();
+  const sector = String(row.sector || '').toLowerCase();
+  const isHospitality = /hotel|suite|hospitality|restaurant|resort|guest|booking|reservation/i.test(sector);
+  const isCharter = /yacht|charter|boat|marine/i.test(sector);
+  const isPlatform = ['platform', 'app', 'mobile_app', 'application'].includes(solution);
+
+  if (language === 'en') {
+    if (isPlatform) return `${name}: clearer client paths for bookings and services`;
+    if (isCharter) return `${name}: a clearer path to qualified charter requests`;
+    if (isHospitality) return `${name}: 3 ways to improve direct bookings`;
+    return `${name}: 3 concrete improvements for the website`;
+  }
+  if (language === 'it') return `${name}: 3 osservazioni concrete sul sito`;
+  if (language === 'es') return `${name}: 3 mejoras concretas para reservas directas`;
+  if (language === 'pt') return `${name}: 3 melhorias concretas para reservas diretas`;
+  if (language === 'fr') return `${name} : 3 observations concrètes sur le site`;
+  if (language === 'de') return `${name}: 3 konkrete Website-Beobachtungen`;
+  if (language === 'ja') return `${name} サイトに関する3つの具体的な所見`;
+  if (language === 'zh') return `${name}：网站上的3个具体观察`;
+  if (language === 'hi') return `${name}: website par 3 concrete observations`;
+  return `${name}: 3 concrete improvements for the website`;
+}
+
 function templateByLanguage(language, row, currency) {
-  const contact = row.contact_name || row.business_name || '';
+  const contact = row.contact_name || '';
   const website = resolveAuditedAsset(language, row);
   const market = resolveMarketSummary(row);
   const marketSuffix = market ? ` (${market})` : '';
   const issues = splitAuditField(row.top_3_issues_found).slice(0, 3);
   const improvements = splitAuditField(row.top_3_improvements_proposed).slice(0, 3);
   const impact = normalizeImpact(row.expected_business_impact_range);
-  const friendlyIssues = issues.map(clientFriendlyCopy);
-  const friendlyImprovements = improvements.map(clientFriendlyCopy);
-  const friendlyImpact = impact.map(clientFriendlyCopy);
-  const cta = clientFriendlyCopy(row.email_angle || '');
-  const opening = row.what_the_business_does || '';
+  const friendlyIssues = issues.map((issue) => polishCopyForLanguage(clientFriendlyCopy(issue, language), language));
+  const friendlyImprovements = improvements.map((item) => polishCopyForLanguage(clientFriendlyCopy(item, language), language));
+  const friendlyImpact = impact.map((item) => polishCopyForLanguage(clientFriendlyCopy(item, language), language));
+  const cta = polishCopyForLanguage(clientFriendlyCopy(row.email_angle || '', language), language);
+  const opening = polishCopyForLanguage(row.what_the_business_does || '', language);
 
   const templates = {
     it: {
-      subject: `${row.business_name}: 3 osservazioni concrete sul sito`,
+      subject: subjectByLanguage(language, row),
       lines: [
         'Buongiorno,',
         '',
-        `ho analizzato ${website}${marketSuffix} e il punto che mi ha colpito subito è questo: ${opening}`,
+        `sono Emanuele Cantoni, di Cantoni Digital Studio. Ho analizzato ${website}${marketSuffix} con una logica commerciale, non solo estetica.`,
+        '',
+        `La base è già chiara: ${opening}`,
         '',
         'Ho visto 3 aspetti concreti che oggi possono ridurre richieste, prenotazioni e contatti:',
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
@@ -140,13 +217,15 @@ function templateByLanguage(language, row, currency) {
       ].filter(Boolean)
     },
     en: {
-      subject: `${row.business_name}: 3 concrete website observations`,
+      subject: subjectByLanguage(language, row),
       lines: [
-        `Hi ${contact || row.business_name},`,
+        contact ? `Hi ${contact},` : `Hi ${row.business_name} team,`,
         '',
-        `I reviewed ${website}${marketSuffix}, and this was the first commercial signal I noticed: ${opening}`,
+        `I am Emanuele Cantoni from Cantoni Digital Studio. I reviewed ${website}${marketSuffix} with a commercial lens, not only a visual one.`,
         '',
-        'These are the 3 concrete issues currently holding the site back:',
+        `The strong base is already visible: ${opening}`,
+        '',
+        'These are 3 concrete points that can reduce qualified inquiries, bookings or direct contacts:',
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
         'The 3 improvements I would prioritize are:',
@@ -157,47 +236,49 @@ function templateByLanguage(language, row, currency) {
       ].filter(Boolean)
     },
     es: {
-      subject: `${row.business_name}: 3 observaciones concretas sobre la web`,
+      subject: subjectByLanguage(language, row),
       lines: [
-        `Hola ${contact || row.business_name},`,
+        `Hola equipo de ${row.business_name},`,
         '',
-        `analicé ${website}${marketSuffix} y la primera señal comercial que vi fue esta: ${opening}`,
+        `Soy Emanuele Cantoni, de Cantoni Digital Studio. He revisado ${website}${marketSuffix} con una mirada comercial, no solo estética.`,
         '',
-        'Veo 3 problemas concretos que hoy pueden frenar contactos y conversiones:',
+        `Lo primero que veo es que ya tenéis una base fuerte: ${opening}`,
+        '',
+        'Veo 3 puntos concretos que hoy pueden frenar solicitudes, reservas y contactos directos:',
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
         'Las 3 mejoras que aplicaría primero son:',
         ...friendlyImprovements.map((item) => `- ${item}`),
         '',
         friendlyImpact.length ? `Impacto comercial realista: ${friendlyImpact.join(' | ')}` : '',
-        cta || 'Si quieres, te envio un breakdown breve con prioridades, tiempos orientativos y que conviene corregir primero.'
+        'Si os parece útil, puedo enviaros un resumen breve con prioridades, tiempos orientativos y qué conviene corregir primero.'
       ].filter(Boolean)
     },
     fr: {
-      subject: `${row.business_name} : 3 observations concretes sur le site`,
+      subject: subjectByLanguage(language, row),
       lines: [
-        `Bonjour ${contact || row.business_name},`,
+        'Bonjour,',
         '',
-        `j'ai analyse ${website}${marketSuffix} et le premier signal commercial que j'ai vu est le suivant : ${opening}`,
+        `j'ai analysé ${website}${marketSuffix} et le premier signal commercial que j'ai vu est le suivant : ${opening}`,
         '',
-        'Je vois 3 problemes concrets qui freinent aujourd hui les demandes et conversions :',
+        "Je vois 3 problèmes concrets qui peuvent freiner les demandes, les réservations et les contacts directs :",
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
         'Les 3 actions prioritaires seraient :',
         ...friendlyImprovements.map((item) => `- ${item}`),
         '',
-        friendlyImpact.length ? `Impact commercial realiste : ${friendlyImpact.join(' | ')}` : '',
-        cta || 'Si vous voulez, j envoie un bref breakdown avec priorites, delais indicatifs et corrections a traiter en premier.'
+        friendlyImpact.length ? `Impact commercial réaliste : ${friendlyImpact.join(' | ')}` : '',
+        cta || "Si cela vous semble utile, j'envoie un résumé clair avec les priorités, les délais indicatifs et les premières corrections à traiter."
       ].filter(Boolean)
     },
     de: {
-      subject: `${row.business_name}: 3 konkrete Website-Beobachtungen`,
+      subject: subjectByLanguage(language, row),
       lines: [
         `Hallo ${contact || row.business_name},`,
         '',
         `ich habe ${website}${marketSuffix} analysiert, und das erste klare Signal war: ${opening}`,
         '',
-        'Ich sehe 3 konkrete Probleme, die aktuell Anfragen und Conversion bremsen:',
+        'Ich sehe 3 konkrete Probleme, die aktuell Anfragen und Entscheidungen erschweren:',
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
         'Diese 3 Verbesserungen wuerde ich zuerst umsetzen:',
@@ -208,24 +289,26 @@ function templateByLanguage(language, row, currency) {
       ].filter(Boolean)
     },
     pt: {
-      subject: `${row.business_name}: 3 observacoes concretas sobre o site`,
+      subject: subjectByLanguage(language, row),
       lines: [
-        `Ola ${contact || row.business_name},`,
+        `Olá equipa do ${row.business_name},`,
         '',
-        `analisei ${website}${marketSuffix} e o primeiro sinal comercial que vi foi este: ${opening}`,
+        `Sou Emanuele Cantoni, da Cantoni Digital Studio. Analisei ${website}${marketSuffix} com uma visão comercial, não apenas estética.`,
         '',
-        'Vejo 3 problemas concretos que hoje podem travar leads e conversao:',
+        `A primeira coisa importante é que já existe uma base muito forte: ${opening}`,
+        '',
+        'Vejo 3 pontos concretos que hoje podem travar pedidos, reservas e contactos diretos:',
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
-        'As 3 melhorias prioritarias seriam:',
+        'As 3 melhorias que priorizaria são:',
         ...friendlyImprovements.map((item) => `- ${item}`),
         '',
         friendlyImpact.length ? `Impacto comercial realista: ${friendlyImpact.join(' | ')}` : '',
-        cta || 'Se fizer sentido, envio um breakdown curto com prioridades, prazo indicativo e o que corrigir primeiro.'
+        'Se fizer sentido, posso enviar um resumo curto com prioridades, prazo indicativo e o que valeria a pena corrigir primeiro.'
       ].filter(Boolean)
     },
     ja: {
-      subject: `${row.business_name} サイトに関する3つの具体的な所見`,
+      subject: subjectByLanguage(language, row),
       lines: [
         `${contact || row.business_name} 様`,
         '',
@@ -259,7 +342,7 @@ function templateByLanguage(language, row, currency) {
       ].filter(Boolean)
     },
     zh: {
-      subject: `${row.business_name}：网站上的3个具体观察`,
+      subject: subjectByLanguage(language, row),
       lines: [
         `${contact || row.business_name} 您好，`,
         '',
@@ -276,13 +359,13 @@ function templateByLanguage(language, row, currency) {
       ].filter(Boolean)
     },
     hi: {
-      subject: `${row.business_name}: website par 3 concrete observations`,
+      subject: subjectByLanguage(language, row),
       lines: [
         `Namaste ${contact || row.business_name},`,
         '',
         `maine ${website}${marketSuffix} review kiya aur sabse pehla commercial signal yeh tha: ${opening}`,
         '',
-        'Abhi 3 concrete issues hain jo inquiries aur conversion ko rok rahe hain:',
+        'Abhi 3 concrete issues hain jo inquiries aur decision ko rok rahe hain:',
         ...friendlyIssues.map((issue, index) => `${index + 1}. ${issue}`),
         '',
         'Main sabse pehle yeh 3 improvements implement karta:',
@@ -307,6 +390,9 @@ function buildQueueItem(row) {
   return {
     id: row.lead_id,
     lead_id: row.lead_id,
+    business_name: row.business_name || '',
+    website: row.website || '',
+    sector: row.sector || '',
     email_kind: 'cold_intro',
     to: row.email,
     reply_to: 'cantonidigitalstudio@gmail.com',
@@ -317,6 +403,19 @@ function buildQueueItem(row) {
     market_scope_summary: market,
     internal_recommended_package: row.recommended_package || 'Growth',
     internal_recommended_package_price: row.recommended_package_price || moneyLabel(currency, 3400),
+    internal_recommended_solution_type: row.recommended_solution_type || '',
+    internal_solution_type_rationale: row.solution_type_rationale || '',
+    internal_payment_readiness: row.payment_readiness || '',
+    internal_audit: {
+      what_the_business_does: row.what_the_business_does || '',
+      issues: splitAuditField(row.top_3_issues_found).slice(0, 3),
+      improvements: splitAuditField(row.top_3_improvements_proposed).slice(0, 3),
+      social_channels_checked: row.social_channels_checked || '',
+      review_platforms_checked: row.review_platforms_checked || '',
+      competitors_checked: row.competitors_checked || '',
+      search_ai_visibility_checked: row.search_ai_visibility_checked || '',
+      evidence_refs: row.evidence_refs || ''
+    },
     subject: copy.subject,
     body: copy.lines.join('\n'),
     status: 'pending'

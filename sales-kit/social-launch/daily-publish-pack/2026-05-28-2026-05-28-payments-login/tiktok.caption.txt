@@ -1,0 +1,5 @@
+Checkout, login e area cliente vanno progettati e testati prima del lancio.
+
+Metodo Cantoni: prima audit reale, poi proposta chiara.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

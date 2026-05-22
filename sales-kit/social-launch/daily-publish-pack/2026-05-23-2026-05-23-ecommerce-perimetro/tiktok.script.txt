@@ -1,0 +1,10 @@
+Hook: Un e-commerce non vende solo perché esiste.
+
+Scene:
+1. Mostra: prodotto, checkout, spedizione, fiducia
+2. Spiega: ogni blocco riduce un dubbio del cliente
+3. Chiudi: il perimetro scritto evita sorprese
+
+Caption: E-commerce serio: catalogo, pagamenti, spedizioni, fiducia e gestione.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

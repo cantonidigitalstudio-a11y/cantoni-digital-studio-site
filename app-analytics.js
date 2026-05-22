@@ -224,6 +224,9 @@
       if (href && href.indexOf('facebook.com') !== -1) {
         return { name: 'social_click', category: 'social', href: href, label: label || 'Facebook' };
       }
+      if (href && href.indexOf('youtube.com') !== -1) {
+        return { name: 'social_click', category: 'social', href: href, label: label || 'YouTube' };
+      }
       if (href && href.indexOf('github.com') !== -1) {
         return { name: 'social_click', category: 'social', href: href, label: label || 'GitHub' };
       }

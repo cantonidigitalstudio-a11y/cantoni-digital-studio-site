@@ -1,0 +1,10 @@
+Hook: Ogni cliente deve sentirsi l'unico.
+
+Scene:
+1. Mostra: audit specifico
+2. Mostra: proposta chiara
+3. Chiudi: follow-up umano e concreto
+
+Caption: Proposte fatte bene: specifiche, chiare e umane.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

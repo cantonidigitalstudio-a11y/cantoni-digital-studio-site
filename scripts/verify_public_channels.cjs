@@ -10,8 +10,8 @@ const CHANNELS = [
   {
     id: 'instagram',
     url: 'https://www.instagram.com/cantonidigitalstudio/',
-    status: 'public-proof',
-    requiredText: [
+    status: 'login-gated-ok',
+    requiredWhenPublic: [
       'Cantoni Digital Studio',
       'cantonidigitalstudio',
       'Siti, e-commerce, web app e app',
@@ -40,6 +40,16 @@ const CHANNELS = [
       'Cantoni Digital Studio',
       'cantonidigitalstudio'
     ]
+  },
+  {
+    id: 'youtube',
+    url: 'https://www.youtube.com/@cantonidigitalstudio',
+    status: 'public-proof',
+    requiredText: [
+      'Cantoni Digital Studio',
+      '@cantonidigitalstudio'
+    ],
+    forbiddenText: ['EmanueleCantoni']
   }
 ];
 
@@ -50,6 +60,7 @@ const IDENTITY_CONTRACT = {
     'instagram.com/cantonidigitalstudio',
     'facebook.com/Cantoni-Digital-Studio',
     'TikTok configurato',
+    'youtube.com/@cantonidigitalstudio',
     '@cantonidigitalstudio',
     'cantonidigitalstudio@gmail.com'
   ],
@@ -67,6 +78,15 @@ function hasLoginGate(finalUrl, text) {
 
 async function snapshotPage(page, channel) {
   const response = await page.goto(channel.url, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  if (/consent\.(?:youtube|google)\.com/i.test(page.url())) {
+    const reject = page.getByRole('button', { name: /Rifiuta tutto|Reject all|Tout refuser|Rechazar todo|Alle ablehnen/i });
+    await reject.click({ timeout: 7000 }).catch(async () => {
+      await page.getByText(/Rifiuta tutto|Reject all|Tout refuser|Rechazar todo|Alle ablehnen/i)
+        .click({ timeout: 3000 })
+        .catch(() => {});
+    });
+    await page.waitForLoadState('domcontentloaded', { timeout: 12000 }).catch(() => {});
+  }
   await page.waitForTimeout(channel.id === 'tiktok' ? 2500 : 1800);
   const data = await page.evaluate(() => ({
     title: document.title || '',
@@ -122,6 +142,14 @@ function validateLoginGated(channel, result) {
     assert.ok(
       result.proofText.toLowerCase().includes(snippet.toLowerCase()),
       `${channel.id}: public profile opened but missing "${snippet}"`
+    );
+  }
+
+  for (const snippet of channel.forbiddenText || []) {
+    assert.equal(
+      result.proofText.toLowerCase().includes(snippet.toLowerCase()),
+      false,
+      `${channel.id}: forbidden stale text "${snippet}"`
     );
   }
   return 'public-proof';

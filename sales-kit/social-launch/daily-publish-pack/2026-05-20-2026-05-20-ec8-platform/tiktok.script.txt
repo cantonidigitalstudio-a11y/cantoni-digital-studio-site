@@ -1,0 +1,10 @@
+Hook: Sito, web app o app? Non sono la stessa cosa.
+
+Scene:
+1. Mostra tre parole: sito, web app, app
+2. Spiega: il sito presenta, la web app gestisce, l'app entra nel telefono
+3. Chiudi: la scelta giusta arriva dopo audit e obiettivo
+
+Caption: EC8 Platform: riferimento su piattaforma, offerta digitale e app.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

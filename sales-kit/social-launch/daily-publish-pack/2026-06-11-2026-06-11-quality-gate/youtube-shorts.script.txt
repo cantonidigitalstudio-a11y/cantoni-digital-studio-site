@@ -1,0 +1,15 @@
+Title: QA prima del deploy | Cantoni Digital Studio
+
+Primary language: it-IT
+Secondary adaptation: fr-FR
+
+Opening: Pubblicare non significa aver finito.
+
+Short structure:
+1. Mostra: checklist QA
+2. Spiega: link, mobile, pagamenti, privacy
+3. Chiudi: deploy solo dopo gate verde
+
+Description: QA prima del deploy: link, mobile, privacy, pagamenti e artifact pulito. Approccio: Controlli: mobile, console, pagamenti, privacy, link, social, SEO e artifact pubblico
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

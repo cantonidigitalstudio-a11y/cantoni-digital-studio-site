@@ -1,0 +1,5 @@
+Prima di mettere online un sito bisogna controllare link, mobile, privacy, pagamenti, console, SEO, social e file pubblici. Un deploy non è finito finché non è verificato.
+
+Approccio: Controlli: mobile, console, pagamenti, privacy, link, social, SEO e artifact pubblico
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

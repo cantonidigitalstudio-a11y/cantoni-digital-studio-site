@@ -1,0 +1,123 @@
+{
+  "name": "Cantoni Digital Studio global social language rotation",
+  "timezone": "Europe/Rome",
+  "approval_required": true,
+  "rule": "Use the official Cantoni brand voice in every language. Adapt the message for the market instead of translating mechanically.",
+  "primary_goal": "Grow trust and inbound demand for websites, e-commerce, web apps, mobile apps, AI automations and ongoing digital growth work.",
+  "cadence": {
+    "instagram": "daily",
+    "facebook": "daily",
+    "tiktok": "daily",
+    "youtube_shorts": "script-ready daily, publish only after video review"
+  },
+  "markets": [
+    {
+      "locale": "it-IT",
+      "label": "Italia",
+      "currency": "EUR",
+      "role": "primary evidence market",
+      "angle": "credibilità, clienti reali, metodo, WhatsApp, portfolio verificabile"
+    },
+    {
+      "locale": "en-US",
+      "label": "United States / global English",
+      "currency": "USD",
+      "role": "international acquisition",
+      "angle": "premium digital systems, reservation paths, payments, apps, measurable growth"
+    },
+    {
+      "locale": "en-GB",
+      "label": "UK / international English",
+      "currency": "GBP",
+      "role": "hospitality and services",
+      "angle": "clear written project boundaries, reliable delivery, trust and conversion"
+    },
+    {
+      "locale": "es-ES",
+      "label": "Spagna",
+      "currency": "EUR",
+      "role": "tourism and hospitality",
+      "angle": "reservas, confianza, presencia local y crecimiento digital"
+    },
+    {
+      "locale": "es-DO",
+      "label": "Repubblica Dominicana / Caribe",
+      "currency": "USD",
+      "role": "hospitality, real estate and services",
+      "angle": "reservation paths, WhatsApp, mobile-first, local evidence and international clients"
+    },
+    {
+      "locale": "fr-FR",
+      "label": "Francia",
+      "currency": "EUR",
+      "role": "premium services and hospitality",
+      "angle": "clarte, confiance, parcours client et reservation"
+    },
+    {
+      "locale": "pt-PT",
+      "label": "Portogallo",
+      "currency": "EUR",
+      "role": "tourism and boutique hotels",
+      "angle": "reservas, prova publica, conteudos e crescimento"
+    },
+    {
+      "locale": "de-DE",
+      "label": "Germania",
+      "currency": "EUR",
+      "role": "structured B2B and services",
+      "angle": "clear project boundaries, reliability, documentation and operational clarity"
+    }
+  ],
+  "weekly_rotation": [
+    {
+      "weekday": "monday",
+      "primary_locale": "it-IT",
+      "secondary_locale": "en-US",
+      "theme": "portfolio evidence"
+    },
+    {
+      "weekday": "tuesday",
+      "primary_locale": "en-US",
+      "secondary_locale": "it-IT",
+      "theme": "international service positioning"
+    },
+    {
+      "weekday": "wednesday",
+      "primary_locale": "es-ES",
+      "secondary_locale": "es-DO",
+      "theme": "hospitality, reservations and local trust"
+    },
+    {
+      "weekday": "thursday",
+      "primary_locale": "it-IT",
+      "secondary_locale": "fr-FR",
+      "theme": "method, audit and quote quality"
+    },
+    {
+      "weekday": "friday",
+      "primary_locale": "en-GB",
+      "secondary_locale": "de-DE",
+      "theme": "project boundaries, payments, apps and operational systems"
+    },
+    {
+      "weekday": "saturday",
+      "primary_locale": "pt-PT",
+      "secondary_locale": "es-DO",
+      "theme": "tourism, services and mobile-first"
+    },
+    {
+      "weekday": "sunday",
+      "primary_locale": "it-IT",
+      "secondary_locale": "en-US",
+      "theme": "weekly recap and trust building"
+    }
+  ],
+  "localization_rules": [
+    "Keep public posts price-free unless a campaign is explicitly approved.",
+    "Use local currency only in private proposals or approved campaign pages.",
+    "Avoid jargon such as CTA, hero, funnel or conversion rate unless explained in plain language.",
+    "Do not claim guaranteed results, best-in-the-world status or unverifiable client outcomes.",
+    "Mention apps explicitly when the service list appears: siti, e-commerce, web app, app, automazioni AI.",
+    "For every market, connect the message to a business problem: more trust, clearer requests, better reservation paths, easier payments, or ongoing visibility."
+  ]
+}

@@ -66,6 +66,12 @@ function buildEmailOpening(lead, language) {
   return map[language] || map.en;
 }
 
+function buildMarketScope(lead) {
+  const resolved = resolveMarketSummary(lead);
+  if (String(resolved || '').trim().length >= 15) return resolved;
+  return [lead.city, lead.country, lead.sector].map((item) => String(item || '').trim()).filter(Boolean).join(' - ');
+}
+
 function buildTemplateFromLead(lead) {
   const language = resolveLanguage(lead);
   const auditEvidence = [
@@ -82,9 +88,11 @@ function buildTemplateFromLead(lead) {
   return {
     business_name: lead.business_name || '',
     contact_name: lead.contact_name || '',
+    email: lead.email || '',
+    recipient_email: lead.email || '',
     country: lead.country || '',
     city: lead.city || '',
-    market_scope_summary: resolveMarketSummary(lead),
+    market_scope_summary: buildMarketScope(lead),
     website: lead.website || '',
     language,
     currency: resolveCurrency(lead),

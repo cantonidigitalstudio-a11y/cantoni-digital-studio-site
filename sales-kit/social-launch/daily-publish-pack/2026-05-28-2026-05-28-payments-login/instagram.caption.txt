@@ -1,0 +1,5 @@
+Pagamenti, rate, login e area cliente cambiano completamente il tipo di progetto. Non sono dettagli da aggiungere alla fine: vanno messi nel perimetro iniziale, testati e spiegati al cliente prima di partire.
+
+Perimetro: Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

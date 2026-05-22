@@ -1,0 +1,10 @@
+Hook: Il cliente non ti aspetta: apre dal telefono.
+
+Scene:
+1. Mostra schermo mobile con elementi ordinati
+2. Spiega: testo leggibile e contatto visibile
+3. Chiudi: il mobile va progettato, non adattato alla fine
+
+Caption: Il mobile non è una versione secondaria. Spesso è il primo contatto.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

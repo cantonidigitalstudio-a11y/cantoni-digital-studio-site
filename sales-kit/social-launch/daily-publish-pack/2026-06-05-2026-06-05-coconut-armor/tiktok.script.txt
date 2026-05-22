@@ -1,0 +1,10 @@
+Hook: Un brand di prodotto non nasce solo con un logo.
+
+Scene:
+1. Mostra asset reali Coconut Armor gia approvati
+2. Spiega: brand, landing e shop devono lavorare insieme
+3. Chiudi: pubblicare solo materiale rivisto e sicuro
+
+Caption: Coconut Armor: brand, landing, shop e mobile. Progetto interno da pubblicare solo dopo review.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

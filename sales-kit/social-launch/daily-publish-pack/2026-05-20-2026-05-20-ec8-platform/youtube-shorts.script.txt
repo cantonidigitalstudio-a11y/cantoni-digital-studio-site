@@ -1,0 +1,15 @@
+Title: EC8 Platform: piattaforma e app | Cantoni Digital Studio
+
+Primary language: it-IT
+Secondary adaptation: en-US
+
+Opening: Sito, web app o app? Non sono la stessa cosa.
+
+Short structure:
+1. Mostra tre parole: sito, web app, app
+2. Spiega: il sito presenta, la web app gestisce, l'app entra nel telefono
+3. Chiudi: la scelta giusta arriva dopo audit e obiettivo
+
+Description: EC8 Platform: riferimento su piattaforma, offerta digitale e app. Link: https://ec8platform.com
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

@@ -24,3 +24,15 @@ sales-kit/quote-inputs/
 sales-kit/reply-drafts/
 sales-kit/research/
 sales-kit/simulations/
+sales-kit/social-launch/voice-reference-private/
+sales-kit/social-launch/voice-renders-private/
+
+# Generated social render outputs. Keep the source JSON, captions, scripts,
+# manifests and review HTML in git; rebuild these binaries when needed.
+sales-kit/social-launch/daily-publish-pack/**/*.png
+sales-kit/social-launch/daily-publish-pack/**/*.mp4
+sales-kit/social-launch/daily-publish-pack/**/*.zip
+sales-kit/social-launch/daily-publish-pack/**/ffmpeg-list.txt
+
+# Device/browser proof screenshots are local QA evidence, not source.
+sales-kit/device-qa/**/*.png

@@ -1,0 +1,10 @@
+Hook: La quantità non salva una proposta debole.
+
+Scene:
+1. Mostra: lista lead piccola
+2. Spiega: audit reale e contatto giusto
+3. Chiudi: qualità prima del volume
+
+Caption: Outreach serio: meno lead, più ricerca, messaggi più pertinenti.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

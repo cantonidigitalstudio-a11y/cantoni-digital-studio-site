@@ -1,0 +1,15 @@
+Title: Quando serve una dashboard | Cantoni Digital Studio
+
+Primary language: en-GB
+Secondary adaptation: de-DE
+
+Opening: Se devi gestire dati, forse non ti serve solo un sito.
+
+Short structure:
+1. Mostra: clienti, ordini, prenotazioni
+2. Spiega: dashboard significa gestione interna
+3. Chiudi: sito o web app si decide dallo scopo
+
+Description: Dashboard e web app servono quando il digitale deve gestire lavoro reale. Link: Web app: dati, richieste, clienti, ordini, prenotazioni e gestione interna
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

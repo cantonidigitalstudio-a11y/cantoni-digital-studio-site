@@ -1,0 +1,10 @@
+Hook: La frase 'poi vediamo' costa cara nei progetti digitali.
+
+Scene:
+1. Mostra: lista deliverable
+2. Spiega: cosa incluso e cosa escluso
+3. Chiudi: perimetro scritto prima di partire
+
+Caption: Perimetro scritto: cosa si fa, cosa non si fa, tempi e responsabilità.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

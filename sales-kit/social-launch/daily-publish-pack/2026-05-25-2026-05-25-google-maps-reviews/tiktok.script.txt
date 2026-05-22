@@ -1,0 +1,10 @@
+Hook: Le recensioni non servono solo su Google Maps.
+
+Scene:
+1. Mostra: recensioni, sito, pulsante contatto
+2. Spiega: la fiducia deve stare vicino alla decisione
+3. Chiudi: prova pubblica e richiesta devono parlarsi
+
+Caption: Google Maps e recensioni sono parte del percorso commerciale.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

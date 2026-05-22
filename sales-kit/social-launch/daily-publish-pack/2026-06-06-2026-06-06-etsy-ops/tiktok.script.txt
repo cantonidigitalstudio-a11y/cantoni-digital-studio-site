@@ -1,0 +1,10 @@
+Hook: Etsy non basta se il brand resta invisibile.
+
+Scene:
+1. Mostra: marketplace, catalogo, sito
+2. Spiega: immagini e schede devono creare fiducia
+3. Chiudi: marketplace + brand system
+
+Caption: Etsy e marketplace: catalogo, immagini, fiducia e sistema digitale intorno al brand.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

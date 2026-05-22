@@ -118,3 +118,15 @@ Non inviare il preventivo se:
 - mancano lingua, valuta o mercato;
 - il documento potrebbe essere mandato identico a un altro cliente;
 - il cliente non capirebbe cosa sta comprando senza conoscere parole tecniche.
+
+## Gate pre-invio email
+
+La prima proposta commerciale deve passare anche il gate pre-invio:
+
+```bash
+npm run build:global-outreach
+npm run test:outreach-queue-quality
+npm run test:proposal-personalization
+```
+
+Questo gate blocca oggetti generici, testi senza business anchor, prime email con prezzi, gergo non spiegato, mancanza di social/recensioni/competitor e incoerenza tra problema osservato e soluzione consigliata. Lo standard completo e in `sales-kit/pre_send_proposal_quality_gate.md`.

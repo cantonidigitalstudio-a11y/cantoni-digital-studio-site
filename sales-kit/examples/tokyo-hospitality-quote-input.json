@@ -1,0 +1,25 @@
+{
+  "business_name": "Tokyo Hospitality",
+  "contact_name": "Aki",
+  "country": "Japan",
+  "city": "Tokyo",
+  "website": "https://example.jp",
+  "email_opening": "現在のサイトを確認したところ、高単価予約につながる導線と信頼要素の見せ方に改善余地があります。",
+  "project_summary": "Tokyo Hospitality is positioned in a premium segment, but the current website can better support direct inquiries, higher trust, and stronger mobile booking intent.",
+  "issues": [
+    "予約導線が分散しており、主要CTAの優先順位が弱いです。",
+    "高単価サービスに必要な実績・信頼要素の見せ方が不足しています。",
+    "モバイルでの閲覧体験が商業的に最適化されていません。"
+  ],
+  "solutions": [
+    "主要CTAの再設計と予約導線の一本化。",
+    "実績・事例・信頼要素の構造的な追加。",
+    "モバイルファーストでの予約導線最適化。"
+  ],
+  "business_impact": [
+    "問い合わせ数 +15%〜+30%",
+    "高単価予約のCV改善",
+    "離脱率の低下"
+  ],
+  "timeline": "Growth scope in 5 weeks"
+}

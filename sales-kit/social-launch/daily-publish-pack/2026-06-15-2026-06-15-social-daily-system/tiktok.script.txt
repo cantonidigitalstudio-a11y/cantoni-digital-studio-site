@@ -1,0 +1,10 @@
+Hook: Pubblicare ogni giorno non basta.
+
+Scene:
+1. Mostra: calendario editoriale
+2. Spiega: ogni post ha un obiettivo
+3. Chiudi: costanza + qualità
+
+Caption: Contenuti giornalieri fatti bene: calendario, prova pubblica, revisione e obiettivo.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

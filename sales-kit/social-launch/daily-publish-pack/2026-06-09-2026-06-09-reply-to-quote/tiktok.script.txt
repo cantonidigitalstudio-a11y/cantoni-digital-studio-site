@@ -1,0 +1,10 @@
+Hook: Un cliente interessato non va bombardato.
+
+Scene:
+1. Mostra: risposta ricevuta
+2. Mostra: roadmap breve
+3. Chiudi: pagamento solo dopo perimetro chiaro
+
+Caption: Risposta cliente: roadmap, perimetro e prossimo passo chiaro.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

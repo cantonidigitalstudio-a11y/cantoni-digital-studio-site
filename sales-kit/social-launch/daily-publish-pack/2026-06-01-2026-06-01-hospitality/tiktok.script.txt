@@ -1,0 +1,10 @@
+Hook: Un hotel perde richieste quando il sito non guida la scelta.
+
+Scene:
+1. Mostra: camere, recensioni, mappa, prenota
+2. Spiega: fiducia e disponibilità devono stare vicine
+3. Chiudi: prenotazione diretta più chiara
+
+Caption: Hospitality: recensioni, offerte e prenotazioni devono lavorare insieme.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

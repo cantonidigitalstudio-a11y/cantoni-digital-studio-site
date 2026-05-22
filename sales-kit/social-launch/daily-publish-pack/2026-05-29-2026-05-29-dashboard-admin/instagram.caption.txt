@@ -1,0 +1,5 @@
+Una dashboard serve quando il progetto non deve solo presentare informazioni, ma gestire lavoro: richieste, ordini, clienti, appuntamenti, prenotazioni o contenuti. In quel caso non stai comprando solo un sito: stai costruendo uno strumento operativo.
+
+Perimetro: Web app: dati, richieste, clienti, ordini, prenotazioni e gestione interna
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

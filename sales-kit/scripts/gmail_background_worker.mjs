@@ -27,6 +27,7 @@ const CANTONI_SITE_URL = 'https://cantonidigitalstudio.com';
 const CANTONI_STUDIO_URL = `${CANTONI_SITE_URL}/studio.html`;
 const CANTONI_CASE_STUDIES_URL = `${CANTONI_SITE_URL}/case-studies.html`;
 const CANTONI_INSTAGRAM_URL = 'https://www.instagram.com/cantonidigitalstudio/';
+const CANTONI_YOUTUBE_URL = 'https://www.youtube.com/@cantonidigitalstudio';
 const CANTONI_TERMS_URL = `${CANTONI_SITE_URL}/termini-commerciali.html`;
 
 const ENDPOINT =
@@ -37,7 +38,6 @@ const SEND_ENABLED = process.env.OUTREACH_SEND_ENABLED === 'true';
 const MAX_PER_RUN = Number(process.env.OUTREACH_MAX_PER_RUN || 20);
 const REQUIRED_REPLY_TO = 'cantonidigitalstudio@gmail.com';
 const COLD_INTRO_FORBIDDEN_PATTERNS = [
-  /https:\/\/www\.tiktok\.com\/@cantonidigitalstudio/i,
   /https:\/\/www\.facebook\.com\/cantonidigitalstudio/i,
   /\b(?:Pacchetto consigliato|Recommended package|Paquete recomendado|Pack recommande|Empfohlenes Paket|Pacote recomendado)\b/i,
   /\b(?:Investimento consigliato|Recommended investment)\b/i,
@@ -199,7 +199,10 @@ function buildPublicReferencesHtml() {
         </tr>
         <tr>
           <td width="50%" style="padding-right:6px;"><a href="${escapeHtml(CANTONI_INSTAGRAM_URL)}" style="display:block;padding:12px 14px;background:#ffffff;border:1px solid #dbe4ee;border-radius:14px;color:#1c345d;font:14px/1.4 Arial,sans-serif;font-weight:700;text-decoration:none;">Instagram</a></td>
-          <td width="50%" style="padding-left:6px;"><a href="${escapeHtml(CANTONI_TERMS_URL)}" style="display:block;padding:12px 14px;background:#ffffff;border:1px solid #dbe4ee;border-radius:14px;color:#1c345d;font:14px/1.4 Arial,sans-serif;font-weight:700;text-decoration:none;">Condizioni commerciali</a></td>
+          <td width="50%" style="padding-left:6px;"><a href="${escapeHtml(CANTONI_YOUTUBE_URL)}" style="display:block;padding:12px 14px;background:#ffffff;border:1px solid #dbe4ee;border-radius:14px;color:#1c345d;font:14px/1.4 Arial,sans-serif;font-weight:700;text-decoration:none;">YouTube</a></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding-top:2px;"><a href="${escapeHtml(CANTONI_TERMS_URL)}" style="display:block;padding:12px 14px;background:#ffffff;border:1px solid #dbe4ee;border-radius:14px;color:#1c345d;font:14px/1.4 Arial,sans-serif;font-weight:700;text-decoration:none;">Condizioni commerciali</a></td>
         </tr>
       </table>
       <p style="margin:14px 0 0 0;font:14px/1.7 Arial,sans-serif;color:#526074;">Sede operativa in Italia. Focus su redesign, funnel, consulenza e costruzione di un ecosistema premium in crescita.</p>
@@ -326,17 +329,17 @@ async function buildHtmlBody(item, logoCid = 'cantoniLogo') {
 }
 
 async function sendItem(item) {
-  if (!SHARED_SECRET) {
-    throw new Error('OUTREACH_APPS_SCRIPT_SECRET missing.');
-  }
+  const htmlBody = await buildHtmlBody(item);
+  const inlineImages = await buildInlineImagesPayload();
+  assertBrandingGuardrails(item, htmlBody, inlineImages);
 
   if (!SEND_ENABLED) {
     return { ok: true, dry_run: true };
   }
 
-  const htmlBody = await buildHtmlBody(item);
-  const inlineImages = await buildInlineImagesPayload();
-  assertBrandingGuardrails(item, htmlBody, inlineImages);
+  if (!SHARED_SECRET) {
+    throw new Error('OUTREACH_APPS_SCRIPT_SECRET missing.');
+  }
 
   const response = await fetch(ENDPOINT, {
     method: 'POST',
@@ -406,9 +409,15 @@ async function run() {
     for (const item of pending) {
       try {
         await sendItem(item);
-        item.status = SEND_ENABLED ? 'sent' : 'dry_run';
-        item.processed_at = nowIso();
-        runLog.push({ id: item.id || null, to: item.to, status: item.status, at: item.processed_at });
+        const processedAt = nowIso();
+        if (SEND_ENABLED) {
+          item.status = 'sent';
+          item.processed_at = processedAt;
+        } else {
+          item.status = 'pending';
+          item.last_dry_run_at = processedAt;
+        }
+        runLog.push({ id: item.id || null, to: item.to, status: SEND_ENABLED ? 'sent' : 'dry_run', at: processedAt });
 
         const row = rows.find((entry) => entry.lead_id === (item.lead_id || item.id));
         if (row) {

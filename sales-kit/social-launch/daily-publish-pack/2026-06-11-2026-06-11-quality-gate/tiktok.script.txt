@@ -1,0 +1,10 @@
+Hook: Pubblicare non significa aver finito.
+
+Scene:
+1. Mostra: checklist QA
+2. Spiega: link, mobile, pagamenti, privacy
+3. Chiudi: deploy solo dopo gate verde
+
+Caption: QA prima del deploy: link, mobile, privacy, pagamenti e artifact pulito.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

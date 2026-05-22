@@ -1,0 +1,5 @@
+Molti clienti vedono il sito prima da telefono. Se testi, pulsanti, form o WhatsApp sono confusi, perdi fiducia prima ancora di parlare. Per questo il controllo mobile è parte dell'audit, non un dettaglio finale.
+
+Approccio: QA: layout, testi, pulsanti, WhatsApp, form e velocità percepita su telefono
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

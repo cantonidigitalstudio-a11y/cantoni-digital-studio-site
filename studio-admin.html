@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Studio Admin | Cantoni Digital Studio</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Dashboard interna Cantoni Digital Studio per lead, eventi, traffico e pagamenti Stripe.">
+  <link rel="stylesheet" href="styles.css?v=20260508a">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body class="studio-admin-page">
+  <div class="topbar">
+    <div class="container topbar-wrap">
+      <p>Dashboard interna studio · lead, eventi, CTA, traffico, Stripe</p>
+      <div class="topbar-right">
+        <a href="index.html">Sito pubblico</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Cantoni Digital Studio">
+        <img src="assets/logo/cantoni_primary_horizontal_small.svg" alt="Cantoni Digital Studio logo" class="brand-logo">
+      </a>
+      <nav class="main-nav" aria-label="Admin navigation">
+        <a href="#overview">Overview</a>
+        <a href="#graphs">Grafici</a>
+        <a href="#leads">Lead</a>
+        <a href="#events">Eventi</a>
+        <a href="#payments">Pagamenti</a>
+      </nav>
+      <button class="btn btn-primary" type="button" id="adminRefreshButton">Aggiorna dati</button>
+    </div>
+  </header>
+
+  <main id="overview">
+    <section class="section-pad">
+      <div class="container admin-hero-grid">
+        <div>
+          <p class="eyebrow">Dashboard interna</p>
+          <h1>Admin operativo per vedere chi entra, cosa clicca, quali richieste arrivano e quali checkout partono o si chiudono.</h1>
+          <p class="lead">Questa pagina è il layer interno per smettere di lavorare al buio: page view, sessioni, CTA, form, referrer, lead recenti, eventi recenti e percorsi Stripe nello stesso posto.</p>
+          <div class="hero-actions">
+            <a class="btn btn-ghost" href="preventivo.html">Apri il form pubblico</a>
+            <a class="btn btn-ghost" href="studio.html">Apri la pagina studio</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Admin note">
+          <img src="assets/logo/cantoni_icona_quadrata.svg" alt="Cantoni monogram" class="hero-icon">
+          <h2>Stato data pipeline</h2>
+          <p id="adminStatusText">In attesa di connessione al backend analytics.</p>
+          <div class="admin-meta-stack" aria-label="Meta dati dashboard">
+            <span class="admin-meta-chip" id="adminDataSource">Fonte: locale</span>
+            <span class="admin-meta-chip" id="adminLastUpdated">Aggiornato: --</span>
+          </div>
+          <ul>
+            <li>Buffer locale browser attivo sulle pagine pubbliche</li>
+            <li>Apps Script attivo come backend eventi + lead</li>
+            <li>Checkout Stripe tracciati da start a conferma pagina</li>
+            <li>Secret admin richiesto per leggere il riepilogo completo</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-pad section-alt">
+      <div class="container admin-panel-grid">
+        <section class="admin-panel-card admin-auth-card">
+          <p class="tag">Connessione dati</p>
+          <h2>Admin secret</h2>
+          <p class="mini">Il secret non viene esposto nel frontend pubblico. Inseriscilo qui una volta per leggere il riepilogo completo dall’Apps Script.</p>
+          <form id="adminSecretForm" class="admin-secret-form">
+            <label>Admin secret
+              <input id="adminSecretInput" type="password" autocomplete="off" placeholder="Inserisci il secret admin">
+            </label>
+            <div class="hero-actions">
+              <button class="btn btn-primary" type="submit">Salva e carica</button>
+              <button class="btn btn-ghost" type="button" id="adminClearSecret">Pulisci</button>
+            </div>
+          </form>
+          <p class="form-note" id="adminSecretNote">Se il secret non è presente, vedrai solo il buffer locale di questo browser.</p>
+        </section>
+
+        <section class="admin-panel-card">
+          <p class="tag">KPI ultimi 7 / 30 giorni</p>
+          <div class="admin-kpi-grid">
+            <article class="admin-kpi-card"><span>Page view 7g</span><strong id="kpiPageviews">0</strong></article>
+            <article class="admin-kpi-card"><span>Sessioni uniche 7g</span><strong id="kpiSessions">0</strong></article>
+            <article class="admin-kpi-card"><span>CTA click 7g</span><strong id="kpiCtas">0</strong></article>
+            <article class="admin-kpi-card"><span>Stripe checkout 7g</span><strong id="kpiStripeStarts">0</strong></article>
+            <article class="admin-kpi-card"><span>Lead 30g</span><strong id="kpiLeads">0</strong></article>
+            <article class="admin-kpi-card"><span>Brief preventivo 30g</span><strong id="kpiQuotes">0</strong></article>
+            <article class="admin-kpi-card"><span>Pagamenti confermati 30g</span><strong id="kpiStripeCompleted">0</strong></article>
+            <article class="admin-kpi-card"><span>Fallback form 7g</span><strong id="kpiFallbacks">0</strong></article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="graphs" class="section-pad">
+      <div class="container admin-panel-grid admin-panel-grid-wide">
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Attività giornaliera</p>
+            <h2>Ultimi 14 giorni</h2>
+          </div>
+          <div class="admin-legend" aria-label="Legenda grafico">
+            <span><i class="admin-dot admin-dot-page"></i>Page view</span>
+            <span><i class="admin-dot admin-dot-cta"></i>CTA click</span>
+            <span><i class="admin-dot admin-dot-lead"></i>Lead inviati</span>
+          </div>
+          <div id="dailyChart" class="admin-daily-chart"></div>
+        </section>
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Top pagine</p>
+            <h2>Pagine più visitate</h2>
+          </div>
+          <div id="topPages" class="admin-bar-chart"></div>
+        </section>
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Top eventi</p>
+            <h2>Interazioni più frequenti</h2>
+          </div>
+          <div id="topEvents" class="admin-bar-chart"></div>
+        </section>
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Top referrer</p>
+            <h2>Sorgenti traffico</h2>
+          </div>
+          <div id="topReferrers" class="admin-bar-chart"></div>
+        </section>
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Percorsi Stripe</p>
+            <h2>Checkout per prodotto</h2>
+          </div>
+          <div id="paymentPaths" class="admin-bar-chart"></div>
+        </section>
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Stati Stripe</p>
+            <h2>Started vs confirmed</h2>
+          </div>
+          <div id="paymentStates" class="admin-bar-chart"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="leads" class="section-pad section-alt">
+      <div class="container admin-grid-2">
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Lead recenti</p>
+            <h2>Ultime richieste</h2>
+          </div>
+          <div id="recentLeads" class="admin-table-shell"></div>
+        </section>
+        <section id="events" class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Eventi recenti</p>
+            <h2>Click e view più recenti</h2>
+          </div>
+          <div id="recentEvents" class="admin-table-shell"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="payments" class="section-pad">
+      <div class="container">
+        <section class="admin-panel-card">
+          <div class="section-head compact-head">
+            <p class="eyebrow">Pagamenti recenti</p>
+            <h2>Ultimi checkout e conferme</h2>
+          </div>
+          <div id="recentPayments" class="admin-table-shell"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="site-config.js?v=1"></script>
+  <script src="studio-admin.js?v=20260405d"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Hook: Il cliente capisce subito se hai copiato e incollato.
+
+Scene:
+1. Mostra: proposta generica cancellata
+2. Mostra: audit reale del cliente
+3. Chiudi: ogni cliente va trattato come unico
+
+Caption: Meno messaggi generici. Più audit reale e proposta specifica.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

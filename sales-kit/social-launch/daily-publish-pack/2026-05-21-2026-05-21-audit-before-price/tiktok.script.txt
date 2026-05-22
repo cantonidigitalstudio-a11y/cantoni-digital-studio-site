@@ -1,0 +1,10 @@
+Hook: Un preventivo fatto bene non parte dal prezzo.
+
+Scene:
+1. Mostra checklist: sito, mobile, contatti, recensioni
+2. Spiega: prima capiamo cosa blocca richieste e fiducia
+3. Chiudi: poi arrivano soluzione giusta, tempi e perimetro scritto
+
+Caption: Prima audit reale, poi proposta. Il prezzo senza contesto non aiuta il cliente e non protegge il progetto.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

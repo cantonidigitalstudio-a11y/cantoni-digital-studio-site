@@ -1,0 +1,15 @@
+Title: Pagamento dopo chiarezza | Cantoni Digital Studio
+
+Primary language: es-ES
+Secondary adaptation: es-DO
+
+Opening: Il link pagamento non è il primo passo.
+
+Short structure:
+1. Mostra un perimetro scritto con cosa include il progetto e quali sono i limiti
+2. Mostra: importo e milestone
+3. Chiudi: poi link pagamento
+
+Description: Prima chiarezza, poi pagamento. Un progetto serio parte così. Link: Regola: link pagamento solo dopo perimetro, importo, valuta e milestone confermati
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

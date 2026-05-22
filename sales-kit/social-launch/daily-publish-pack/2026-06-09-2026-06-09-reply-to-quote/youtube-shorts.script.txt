@@ -1,0 +1,15 @@
+Title: Quando un cliente risponde | Cantoni Digital Studio
+
+Primary language: en-US
+Secondary adaptation: it-IT
+
+Opening: Un cliente interessato non va bombardato.
+
+Short structure:
+1. Mostra: risposta ricevuta
+2. Mostra: roadmap breve
+3. Chiudi: pagamento solo dopo perimetro chiaro
+
+Description: Risposta cliente: roadmap, perimetro e prossimo passo chiaro. Link: Flusso: risposta, roadmap, perimetro, prezzo locale e link pagamento solo dopo conferma
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

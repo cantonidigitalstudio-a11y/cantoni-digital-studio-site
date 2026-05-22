@@ -1,0 +1,10 @@
+Hook: Se devo cercare il tuo WhatsApp, hai già perso tempo.
+
+Scene:
+1. Mostra: servizio, recensioni, WhatsApp
+2. Spiega: le basi devono essere immediate
+3. Chiudi: mobile e contatto prima di tutto
+
+Caption: Attività locali: contatti, mappe, recensioni e servizi devono essere chiari.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

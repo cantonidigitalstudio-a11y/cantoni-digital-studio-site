@@ -1,0 +1,10 @@
+Hook: Nel luxury il cliente compra fiducia prima del servizio.
+
+Scene:
+1. Mostra: promessa, prove, dettagli
+2. Spiega: il sito deve ridurre incertezza
+3. Chiudi: il contatto deve sembrare naturale
+
+Caption: Servizi premium: fiducia, prove e percorso chiaro prima del contatto.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

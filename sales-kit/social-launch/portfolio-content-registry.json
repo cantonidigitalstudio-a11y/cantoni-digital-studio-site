@@ -1,0 +1,108 @@
+{
+  "name": "Cantoni Digital Studio portfolio content registry",
+  "approval_required": true,
+  "rule": "Use only real public evidence, screenshots, screen recordings, approved client material or internal projects. Never publish confidential data, secrets, admin screens or private customer information.",
+  "projects": [
+    {
+      "id": "excellentia-vip",
+      "name": "Excellentia VIP",
+      "category": "client",
+      "publish_status": "ready_after_visual_review",
+      "public_reference": "https://excellentiavip.com",
+      "proof_angle": "luxury transport, concierge, prenotazioni, pacchetti, flotta e fiducia mobile-first",
+      "services_to_show": ["sito", "prenotazioni", "mobile", "trust", "AI visibility"],
+      "safe_assets": [
+        "assets/portfolio/excellentia-vip/fleet/black-suv-portico.jpg",
+        "assets/portfolio/excellentia-vip/excursions/yacht-deck.jpg",
+        "sales-kit/social-launch/output/01-excellentia-vip.png"
+      ],
+      "avoid": ["prezzi privati", "dati clienti", "chat", "admin", "documenti interni"],
+      "video_format": "case study walkthrough"
+    },
+    {
+      "id": "mr-collins-destination-cocoa",
+      "name": "Mr Collins / Destination Cocoa",
+      "category": "client",
+      "publish_status": "ready_after_visual_review",
+      "public_reference": "https://destination-cocoa-site.netlify.app",
+      "proof_angle": "prenotazioni turistiche, transfer, servizi extra, percorso operativo e riduzione messaggi confusi",
+      "services_to_show": ["sito", "prenotazioni", "pagamenti", "mobile", "operativita"],
+      "safe_assets": [
+        "../mr-collins-travel/site/output/playwright/destination-cocoa-home.png",
+        "../mr-collins-travel/site/output/playwright/destination-cocoa-booking.png",
+        "sales-kit/social-launch/output/02-destination-cocoa.png",
+        "../mr-collins-travel/review-assets/mr-collins-tiktok-local.png",
+        "../mr-collins-travel/review-assets/mr-collins-tiktok-local-video-players.png"
+      ],
+      "avoid": ["email private", "dati viaggiatori", "admin", "prenotazioni reali"],
+      "video_format": "reservation path walkthrough"
+    },
+    {
+      "id": "ec8-platform",
+      "name": "EC8 Platform",
+      "category": "owned",
+      "publish_status": "ready_after_visual_review",
+      "public_reference": "https://ec8platform.com",
+      "store_links": {
+        "app_store": "https://apps.apple.com/ch/app/ec8platform/id6755408340",
+        "play_store": "https://play.google.com/store/apps/details?id=com.ec8.platform"
+      },
+      "store_links_verified_at": "2026-05-20",
+      "proof_angle": "piattaforma, sito, app mobile pubblicata, contenuti, accessi e crescita digitale",
+      "services_to_show": ["sito", "web app", "app", "pagamenti", "dashboard", "growth"],
+      "safe_assets": [
+        "/Volumes/Lexar/EC8_SITE_MARKETING/ec8-live-home-mobile-viewport.png",
+        "/Volumes/Lexar/EC8_SITE_MARKETING/ec8-live-home-desktop-viewport.png",
+        "/Volumes/Lexar/EC8_SITE_MARKETING/ec8-live-piani-mobile-viewport.png",
+        "sales-kit/social-launch/output/03-ec8-platform.png"
+      ],
+      "avoid": ["clienti coaching", "dati sanitari/sportivi privati", "schermate account", "metriche non approvate"],
+      "video_format": "platform and app evidence"
+    },
+    {
+      "id": "coconut-armor",
+      "name": "Coconut Armor",
+      "category": "owned",
+      "publish_status": "internal_review_required",
+      "public_reference": "",
+      "proof_angle": "brand/e-commerce/product launch, visual identity, landing, shop, supplier readiness",
+      "services_to_show": ["brand", "e-commerce", "landing", "mobile", "go-live"],
+      "safe_assets": [
+        "/Volumes/Lexar/CoconutArmor/coconutarmor-mobile-founding-drop-clean.png",
+        "/Volumes/Lexar/CoconutArmor/coconutarmor-desktop-founding-drop.png",
+        "/Volumes/Lexar/CoconutArmor/coconutarmor-mobile-shop.png",
+        "/Volumes/Lexar/CoconutArmor/output/home-latest.png",
+        "/Volumes/Lexar/CoconutArmor/output/devices-latest.png"
+      ],
+      "avoid": ["secrets", "private vault", "fornitori non pubblici", "ordini", "credenziali", "prezzi interni non approvati"],
+      "video_format": "brand launch evidence"
+    },
+    {
+      "id": "etsy-operations",
+      "name": "Etsy operations",
+      "category": "owned_or_internal",
+      "publish_status": "needs_asset_discovery",
+      "public_reference": "",
+      "proof_angle": "operativita e-commerce, catalogo, shop setup, listing e processo commerciale",
+      "services_to_show": ["e-commerce", "catalogo", "shop ops", "contenuti", "growth"],
+      "safe_assets": [],
+      "avoid": ["account privato", "ordini", "dati clienti", "bozze non approvate", "margini"],
+      "video_format": "ops explanation after asset review"
+    },
+    {
+      "id": "cantoni-digital-studio",
+      "name": "Cantoni Digital Studio",
+      "category": "owned",
+      "publish_status": "ready_after_visual_review",
+      "public_reference": "https://cantonidigitalstudio.com",
+      "proof_angle": "preventivatore, portfolio, WhatsApp, Stripe, pagamenti, compliance, proposte e processo",
+      "services_to_show": ["siti", "e-commerce", "web app", "app", "automazioni AI", "preventivi"],
+      "safe_assets": [
+        "sales-kit/social-launch/output/05-servizi-completi.png",
+        "sales-kit/social-launch/output/04-metodo-preventivi.png"
+      ],
+      "avoid": ["lead privati", "email", "pipeline interna", "Stripe dashboard", "dati pagamento"],
+      "video_format": "studio process and evidence"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+Hook: Il link pagamento non è il primo passo.
+
+Scene:
+1. Mostra un perimetro scritto con cosa include il progetto e quali sono i limiti
+2. Mostra: importo e milestone
+3. Chiudi: poi link pagamento
+
+Caption: Prima chiarezza, poi pagamento. Un progetto serio parte così.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

@@ -1,0 +1,15 @@
+Title: Basta preventivi generici | Cantoni Digital Studio
+
+Primary language: it-IT
+Secondary adaptation: en-US
+
+Opening: Il cliente capisce subito se hai copiato e incollato.
+
+Short structure:
+1. Mostra: proposta generica cancellata
+2. Mostra: audit reale del cliente
+3. Chiudi: ogni cliente va trattato come unico
+
+Description: Meno messaggi generici. Più audit reale e proposta specifica. Approccio: Standard: ogni proposta deve parlare del cliente, non di noi
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

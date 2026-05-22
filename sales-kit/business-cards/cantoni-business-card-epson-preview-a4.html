@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Cantoni Digital Studio - Epson A4 preview</title>
+  <style>
+    @page { size: A4; margin: 12mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: #14294b; background: #fff; }
+    .header { border-bottom: 0.35mm solid #d7dee8; padding-bottom: 5mm; margin-bottom: 8mm; }
+    h1 { margin: 0; font-size: 13pt; line-height: 1.2; letter-spacing: 0; }
+    .note { margin-top: 2mm; font-size: 8pt; color: #5f6b7d; line-height: 1.35; }
+    .row { display: flex; gap: 12mm; align-items: flex-start; margin-bottom: 10mm; }
+    .panel { width: 88mm; }
+    .label { font-size: 8pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 2mm; color: #5f6b7d; }
+    .card-wrap { position: relative; width: 88mm; height: 59mm; background: white; }
+    .card { width: 88mm; height: 59mm; display: block; border: .25mm solid #d7dee8; }
+    .cut { position: absolute; width: 4mm; height: 4mm; border-color: #f39a2f; }
+    .tl { left: -3mm; top: -3mm; border-left: .25mm solid #f39a2f; border-top: .25mm solid #f39a2f; }
+    .tr { right: -3mm; top: -3mm; border-right: .25mm solid #f39a2f; border-top: .25mm solid #f39a2f; }
+    .bl { left: -3mm; bottom: -3mm; border-left: .25mm solid #f39a2f; border-bottom: .25mm solid #f39a2f; }
+    .br { right: -3mm; bottom: -3mm; border-right: .25mm solid #f39a2f; border-bottom: .25mm solid #f39a2f; }
+    .actual { margin-top: 4mm; font-size: 8pt; color: #5f6b7d; line-height: 1.35; }
+    .stack { margin-top: 12mm; display: grid; grid-template-columns: 88mm; gap: 10mm; }
+    .footer { position: fixed; left: 12mm; right: 12mm; bottom: 8mm; font-size: 7.5pt; color: #778399; border-top: .25mm solid #e5eaf0; padding-top: 3mm; }
+  </style>
+</head>
+<body>
+  <section class="header">
+    <h1>Cantoni Digital Studio - anteprima stampa Epson</h1>
+    <div class="note">Stampa su A4 a dimensione reale. Questa prova controlla layout, leggibilita, QR, numero e colori indicativi; non simula la finitura MOO Super Soft Touch.</div>
+  </section>
+  <section class="row">
+    <div class="panel">
+      <p class="label">Fronte - 88 x 59 mm</p>
+      <div class="card-wrap"><img class="card" src="file:///Volumes/Lexar/Siti%20internet%20mondiale%20/cantoni_site/sales-kit/business-cards/cantoni-business-card-moo-front-proof.png"><span class="cut tl"></span><span class="cut tr"></span><span class="cut bl"></span><span class="cut br"></span></div>
+      <div class="actual">Controlli: logo, nome, telefono +39 347 196 1113, email, social e servizi.</div>
+    </div>
+    <div class="panel">
+      <p class="label">Retro - 88 x 59 mm</p>
+      <div class="card-wrap"><img class="card" src="file:///Volumes/Lexar/Siti%20internet%20mondiale%20/cantoni_site/sales-kit/business-cards/cantoni-business-card-moo-back-proof.png"><span class="cut tl"></span><span class="cut tr"></span><span class="cut bl"></span><span class="cut br"></span></div>
+      <div class="actual">Controlli: QR, testo, sito /preventivo, spazio sicuro e leggibilita.</div>
+    </div>
+  </section>
+  <section class="stack">
+    <div class="panel">
+      <p class="label">Fronte singolo per ritaglio</p>
+      <div class="card-wrap"><img class="card" src="file:///Volumes/Lexar/Siti%20internet%20mondiale%20/cantoni_site/sales-kit/business-cards/cantoni-business-card-moo-front-proof.png"><span class="cut tl"></span><span class="cut tr"></span><span class="cut bl"></span><span class="cut br"></span></div>
+    </div>
+    <div class="panel">
+      <p class="label">Retro singolo per ritaglio</p>
+      <div class="card-wrap"><img class="card" src="file:///Volumes/Lexar/Siti%20internet%20mondiale%20/cantoni_site/sales-kit/business-cards/cantoni-business-card-moo-back-proof.png"><span class="cut tl"></span><span class="cut tr"></span><span class="cut bl"></span><span class="cut br"></span></div>
+    </div>
+  </section>
+  <div class="footer">File sorgente MOO: cantoni-business-card-moo-premium-v5-2026-05-07.pdf. Per ordinare usare MOO, non questa prova Epson.</div>
+</body>
+</html>

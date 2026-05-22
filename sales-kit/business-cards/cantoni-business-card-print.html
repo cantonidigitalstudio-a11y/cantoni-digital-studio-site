@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cantoni Digital Studio - Business Card</title>
+  <style>
+    :root {
+      --navy: #17345f;
+      --navy-deep: #102545;
+      --ink: #13213c;
+      --muted: #5a6678;
+      --orange: #f29a37;
+      --paper: #fbfaf6;
+      --line: #d8dee8;
+      --front-accent-w: 1.05mm;
+      --back-accent-w: 0.75mm;
+      --trim-w: 85mm;
+      --trim-h: 55mm;
+      --bleed: 3mm;
+      --page-w: 91mm;
+      --page-h: 61mm;
+    }
+
+    @page {
+      size: 91mm 61mm;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #eceff3;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 18px;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card-page {
+      position: relative;
+      width: var(--page-w);
+      height: var(--page-h);
+      overflow: hidden;
+      background: var(--paper);
+      page-break-after: always;
+      box-shadow: 0 18px 45px rgba(20, 34, 60, 0.18);
+    }
+
+    body[data-vendor="moo"] {
+      --trim-w: 84mm;
+      --trim-h: 55mm;
+      --bleed: 2mm;
+      --page-w: 88mm;
+      --page-h: 59mm;
+      --front-accent-w: 0.95mm;
+      --back-accent-w: 0.6mm;
+    }
+
+    .card-page:last-child {
+      page-break-after: auto;
+    }
+
+    .front {
+      background:
+        radial-gradient(circle at 78mm 6mm, rgba(242, 154, 55, 0.16), transparent 28mm),
+        linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 58%, #0d1e39 100%);
+      color: #ffffff;
+    }
+
+    .front::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: var(--front-accent-w);
+      height: 100%;
+      background: var(--orange);
+      content: "";
+    }
+
+    .front::after {
+      position: absolute;
+      right: -17mm;
+      top: -25mm;
+      width: 67mm;
+      height: 67mm;
+      border-radius: 50%;
+      border: 0.24mm solid rgba(255, 255, 255, 0.08);
+      content: "";
+    }
+
+    .brand-lockup {
+      position: absolute;
+      left: 7mm;
+      top: 6.3mm;
+      display: flex;
+      align-items: center;
+      gap: 2.3mm;
+      z-index: 3;
+    }
+
+    .brand-symbol {
+      width: 14.5mm;
+      height: 14.5mm;
+      display: block;
+      flex: 0 0 auto;
+      border-radius: 2.5mm;
+      box-shadow: 0 2.2mm 6mm rgba(0, 0, 0, 0.22);
+    }
+
+    .wordmark-main {
+      display: block;
+      color: #ffffff;
+      font-size: 14.8pt;
+      font-weight: 860;
+      line-height: 0.96;
+    }
+
+    .wordmark-sub {
+      display: block;
+      margin-top: 1.1mm;
+      color: var(--orange);
+      font-size: 5.4pt;
+      font-weight: 850;
+      letter-spacing: 1.15px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .front-main {
+      position: absolute;
+      left: 7.2mm;
+      right: 8mm;
+      top: 22.7mm;
+      z-index: 3;
+    }
+
+    h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 15.4pt;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .role {
+      margin: 1.15mm 0 0;
+      color: rgba(255, 255, 255, 0.73);
+      font-size: 6.7pt;
+      font-weight: 680;
+      line-height: 1.3;
+    }
+
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.82mm;
+      margin: 2.45mm 0 0;
+      max-width: 68mm;
+    }
+
+    .service-pill {
+      padding: 0.52mm 1mm;
+      border: 0.2mm solid rgba(255, 255, 255, 0.15);
+      border-radius: 99mm;
+      background: rgba(255, 255, 255, 0.075);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 4.55pt;
+      font-weight: 780;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .front-contact {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0;
+      border-top: 0.22mm solid rgba(255, 255, 255, 0.12);
+      background: rgba(6, 16, 32, 0.28);
+      color: #ffffff;
+      z-index: 3;
+    }
+
+    .contact-cell {
+      min-width: 0;
+      padding: 1.2mm 2.8mm 0.95mm 7.2mm;
+      border-right: 0.22mm solid rgba(255, 255, 255, 0.12);
+      border-bottom: 0.22mm solid rgba(255, 255, 255, 0.12);
+    }
+
+    .contact-cell:nth-child(2n) {
+      padding-left: 4.2mm;
+      padding-right: 7.2mm;
+      border-right: 0;
+    }
+
+    .contact-cell--social {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0.55mm;
+      padding-bottom: 2.85mm;
+      border-bottom: 0;
+    }
+
+    .contact-cell--email {
+      padding-bottom: 2.85mm;
+      border-bottom: 0;
+    }
+
+    .contact-label {
+      display: block;
+      margin-bottom: 0.52mm;
+      color: rgba(255, 255, 255, 0.47);
+      font-size: 3.35pt;
+      font-weight: 850;
+      letter-spacing: 0.65px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      display: block;
+      min-width: 0;
+      overflow: visible;
+      color: #ffffff;
+      font-size: 4.35pt;
+      font-weight: 780;
+      line-height: 1.08;
+      white-space: nowrap;
+    }
+
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: 1mm;
+    }
+
+    .social-icons {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55mm;
+      color: #ffffff;
+      flex: 0 0 auto;
+    }
+
+    .social-icon {
+      width: 2.9mm;
+      height: 2.9mm;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.18mm solid rgba(255, 255, 255, 0.34);
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0.35mm 1mm rgba(0, 0, 0, 0.22);
+    }
+
+    .social-icon svg {
+      width: 1.88mm;
+      height: 1.88mm;
+      display: block;
+      overflow: visible;
+    }
+
+    .social-icon--facebook svg {
+      width: 1.72mm;
+      height: 1.72mm;
+    }
+
+    .social-icon--instagram svg {
+      width: 1.95mm;
+      height: 1.95mm;
+    }
+
+    .social-icon--tiktok svg {
+      width: 1.9mm;
+      height: 1.9mm;
+    }
+
+    .social-handle {
+      min-width: 0;
+      overflow: hidden;
+      color: #ffffff;
+      font-size: 4.28pt;
+      font-weight: 780;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: 0;
+    }
+
+    .back {
+      background:
+        linear-gradient(90deg, transparent 0 calc(100% - var(--back-accent-w)), var(--orange) calc(100% - var(--back-accent-w))),
+        linear-gradient(135deg, #ffffff 0%, var(--paper) 72%, #edf2f8 100%);
+      color: var(--ink);
+    }
+
+    .back::before {
+      position: absolute;
+      left: -25mm;
+      top: -25mm;
+      width: 72mm;
+      height: 72mm;
+      border-radius: 50%;
+      border: 0.24mm solid rgba(26, 51, 93, 0.1);
+      content: "";
+    }
+
+    .brand-mark {
+      width: 12.5mm;
+      height: 12.5mm;
+      border-radius: 2.1mm;
+    }
+
+    .back-grid {
+      position: absolute;
+      inset: 7.2mm 7.8mm 7mm 7.2mm;
+      display: grid;
+      grid-template-columns: 1fr 28.5mm;
+      align-items: center;
+      gap: 7.5mm;
+      z-index: 2;
+    }
+
+    .back h2 {
+      margin: 4.1mm 0 2mm;
+      max-width: 39mm;
+      color: var(--navy);
+      font-size: 12.15pt;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .back p {
+      margin: 0;
+      max-width: 40mm;
+      color: var(--muted);
+      font-size: 5.95pt;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .qr-panel {
+      display: grid;
+      justify-items: center;
+      gap: 1.75mm;
+    }
+
+    .qr-box {
+      width: 28.5mm;
+      height: 28.5mm;
+      padding: 2.2mm;
+      background: #ffffff;
+      border: 0.25mm solid rgba(26, 51, 93, 0.1);
+      border-radius: 2.5mm;
+      box-shadow: 0 2.2mm 7mm rgba(20, 34, 60, 0.14);
+    }
+
+    .qr-box img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .qr-url {
+      max-width: 28.5mm;
+      color: var(--muted);
+      font-size: 4.55pt;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .qr-url span {
+      display: block;
+    }
+
+    @media print {
+      html,
+      body {
+        width: var(--page-w);
+        background: #ffffff;
+      }
+
+      .sheet {
+        display: block;
+        padding: 0;
+      }
+
+      .card-page {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    if (new URLSearchParams(window.location.search).get('printVendor') === 'moo') {
+      document.body.dataset.vendor = 'moo';
+      var pageSize = document.createElement('style');
+      pageSize.textContent = '@page { size: 88mm 59mm; margin: 0; }';
+      document.head.appendChild(pageSize);
+    }
+  </script>
+  <main class="sheet" aria-label="Business card print proof">
+    <section class="card-page front" aria-label="Fronte biglietto">
+      <div class="brand-lockup" aria-label="Cantoni Digital Studio">
+        <img class="brand-symbol" src="../../assets/logo/cantoni_icona_quadrata.svg" alt="">
+        <span>
+          <span class="wordmark-main">Cantoni</span>
+          <span class="wordmark-sub">Digital Studio</span>
+        </span>
+      </div>
+      <div class="front-main">
+        <h1>Emanuele Cantoni</h1>
+        <p class="role">Founder / Digital Product Builder</p>
+        <div class="services" aria-label="Servizi">
+          <span class="service-pill">Siti</span>
+          <span class="service-pill">E-commerce</span>
+          <span class="service-pill">Web app</span>
+          <span class="service-pill">App</span>
+          <span class="service-pill">Automazioni AI</span>
+        </div>
+      </div>
+      <div class="front-contact" aria-label="Contatti">
+        <div class="contact-cell">
+          <span class="contact-label">Web</span>
+          <span class="contact-value">cantonidigitalstudio.com</span>
+        </div>
+        <div class="contact-cell">
+          <span class="contact-label">Telefono</span>
+          <span class="contact-value">+39 347 196 1113</span>
+        </div>
+        <div class="contact-cell contact-cell--email">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">cantonidigitalstudio@gmail.com</span>
+        </div>
+        <div class="contact-cell contact-cell--social">
+          <span class="contact-label">Social</span>
+          <span class="social-row">
+            <span class="social-icons" aria-label="Facebook, Instagram e TikTok">
+              <span class="social-icon social-icon--facebook" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path fill="#1877f2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.03 1.79-4.7 4.53-4.7 1.31 0 2.68.23 2.68.23v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.27h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07Z" />
+                  <path fill="#fff" d="m16.67 15.56.53-3.49h-3.33V9.8c0-.96.47-1.89 1.96-1.89h1.51V4.94s-1.37-.23-2.68-.23c-2.74 0-4.53 1.67-4.53 4.7v2.66H7.08v3.49h3.05V24a12.24 12.24 0 0 0 3.74 0v-8.44h2.8Z" />
+                </svg>
+              </span>
+              <span class="social-icon social-icon--instagram" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <defs>
+                    <radialGradient id="igGlow" cx="29%" cy="104%" r="120%">
+                      <stop offset="0" stop-color="#feda75" />
+                      <stop offset="0.25" stop-color="#fa7e1e" />
+                      <stop offset="0.52" stop-color="#d62976" />
+                      <stop offset="0.78" stop-color="#962fbf" />
+                      <stop offset="1" stop-color="#4f5bd5" />
+                    </radialGradient>
+                  </defs>
+                  <rect x="1.6" y="1.6" width="20.8" height="20.8" rx="6.2" fill="url(#igGlow)" />
+                  <rect x="6.2" y="6.2" width="11.6" height="11.6" rx="3.5" fill="none" stroke="#fff" stroke-width="1.9" />
+                  <circle cx="12" cy="12" r="3.05" fill="none" stroke="#fff" stroke-width="1.9" />
+                  <circle cx="16.28" cy="7.72" r="1.08" fill="#fff" />
+                </svg>
+              </span>
+              <span class="social-icon social-icon--tiktok" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path fill="#25f4ee" d="M15.16 6.13c1.08 1.37 2.37 2.2 4.22 2.33v3.32a8.3 8.3 0 0 1-4.36-1.26v5.1c0 3.23-2.28 5.38-5.4 5.38-2.92 0-5.16-2.01-5.16-4.9 0-3.12 2.62-5.27 6.05-4.83v3.41c-1.42-.29-2.5.39-2.5 1.46 0 .9.7 1.49 1.64 1.49 1.12 0 1.77-.73 1.77-2.12V3.15h3.74v2.98Z" transform="translate(-.65 .48)" />
+                  <path fill="#fe2c55" d="M15.16 6.13c1.08 1.37 2.37 2.2 4.22 2.33v3.32a8.3 8.3 0 0 1-4.36-1.26v5.1c0 3.23-2.28 5.38-5.4 5.38-2.92 0-5.16-2.01-5.16-4.9 0-3.12 2.62-5.27 6.05-4.83v3.41c-1.42-.29-2.5.39-2.5 1.46 0 .9.7 1.49 1.64 1.49 1.12 0 1.77-.73 1.77-2.12V3.15h3.74v2.98Z" transform="translate(.55 -.35)" />
+                  <path fill="#111" d="M15.16 6.13c1.08 1.37 2.37 2.2 4.22 2.33v3.32a8.3 8.3 0 0 1-4.36-1.26v5.1c0 3.23-2.28 5.38-5.4 5.38-2.92 0-5.16-2.01-5.16-4.9 0-3.12 2.62-5.27 6.05-4.83v3.41c-1.42-.29-2.5.39-2.5 1.46 0 .9.7 1.49 1.64 1.49 1.12 0 1.77-.73 1.77-2.12V3.15h3.74v2.98Z" />
+                </svg>
+              </span>
+            </span>
+            <span class="social-handle">@cantonidigitalstudio</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card-page back" aria-label="Retro biglietto">
+      <div class="back-grid">
+        <div>
+          <img class="brand-mark" src="../../assets/logo/cantoni_icona_quadrata.svg" alt="">
+          <h2>Da un'idea a una proposta concreta.</h2>
+          <p>Siti, e-commerce, web app, app e automazioni: scope scritto, prezzi chiari, tempi realistici.</p>
+        </div>
+        <div class="qr-panel">
+          <div class="qr-box">
+            <img src="./qr-cantoni-site.svg" alt="QR per preventivo Cantoni Digital Studio">
+          </div>
+          <div class="qr-url">
+            <span>cantonidigitalstudio.com</span>
+            <span>/preventivo</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

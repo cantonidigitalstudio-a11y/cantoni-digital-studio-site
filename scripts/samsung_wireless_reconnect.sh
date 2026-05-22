@@ -11,7 +11,7 @@ if ping -c 1 -W 1000 "$DEVICE_IP" >/dev/null 2>&1; then
   echo "network=reachable"
 else
   echo "network=unreachable"
-  echo "hint=Check that the Samsung is awake and connected to the same Wi-Fi."
+  echo "hint=Samsung control session is unreachable at this IP. Wake the phone or refresh the ADB TCP session via USB/trusted debugging, then rerun."
   exit 2
 fi
 

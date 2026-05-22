@@ -68,8 +68,8 @@ async function run() {
   manifestLines.push('');
   manifestLines.push('- Pubblicare prima tre contenuti portfolio, poi metodo e servizi.');
   manifestLines.push('- Non modificare link o claim senza verificare il sito pubblico citato.');
-  manifestLines.push('- Facebook e TikTok sono brandizzati; usarli come prova pubblica solo dopo logged-out QA finale.');
-  manifestLines.push("- Usare Instagram solo dopo login sull'account `@cantonidigitalstudio`.");
+  manifestLines.push('- Facebook ora passa QA pubblica; TikTok resta brandizzato ma non va usato come prova autonoma finche apre login obbligatorio.');
+  manifestLines.push("- Usare Instagram dopo login sull'account `@cantonidigitalstudio`; correggere il link profilo da mobile prima di usarlo come prova principale.");
 
   await fs.writeFile(path.join(packDir, 'manifest.md'), `${manifestLines.join('\n')}\n`, 'utf8');
 

@@ -1,0 +1,10 @@
+Hook: Se devi gestire dati, forse non ti serve solo un sito.
+
+Scene:
+1. Mostra: clienti, ordini, prenotazioni
+2. Spiega: dashboard significa gestione interna
+3. Chiudi: sito o web app si decide dallo scopo
+
+Caption: Dashboard e web app servono quando il digitale deve gestire lavoro reale.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

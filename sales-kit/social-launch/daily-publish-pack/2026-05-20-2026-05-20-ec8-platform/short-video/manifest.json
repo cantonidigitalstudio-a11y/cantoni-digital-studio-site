@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "entry": "2026-05-20-2026-05-20-ec8-platform",
+  "source_asset": "sales-kit/social-launch/daily-publish-pack/2026-05-20-2026-05-20-ec8-platform/2026-05-20-2026-05-20-ec8-platform.png",
+  "output_mp4": "sales-kit/social-launch/daily-publish-pack/2026-05-20-2026-05-20-ec8-platform/short-video/2026-05-20-2026-05-20-ec8-platform-short.mp4",
+  "poster": "sales-kit/social-launch/daily-publish-pack/2026-05-20-2026-05-20-ec8-platform/short-video/poster.png",
+  "width": 1080,
+  "height": 1920,
+  "duration_seconds": 20.2,
+  "client_logo": "assets/portfolio/ec8/logo-ec8.png",
+  "client_wordmark": "assets/portfolio/ec8/logo-ec8-wordmark-email.png",
+  "status": "review_required_before_upload"
+}

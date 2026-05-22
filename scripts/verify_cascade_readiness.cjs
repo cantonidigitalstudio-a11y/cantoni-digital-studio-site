@@ -11,8 +11,8 @@ const REQUIRED_TEXT = [
       'https://cantonidigitalstudio.com/',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
-      'TikTok configurato',
-      'canale configurato; alcuni browser possono richiedere login',
+      'https://www.youtube.com/@cantonidigitalstudio',
+      'https://www.tiktok.com/@cantonidigitalstudio',
       'cantonidigitalstudio@gmail.com',
       '+39 347 196 1113',
       'visibilità anche nelle risposte delle intelligenze artificiali'
@@ -23,8 +23,8 @@ const REQUIRED_TEXT = [
     contains: [
       'siti, e-commerce, web app, app mobile, automazioni AI',
       'Scrivere per persone normali',
-      'TikTok configurato: `@cantonidigitalstudio`',
-      'puo richiedere login',
+      'TikTok: `https://www.tiktok.com/@cantonidigitalstudio`',
+      'YouTube: `https://www.youtube.com/@cantonidigitalstudio`',
       'Gestione continuativa',
       'visibilita nelle risposte delle intelligenze artificiali'
     ]
@@ -53,15 +53,16 @@ const REQUIRED_TEXT = [
       'https://ec8platform.com',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+      'https://www.youtube.com/@cantonidigitalstudio',
       'https://wa.me/393471961113'
     ]
   },
   {
     file: 'sales-kit/social-launch/posts.json',
     contains: [
-      'Reference verificabile: https://excellentiavip.com',
-      'Reference verificabile: https://destination-cocoa-site.netlify.app',
-      'Reference verificabile: https://ec8platform.com',
+      'Riferimento verificabile: https://excellentiavip.com',
+      'Riferimento verificabile: https://destination-cocoa-site.netlify.app',
+      'Riferimento verificabile: https://ec8platform.com',
       'social, recensioni, competitor',
       'web app, app mobile'
     ]
@@ -69,8 +70,6 @@ const REQUIRED_TEXT = [
 ];
 
 const KNOWN_INTERNAL_ROOTS = [
-  /^AUTOMATION_HANDOFF\.md$/,
-  /^EXCELLENTIA_VIP_CODEX_MASTER_PROMPT\.md$/,
   /^destination-cocoa-notification-flow\.md$/,
   /^functions\//,
   /^sales-kit\//,

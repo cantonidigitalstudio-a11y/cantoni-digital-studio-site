@@ -1,0 +1,52 @@
+{
+  "source_lead_id": "TEST-EC8-2026-04-03",
+  "business_name": "EC8 Platform",
+  "contact_name": "Emanuele",
+  "recipient_email": "ec8platform@gmail.com",
+  "country": "Italy",
+  "city": "Milan",
+  "website": "https://ec8platform.com",
+  "email_opening": "ho analizzato ec8platform.com con attenzione come farei per un cliente reale. Il brand e la promessa sono forti, ma oggi il sito puo convertire meglio il traffico esistente in richieste qualificate, call pertinenti e acquisti piu ordinati, soprattutto nelle aree dove l offerta cresce di densita e la priorita commerciale si disperde.",
+  "project_summary": "EC8 Platform parte da un posizionamento credibile e da una forte presenza del coach, ma il sistema commerciale del sito puo essere reso piu lineare per aumentare chiarezza d offerta, qualita dei lead, conversione delle pagine piani e continuita tra trust, scelta del piano e checkout.",
+  "issues": [
+    "Nella hero la compresenza di piu CTA con intenzioni diverse disperde la priorita commerciale nel primo scroll e rende meno chiaro quale sia il passo principale da compiere.",
+    "La pagina piani contiene molta informazione utile, ma la densita dei blocchi, la ripetizione di pattern e la lunghezza complessiva aumentano il carico cognitivo prima della decisione.",
+    "Le prove risultato e la credibilita del coach sono presenti, ma possono essere orchestrate in una progressione commerciale piu forte tra homepage, trust layer e pagine di piano.",
+    "La struttura SEO e commerciale puo intercettare meglio traffico ad alta intenzione con pagine e sezioni piu nette per obiezioni, comparazione, casi e conversione mobile."
+  ],
+  "solutions": [
+    "Riorganizzazione delle CTA principali e secondarie per dare una sola priorita commerciale chiara nel primo scroll e nei punti ad alta intenzione.",
+    "Ridisegno della pagina piani con gerarchia piu leggibile, comparazione piu rapida e riduzione della frizione prima del checkout o della call strategica.",
+    "Ricomposizione del trust layer con risultati, trasformazioni, metodo e prova sociale distribuiti in modo progressivo e non solo additivo.",
+    "Hardening mobile, SEO commerciale e architettura funnel per accompagnare meglio il traffico da contenuti, social e ricerca verso una scelta utile."
+  ],
+  "business_impact": [
+    "+12% / +28% richieste qualificate o call realmente pertinenti",
+    "+8% / +18% conversione del traffico esistente verso piano o azione primaria",
+    "Riduzione della dispersione tra interesse, comparazione offerta e checkout"
+  ],
+  "timeline": "3 settimane per Base, 5 settimane per Growth",
+  "base_deliverables": [
+    "Pulizia del percorso conversione sulle pagine core",
+    "Riorganizzazione CTA e priorita commerciale principale",
+    "Ottimizzazione UX mobile e tracking eventi base"
+  ],
+  "growth_deliverables": [
+    "Riprogettazione pagina piani con gerarchia commerciale piu forte",
+    "Funnel di qualificazione tra trust, comparazione, call e checkout",
+    "SEO on-page commerciale e trust architecture avanzata"
+  ],
+  "monthly_deliverables": [
+    "Analisi KPI mensile",
+    "Ottimizzazioni CRO continue",
+    "Aggiornamento di sezioni, landing e test di conversione"
+  ],
+  "audit_evidence": [
+    "Homepage: la hero apre con un messaggio forte e con almeno tre CTA ravvicinate, tra scelta piano, call strategica e accesso, creando intenzioni concorrenti nel primo fold.",
+    "Pagina /piani: l offerta e ricca e credibile, ma il volume di blocchi, purchase path e sezioni informative rende piu faticosa la scansione rapida prima della decisione.",
+    "Footer e sezione brand: i riferimenti Instagram, TikTok, email e legal sono gia presenti e sono un punto forte di trust, ma la distribuzione della prova sociale puo essere resa piu progressiva prima della parte prezzo."
+  ],
+  "pricing_rationale": "Il prezzo proposto riflette un lavoro non cosmetico: serve intervenire su funnel, architettura decisionale, comparazione dei piani, priorita CTA, trust flow, SEO commerciale e resa mobile. Non e un semplice restyling, ma una ristrutturazione della conversione per un brand gia forte che ha bisogno di ordine, gerarchia e continuita commerciale.",
+  "market_scope_summary": "Brand coaching online con target italiano e funnel che combina contenuti, trust personale, vendita piani e call strategica.",
+  "service_area_summary": "Operativita principalmente digitale su mercato italiano, con conversione orientata a coaching online, acquisto piano e contatto qualificato."
+}

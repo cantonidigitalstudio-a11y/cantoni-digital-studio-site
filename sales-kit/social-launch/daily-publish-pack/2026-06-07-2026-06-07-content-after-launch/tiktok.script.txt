@@ -1,0 +1,10 @@
+Hook: Il sito non deve restare fermo dopo il lancio.
+
+Scene:
+1. Mostra il giorno del lancio come primo step, non come fine del lavoro
+2. Mostra: contenuti e miglioramenti mensili
+3. Chiudi: crescita continua
+
+Caption: Dopo il lancio: contenuti, prove, FAQ e miglioramenti continui.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

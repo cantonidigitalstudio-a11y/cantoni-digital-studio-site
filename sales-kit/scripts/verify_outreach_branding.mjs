@@ -8,20 +8,29 @@ const REQUIRED_LINKS = [
   'https://cantonidigitalstudio.com/case-studies.html',
   'https://www.instagram.com/cantonidigitalstudio/',
   'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+  'https://www.tiktok.com/@cantonidigitalstudio',
+  'https://www.youtube.com/@cantonidigitalstudio',
   'https://wa.me/393471961113'
 ];
-const FORBIDDEN_LINKS = [
-  'https://www.tiktok.com/@cantonidigitalstudio'
-];
+const FORBIDDEN_LINKS = [];
 const REQUIRED_VISIBLE_REFERENCES = [
   'cantonidigitalstudio.com',
   '@cantonidigitalstudio',
-  'pagina ufficiale Cantoni Digital Studio',
-  'TikTok configurato',
-  'canale configurato; alcuni browser possono richiedere login',
   'cantonidigitalstudio@gmail.com',
-  '+39 347 196 1113',
-  'visibilità nelle risposte delle intelligenze artificiali'
+  '+39 347 196 1113'
+];
+const REQUIRED_VISIBLE_REFERENCE_GROUPS = [
+  ['pagina ufficiale Cantoni Digital Studio', 'Pagina ufficiale', 'Pagina oficial', 'Página oficial', 'Page officielle', 'Official page', '公式ページ'],
+  ['TikTok', '@cantonidigitalstudio'],
+  ['YouTube', '@cantonidigitalstudio'],
+  [
+    'visibilità nelle risposte delle intelligenze artificiali',
+    'visibilidad en respuestas de inteligencia artificial',
+    "visibilité dans les réponses de l'intelligence artificielle",
+    'visibility in AI-generated answers',
+    'visibilidade em respostas de IA',
+    'AI回答'
+  ]
 ];
 const REQUIRED_ICON_ALTS = [
   'Logo sito Cantoni Digital Studio',
@@ -29,6 +38,7 @@ const REQUIRED_ICON_ALTS = [
   'Logo Instagram ufficiale',
   'Logo Facebook ufficiale',
   'Logo TikTok ufficiale',
+  'Logo YouTube ufficiale',
   'Logo WhatsApp ufficiale',
   'Email Cantoni Digital Studio'
 ];
@@ -52,6 +62,10 @@ function getArg(name) {
   return hit ? hit.slice(prefix.length) : '';
 }
 
+function hasFlag(name) {
+  return process.argv.includes(name);
+}
+
 function assert(condition, message, bucket) {
   if (!condition) bucket.push(message);
 }
@@ -67,7 +81,7 @@ async function verifyHtmlFile(filePath) {
   const html = await fs.readFile(filePath, 'utf8');
   const failures = [];
   assert(/Cantoni Digital Studio/i.test(html), 'brand_name_missing', failures);
-  assert(/Riferimenti pubblici|Public references|Referencias públicas|Références publiques|Öffentliche Referenzen|Referências públicas/i.test(html), 'references_block_missing', failures);
+  assert(/Riferimenti pubblici|Public references|Referencias p[uú]blicas|Références publiques|Öffentliche Referenzen|Referências p[uú]blicas|公開リンク/i.test(html), 'references_block_missing', failures);
   assert(/data:image\/png;base64|cid:cantoniLogo/i.test(html), 'logo_missing', failures);
   for (const link of REQUIRED_LINKS) {
     assert(html.includes(link), `missing_link:${link}`, failures);
@@ -78,6 +92,9 @@ async function verifyHtmlFile(filePath) {
   for (const reference of REQUIRED_VISIBLE_REFERENCES) {
     assert(html.includes(reference), `missing_visible_reference:${reference}`, failures);
   }
+  REQUIRED_VISIBLE_REFERENCE_GROUPS.forEach((group) => {
+    assert(group.some((reference) => html.includes(reference)), `missing_visible_reference:${group[0]}`, failures);
+  });
   for (const alt of REQUIRED_ICON_ALTS) {
     assert(html.includes(`alt="${alt}"`), `missing_reference_icon:${alt}`, failures);
   }
@@ -91,6 +108,9 @@ async function verifyQueueFile(filePath) {
   const data = JSON.parse(raw);
   const failures = [];
   if (!Array.isArray(data) || !data.length) {
+    if (Array.isArray(data) && data.length === 0 && hasFlag('--allow-empty')) {
+      return { file: filePath, kind: 'queue', ok: true, empty: true, failures };
+    }
     failures.push('queue_empty');
     return { file: filePath, kind: 'queue', ok: false, failures };
   }
@@ -114,6 +134,13 @@ async function verifyQueueFile(filePath) {
     for (const reference of REQUIRED_VISIBLE_REFERENCES) {
       assert((item.html_body || '').includes(reference), `${prefix}:missing_visible_reference:${reference}`, failures);
     }
+    REQUIRED_VISIBLE_REFERENCE_GROUPS.forEach((group) => {
+      assert(
+        group.some((reference) => (item.html_body || '').includes(reference)),
+        `${prefix}:missing_visible_reference:${group[0]}`,
+        failures
+      );
+    });
     for (const alt of REQUIRED_ICON_ALTS) {
       assert((item.html_body || '').includes(`alt="${alt}"`), `${prefix}:missing_reference_icon:${alt}`, failures);
     }

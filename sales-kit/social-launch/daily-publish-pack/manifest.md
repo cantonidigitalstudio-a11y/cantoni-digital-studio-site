@@ -1,0 +1,276 @@
+# Cantoni Digital Studio - Daily Social Publish Pack
+
+Calendario: 2026-05-18, timezone Europe/Rome.
+
+Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale su ogni piattaforma.
+
+- 2026-05-18: Excellentia VIP: sito premium e prenotazioni
+  - asset: `2026-05-18-2026-05-18-excellentia-vip/2026-05-18-2026-05-18-excellentia-vip.png`
+  - Instagram: `2026-05-18-2026-05-18-excellentia-vip/instagram.caption.txt`
+  - Facebook: `2026-05-18-2026-05-18-excellentia-vip/facebook.caption.txt`
+  - TikTok: `2026-05-18-2026-05-18-excellentia-vip/tiktok.script.txt`
+  - TikTok caption: `2026-05-18-2026-05-18-excellentia-vip/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-18-2026-05-18-excellentia-vip/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-18-2026-05-18-excellentia-vip/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-18-2026-05-18-excellentia-vip/language-plan.md`
+- 2026-05-19: Destination Cocoa: prenotazioni turistiche
+  - asset: `2026-05-19-2026-05-19-destination-cocoa/2026-05-19-2026-05-19-destination-cocoa.png`
+  - Instagram: `2026-05-19-2026-05-19-destination-cocoa/instagram.caption.txt`
+  - Facebook: `2026-05-19-2026-05-19-destination-cocoa/facebook.caption.txt`
+  - TikTok: `2026-05-19-2026-05-19-destination-cocoa/tiktok.script.txt`
+  - TikTok caption: `2026-05-19-2026-05-19-destination-cocoa/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-19-2026-05-19-destination-cocoa/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-19-2026-05-19-destination-cocoa/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-19-2026-05-19-destination-cocoa/language-plan.md`
+- 2026-05-20: EC8 Platform: piattaforma e app
+  - asset: `2026-05-20-2026-05-20-ec8-platform/2026-05-20-2026-05-20-ec8-platform.png`
+  - Instagram: `2026-05-20-2026-05-20-ec8-platform/instagram.caption.txt`
+  - Facebook: `2026-05-20-2026-05-20-ec8-platform/facebook.caption.txt`
+  - TikTok: `2026-05-20-2026-05-20-ec8-platform/tiktok.script.txt`
+  - TikTok caption: `2026-05-20-2026-05-20-ec8-platform/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-20-2026-05-20-ec8-platform/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-20-2026-05-20-ec8-platform/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-20-2026-05-20-ec8-platform/language-plan.md`
+- 2026-05-21: Prima audit, poi prezzo
+  - asset: `2026-05-21-2026-05-21-audit-before-price/2026-05-21-2026-05-21-audit-before-price.png`
+  - Instagram: `2026-05-21-2026-05-21-audit-before-price/instagram.caption.txt`
+  - Facebook: `2026-05-21-2026-05-21-audit-before-price/facebook.caption.txt`
+  - TikTok: `2026-05-21-2026-05-21-audit-before-price/tiktok.script.txt`
+  - TikTok caption: `2026-05-21-2026-05-21-audit-before-price/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-21-2026-05-21-audit-before-price/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-21-2026-05-21-audit-before-price/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-21-2026-05-21-audit-before-price/language-plan.md`
+- 2026-05-22: Siti, e-commerce, web app e app
+  - asset: `2026-05-22-2026-05-22-services-complete/2026-05-22-2026-05-22-services-complete.png`
+  - Instagram: `2026-05-22-2026-05-22-services-complete/instagram.caption.txt`
+  - Facebook: `2026-05-22-2026-05-22-services-complete/facebook.caption.txt`
+  - TikTok: `2026-05-22-2026-05-22-services-complete/tiktok.script.txt`
+  - TikTok caption: `2026-05-22-2026-05-22-services-complete/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-22-2026-05-22-services-complete/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-22-2026-05-22-services-complete/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-22-2026-05-22-services-complete/language-plan.md`
+- 2026-05-23: Un e-commerce non è solo catalogo
+  - asset: `2026-05-23-2026-05-23-ecommerce-perimetro/2026-05-23-2026-05-23-ecommerce-perimetro.png`
+  - Instagram: `2026-05-23-2026-05-23-ecommerce-perimetro/instagram.caption.txt`
+  - Facebook: `2026-05-23-2026-05-23-ecommerce-perimetro/facebook.caption.txt`
+  - TikTok: `2026-05-23-2026-05-23-ecommerce-perimetro/tiktok.script.txt`
+  - TikTok caption: `2026-05-23-2026-05-23-ecommerce-perimetro/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-23-2026-05-23-ecommerce-perimetro/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-23-2026-05-23-ecommerce-perimetro/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-23-2026-05-23-ecommerce-perimetro/language-plan.md`
+- 2026-05-24: Il mobile decide la prima impressione
+  - asset: `2026-05-24-2026-05-24-mobile-first/2026-05-24-2026-05-24-mobile-first.png`
+  - Instagram: `2026-05-24-2026-05-24-mobile-first/instagram.caption.txt`
+  - Facebook: `2026-05-24-2026-05-24-mobile-first/facebook.caption.txt`
+  - TikTok: `2026-05-24-2026-05-24-mobile-first/tiktok.script.txt`
+  - TikTok caption: `2026-05-24-2026-05-24-mobile-first/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-24-2026-05-24-mobile-first/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-24-2026-05-24-mobile-first/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-24-2026-05-24-mobile-first/language-plan.md`
+- 2026-05-25: Recensioni e Google Maps vanno usati bene
+  - asset: `2026-05-25-2026-05-25-google-maps-reviews/2026-05-25-2026-05-25-google-maps-reviews.png`
+  - Instagram: `2026-05-25-2026-05-25-google-maps-reviews/instagram.caption.txt`
+  - Facebook: `2026-05-25-2026-05-25-google-maps-reviews/facebook.caption.txt`
+  - TikTok: `2026-05-25-2026-05-25-google-maps-reviews/tiktok.script.txt`
+  - TikTok caption: `2026-05-25-2026-05-25-google-maps-reviews/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-25-2026-05-25-google-maps-reviews/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-25-2026-05-25-google-maps-reviews/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-25-2026-05-25-google-maps-reviews/language-plan.md`
+- 2026-05-26: Visibilità anche nelle risposte AI
+  - asset: `2026-05-26-2026-05-26-ai-visibility/2026-05-26-2026-05-26-ai-visibility.png`
+  - Instagram: `2026-05-26-2026-05-26-ai-visibility/instagram.caption.txt`
+  - Facebook: `2026-05-26-2026-05-26-ai-visibility/facebook.caption.txt`
+  - TikTok: `2026-05-26-2026-05-26-ai-visibility/tiktok.script.txt`
+  - TikTok caption: `2026-05-26-2026-05-26-ai-visibility/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-26-2026-05-26-ai-visibility/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-26-2026-05-26-ai-visibility/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-26-2026-05-26-ai-visibility/language-plan.md`
+- 2026-05-27: La gestione mensile non è solo assistenza
+  - asset: `2026-05-27-2026-05-27-maintenance-growth/2026-05-27-2026-05-27-maintenance-growth.png`
+  - Instagram: `2026-05-27-2026-05-27-maintenance-growth/instagram.caption.txt`
+  - Facebook: `2026-05-27-2026-05-27-maintenance-growth/facebook.caption.txt`
+  - TikTok: `2026-05-27-2026-05-27-maintenance-growth/tiktok.script.txt`
+  - TikTok caption: `2026-05-27-2026-05-27-maintenance-growth/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-27-2026-05-27-maintenance-growth/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-27-2026-05-27-maintenance-growth/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-27-2026-05-27-maintenance-growth/language-plan.md`
+- 2026-05-28: Pagamenti e login vanno progettati
+  - asset: `2026-05-28-2026-05-28-payments-login/2026-05-28-2026-05-28-payments-login.png`
+  - Instagram: `2026-05-28-2026-05-28-payments-login/instagram.caption.txt`
+  - Facebook: `2026-05-28-2026-05-28-payments-login/facebook.caption.txt`
+  - TikTok: `2026-05-28-2026-05-28-payments-login/tiktok.script.txt`
+  - TikTok caption: `2026-05-28-2026-05-28-payments-login/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-28-2026-05-28-payments-login/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-28-2026-05-28-payments-login/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-28-2026-05-28-payments-login/language-plan.md`
+- 2026-05-29: Quando serve una dashboard
+  - asset: `2026-05-29-2026-05-29-dashboard-admin/2026-05-29-2026-05-29-dashboard-admin.png`
+  - Instagram: `2026-05-29-2026-05-29-dashboard-admin/instagram.caption.txt`
+  - Facebook: `2026-05-29-2026-05-29-dashboard-admin/facebook.caption.txt`
+  - TikTok: `2026-05-29-2026-05-29-dashboard-admin/tiktok.script.txt`
+  - TikTok caption: `2026-05-29-2026-05-29-dashboard-admin/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-29-2026-05-29-dashboard-admin/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-29-2026-05-29-dashboard-admin/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-29-2026-05-29-dashboard-admin/language-plan.md`
+- 2026-05-30: Automazioni AI senza caos
+  - asset: `2026-05-30-2026-05-30-automation-ai/2026-05-30-2026-05-30-automation-ai.png`
+  - Instagram: `2026-05-30-2026-05-30-automation-ai/instagram.caption.txt`
+  - Facebook: `2026-05-30-2026-05-30-automation-ai/facebook.caption.txt`
+  - TikTok: `2026-05-30-2026-05-30-automation-ai/tiktok.script.txt`
+  - TikTok caption: `2026-05-30-2026-05-30-automation-ai/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-30-2026-05-30-automation-ai/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-30-2026-05-30-automation-ai/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-30-2026-05-30-automation-ai/language-plan.md`
+- 2026-05-31: Basta preventivi generici
+  - asset: `2026-05-31-2026-05-31-no-generic-quotes/2026-05-31-2026-05-31-no-generic-quotes.png`
+  - Instagram: `2026-05-31-2026-05-31-no-generic-quotes/instagram.caption.txt`
+  - Facebook: `2026-05-31-2026-05-31-no-generic-quotes/facebook.caption.txt`
+  - TikTok: `2026-05-31-2026-05-31-no-generic-quotes/tiktok.script.txt`
+  - TikTok caption: `2026-05-31-2026-05-31-no-generic-quotes/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-31-2026-05-31-no-generic-quotes/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-31-2026-05-31-no-generic-quotes/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-31-2026-05-31-no-generic-quotes/language-plan.md`
+- 2026-06-01: Hotel e hospitality: prenotazione diretta
+  - asset: `2026-06-01-2026-06-01-hospitality/2026-06-01-2026-06-01-hospitality.png`
+  - Instagram: `2026-06-01-2026-06-01-hospitality/instagram.caption.txt`
+  - Facebook: `2026-06-01-2026-06-01-hospitality/facebook.caption.txt`
+  - TikTok: `2026-06-01-2026-06-01-hospitality/tiktok.script.txt`
+  - TikTok caption: `2026-06-01-2026-06-01-hospitality/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-01-2026-06-01-hospitality/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-01-2026-06-01-hospitality/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-01-2026-06-01-hospitality/language-plan.md`
+- 2026-06-02: Servizi luxury: fiducia prima del contatto
+  - asset: `2026-06-02-2026-06-02-luxury-services/2026-06-02-2026-06-02-luxury-services.png`
+  - Instagram: `2026-06-02-2026-06-02-luxury-services/instagram.caption.txt`
+  - Facebook: `2026-06-02-2026-06-02-luxury-services/facebook.caption.txt`
+  - TikTok: `2026-06-02-2026-06-02-luxury-services/tiktok.script.txt`
+  - TikTok caption: `2026-06-02-2026-06-02-luxury-services/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-02-2026-06-02-luxury-services/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-02-2026-06-02-luxury-services/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-02-2026-06-02-luxury-services/language-plan.md`
+- 2026-06-03: Attività locali: sito e WhatsApp
+  - asset: `2026-06-03-2026-06-03-local-business/2026-06-03-2026-06-03-local-business.png`
+  - Instagram: `2026-06-03-2026-06-03-local-business/instagram.caption.txt`
+  - Facebook: `2026-06-03-2026-06-03-local-business/facebook.caption.txt`
+  - TikTok: `2026-06-03-2026-06-03-local-business/tiktok.script.txt`
+  - TikTok caption: `2026-06-03-2026-06-03-local-business/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-03-2026-06-03-local-business/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-03-2026-06-03-local-business/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-03-2026-06-03-local-business/language-plan.md`
+- 2026-06-04: Social e sito devono parlarsi
+  - asset: `2026-06-04-2026-06-04-social-proof/2026-06-04-2026-06-04-social-proof.png`
+  - Instagram: `2026-06-04-2026-06-04-social-proof/instagram.caption.txt`
+  - Facebook: `2026-06-04-2026-06-04-social-proof/facebook.caption.txt`
+  - TikTok: `2026-06-04-2026-06-04-social-proof/tiktok.script.txt`
+  - TikTok caption: `2026-06-04-2026-06-04-social-proof/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-04-2026-06-04-social-proof/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-04-2026-06-04-social-proof/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-04-2026-06-04-social-proof/language-plan.md`
+- 2026-06-05: Coconut Armor: brand ed e-commerce
+  - asset: `2026-06-05-2026-06-05-coconut-armor/2026-06-05-2026-06-05-coconut-armor.png`
+  - Instagram: `2026-06-05-2026-06-05-coconut-armor/instagram.caption.txt`
+  - Facebook: `2026-06-05-2026-06-05-coconut-armor/facebook.caption.txt`
+  - TikTok: `2026-06-05-2026-06-05-coconut-armor/tiktok.script.txt`
+  - TikTok caption: `2026-06-05-2026-06-05-coconut-armor/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-05-2026-06-05-coconut-armor/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-05-2026-06-05-coconut-armor/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-05-2026-06-05-coconut-armor/language-plan.md`
+- 2026-06-06: Etsy e marketplace: serve sistema
+  - asset: `2026-06-06-2026-06-06-etsy-ops/2026-06-06-2026-06-06-etsy-ops.png`
+  - Instagram: `2026-06-06-2026-06-06-etsy-ops/instagram.caption.txt`
+  - Facebook: `2026-06-06-2026-06-06-etsy-ops/facebook.caption.txt`
+  - TikTok: `2026-06-06-2026-06-06-etsy-ops/tiktok.script.txt`
+  - TikTok caption: `2026-06-06-2026-06-06-etsy-ops/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-06-2026-06-06-etsy-ops/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-06-2026-06-06-etsy-ops/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-06-2026-06-06-etsy-ops/language-plan.md`
+- 2026-06-07: Contenuti dopo il lancio
+  - asset: `2026-06-07-2026-06-07-content-after-launch/2026-06-07-2026-06-07-content-after-launch.png`
+  - Instagram: `2026-06-07-2026-06-07-content-after-launch/instagram.caption.txt`
+  - Facebook: `2026-06-07-2026-06-07-content-after-launch/facebook.caption.txt`
+  - TikTok: `2026-06-07-2026-06-07-content-after-launch/tiktok.script.txt`
+  - TikTok caption: `2026-06-07-2026-06-07-content-after-launch/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-07-2026-06-07-content-after-launch/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-07-2026-06-07-content-after-launch/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-07-2026-06-07-content-after-launch/language-plan.md`
+- 2026-06-08: Perimetro scritto, meno problemi
+  - asset: `2026-06-08-2026-06-08-perimetro-scritto/2026-06-08-2026-06-08-perimetro-scritto.png`
+  - Instagram: `2026-06-08-2026-06-08-perimetro-scritto/instagram.caption.txt`
+  - Facebook: `2026-06-08-2026-06-08-perimetro-scritto/facebook.caption.txt`
+  - TikTok: `2026-06-08-2026-06-08-perimetro-scritto/tiktok.script.txt`
+  - TikTok caption: `2026-06-08-2026-06-08-perimetro-scritto/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-08-2026-06-08-perimetro-scritto/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-08-2026-06-08-perimetro-scritto/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-08-2026-06-08-perimetro-scritto/language-plan.md`
+- 2026-06-09: Quando un cliente risponde
+  - asset: `2026-06-09-2026-06-09-reply-to-quote/2026-06-09-2026-06-09-reply-to-quote.png`
+  - Instagram: `2026-06-09-2026-06-09-reply-to-quote/instagram.caption.txt`
+  - Facebook: `2026-06-09-2026-06-09-reply-to-quote/facebook.caption.txt`
+  - TikTok: `2026-06-09-2026-06-09-reply-to-quote/tiktok.script.txt`
+  - TikTok caption: `2026-06-09-2026-06-09-reply-to-quote/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-09-2026-06-09-reply-to-quote/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-09-2026-06-09-reply-to-quote/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-09-2026-06-09-reply-to-quote/language-plan.md`
+- 2026-06-10: Pagamento dopo chiarezza
+  - asset: `2026-06-10-2026-06-10-payment-after-perimetro/2026-06-10-2026-06-10-payment-after-perimetro.png`
+  - Instagram: `2026-06-10-2026-06-10-payment-after-perimetro/instagram.caption.txt`
+  - Facebook: `2026-06-10-2026-06-10-payment-after-perimetro/facebook.caption.txt`
+  - TikTok: `2026-06-10-2026-06-10-payment-after-perimetro/tiktok.script.txt`
+  - TikTok caption: `2026-06-10-2026-06-10-payment-after-perimetro/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-10-2026-06-10-payment-after-perimetro/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-10-2026-06-10-payment-after-perimetro/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-10-2026-06-10-payment-after-perimetro/language-plan.md`
+- 2026-06-11: QA prima del deploy
+  - asset: `2026-06-11-2026-06-11-quality-gate/2026-06-11-2026-06-11-quality-gate.png`
+  - Instagram: `2026-06-11-2026-06-11-quality-gate/instagram.caption.txt`
+  - Facebook: `2026-06-11-2026-06-11-quality-gate/facebook.caption.txt`
+  - TikTok: `2026-06-11-2026-06-11-quality-gate/tiktok.script.txt`
+  - TikTok caption: `2026-06-11-2026-06-11-quality-gate/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-11-2026-06-11-quality-gate/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-11-2026-06-11-quality-gate/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-11-2026-06-11-quality-gate/language-plan.md`
+- 2026-06-12: Globale, ma non generico
+  - asset: `2026-06-12-2026-06-12-global-local/2026-06-12-2026-06-12-global-local.png`
+  - Instagram: `2026-06-12-2026-06-12-global-local/instagram.caption.txt`
+  - Facebook: `2026-06-12-2026-06-12-global-local/facebook.caption.txt`
+  - TikTok: `2026-06-12-2026-06-12-global-local/tiktok.script.txt`
+  - TikTok caption: `2026-06-12-2026-06-12-global-local/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-12-2026-06-12-global-local/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-12-2026-06-12-global-local/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-12-2026-06-12-global-local/language-plan.md`
+- 2026-06-13: Il portfolio deve essere verificabile
+  - asset: `2026-06-13-2026-06-13-portfolio-proof/2026-06-13-2026-06-13-portfolio-proof.png`
+  - Instagram: `2026-06-13-2026-06-13-portfolio-proof/instagram.caption.txt`
+  - Facebook: `2026-06-13-2026-06-13-portfolio-proof/facebook.caption.txt`
+  - TikTok: `2026-06-13-2026-06-13-portfolio-proof/tiktok.script.txt`
+  - TikTok caption: `2026-06-13-2026-06-13-portfolio-proof/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-13-2026-06-13-portfolio-proof/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-13-2026-06-13-portfolio-proof/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-13-2026-06-13-portfolio-proof/language-plan.md`
+- 2026-06-14: Meno lead, più qualità
+  - asset: `2026-06-14-2026-06-14-lead-quality/2026-06-14-2026-06-14-lead-quality.png`
+  - Instagram: `2026-06-14-2026-06-14-lead-quality/instagram.caption.txt`
+  - Facebook: `2026-06-14-2026-06-14-lead-quality/facebook.caption.txt`
+  - TikTok: `2026-06-14-2026-06-14-lead-quality/tiktok.script.txt`
+  - TikTok caption: `2026-06-14-2026-06-14-lead-quality/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-14-2026-06-14-lead-quality/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-14-2026-06-14-lead-quality/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-14-2026-06-14-lead-quality/language-plan.md`
+- 2026-06-15: Pubblicare ogni giorno con metodo
+  - asset: `2026-06-15-2026-06-15-social-daily-system/2026-06-15-2026-06-15-social-daily-system.png`
+  - Instagram: `2026-06-15-2026-06-15-social-daily-system/instagram.caption.txt`
+  - Facebook: `2026-06-15-2026-06-15-social-daily-system/facebook.caption.txt`
+  - TikTok: `2026-06-15-2026-06-15-social-daily-system/tiktok.script.txt`
+  - TikTok caption: `2026-06-15-2026-06-15-social-daily-system/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-15-2026-06-15-social-daily-system/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-15-2026-06-15-social-daily-system/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-15-2026-06-15-social-daily-system/language-plan.md`
+- 2026-06-16: Il prossimo cliente deve sentirsi unico
+  - asset: `2026-06-16-2026-06-16-next-client/2026-06-16-2026-06-16-next-client.png`
+  - Instagram: `2026-06-16-2026-06-16-next-client/instagram.caption.txt`
+  - Facebook: `2026-06-16-2026-06-16-next-client/facebook.caption.txt`
+  - TikTok: `2026-06-16-2026-06-16-next-client/tiktok.script.txt`
+  - TikTok caption: `2026-06-16-2026-06-16-next-client/tiktok.caption.txt`
+  - YouTube Shorts: `2026-06-16-2026-06-16-next-client/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-06-16-2026-06-16-next-client/youtube-shorts.caption.txt`
+  - Lingue: `2026-06-16-2026-06-16-next-client/language-plan.md`

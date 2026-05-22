@@ -1,0 +1,183 @@
+{
+  "ok": true,
+  "checked_at": "2026-05-17T00:01:02.543Z",
+  "device": "Samsung Galaxy Note 9 SM-N960F via ADB wireless Chrome, local patched site",
+  "results": [
+    {
+      "name": "home-local",
+      "url": "http://127.0.0.1:4195/index.html?lang=it&v=samsung-local-20260517e",
+      "screenshot": "sales-kit/device-qa/2026-05-17-samsung/home-local.png",
+      "title": "Cantoni Digital Studio | Redesign siti per servizi professionali",
+      "h1": "Siti, e-commerce, applicazioni, pagamenti e automazioni costruiti come un unico sistema commerciale.",
+      "innerWidth": 411,
+      "innerHeight": 717,
+      "scrollWidth": 411,
+      "bodyWidth": 411,
+      "overflowX": false,
+      "h1Rect": {
+        "x": 13,
+        "y": 171.98809814453125,
+        "width": 385.4285888671875,
+        "height": 139.76190185546875,
+        "right": 398.4285888671875,
+        "bottom": 311.75
+      },
+      "cookieRect": {
+        "x": 10,
+        "y": 649.3928833007812,
+        "width": 391.4285888671875,
+        "height": 58.32143020629883,
+        "right": 401.4285888671875,
+        "bottom": 707.7143135070801
+      },
+      "heroActionsRect": {
+        "x": 13,
+        "y": 435.98809814453125,
+        "width": 385.4285888671875,
+        "height": 167.35714721679688,
+        "right": 398.4285888671875,
+        "bottom": 603.3452453613281
+      },
+      "formRect": {
+        "x": 35.761905670166016,
+        "y": 9344.5419921875,
+        "width": 339.9047546386719,
+        "height": 780.1845092773438,
+        "right": 375.6666603088379,
+        "bottom": 10124.726501464844
+      },
+      "hasWhatsApp": true,
+      "hasPrivacy": true,
+      "hasTerms": true,
+      "hasInstagram": true,
+      "hasFacebook": true,
+      "badLocalLinks": [],
+      "canonical": "https://cantonidigitalstudio.com/"
+    },
+    {
+      "name": "preventivo-local",
+      "url": "http://127.0.0.1:4195/preventivo.html?lang=it&smoke=1&v=samsung-local-20260517e",
+      "screenshot": "sales-kit/device-qa/2026-05-17-samsung/preventivo-local.png",
+      "title": "Consulenza e percorso progetto | Cantoni Digital Studio",
+      "h1": "Struttura il progetto e ottieni subito una fascia di preventivo",
+      "innerWidth": 411,
+      "innerHeight": 717,
+      "scrollWidth": 411,
+      "bodyWidth": 411,
+      "overflowX": false,
+      "h1Rect": {
+        "x": 13,
+        "y": 171.98809814453125,
+        "width": 385.4285888671875,
+        "height": 81.32142639160156,
+        "right": 398.4285888671875,
+        "bottom": 253.3095245361328
+      },
+      "cookieRect": {
+        "x": 10,
+        "y": 649.3928833007812,
+        "width": 391.4285888671875,
+        "height": 58.32143020629883,
+        "right": 401.4285888671875,
+        "bottom": 707.7143135070801
+      },
+      "heroActionsRect": null,
+      "formRect": {
+        "x": 13,
+        "y": 374.452392578125,
+        "width": 385.4285888671875,
+        "height": 1938.8809814453125,
+        "right": 398.4285888671875,
+        "bottom": 2313.3333740234375
+      },
+      "hasWhatsApp": true,
+      "hasPrivacy": true,
+      "hasTerms": true,
+      "hasInstagram": true,
+      "hasFacebook": true,
+      "badLocalLinks": [],
+      "canonical": "https://cantonidigitalstudio.com/preventivo.html"
+    },
+    {
+      "name": "case-studies-local",
+      "url": "http://127.0.0.1:4195/case-studies.html?lang=it&v=samsung-local-20260517e",
+      "screenshot": "sales-kit/device-qa/2026-05-17-samsung/case-studies-local.png",
+      "title": "Portfolio e case studies | Cantoni Digital Studio",
+      "h1": "Come trasformiamo i siti in pagine commerciali più chiare e affidabili",
+      "innerWidth": 411,
+      "innerHeight": 717,
+      "scrollWidth": 411,
+      "bodyWidth": 411,
+      "overflowX": false,
+      "h1Rect": {
+        "x": 13,
+        "y": 171.98809814453125,
+        "width": 385.4285888671875,
+        "height": 91.23214721679688,
+        "right": 398.4285888671875,
+        "bottom": 263.2202453613281
+      },
+      "cookieRect": {
+        "x": 10,
+        "y": 649.3928833007812,
+        "width": 391.4285888671875,
+        "height": 58.32143020629883,
+        "right": 401.4285888671875,
+        "bottom": 707.7143135070801
+      },
+      "heroActionsRect": {
+        "x": 35.761905670166016,
+        "y": 1078.452392578125,
+        "width": 339.9047546386719,
+        "height": 167.35714721679688,
+        "right": 375.6666603088379,
+        "bottom": 1245.8095397949219
+      },
+      "formRect": null,
+      "hasWhatsApp": true,
+      "hasPrivacy": true,
+      "hasTerms": true,
+      "hasInstagram": true,
+      "hasFacebook": true,
+      "badLocalLinks": [],
+      "canonical": "https://cantonidigitalstudio.com/case-studies.html"
+    },
+    {
+      "name": "termini-local",
+      "url": "http://127.0.0.1:4195/termini-commerciali.html?lang=it&v=samsung-local-20260517e",
+      "screenshot": "sales-kit/device-qa/2026-05-17-samsung/termini-local.png",
+      "title": "Termini commerciali | Cantoni Digital Studio",
+      "h1": "Regole pubbliche del percorso commerciale Cantoni Digital Studio",
+      "innerWidth": 411,
+      "innerHeight": 717,
+      "scrollWidth": 411,
+      "bodyWidth": 411,
+      "overflowX": false,
+      "h1Rect": {
+        "x": 13,
+        "y": 139.98809814453125,
+        "width": 385.4285888671875,
+        "height": 83.85714721679688,
+        "right": 398.4285888671875,
+        "bottom": 223.84524536132812
+      },
+      "cookieRect": null,
+      "heroActionsRect": {
+        "x": 13,
+        "y": 370.6428527832031,
+        "width": 385.4285888671875,
+        "height": 167.35714721679688,
+        "right": 398.4285888671875,
+        "bottom": 538
+      },
+      "formRect": null,
+      "hasWhatsApp": true,
+      "hasPrivacy": true,
+      "hasTerms": false,
+      "hasInstagram": false,
+      "hasFacebook": false,
+      "badLocalLinks": [],
+      "canonical": "https://cantonidigitalstudio.com/termini-commerciali.html"
+    }
+  ]
+}

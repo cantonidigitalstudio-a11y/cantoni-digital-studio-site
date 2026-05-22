@@ -19,6 +19,7 @@ const REQUIRED_PUBLIC_REFERENCES = [
   'https://ec8platform.com',
   'https://www.instagram.com/cantonidigitalstudio/',
   'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+  'https://www.youtube.com/@cantonidigitalstudio',
   'https://wa.me/393471961113'
 ];
 
@@ -156,6 +157,8 @@ function checkVerifiedSocialContract(fileName, html, issues) {
       'Un profilo è ufficiale solo se è linkato da questa pagina.',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
+      'YouTube ufficiale',
+      'https://www.youtube.com/@cantonidigitalstudio',
       'WhatsApp operativo',
       'https://wa.me/393471961113',
       'TikTok configurato',

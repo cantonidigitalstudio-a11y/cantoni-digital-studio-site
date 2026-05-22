@@ -1,0 +1,10 @@
+Hook: Globale non vuol dire copia e incolla.
+
+Scene:
+1. Mostra: paesi e valute
+2. Spiega: ogni mercato ha contesto diverso
+3. Chiudi: proposta specifica per cliente
+
+Caption: Lingua, valuta e audit locale: così una proposta globale resta personale.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

@@ -15,6 +15,7 @@
 - Instagram: https://www.instagram.com/cantonidigitalstudio/
 - Facebook: https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/
 - TikTok: https://www.tiktok.com/@cantonidigitalstudio
+- YouTube: https://www.youtube.com/@cantonidigitalstudio
 - Email: cantonidigitalstudio@gmail.com
 - Telefono / WhatsApp: +39 347 196 1113
 - WhatsApp diretto: https://wa.me/393471961113

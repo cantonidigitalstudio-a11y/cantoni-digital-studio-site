@@ -3,20 +3,20 @@
     "id": "01-excellentia-vip",
     "type": "portfolio",
     "title": "Excellentia VIP",
-    "subtitle": "Sito premium, booking e struttura operativa",
+    "subtitle": "Sito premium, prenotazioni e struttura operativa",
     "proof": "Verificabile: excellentiavip.com",
-    "body": "Un servizio costoso deve essere chiaro, credibile e facile da richiedere da telefono: pacchetti, flotta, percorso booking e fiducia prima del primo messaggio.",
-    "caption_it": "Excellentia VIP è un progetto pubblico di luxury transport e concierge. Qui il lavoro non è solo estetico: il sito deve spiegare valore, pacchetti, flotta, percorso di prenotazione e prossimo passo in modo credibile anche da mobile. Reference verificabile: https://excellentiavip.com",
+    "body": "Un servizio premium deve essere chiaro, credibile e facile da richiedere da telefono: pacchetti, flotta, percorso di prenotazione e fiducia prima del primo messaggio.",
+    "caption_it": "Excellentia VIP è un progetto pubblico di luxury transport e concierge. Qui il lavoro non è solo estetico: il sito deve spiegare valore, pacchetti, flotta, percorso di prenotazione e prossimo passo in modo credibile anche da mobile. Riferimento verificabile: https://excellentiavip.com",
     "cta": "Apri case study"
   },
   {
     "id": "02-destination-cocoa",
     "type": "portfolio",
     "title": "Destination Cocoa",
-    "subtitle": "Booking turistico, upsell e routing",
+    "subtitle": "Prenotazioni turistiche, servizi extra e passaggi operativi",
     "proof": "Verificabile: destination-cocoa-site.netlify.app",
     "body": "Transfer, esperienze, servizi extra e recap operativo devono stare in un percorso più chiaro per cliente e team.",
-    "caption_it": "Destination Cocoa by Collins mostra un flusso pubblico per booking turistico, transfer, upsell e routing operativo. Quando un servizio dipende da richieste pulite e passaggi interni chiari, il sito deve aiutare anche l'organizzazione, non solo fare bella figura. Reference verificabile: https://destination-cocoa-site.netlify.app",
+    "caption_it": "Destination Cocoa by Collins mostra un percorso pubblico per prenotazioni turistiche, transfer, servizi extra e passaggi operativi. Quando un servizio dipende da richieste pulite e passaggi interni chiari, il sito deve aiutare anche l'organizzazione, non solo fare bella figura. Riferimento verificabile: https://destination-cocoa-site.netlify.app",
     "cta": "Vedi percorso"
   },
   {
@@ -26,17 +26,17 @@
     "subtitle": "Piattaforma, offerta e pagamenti",
     "proof": "Verificabile: ec8platform.com",
     "body": "Posizionamento, fiducia, prodotto digitale e struttura pronta a crescere con contenuti, piani e sistemi di pagamento.",
-    "caption_it": "EC8 Platform è una reference pubblica su coaching, education, posizionamento e architettura digitale. Un sistema serio deve rendere leggibile l'offerta, sostenere fiducia e preparare la conversione senza confondere l'utente. Reference verificabile: https://ec8platform.com",
-    "cta": "Apri reference"
+    "caption_it": "EC8 Platform è un riferimento pubblico su coaching, education, posizionamento e architettura digitale. Un sistema serio deve rendere leggibile l'offerta, sostenere fiducia e preparare la conversione senza confondere l'utente. Riferimento verificabile: https://ec8platform.com",
+    "cta": "Apri sito"
   },
   {
     "id": "04-metodo-preventivi",
     "type": "method",
     "title": "Preventivi dopo audit",
-    "subtitle": "Prima si controlla il sito reale",
-    "proof": "Dominio, mobile, contatti, social, recensioni e ricerca",
-    "body": "Un preventivo serio nasce da problemi osservabili, priorità chiare e scope scritto. Niente prezzi generici mandati a freddo.",
-    "caption_it": "Prima di un preventivo serio controlliamo dominio reale, sito corrente, percorso mobile, contatti, social, recensioni, competitor e presenza nelle ricerche. Prezzo e scope arrivano dopo: prima serve capire se serve un sito, un e-commerce, una web app, un'app o una gestione continuativa.",
+    "subtitle": "Il preventivo nasce dal lavoro reale",
+    "proof": "Metodo Cantoni: audit reale e perimetro scritto",
+    "body": "Controlliamo sito, mobile, contatti, Google Maps, recensioni, social, competitor e ricerche. Poi scegliamo se serve sito, e-commerce, web app, app o gestione continuativa.",
+    "caption_it": "Prima di un preventivo serio controlliamo dominio reale, sito corrente, percorso mobile, contatti, social, recensioni, competitor e presenza nelle ricerche. Prezzo e perimetro del lavoro arrivano dopo: prima serve capire se serve un sito, un e-commerce, una web app, un'app o una gestione continuativa.",
     "cta": "Richiedi audit"
   },
   {
@@ -44,9 +44,9 @@
     "type": "services",
     "title": "Siti, e-commerce, web app e app",
     "subtitle": "Pagamenti, login, dashboard, app e automazioni AI",
-    "proof": "Scope scritto, QA, pagamenti e delivery multilingua",
+    "proof": "Perimetro scritto, QA, pagamenti e consegna multilingua",
     "body": "Costruiamo sistemi digitali per aziende: sito pubblico, checkout, area cliente, admin, app mobile e crescita continuativa.",
-    "caption_it": "Cantoni Digital Studio realizza siti, e-commerce, web app, app mobile, pagamenti, login, dashboard, booking e automazioni AI. Il punto non è fare pagine belle: il punto è costruire sistemi chiari, verificabili e vendibili, poi migliorarli nel tempo con contenuti, fiducia, conversione, ricerca e visibilità nelle risposte AI.",
+    "caption_it": "Cantoni Digital Studio realizza siti, e-commerce, web app, app mobile, pagamenti, login, dashboard, prenotazioni e automazioni AI. Il punto non è fare pagine belle: il punto è costruire sistemi chiari, verificabili e vendibili, poi migliorarli nel tempo con contenuti, fiducia, conversione, ricerca e visibilità nelle risposte AI.",
     "cta": "Apri preventivo"
   }
 ]

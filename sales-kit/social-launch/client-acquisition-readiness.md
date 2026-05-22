@@ -29,8 +29,8 @@ Partire con proposte internazionali solo quando il brand pubblico è coerente, i
 
 ## Primo batch contenuti
 
-1. Excellentia VIP: portfolio pubblico e booking luxury.
-2. Destination Cocoa / Mr Collins: booking turistico e flow operativo.
+1. Excellentia VIP: portfolio pubblico e percorso di prenotazione premium.
+2. Destination Cocoa / Mr Collins: prenotazioni turistiche e gestione delle richieste.
 3. EC8 Platform: reference su posizionamento e architettura digitale.
 4. Metodo preventivi: audit reale prima del prezzo.
 5. Servizi completi: siti, e-commerce, web app, app, pagamenti, login, dashboard, AI e crescita continuativa.
@@ -48,5 +48,5 @@ Partire con proposte internazionali solo quando il brand pubblico è coerente, i
 - Non pubblicare canali social non verificati.
 - Non inviare da account Gmail diverso da `cantonidigitalstudio@gmail.com`.
 - Non promettere "migliori al mondo" nel copy pubblico.
-- Non mandare prezzi se non esiste scope scritto.
+- Non mandare prezzi se non esiste un perimetro scritto del lavoro.
 - Non usare automazioni massive senza review manuale.

@@ -1,9 +1,29 @@
 # Daily Ops Checklist
 
-- [ ] 100 nuovi lead qualificati inseriti in CRM.
-- [ ] 100 email personalizzate inviate.
-- [ ] Follow-up day 3 eseguiti.
-- [ ] Follow-up day 7 eseguiti.
-- [ ] Risposte ricevute classificate (cold/warm/hot).
-- [ ] Preventivi preparati entro SLA 24h.
-- [ ] KPI serali aggiornati.
+- [ ] Regola tassativa: Gmail Cantoni va controllata nel pannello Browser destro, aprendo Gmail e verificando visivamente l'account `cantonidigitalstudio@gmail.com`. Se il Browser destro non e disponibile, il controllo Gmail va segnato come `BLOCCO_GMAIL_BROWSER`, non come completato.
+- [ ] Regola tassativa prima di crediti, push o deploy: verificare visivamente identita, team/progetto e canale. Un avviso visto su un team/account non provato come Cantoni non e una verifica valida.
+- [ ] Per Cantoni GitHub usare solo remote `cantoni` / `cantonidigitalstudio-a11y/cantoni-digital-studio-site`; `origin` punta a Excellentia e non va usato per push Cantoni.
+- [ ] Per Cantoni deploy considerare Cloudflare Pages come canale principale; Netlify e valido solo se team, sito e crediti sono verificati come Cantoni nello stesso passaggio.
+- [ ] Non usare il connettore Gmail come fonte autorevole per Cantoni: puo esporre mailbox non Cantoni. E ammesso solo come supporto secondario, dichiarando esplicitamente che non sostituisce il controllo nel Browser destro.
+- [ ] Gmail controllata con doppia ricerca: commerciale e operativa. Non basta cercare risposte ai lead.
+- [ ] Ricerca commerciale: `to:cantonidigitalstudio@gmail.com newer_than:7d -from:cantonidigitalstudio@gmail.com -in:spam -in:trash (interessato OR interessata OR interested OR proposal OR preventivo OR quote OR website OR sito OR e-commerce OR app)`.
+- [ ] Ricerca operativa urgente: `to:cantonidigitalstudio@gmail.com newer_than:7d -from:cantonidigitalstudio@gmail.com -in:spam -in:trash (MOO OR DHL OR ordine OR consegna OR consegnare OR delivery OR failed OR Stripe OR PayPal OR GitHub OR Cloudflare OR Netlify OR Instagram OR Facebook OR TikTok OR security OR sicurezza)`.
+- [ ] Le email operative vanno classificate separatamente da lead e follow-up: `OPERATIVE_URGENT`, `OPERATIVE_WAIT`, `ACCOUNT_SECURITY`, `SUPPLIER_ORDER`, `NON_ACTIONABLE`.
+- [ ] Prima di qualunque email esterna, mittente visibile ricontrollato: deve essere `cantonidigitalstudio@gmail.com` per Cantoni Digital Studio.
+- [ ] Non usare connettori Gmail o automazioni se il mittente non e verificato nello stesso step operativo.
+- [ ] Non inviare follow-up, preventivi, pubblicazioni social o messaggi a fornitori senza revisione operativa esplicita.
+- [ ] Social daily pack generato: `npm run test:social:daily` verde.
+- [ ] Video storyboard pack generato: `npm run test:social:video` verde.
+- [ ] Se il post usa voce/voiceover: clip fonte selezionata in `voice-reference-private/selected/`, nessun terzo speaker, nessun dato privato, review audio completata.
+- [ ] Post del giorno controllato su Instagram, Facebook, TikTok e YouTube Shorts: asset leggibile, lingua/mercato corretti, nessun prezzo pubblico, nessuna promessa assoluta.
+- [ ] Pubblicazione social eseguita solo dopo approvazione esplicita; link pubblici registrati dopo la pubblicazione.
+- [ ] `npm run test:outreach-readiness` verde.
+- [ ] `npm run test:global-outreach` verde: batch globale da 50 con `ready_to_contact=0` e nessun problema di personalizzazione.
+- [ ] `npm run test:global-followup-d3` verde: coda D3 pronta, `reply_to` corretto e nessun importo pubblico.
+- [ ] `npm run test:social-public` verde: Facebook pubblico; Instagram e TikTok accettati come canali ufficiali anche se il browser non autenticato mostra login-gate, purche quando pubblici contengano brand corretto e nessun link vecchio.
+- [ ] `npm run build:cloudflare && npm run test:artifact` verdi prima di qualsiasi deploy.
+- [ ] Nessun item queue contiene testo generico, placeholder, importi pubblici o link social deboli come prova primaria.
+- [ ] Risposte classificate in `REPLIED`, `QUOTE_IN_PROGRESS`, `QUOTE_SENT`, `CLOSED_WON` o `CLOSED_LOST`.
+- [ ] Preventivo generato solo per lead caldo/interessato e solo dopo audit completo: sito live, mobile, contatti, social, recensioni/Google Maps, competitor, ricerca e AI visibility.
+- [ ] Se un lead chiede prezzo: generare roadmap, scope chiuso, prezzo in valuta locale e link pagamento solo dopo conferma.
+- [ ] KPI aggiornati con sent / reply / quote / won / lost / errors.

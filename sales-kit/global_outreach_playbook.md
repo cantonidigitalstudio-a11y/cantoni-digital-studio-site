@@ -54,7 +54,8 @@ Generare clienti internazionali per siti, e-commerce, web app, app mobile, autom
 - Link WhatsApp pubblico: `https://wa.me/393471961113`.
 - Instagram: `https://www.instagram.com/cantonidigitalstudio/`.
 - Facebook: `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`.
-- TikTok configurato: `@cantonidigitalstudio`, da usare come canale ufficiale ma non come prova pubblica primaria perche puo richiedere login ad alcuni visitatori sloggati.
+- TikTok: `https://www.tiktok.com/@cantonidigitalstudio`, da mostrare come canale ufficiale ma non come prova autonoma se il visitatore vede login obbligatorio.
+- YouTube: `https://www.youtube.com/@cantonidigitalstudio`, canale ufficiale per Shorts e portfolio video.
 - Case studies: `https://cantonidigitalstudio.com/case-studies.html`.
 
 ## Audit gate obbligatorio prima di qualunque preventivo

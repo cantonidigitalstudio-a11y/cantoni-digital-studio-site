@@ -1,0 +1,30 @@
+{
+  "default_language": "en",
+  "default_currency": "USD",
+  "countries": {
+    "italy": { "language": "it", "currency": "EUR" },
+    "spain": { "language": "es", "currency": "EUR" },
+    "france": { "language": "fr", "currency": "EUR" },
+    "germany": { "language": "de", "currency": "EUR" },
+    "portugal": { "language": "pt", "currency": "EUR" },
+    "austria": { "language": "de", "currency": "EUR" },
+    "belgium": { "language": "fr", "currency": "EUR" },
+    "netherlands": { "language": "en", "currency": "EUR" },
+    "ireland": { "language": "en", "currency": "EUR" },
+    "united kingdom": { "language": "en", "currency": "GBP" },
+    "uk": { "language": "en", "currency": "GBP" },
+    "england": { "language": "en", "currency": "GBP" },
+    "usa": { "language": "en", "currency": "USD" },
+    "united states": { "language": "en", "currency": "USD" },
+    "united states of america": { "language": "en", "currency": "USD" },
+    "canada": { "language": "en", "currency": "CAD" },
+    "dominican republic": { "language": "es", "currency": "DOP" },
+    "mexico": { "language": "es", "currency": "MXN" },
+    "brazil": { "language": "pt", "currency": "BRL" },
+    "japan": { "language": "ja", "currency": "JPY" },
+    "china": { "language": "zh", "currency": "CNY" },
+    "india": { "language": "hi", "currency": "INR" },
+    "uae": { "language": "en", "currency": "AED" },
+    "saudi arabia": { "language": "ar", "currency": "SAR" }
+  }
+}

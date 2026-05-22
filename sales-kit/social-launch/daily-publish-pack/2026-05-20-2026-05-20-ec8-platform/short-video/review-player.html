@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anteprima short EC8 Platform - Cantoni Digital Studio</title>
+  <style>
+    :root {
+      color: #10254a;
+      background: #07101f;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 70% 8%, rgba(215, 173, 90, .20), transparent 32%),
+        linear-gradient(145deg, #07101f 0%, #10254a 58%, #07101f 100%);
+    }
+
+    main {
+      width: min(100%, 390px);
+    }
+
+    .frame {
+      overflow: hidden;
+      border: 1px solid rgba(215, 173, 90, .48);
+      border-radius: 22px;
+      background: #000;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, .36);
+    }
+
+    video {
+      display: block;
+      width: auto;
+      height: min(68vh, 690px);
+      max-width: 100%;
+      margin: 0 auto;
+      aspect-ratio: 9 / 16;
+      background: #000;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      min-height: 48px;
+      border: 0;
+      border-radius: 999px;
+      background: #d7ad5a;
+      color: #07101f;
+      cursor: pointer;
+      font: 800 15px/1 Arial, Helvetica, sans-serif;
+    }
+
+    .meta {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(215, 173, 90, .35);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .94);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0;
+      color: #5d6a82;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .slides {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .slides img {
+      display: block;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 10px;
+      background: #0b1b37;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="frame">
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster="./poster.png"
+        src="./2026-05-20-2026-05-20-ec8-platform-short.mp4">
+      </video>
+    </div>
+    <div class="actions">
+      <button type="button" id="playFromStart">Riproduci dall'inizio</button>
+    </div>
+    <section class="meta" aria-label="Dettagli anteprima">
+      <h1>EC8 Platform - short video v2</h1>
+      <p>Anteprima interna Cantoni. Logo cliente incluso, proof pubblico e formato 1080 x 1920. Non pubblicare senza approvazione finale.</p>
+    </section>
+    <section class="slides" aria-label="Fallback slide">
+      <img src="./slide-01.png" alt="Slide 1">
+      <img src="./slide-02.png" alt="Slide 2">
+      <img src="./slide-03.png" alt="Slide 3">
+      <img src="./slide-04.png" alt="Slide 4">
+      <img src="./slide-05.png" alt="Slide 5">
+    </section>
+  </main>
+  <script>
+    const video = document.querySelector('video');
+    const playFromStart = document.querySelector('#playFromStart');
+    video.addEventListener('loadedmetadata', () => {
+      video.currentTime = 0.001;
+    }, { once: true });
+    playFromStart.addEventListener('click', async () => {
+      video.currentTime = 0.001;
+      await video.play();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+{
+  "summary": {
+    "checked": 18,
+    "ok": 1,
+    "failed": 17,
+    "noContactSignal": [],
+    "noEmailText": [],
+    "noSocialSignal": [],
+    "failedIds": [
+      "LD-NG6-0002",
+      "LD-NG6-0003",
+      "LD-NG6-0004",
+      "LD-NG6-0005",
+      "LD-NG6-0006",
+      "LD-NQ6-0001",
+      "LD-NQ6-0002",
+      "LD-NQ6-0003",
+      "LD-NQ6-0004",
+      "LD-NQ6-0005",
+      "LD-NQ6-0006",
+      "LD-NEU6-0001",
+      "LD-NEU6-0002",
+      "LD-NEU6-0003",
+      "LD-NEU6-0004",
+      "LD-NEU6-0005",
+      "LD-NEU6-0006"
+    ]
+  },
+  "results": [
+    {
+      "lead_id": "LD-NG6-0001",
+      "business_name": "Yacht Me Charters",
+      "website": "https://www.yachtmecharters.com/contact-us.html",
+      "email": "info@yachtmecharters.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-global-6/leads.csv",
+      "ok": true,
+      "elapsed_ms": 3689,
+      "bodyLength": 743,
+      "expectedDomain": "yachtmecharters.com",
+      "hasAnyMailto": true,
+      "hasBookingSignal": false,
+      "hasContactSignal": true,
+      "hasEmailDomainText": true,
+      "hasExpectedEmailText": true,
+      "hasSocialSignal": true,
+      "host": "yachtmecharters.com",
+      "sample": "info@yachtmecharters.com +1 786 273 1149 CONTACT US We will be happy to assist you with any questions you may have. VISIT US Come visit us at 2700 Collins Avenue #310, Miami Beach, FL, USA CALL US Give us a call 24/7 +1 786 273 1149 EMAIL US Send a message to info@yachtmecharte",
+      "title": "Contact Us Yacht Me Charters | Luxury Yacht Charter Inquiries",
+      "url": "https://www.yachtmecharters.com/contact-us.html"
+    },
+    {
+      "lead_id": "LD-NG6-0002",
+      "business_name": "Miami Vice Charters",
+      "website": "https://www.miamivicecharters.com/contact",
+      "email": "charters@miamivicecharters.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-global-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 517,
+      "error": "Browser Use cannot open https://www.miamivicecharters.com/contact in tab 1. Browser reported: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "lead_id": "LD-NG6-0003",
+      "business_name": "KOS Yachts",
+      "website": "https://www.kosyachts.com/services",
+      "email": "contact@kosyachts.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-global-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 1369,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NG6-0004",
+      "business_name": "Wilson Boutique Hotel Barcelona",
+      "website": "https://www.wilsonbcn.com/en/contact",
+      "email": "info@wilsonbcn.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-global-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 462,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NG6-0005",
+      "business_name": "Santiago de Alfama Boutique Hotel",
+      "website": "https://www.santiagodealfama.com/contact-us-second",
+      "email": "sales@santiagodealfama.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-global-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 457,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NG6-0006",
+      "business_name": "Cheese & Wine Handmade Hospitality",
+      "website": "https://www.cheese-wine.com/book-now-suites",
+      "email": "lisbon@cheese-wine.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-global-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 495,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NQ6-0001",
+      "business_name": "SoVous Med Spa",
+      "website": "https://sovous.com/contact/",
+      "email": "hello@sovous.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 372,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NQ6-0002",
+      "business_name": "Manhattan Medspa",
+      "website": "https://www.manhattan-medspa.com/contact-us/",
+      "email": "info@manhattan-medspa.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 402,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NQ6-0003",
+      "business_name": "Flawless Skin Med Spa",
+      "website": "https://flawlessskinmedspa.com/contact/",
+      "email": "info@flawlessskinmedspa.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 532,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NQ6-0004",
+      "business_name": "PBK Medspa",
+      "website": "https://pbkmedspa.com/contact/",
+      "email": "pbkmedspa@gmail.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 438,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NQ6-0005",
+      "business_name": "Miami Yacht Charters",
+      "website": "https://miamiyacht.net/contact/",
+      "email": "info@miamiyacht.net",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 656,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NQ6-0006",
+      "business_name": "Anella Aesthetics",
+      "website": "https://www.anellanyc.com/contact-1",
+      "email": "anellanyc@gmail.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 633,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NEU6-0001",
+      "business_name": "Margot House Barcelona",
+      "website": "https://www.margothouse.es/en/contact/",
+      "email": "hello@margothouse.es",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-europe-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 407,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NEU6-0002",
+      "business_name": "Yurbban Trafalgar Hotel",
+      "website": "https://trafalgar.yurbban.com/ca",
+      "email": "trafalgar@yurbban.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-europe-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 479,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NEU6-0003",
+      "business_name": "Brach Paris",
+      "website": "https://brachparis.com/contacts/",
+      "email": "contact@brachparis.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-europe-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 3259,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NEU6-0004",
+      "business_name": "Hotel Panache Paris",
+      "website": "https://hotelpanache.com/fr/plan.html",
+      "email": "hotel@hotelpanache.com",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-europe-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 445,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NEU6-0005",
+      "business_name": "Hotel Zoo Berlin",
+      "website": "https://www.hotelzoo.de/en/contact/",
+      "email": "info@hotelzoo.de",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-europe-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 397,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    },
+    {
+      "lead_id": "LD-NEU6-0006",
+      "business_name": "Hotel Oderberger Berlin",
+      "website": "https://www.hotel-oderberger.berlin/en/faq/how-can-i-contact-the-hotel/",
+      "email": "info@hotel-oderberger.berlin",
+      "batch_file": "sales-kit/lead-batches/2026-05-17-next-europe-quality-6/leads.csv",
+      "ok": false,
+      "elapsed_ms": 438,
+      "error": "Blocked browser navigation by Browser Use URL policy: data:text/html;charset=utf-8,%3C!DOCTYPE%20html%3E%0A%3Chtml%20dir%3D%22ltr%22%20lang%3D%22it-IT%22%3E%0A%3Chead%3E%0A%20%20%3Cmeta%20charset%3D%22utf-8%22%3E%0A%20%2"
+    }
+  ]
+}

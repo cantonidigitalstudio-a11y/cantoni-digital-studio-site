@@ -1,0 +1,35 @@
+{
+  "name": "Cantoni Digital Studio voice style reference",
+  "owner": "Emanuele Cantoni",
+  "status": "template_no_private_audio",
+  "consent_required": true,
+  "private_audio_folder": "sales-kit/social-launch/voice-reference-private/",
+  "rules": [
+    "Use only clips where Emanuele is the only speaker.",
+    "Use only WhatsApp clips sent by Emanuele, filtered from local metadata with ZISFROMME=1.",
+    "Do not store voice clips in git.",
+    "Do not upload clips to external voice providers without explicit approval.",
+    "Do not publish synthetic or cloned voice without final review.",
+    "Do not use clips containing private client data, passwords, payments, health, legal or personal material."
+  ],
+  "style_profile": {
+    "tone": "diretto, concreto, umano",
+    "pacing": "medio, con pause brevi dopo punti importanti",
+    "energy": "sicuro, non urlato",
+    "language": "semplice, comprensibile a clienti non tecnici",
+    "avoid": [
+      "voce pubblicitaria finta",
+      "gergo tecnico non spiegato",
+      "promesse assolute",
+      "effetto AI troppo perfetto"
+    ]
+  },
+  "multilingual_use": {
+    "it": "voce naturale principale",
+    "en": "script adattato, non traduzione letterale",
+    "es": "script adattato per turismo, hospitality e servizi",
+    "fr": "tono piu sobrio e premium",
+    "pt": "tono chiaro per hospitality e servizi",
+    "de": "tono strutturato e affidabile"
+  }
+}

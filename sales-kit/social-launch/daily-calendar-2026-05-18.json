@@ -1,0 +1,585 @@
+{
+  "name": "Cantoni Digital Studio daily social calendar",
+  "start_date": "2026-05-18",
+  "timezone": "Europe/Rome",
+  "approval_required": true,
+  "publish_rule": "Prepare daily content for Instagram, Facebook and TikTok, but do not publish without final human review.",
+  "channels": ["instagram", "facebook", "tiktok", "youtube_shorts"],
+  "entries": [
+    {
+      "id": "2026-05-18-excellentia-vip",
+      "date": "2026-05-18",
+      "pillar": "portfolio",
+      "title": "Excellentia VIP: sito premium e prenotazioni",
+      "proof": "Riferimento pubblico: https://excellentiavip.com",
+      "asset_id": "01-excellentia-vip",
+      "instagram": "Excellentia VIP mostra cosa significa costruire un sito per un servizio premium: pacchetti leggibili, percorso di prenotazione, fiducia e richiesta chiara anche da telefono. Non basta una pagina bella: deve aiutare il cliente a capire cosa sta comprando e come richiederlo. Riferimento pubblico: excellentiavip.com",
+      "facebook": "Per un servizio premium il sito deve fare tre cose: spiegare valore, ridurre dubbi e portare a una richiesta chiara. Excellentia VIP è un riferimento pubblico del nostro modo di lavorare su prenotazioni, pacchetti e fiducia.",
+      "tiktok": {
+        "hook": "Un sito luxury non deve solo essere elegante: deve vendere fiducia.",
+        "scenes": [
+          "Mostra il logo Cantoni e titolo Excellentia VIP",
+          "Spiega: pacchetti, flotta, prenotazione e fiducia devono essere chiari da telefono",
+          "Chiudi con: prima audit, poi struttura e percorso di richiesta"
+        ],
+        "caption": "Riferimento pubblico: Excellentia VIP. Un sito premium deve rendere chiari valore, fiducia e prossimo passo."
+      }
+    },
+    {
+      "id": "2026-05-19-destination-cocoa",
+      "date": "2026-05-19",
+      "pillar": "portfolio",
+      "title": "Destination Cocoa: prenotazioni turistiche",
+      "proof": "Riferimento pubblico: https://destination-cocoa-site.netlify.app",
+      "asset_id": "02-destination-cocoa",
+      "instagram": "Destination Cocoa è un riferimento pubblico su turismo, transfer, servizi extra e percorso operativo. Quando un cliente deve scegliere data, servizio e dettagli, il sito deve aiutare anche il team: meno messaggi confusi, più richieste complete.",
+      "facebook": "Un sito turistico serio non è solo vetrina. Deve ordinare servizi, transfer, upsell e informazioni operative in un percorso semplice per cliente e team.",
+      "tiktok": {
+        "hook": "Il sito turistico giusto fa risparmiare tempo anche al team.",
+        "scenes": [
+          "Mostra: servizi e transfer",
+          "Spiega: richieste più chiare riducono messaggi inutili",
+          "Chiudi: il sito deve aiutare vendita e operatività"
+        ],
+        "caption": "Destination Cocoa: prenotazioni turistiche, servizi extra e percorso operativo."
+      }
+    },
+    {
+      "id": "2026-05-20-ec8-platform",
+      "date": "2026-05-20",
+      "pillar": "portfolio",
+      "title": "EC8 Platform: piattaforma e app",
+      "proof": "Riferimento pubblico: https://ec8platform.com",
+      "language_override": {
+        "primary_locale": "it-IT",
+        "secondary_locale": "en-US",
+        "theme": "portfolio evidence"
+      },
+      "asset_id": "03-ec8-platform",
+      "instagram": "EC8 Platform è una prova concreta: non solo sito, ma piattaforma, app pubblicata, pagamenti, contenuti e struttura digitale che può crescere nel tempo.",
+      "facebook": "Quando un progetto supera la pagina web, serve architettura: offerta, contenuti, accessi, pagamenti, app e crescita. EC8 Platform è un riferimento pubblico del nostro lavoro su un sistema digitale più ampio.",
+      "tiktok": {
+        "hook": "Sito, web app o app? Non sono la stessa cosa.",
+        "scenes": [
+          "Mostra tre parole: sito, web app, app",
+          "Spiega: il sito presenta, la web app gestisce, l'app entra nel telefono",
+          "Chiudi: la scelta giusta arriva dopo audit e obiettivo"
+        ],
+        "caption": "EC8 Platform: riferimento su piattaforma, offerta digitale e app."
+      }
+    },
+    {
+      "id": "2026-05-21-audit-before-price",
+      "date": "2026-05-21",
+      "pillar": "method",
+      "title": "Prima audit, poi prezzo",
+      "proof": "Metodo Cantoni: audit reale, perimetro scritto e proposta comprensibile",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Un preventivo serio non parte da \"quanto costa un sito\". Parte da quello che esiste già: sito attuale, mobile, contatti, Google Maps, recensioni, social, competitor e ricerche. Solo dopo si capisce se serve un sito, un e-commerce, una web app, un'app o una gestione continuativa.",
+      "facebook": "Se il preventivo arriva prima dell'analisi, spesso è solo un numero. Noi partiamo da ciò che il cliente ha già online, da cosa gli impedisce di ricevere richieste migliori e da quale soluzione ha davvero senso: sito, e-commerce, web app, app o collaborazione continuativa.",
+      "tiktok": {
+        "hook": "Un preventivo fatto bene non parte dal prezzo.",
+        "scenes": [
+          "Mostra checklist: sito, mobile, contatti, recensioni",
+          "Spiega: prima capiamo cosa blocca richieste e fiducia",
+          "Chiudi: poi arrivano soluzione giusta, tempi e perimetro scritto"
+        ],
+        "caption": "Prima audit reale, poi proposta. Il prezzo senza contesto non aiuta il cliente e non protegge il progetto."
+      }
+    },
+    {
+      "id": "2026-05-22-services-complete",
+      "date": "2026-05-22",
+      "pillar": "services",
+      "title": "Siti, e-commerce, web app e app",
+      "proof": "Servizi Cantoni: pagamenti, login, dashboard, app e automazioni AI",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Cantoni Digital Studio realizza siti, e-commerce, web app, app, pagamenti, login, dashboard, prenotazioni e automazioni AI. Il punto non è riempire pagine: è costruire sistemi chiari, verificabili e utili alla crescita.",
+      "facebook": "Ogni progetto digitale deve avere uno scopo scritto. A volte basta un sito; a volte serve un e-commerce; altre volte serve una web app, un'app mobile o un sistema con automazioni.",
+      "tiktok": {
+        "hook": "Non tutti hanno bisogno dello stesso progetto digitale.",
+        "scenes": [
+          "Mostra: sito, e-commerce, web app, app",
+          "Spiega quando ha senso ogni soluzione",
+          "Chiudi: prima obiettivo, poi tecnologia"
+        ],
+        "caption": "Siti, e-commerce, web app e app: scegliamo la soluzione dopo aver capito il lavoro reale."
+      }
+    },
+    {
+      "id": "2026-05-23-ecommerce-perimetro",
+      "date": "2026-05-23",
+      "pillar": "education",
+      "title": "Un e-commerce non è solo catalogo",
+      "proof": "Perimetro: prodotti, pagamenti, spedizioni, fiducia, resi, tracciamento e gestione",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Un e-commerce fatto bene non è solo mettere prodotti online. Serve fiducia, pagamenti, spedizioni, resi, schede chiare, mobile veloce e gestione semplice. Senza questi pezzi, il negozio rischia di sembrare aperto ma non vendere.",
+      "facebook": "Quando stimiamo un e-commerce guardiamo catalogo, checkout, pagamenti, spedizioni, fiducia, contenuti, gestione interna e crescita dopo il lancio. Il prezzo dipende dal perimetro reale del lavoro, non da una parola generica.",
+      "tiktok": {
+        "hook": "Un e-commerce non vende solo perché esiste.",
+        "scenes": [
+          "Mostra: prodotto, checkout, spedizione, fiducia",
+          "Spiega: ogni blocco riduce un dubbio del cliente",
+          "Chiudi: il perimetro scritto evita sorprese"
+        ],
+        "caption": "E-commerce serio: catalogo, pagamenti, spedizioni, fiducia e gestione."
+      }
+    },
+    {
+      "id": "2026-05-24-mobile-first",
+      "date": "2026-05-24",
+      "pillar": "method",
+      "title": "Il mobile decide la prima impressione",
+      "proof": "QA: layout, testi, pulsanti, WhatsApp, form e velocità percepita su telefono",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Molti clienti vedono il sito prima da telefono. Se testi, pulsanti, form o WhatsApp sono confusi, perdi fiducia prima ancora di parlare. Per questo il controllo mobile è parte dell'audit, non un dettaglio finale.",
+      "facebook": "Un sito che sembra ordinato da desktop può perdere richieste da mobile. Noi controlliamo leggibilità, percorso di contatto, form, WhatsApp e priorità delle informazioni.",
+      "tiktok": {
+        "hook": "Il cliente non ti aspetta: apre dal telefono.",
+        "scenes": [
+          "Mostra schermo mobile con elementi ordinati",
+          "Spiega: testo leggibile e contatto visibile",
+          "Chiudi: il mobile va progettato, non adattato alla fine"
+        ],
+        "caption": "Il mobile non è una versione secondaria. Spesso è il primo contatto."
+      }
+    },
+    {
+      "id": "2026-05-25-google-maps-reviews",
+      "date": "2026-05-25",
+      "pillar": "growth",
+      "title": "Recensioni e Google Maps vanno usati bene",
+      "proof": "Audit: presenza locale, recensioni, fiducia pubblica e percorso verso contatto",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Se un'attività ha buone recensioni ma il sito non le usa nel momento giusto, sta lasciando fiducia fuori dal percorso. Google Maps, recensioni e prova pubblica devono aiutare la scelta, non restare scollegate.",
+      "facebook": "Per hotel, ristoranti, studi, negozi e servizi locali, Google Maps è parte della decisione. Il sito deve collegare prova pubblica e richiesta in modo naturale.",
+      "tiktok": {
+        "hook": "Le recensioni non servono solo su Google Maps.",
+        "scenes": [
+          "Mostra: recensioni, sito, pulsante contatto",
+          "Spiega: la fiducia deve stare vicino alla decisione",
+          "Chiudi: prova pubblica e richiesta devono parlarsi"
+        ],
+        "caption": "Google Maps e recensioni sono parte del percorso commerciale."
+      }
+    },
+    {
+      "id": "2026-05-26-ai-visibility",
+      "date": "2026-05-26",
+      "pillar": "growth",
+      "title": "Visibilità anche nelle risposte AI",
+      "proof": "Lavoro continuativo: contenuti, struttura, prove pubbliche e chiarezza semantica",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Oggi non basta essere presenti su Google. Le persone chiedono anche alle intelligenze artificiali. Per essere capiti, un brand deve avere contenuti chiari, prove pubbliche, servizi leggibili e pagine che spiegano davvero cosa offre.",
+      "facebook": "La crescita dopo il lancio non è solo manutenzione tecnica. Include contenuti, posizionamento, fiducia, conversione, ricerca e visibilità nelle risposte AI.",
+      "tiktok": {
+        "hook": "Il tuo sito è comprensibile anche per le AI?",
+        "scenes": [
+          "Mostra: servizi, prove, recensioni, contenuti",
+          "Spiega: le informazioni devono essere chiare e collegate",
+          "Chiudi: la visibilità si costruisce nel tempo"
+        ],
+        "caption": "Visibilità AI: contenuti chiari, prove pubbliche e struttura leggibile."
+      }
+    },
+    {
+      "id": "2026-05-27-maintenance-growth",
+      "date": "2026-05-27",
+      "pillar": "growth",
+      "title": "La gestione mensile non è solo assistenza",
+      "proof": "Gestione: miglioramenti, contenuti, conversione, trust, ricerca e AI visibility",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Dopo il lancio inizia il lavoro più importante: migliorare testi, pagine, fiducia, contenuti, richieste, ricerca e visibilità. La gestione mensile non è solo correggere bug: è far crescere il sistema.",
+      "facebook": "Un sito lasciato fermo invecchia. La gestione continuativa serve a migliorare contenuti, posizionamento, conversione e fiducia mese dopo mese.",
+      "tiktok": {
+        "hook": "Il lancio non è la fine del progetto.",
+        "scenes": [
+          "Mostra: lancio, dati, miglioramenti",
+          "Spiega: contenuti e fiducia cambiano nel tempo",
+          "Chiudi: il sito va fatto crescere"
+        ],
+        "caption": "Gestione mensile: non solo supporto, ma crescita del sistema digitale."
+      }
+    },
+    {
+      "id": "2026-05-28-payments-login",
+      "date": "2026-05-28",
+      "pillar": "services",
+      "title": "Pagamenti e login vanno progettati",
+      "proof": "Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Pagamenti, rate, login e area cliente cambiano completamente il tipo di progetto. Non sono dettagli da aggiungere alla fine: vanno messi nel perimetro iniziale, testati e spiegati al cliente prima di partire.",
+      "facebook": "Se un progetto include pagamenti o login, serve più rigore: sicurezza, UX, privacy, test e descrizione chiara di cosa compra l'utente.",
+      "tiktok": {
+        "hook": "Pagamenti e login non sono bottoni qualunque.",
+        "scenes": [
+          "Mostra: checkout, login, area cliente",
+          "Spiega: cambiano sicurezza e responsabilità",
+          "Chiudi: si progettano nel perimetro iniziale"
+        ],
+        "caption": "Checkout, login e area cliente vanno progettati e testati prima del lancio."
+      }
+    },
+    {
+      "id": "2026-05-29-dashboard-admin",
+      "date": "2026-05-29",
+      "pillar": "services",
+      "title": "Quando serve una dashboard",
+      "proof": "Web app: dati, richieste, clienti, ordini, prenotazioni e gestione interna",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Una dashboard serve quando il progetto non deve solo presentare informazioni, ma gestire lavoro: richieste, ordini, clienti, appuntamenti, prenotazioni o contenuti. In quel caso non stai comprando solo un sito: stai costruendo uno strumento operativo.",
+      "facebook": "La differenza tra sito e web app spesso è questa: il sito comunica, la web app gestisce. La scelta va fatta guardando il lavoro reale dell'azienda.",
+      "tiktok": {
+        "hook": "Se devi gestire dati, forse non ti serve solo un sito.",
+        "scenes": [
+          "Mostra: clienti, ordini, prenotazioni",
+          "Spiega: dashboard significa gestione interna",
+          "Chiudi: sito o web app si decide dallo scopo"
+        ],
+        "caption": "Dashboard e web app servono quando il digitale deve gestire lavoro reale."
+      }
+    },
+    {
+      "id": "2026-05-30-automation-ai",
+      "date": "2026-05-30",
+      "pillar": "services",
+      "title": "Automazioni AI senza caos",
+      "proof": "Automazioni: lead, follow-up, documenti, smistamento richieste, assistenza e decisioni operative",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Le automazioni AI funzionano solo se il processo è chiaro. Prima si definisce cosa deve succedere, quando, con quali dati e con quale controllo umano. Poi si automatizza. Altrimenti si crea solo confusione più veloce.",
+      "facebook": "AI e automazioni non sostituiscono un processo sbagliato. Lo rendono più evidente. Per questo partiamo da flusso, responsabilità e controlli.",
+      "tiktok": {
+        "hook": "Automatizzare un processo confuso crea caos più veloce.",
+        "scenes": [
+          "Mostra: lead, follow-up, documenti",
+          "Spiega: prima processo, poi automazione",
+          "Chiudi: controllo umano sempre chiaro"
+        ],
+        "caption": "Automazioni AI utili: processo chiaro, dati chiari, controllo chiaro."
+      }
+    },
+    {
+      "id": "2026-05-31-no-generic-quotes",
+      "date": "2026-05-31",
+      "pillar": "method",
+      "title": "Basta preventivi generici",
+      "proof": "Standard: ogni proposta deve parlare del cliente, non di noi",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Una proposta fatta bene deve far pensare al cliente: hanno guardato davvero la mia attività. Per questo controlliamo sito, social, recensioni, competitor e percorso di contatto prima di scrivere.",
+      "facebook": "Non serve mandare cento messaggi uguali. Serve mandare poche proposte che dimostrano attenzione reale al business del cliente.",
+      "tiktok": {
+        "hook": "Il cliente capisce subito se hai copiato e incollato.",
+        "scenes": [
+          "Mostra: proposta generica cancellata",
+          "Mostra: audit reale del cliente",
+          "Chiudi: ogni cliente va trattato come unico"
+        ],
+        "caption": "Meno messaggi generici. Più audit reale e proposta specifica."
+      }
+    },
+    {
+      "id": "2026-06-01-hospitality",
+      "date": "2026-06-01",
+      "pillar": "industry",
+      "title": "Hotel e hospitality: prenotazione diretta",
+      "proof": "Audit: camere, offerte, mappe, recensioni, prenotazioni e richieste dirette",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Per hotel e hospitality il sito deve aiutare una scelta precisa: fidarsi, capire l'offerta e prenotare o chiedere disponibilità. Camere, offerte, recensioni, mappe e contatti devono lavorare insieme.",
+      "facebook": "Nel turismo il sito non deve solo mostrare foto. Deve ridurre dubbi, valorizzare la prenotazione diretta e guidare il cliente al prossimo passo.",
+      "tiktok": {
+        "hook": "Un hotel perde richieste quando il sito non guida la scelta.",
+        "scenes": [
+          "Mostra: camere, recensioni, mappa, prenota",
+          "Spiega: fiducia e disponibilità devono stare vicine",
+          "Chiudi: prenotazione diretta più chiara"
+        ],
+        "caption": "Hospitality: recensioni, offerte e prenotazioni devono lavorare insieme."
+      }
+    },
+    {
+      "id": "2026-06-02-luxury-services",
+      "date": "2026-06-02",
+      "pillar": "industry",
+      "title": "Servizi luxury: fiducia prima del contatto",
+      "proof": "Audit: valore percepito, prove, percorso richiesta e cura mobile",
+      "asset_id": "01-excellentia-vip",
+      "instagram": "Nei servizi luxury la fiducia arriva prima del prezzo. Il sito deve comunicare cura, prove, dettagli, percorso chiaro e risposta professionale. Se il primo impatto è confuso, il cliente di valore non scrive.",
+      "facebook": "Luxury non significa solo grafica elegante. Significa coerenza tra promessa, prove, dettagli e modo in cui il cliente può chiedere informazioni.",
+      "tiktok": {
+        "hook": "Nel luxury il cliente compra fiducia prima del servizio.",
+        "scenes": [
+          "Mostra: promessa, prove, dettagli",
+          "Spiega: il sito deve ridurre incertezza",
+          "Chiudi: il contatto deve sembrare naturale"
+        ],
+        "caption": "Servizi premium: fiducia, prove e percorso chiaro prima del contatto."
+      }
+    },
+    {
+      "id": "2026-06-03-local-business",
+      "date": "2026-06-03",
+      "pillar": "industry",
+      "title": "Attività locali: sito e WhatsApp",
+      "proof": "Audit: telefono, WhatsApp, mappe, orari, recensioni e servizi chiari",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Per molte attività locali il sito deve fare una cosa semplice: far capire cosa offri, perché fidarsi e come contattarti subito. WhatsApp, telefono, mappe, orari e recensioni devono essere facili da trovare.",
+      "facebook": "Un'attività locale non ha bisogno di effetti speciali se mancano le basi: servizi chiari, contatti visibili, prova pubblica e percorso mobile semplice.",
+      "tiktok": {
+        "hook": "Se devo cercare il tuo WhatsApp, hai già perso tempo.",
+        "scenes": [
+          "Mostra: servizio, recensioni, WhatsApp",
+          "Spiega: le basi devono essere immediate",
+          "Chiudi: mobile e contatto prima di tutto"
+        ],
+        "caption": "Attività locali: contatti, mappe, recensioni e servizi devono essere chiari."
+      }
+    },
+    {
+      "id": "2026-06-04-social-proof",
+      "date": "2026-06-04",
+      "pillar": "growth",
+      "title": "Social e sito devono parlarsi",
+      "proof": "Presenza: Instagram, Facebook, TikTok, sito, portfolio e prove pubbliche",
+      "asset_id": "05-servizi-completi",
+      "instagram": "I social non devono vivere separati dal sito. Portfolio, prove pubbliche, contenuti e profili devono raccontare la stessa azienda. Se ogni canale dice una cosa diversa, il cliente si perde.",
+      "facebook": "Un brand digitale credibile ha coerenza: sito, social, case study, contatti e tono devono riconoscersi subito.",
+      "tiktok": {
+        "hook": "Il cliente ti controlla su più canali.",
+        "scenes": [
+          "Mostra: sito, Instagram, Facebook, TikTok",
+          "Spiega: devono sembrare parte dello stesso brand",
+          "Chiudi: coerenza crea fiducia"
+        ],
+        "caption": "Sito e social devono raccontare lo stesso brand."
+      }
+    },
+    {
+      "id": "2026-06-05-coconut-armor",
+      "date": "2026-06-05",
+      "pillar": "portfolio",
+      "title": "Coconut Armor: brand ed e-commerce",
+      "proof": "Progetto interno: brand, landing, shop, mobile e go-live readiness; review interna richiesta prima della pubblicazione",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Coconut Armor è un progetto interno utile per mostrare come si costruisce un brand digitale intorno a un prodotto: identità, landing, shop, mobile e percorso di lancio. Prima di pubblicarlo va rivisto perché alcuni materiali sono interni.",
+      "facebook": "Un e-commerce di prodotto non parte solo dal catalogo. Servono brand, immagini, landing, mobile, gestione fornitori e percorso di lancio ordinato. Coconut Armor è un riferimento interno da usare con review.",
+      "tiktok": {
+        "hook": "Un brand di prodotto non nasce solo con un logo.",
+        "scenes": [
+          "Mostra asset reali Coconut Armor gia approvati",
+          "Spiega: brand, landing e shop devono lavorare insieme",
+          "Chiudi: pubblicare solo materiale rivisto e sicuro"
+        ],
+        "caption": "Coconut Armor: brand, landing, shop e mobile. Progetto interno da pubblicare solo dopo review."
+      }
+    },
+    {
+      "id": "2026-06-06-etsy-ops",
+      "date": "2026-06-06",
+      "pillar": "commerce",
+      "title": "Etsy e marketplace: serve sistema",
+      "proof": "Candidate project: asset discovery richiesta prima della pubblicazione; tema valido per shop, catalogo, immagini e fiducia",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Vendere su Etsy o su un marketplace non significa caricare prodotti e sperare. Servono immagini, schede chiare, fiducia, catalogo ordinato e un percorso che possa crescere anche fuori dalla piattaforma. Prima di usare asset reali serve review.",
+      "facebook": "Marketplace e sito non sono nemici. Il marketplace puo portare scoperta, il sito puo costruire brand, fiducia e controllo. Il lavoro serio e collegare catalogo, contenuti e processo commerciale.",
+      "tiktok": {
+        "hook": "Etsy non basta se il brand resta invisibile.",
+        "scenes": [
+          "Mostra: marketplace, catalogo, sito",
+          "Spiega: immagini e schede devono creare fiducia",
+          "Chiudi: marketplace + brand system"
+        ],
+        "caption": "Etsy e marketplace: catalogo, immagini, fiducia e sistema digitale intorno al brand."
+      }
+    },
+    {
+      "id": "2026-06-07-content-after-launch",
+      "date": "2026-06-07",
+      "pillar": "growth",
+      "title": "Contenuti dopo il lancio",
+      "proof": "Crescita: pagine, post, FAQ, prove, aggiornamenti e ricerca",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Un sito nuovo senza contenuti nuovi resta fermo. Dopo il lancio servono aggiornamenti, pagine utili, prove, FAQ, social e miglioramenti basati su cosa chiedono davvero i clienti.",
+      "facebook": "La crescita digitale richiede continuità: il sito deve evolvere mentre cambiano clienti, offerte, mercato e ricerche.",
+      "tiktok": {
+        "hook": "Il sito non deve restare fermo dopo il lancio.",
+        "scenes": [
+          "Mostra il giorno del lancio come primo step, non come fine del lavoro",
+          "Mostra: contenuti e miglioramenti mensili",
+          "Chiudi: crescita continua"
+        ],
+        "caption": "Dopo il lancio: contenuti, prove, FAQ e miglioramenti continui."
+      }
+    },
+    {
+      "id": "2026-06-08-perimetro-scritto",
+      "date": "2026-06-08",
+      "pillar": "method",
+      "title": "Perimetro scritto, meno problemi",
+      "proof": "Metodo: deliverable, limiti, tempi, pagamenti e manutenzione definiti prima",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Il perimetro scritto protegge tutti. Dice cosa si costruisce, cosa non è incluso, tempi, responsabilità, pagamenti e cosa succede dopo il lancio. Senza perimetro chiaro, anche un buon progetto diventa confuso.",
+      "facebook": "Un progetto digitale serio ha confini chiari. Non per complicare, ma per evitare aspettative diverse tra cliente e studio.",
+      "tiktok": {
+        "hook": "La frase 'poi vediamo' costa cara nei progetti digitali.",
+        "scenes": [
+          "Mostra: lista deliverable",
+          "Spiega: cosa incluso e cosa escluso",
+          "Chiudi: perimetro scritto prima di partire"
+        ],
+        "caption": "Perimetro scritto: cosa si fa, cosa non si fa, tempi e responsabilità."
+      }
+    },
+    {
+      "id": "2026-06-09-reply-to-quote",
+      "date": "2026-06-09",
+      "pillar": "sales",
+      "title": "Quando un cliente risponde",
+      "proof": "Flusso: risposta, roadmap, perimetro, prezzo locale e link pagamento solo dopo conferma",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Quando un cliente risponde interessato, non serve mandare subito un documento enorme. Serve una roadmap chiara: priorità, tempi, perimetro del lavoro, valuta locale e prossimo passo. Il link pagamento arriva solo quando il cliente ha capito cosa compra.",
+      "facebook": "La risposta interessata va trattata con cura: prima confermare bisogni e priorità, poi proposta e pagamento. Niente automatismi ciechi.",
+      "tiktok": {
+        "hook": "Un cliente interessato non va bombardato.",
+        "scenes": [
+          "Mostra: risposta ricevuta",
+          "Mostra: roadmap breve",
+          "Chiudi: pagamento solo dopo perimetro chiaro"
+        ],
+        "caption": "Risposta cliente: roadmap, perimetro e prossimo passo chiaro."
+      }
+    },
+    {
+      "id": "2026-06-10-payment-after-perimetro",
+      "date": "2026-06-10",
+      "pillar": "sales",
+      "title": "Pagamento dopo chiarezza",
+      "proof": "Regola: link pagamento solo dopo perimetro, importo, valuta e milestone confermati",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Il pagamento deve arrivare dopo la chiarezza: cosa si compra, in che tempi, con quali limiti, in che valuta e con quali step. Questo rende l'acquisto più serio e protegge il rapporto.",
+      "facebook": "Un link pagamento senza contesto può creare dubbi. Un link dopo perimetro scritto, invece, è il passo naturale per iniziare.",
+      "tiktok": {
+        "hook": "Il link pagamento non è il primo passo.",
+        "scenes": [
+          "Mostra un perimetro scritto con cosa include il progetto e quali sono i limiti",
+          "Mostra: importo e milestone",
+          "Chiudi: poi link pagamento"
+        ],
+        "caption": "Prima chiarezza, poi pagamento. Un progetto serio parte così."
+      }
+    },
+    {
+      "id": "2026-06-11-quality-gate",
+      "date": "2026-06-11",
+      "pillar": "method",
+      "title": "QA prima del deploy",
+      "proof": "Controlli: mobile, console, pagamenti, privacy, link, social, SEO e artifact pubblico",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Prima di mettere online un sito bisogna controllare link, mobile, privacy, pagamenti, console, SEO, social e file pubblici. Un deploy non è finito finché non è verificato.",
+      "facebook": "La qualità si vede anche da ciò che non succede: niente link rotti, niente file privati online, niente elementi tagliati, niente pagamenti non testati.",
+      "tiktok": {
+        "hook": "Pubblicare non significa aver finito.",
+        "scenes": [
+          "Mostra: checklist QA",
+          "Spiega: link, mobile, pagamenti, privacy",
+          "Chiudi: deploy solo dopo gate verde"
+        ],
+        "caption": "QA prima del deploy: link, mobile, privacy, pagamenti e artifact pulito."
+      }
+    },
+    {
+      "id": "2026-06-12-global-local",
+      "date": "2026-06-12",
+      "pillar": "global",
+      "title": "Globale, ma non generico",
+      "proof": "Metodo: lingua, valuta, mercato e proposta specifica per ogni cliente",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Lavorare a livello mondiale non significa mandare lo stesso messaggio ovunque. Lingua, valuta, mercato, abitudini e settore cambiano. La proposta deve sembrare scritta per quel cliente, non tradotta al volo.",
+      "facebook": "Una proposta internazionale seria rispetta lingua, valuta e contesto locale. Ma soprattutto parte dall'analisi reale del business.",
+      "tiktok": {
+        "hook": "Globale non vuol dire copia e incolla.",
+        "scenes": [
+          "Mostra: paesi e valute",
+          "Spiega: ogni mercato ha contesto diverso",
+          "Chiudi: proposta specifica per cliente"
+        ],
+        "caption": "Lingua, valuta e audit locale: così una proposta globale resta personale."
+      }
+    },
+    {
+      "id": "2026-06-13-portfolio-proof",
+      "date": "2026-06-13",
+      "pillar": "portfolio",
+      "title": "Il portfolio deve essere verificabile",
+      "proof": "Riferimento: Excellentia VIP, Destination Cocoa/Mr Collins, EC8 Platform, Coconut Armor e case studies pubblici",
+      "asset_id": "03-ec8-platform",
+      "instagram": "Il portfolio non deve essere una lista di nomi. Excellentia VIP, Mr Collins, EC8 Platform e Coconut Armor mostrano pezzi diversi: prenotazioni, app, piattaforme, brand, e-commerce e crescita. Ogni progetto deve provare una capacita concreta.",
+      "facebook": "I riferimenti servono quando rispondono a una domanda: posso fidarmi di questo studio per un progetto reale? Per questo distinguiamo clienti, progetti nostri, app pubbliche e materiali da revisionare.",
+      "tiktok": {
+        "hook": "Un portfolio serio deve essere verificabile.",
+        "scenes": [
+          "Mostra: riferimenti pubblici",
+          "Spiega: ogni progetto dimostra una capacità diversa",
+          "Chiudi: prove, non parole"
+        ],
+        "caption": "Portfolio verificabile: riferimenti pubblici e problemi reali risolti."
+      }
+    },
+    {
+      "id": "2026-06-14-lead-quality",
+      "date": "2026-06-14",
+      "pillar": "sales",
+      "title": "Meno lead, più qualità",
+      "proof": "Outreach: audit reale, contatto giusto, lingua corretta e proposta pertinente",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Non serve scrivere a tutti. Serve scegliere aziende dove possiamo vedere un problema reale, proporre un miglioramento concreto e parlare nella lingua giusta. Così il contatto non sembra spam.",
+      "facebook": "La qualità dell'outreach dipende dalla ricerca prima del messaggio. Se non abbiamo guardato davvero il cliente, non dovremmo scrivere.",
+      "tiktok": {
+        "hook": "La quantità non salva una proposta debole.",
+        "scenes": [
+          "Mostra: lista lead piccola",
+          "Spiega: audit reale e contatto giusto",
+          "Chiudi: qualità prima del volume"
+        ],
+        "caption": "Outreach serio: meno lead, più ricerca, messaggi più pertinenti."
+      }
+    },
+    {
+      "id": "2026-06-15-social-daily-system",
+      "date": "2026-06-15",
+      "pillar": "growth",
+      "title": "Pubblicare ogni giorno con metodo",
+      "proof": "Sistema: calendario, prova pubblica, testi, script video, revisione e pubblicazione manuale",
+      "asset_id": "05-servizi-completi",
+      "instagram": "Pubblicare ogni giorno ha senso solo se ogni contenuto ha una funzione: prova, metodo, servizio, educazione o risposta a un dubbio reale. Altrimenti è rumore. Il calendario deve sostenere fiducia e acquisizione clienti.",
+      "facebook": "La costanza social deve essere organizzata: calendario, messaggio, asset, revisione e obiettivo. Ogni post deve rafforzare il brand, non riempire la pagina.",
+      "tiktok": {
+        "hook": "Pubblicare ogni giorno non basta.",
+        "scenes": [
+          "Mostra: calendario editoriale",
+          "Spiega: ogni post ha un obiettivo",
+          "Chiudi: costanza + qualità"
+        ],
+        "caption": "Contenuti giornalieri fatti bene: calendario, prova pubblica, revisione e obiettivo."
+      }
+    },
+    {
+      "id": "2026-06-16-next-client",
+      "date": "2026-06-16",
+      "pillar": "sales",
+      "title": "Il prossimo cliente deve sentirsi unico",
+      "proof": "Standard: audit specifico, proposta chiara, lingua e valuta corrette, follow-up umano",
+      "asset_id": "04-metodo-preventivi",
+      "instagram": "Il prossimo cliente non deve ricevere un template. Deve sentire che abbiamo guardato la sua attività, capito il problema e preparato un passo concreto. Questo è lo standard da mantenere ogni giorno.",
+      "facebook": "La crescita commerciale non arriva da messaggi casuali. Arriva da attenzione reale, proposta chiara e continuità.",
+      "tiktok": {
+        "hook": "Ogni cliente deve sentirsi l'unico.",
+        "scenes": [
+          "Mostra: audit specifico",
+          "Mostra: proposta chiara",
+          "Chiudi: follow-up umano e concreto"
+        ],
+        "caption": "Proposte fatte bene: specifiche, chiare e umane."
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+Hook: Il sito turistico giusto fa risparmiare tempo anche al team.
+
+Scene:
+1. Mostra: servizi e transfer
+2. Spiega: richieste più chiare riducono messaggi inutili
+3. Chiudi: il sito deve aiutare vendita e operatività
+
+Caption: Destination Cocoa: prenotazioni turistiche, servizi extra e percorso operativo.
+
+#cantonidigitalstudio #sitiweb #ecommerce #webapp #app #automazioniai

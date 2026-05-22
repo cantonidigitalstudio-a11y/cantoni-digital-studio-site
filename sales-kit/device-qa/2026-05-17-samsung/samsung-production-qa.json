@@ -1,0 +1,101 @@
+{
+  "ok": true,
+  "checked_at": "2026-05-17T00:09:53.565Z",
+  "device": "Samsung Galaxy Note 9 SM-N960F via ADB wireless Chrome, production domain cache disabled",
+  "results": [
+    {
+      "name": "prod-home",
+      "url": "https://cantonidigitalstudio.com/?lang=it&v=prod-mobile-polish-20260517b",
+      "screenshot": "sales-kit/device-qa/2026-05-17-samsung/prod-home.png",
+      "title": "Cantoni Digital Studio | Redesign siti per servizi professionali",
+      "h1": "Siti, e-commerce, applicazioni, pagamenti e automazioni costruiti come un unico sistema commerciale.",
+      "innerWidth": 411,
+      "innerHeight": 717,
+      "scrollWidth": 411,
+      "bodyWidth": 411,
+      "overflowX": false,
+      "h1Rect": {
+        "x": 13,
+        "y": 171.98809814453125,
+        "width": 385.4285888671875,
+        "height": 139.76190185546875,
+        "right": 398.4285888671875,
+        "bottom": 311.75
+      },
+      "cookieRect": {
+        "x": 10,
+        "y": 649.3928833007812,
+        "width": 391.4285888671875,
+        "height": 58.32143020629883,
+        "right": 401.4285888671875,
+        "bottom": 707.7143135070801
+      },
+      "formRect": {
+        "x": 35.761905670166016,
+        "y": 9344.5419921875,
+        "width": 339.9047546386719,
+        "height": 780.1845092773438,
+        "right": 375.6666603088379,
+        "bottom": 10124.726501464844
+      },
+      "styleSheets": [
+        "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap",
+        "https://cantonidigitalstudio.com/styles.css?v=20260516a"
+      ],
+      "hasWhatsApp": true,
+      "hasPrivacy": true,
+      "hasTerms": true,
+      "hasInstagram": true,
+      "hasFacebook": true,
+      "badLocalLinks": [],
+      "canonical": "https://cantonidigitalstudio.com/"
+    },
+    {
+      "name": "prod-preventivo",
+      "url": "https://cantonidigitalstudio.com/preventivo.html?lang=it&smoke=1&v=prod-mobile-polish-20260517b",
+      "screenshot": "sales-kit/device-qa/2026-05-17-samsung/prod-preventivo.png",
+      "title": "Consulenza e percorso progetto | Cantoni Digital Studio",
+      "h1": "Struttura il progetto e ottieni subito una fascia di preventivo",
+      "innerWidth": 411,
+      "innerHeight": 717,
+      "scrollWidth": 411,
+      "bodyWidth": 411,
+      "overflowX": false,
+      "h1Rect": {
+        "x": 13,
+        "y": 171.98809814453125,
+        "width": 385.4285888671875,
+        "height": 81.32142639160156,
+        "right": 398.4285888671875,
+        "bottom": 253.3095245361328
+      },
+      "cookieRect": {
+        "x": 10,
+        "y": 649.3928833007812,
+        "width": 391.4285888671875,
+        "height": 58.32143020629883,
+        "right": 401.4285888671875,
+        "bottom": 707.7143135070801
+      },
+      "formRect": {
+        "x": 13,
+        "y": 374.452392578125,
+        "width": 385.4285888671875,
+        "height": 1938.8809814453125,
+        "right": 398.4285888671875,
+        "bottom": 2313.3333740234375
+      },
+      "styleSheets": [
+        "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap",
+        "https://cantonidigitalstudio.com/styles.css?v=20260516a"
+      ],
+      "hasWhatsApp": true,
+      "hasPrivacy": true,
+      "hasTerms": true,
+      "hasInstagram": true,
+      "hasFacebook": true,
+      "badLocalLinks": [],
+      "canonical": "https://cantonidigitalstudio.com/preventivo.html"
+    }
+  ]
+}
