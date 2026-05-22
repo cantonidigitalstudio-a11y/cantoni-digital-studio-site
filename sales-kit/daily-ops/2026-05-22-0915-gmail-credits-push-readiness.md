@@ -80,3 +80,66 @@ Sequenza corretta:
 5. commit ordinato;
 6. push solo su remote `cantoni`;
 7. deploy Cloudflare solo dopo conferma esplicita.
+
+## Aggiornamento cascata 14:34 CEST
+
+Controllo Gmail eseguito nel Browser laterale visibile su Gmail con account
+attivo `cantonidigitalstudio@gmail.com`.
+
+Query commerciale ultimi 7 giorni:
+
+```text
+newer_than:7d (interessato OR interessata OR interested OR interesado OR intéressé OR interesse OR proposal OR preventivo OR quote OR progetto OR website OR sito OR e-commerce OR app OR OK OR roadmap OR reply OR risposta) -from:cantonidigitalstudio@gmail.com -MOO -DHL
+```
+
+Classificazione visibile:
+
+- positiva commerciale: 0.
+- dubbia / da review: 0 chiare.
+- negativa: 0.
+- automatica / generica: hotel reservations e ricevute automatiche.
+- operativa non urgente: Google security, Facebook login/notifiche, TikTok
+  login/verifica, Cloudflare threats report, MOO/DHL consegna chiusa.
+- operativa urgente: 0 emerse dalla lista visibile.
+
+Canali verificati:
+
+- GitHub CLI: account attivo `cantonidigitalstudio-a11y`.
+- Remote Cantoni valido: `cantoni`.
+- Remote `origin` ancora Excellentia: non usare per push Cantoni.
+- Cloudflare Wrangler: account `cantonidigitalstudio@gmail.com`, scope
+  `pages:write` presente.
+- Netlify: non usato; non verificato come canale Cantoni in questa cascata.
+
+Social 2026-05-22:
+
+- post del giorno: `2026-05-22-2026-05-22-services-complete`.
+- copy migliorato per chiarezza cliente: meno testo interno, CTA `Richiedi audit`,
+  riferimento a siti, e-commerce, web app, app mobile, pagamenti e automazioni.
+- corretto generatore short/carousel: i post servizi non usano piu etichette
+  `PORTFOLIO REALE` o footer portfolio.
+- creato pacchetto TikTok carousel 1080x1920:
+  `sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/`.
+- creato short video 1080x1920:
+  `sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/short-video/`.
+
+Verifiche:
+
+```text
+SOCIAL_SHORT_ENTRY=2026-05-22-2026-05-22-services-complete npm run build:social:short
+SOCIAL_CAROUSEL_ENTRY=2026-05-22-2026-05-22-services-complete npm run build:social:carousel
+SOCIAL_CAROUSEL_ENTRY=2026-05-22-2026-05-22-services-complete npm run test:social:carousel
+npm run test:social:daily
+SOCIAL_SHORT_ENTRY=2026-05-22-2026-05-22-services-complete npm run test:social:short
+git diff --check
+```
+
+Esito:
+
+- tutti i gate social sopra: verdi.
+- follow-up D3 2026-05-21: 18/18 validi.
+- duplicati recenti ready: 0.
+- nessuna email inviata.
+- nessun post pubblicato.
+- nessun pagamento.
+- nessun deploy produzione.

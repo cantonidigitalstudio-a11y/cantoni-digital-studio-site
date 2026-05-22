@@ -319,20 +319,33 @@ async function run() {
   const isExcellentia = entryId.includes('excellentia');
   const isDestinationCocoa = entryId.includes('destination-cocoa');
   const isEc8Platform = entryId.includes('ec8-platform');
+  const isServicesPost = entryId.includes('services') || entryId.includes('servizi') || entryId.includes('ecommerce') || entryId.includes('mobile-first') || entryId.includes('payments-login') || entryId.includes('dashboard-admin') || entryId.includes('automation-ai');
+  const isMethodPost = entryId.includes('audit') || entryId.includes('perimetro') || entryId.includes('quote') || entryId.includes('quality') || entryId.includes('lead-quality');
   const publicReference = isExcellentia
     ? 'excellentiavip.com'
     : isDestinationCocoa
       ? 'destination-cocoa-site.netlify.app'
       : isEc8Platform
         ? 'ec8platform.com'
-        : 'riferimento pubblico nel portfolio Cantoni';
+        : 'cantonidigitalstudio.com';
   const footerReference = isExcellentia
     ? 'Excellentia VIP: prova pubblica, non grafica generica.'
     : isDestinationCocoa
       ? 'Destination Cocoa: prenotazioni, servizi e percorso operativo.'
       : isEc8Platform
         ? 'EC8 Platform: sito, app e sistema verificabile.'
-        : 'Portfolio Cantoni: prova pubblica e percorso verificabile.';
+        : isServicesPost
+          ? 'Siti, e-commerce, web app, app e crescita digitale.'
+          : isMethodPost
+            ? 'Metodo Cantoni: audit reale e perimetro scritto.'
+            : 'Cantoni Digital Studio: lavoro verificabile e perimetro chiaro.';
+  const firstKicker = isExcellentia || isDestinationCocoa
+    ? 'PORTFOLIO REALE'
+    : isServicesPost
+      ? 'SERVIZI CANTONI'
+      : isMethodPost
+        ? 'METODO CANTONI'
+        : 'CANTONI DIGITAL STUDIO';
   const title = isExcellentia
     ? 'Un sito luxury deve vendere fiducia'
     : parsed.hook;
@@ -383,7 +396,7 @@ async function run() {
     }
   ] : [
     {
-      kicker: 'PORTFOLIO REALE',
+      kicker: firstKicker,
       title,
       body: '',
       footer: footerReference,
@@ -391,8 +404,8 @@ async function run() {
       duration: 2.8
     },
     {
-      kicker: 'COSA DEVE FARE',
-      title: 'Rendere chiari valore, servizi e richiesta',
+      kicker: isServicesPost ? 'SCELTA GIUSTA' : 'COSA DEVE FARE',
+      title: isServicesPost ? 'Capire se serve sito, e-commerce, web app o app' : 'Rendere chiari valore, servizi e richiesta',
       body: sceneTwo.replace(/^Spiega:\s*/i, ''),
       footer: 'Da telefono il cliente deve capire e chiedere senza confusione.',
       variant: 'light',
@@ -409,7 +422,7 @@ async function run() {
     {
       kicker: 'PROSSIMO PASSO',
       title: 'Guardiamo il progetto e diciamo cosa serve davvero',
-      body: `Riferimento pubblico: ${publicReference}`,
+      body: isServicesPost ? `Partenza: ${publicReference}` : `Riferimento pubblico: ${publicReference}`,
       footer: 'Cantoni Digital Studio',
       variant: 'light',
       duration: 3.4
