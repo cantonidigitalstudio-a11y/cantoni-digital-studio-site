@@ -10,6 +10,6 @@ Short structure:
 2. Spiega: il sito presenta, la web app gestisce, l'app entra nel telefono
 3. Chiudi: la scelta giusta arriva dopo audit e obiettivo
 
-Description: EC8 Platform: riferimento su piattaforma, offerta digitale e app. Link: https://ec8platform.com
+Description: EC8 Platform: riferimento su piattaforma, offerta digitale e app. Link: https://ec8platform.com https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

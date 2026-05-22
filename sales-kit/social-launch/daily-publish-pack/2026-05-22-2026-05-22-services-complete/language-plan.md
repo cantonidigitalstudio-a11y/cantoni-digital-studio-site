@@ -1,12 +1,12 @@
 # Language plan - 2026-05-22
 
-Tema: project boundaries, payments, apps and operational systems
-Lingua principale: en-GB - UK / international English
-Lingua secondaria: de-DE - Germania
+Tema: servizi completi, scelta corretta del progetto e contatto diretto
+Lingua principale: it-IT - Italia
+Lingua secondaria: en-GB - UK / international English
 
 Adattamento:
-- Angolo principale: clear written project boundaries, reliable delivery, trust and conversion.
-- Angolo secondario: clear project boundaries, reliability, documentation and operational clarity.
+- Angolo principale: credibilità, clienti reali, metodo, WhatsApp, portfolio verificabile.
+- Angolo secondario: clear written project boundaries, reliable delivery, trust and conversion.
 - Non tradurre parola per parola: mantenere lo stesso obiettivo ma usare esempi naturali per il mercato.
 - Valuta solo se il post parla di offerta approvata; per contenuti pubblici ordinari evitare prezzi.
 

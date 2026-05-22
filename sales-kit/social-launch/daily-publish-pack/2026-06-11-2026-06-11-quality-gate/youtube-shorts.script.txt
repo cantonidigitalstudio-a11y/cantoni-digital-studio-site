@@ -10,6 +10,6 @@ Short structure:
 2. Spiega: link, mobile, pagamenti, privacy
 3. Chiudi: deploy solo dopo gate verde
 
-Description: QA prima del deploy: link, mobile, privacy, pagamenti e artifact pulito. Approccio: Controlli: mobile, console, pagamenti, privacy, link, social, SEO e artifact pubblico
+Description: QA prima del deploy: link, mobile, privacy, pagamenti e artifact pulito. Approccio: Controlli: mobile, console, pagamenti, privacy, link, social, SEO e artifact pubblico https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

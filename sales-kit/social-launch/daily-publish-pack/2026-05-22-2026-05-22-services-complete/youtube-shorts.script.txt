@@ -1,7 +1,7 @@
 Title: Siti, e-commerce, web app e app | Cantoni Digital Studio
 
-Primary language: en-GB
-Secondary adaptation: de-DE
+Primary language: it-IT
+Secondary adaptation: en-GB
 
 Opening: Non tutti hanno bisogno dello stesso progetto digitale.
 
@@ -10,6 +10,6 @@ Short structure:
 2. Spiega in parole semplici quando ha senso ogni soluzione
 3. Chiudi: prima obiettivo e perimetro, poi tecnologia
 
-Description: Siti, e-commerce, web app e app mobile: la soluzione si sceglie dopo aver capito obiettivo, gestione e percorso cliente. Link: Servizi Cantoni: sito, e-commerce, piattaforma, app, pagamenti e automazioni
+Description: Siti, e-commerce, web app e app mobile: la soluzione si sceglie dopo aver capito obiettivo, gestione e percorso cliente. Perimetro: Servizi Cantoni: sito, e-commerce, piattaforma, app, pagamenti e automazioni https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

@@ -10,6 +10,6 @@ Short structure:
 2. Mostra: roadmap breve
 3. Chiudi: pagamento solo dopo perimetro chiaro
 
-Description: Risposta cliente: roadmap, perimetro e prossimo passo chiaro. Link: Flusso: risposta, roadmap, perimetro, prezzo locale e link pagamento solo dopo conferma
+Description: Risposta cliente: roadmap, perimetro e prossimo passo chiaro. Link: Flusso: risposta, roadmap, perimetro, prezzo locale e link pagamento solo dopo conferma https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

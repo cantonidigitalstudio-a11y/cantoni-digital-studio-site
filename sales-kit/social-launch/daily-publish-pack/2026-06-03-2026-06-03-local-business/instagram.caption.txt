@@ -1,5 +1,6 @@
 Per molte attività locali il sito deve fare una cosa semplice: far capire cosa offri, perché fidarsi e come contattarti subito. WhatsApp, telefono, mappe, orari e recensioni devono essere facili da trovare.
 
 Prova pubblica: Audit: telefono, WhatsApp, mappe, orari, recensioni e servizi chiari
+Audit e contatto: https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

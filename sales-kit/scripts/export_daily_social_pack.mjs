@@ -17,6 +17,7 @@ const PLATFORM_TAGS = {
   tiktok: ['#cantonidigitalstudio', '#sitiweb', '#ecommerce', '#webapp', '#app', '#automazioniai'],
   youtube: ['#CantoniDigitalStudio', '#SitiWeb', '#Ecommerce', '#App', '#DigitalGrowth']
 };
+const CONTACT_URL = 'https://cantonidigitalstudio.com/preventivo';
 
 const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
@@ -38,6 +39,10 @@ function stripProofPrefix(value) {
 function proofLine(label, value) {
   const proof = stripProofPrefix(value);
   return proof ? `${label}: ${proof}` : '';
+}
+
+function contactLine(label = 'Audit e contatto') {
+  return `${label}: ${CONTACT_URL}`;
 }
 
 function escapeHtml(value) {
@@ -64,6 +69,7 @@ function textForInstagram(entry) {
     localizeProof(entry.instagram),
     '',
     proofLine(proofLabel, entry.proof),
+    contactLine(),
     '',
     PLATFORM_TAGS.instagram.join(' ')
   ].join('\n');
@@ -75,6 +81,7 @@ function textForFacebook(entry) {
     localizeProof(entry.facebook),
     '',
     proofLine(proofLabel, entry.proof),
+    contactLine(),
     '',
     'Per una proposta seria: audit reale, perimetro scritto del lavoro e prossimo passo chiaro.'
   ].join('\n');
@@ -98,6 +105,7 @@ function textForTikTokCaption(entry) {
     localizeProof(entry.tiktok.caption),
     '',
     'Metodo Cantoni: prima audit reale, poi proposta chiara.',
+    `Link: ${CONTACT_URL}`,
     '',
     PLATFORM_TAGS.tiktok.join(' ')
   ].join('\n');
@@ -150,7 +158,7 @@ function textForLanguagePlan(entry, rotation) {
 
 function textForYoutubeShort(entry, rotation) {
   const plan = languagePlanForEntry(entry, rotation);
-  const proofLabel = entry.pillar === 'method' ? 'Approccio' : 'Link';
+  const proofLabel = entry.pillar === 'method' ? 'Approccio' : entry.pillar === 'services' ? 'Perimetro' : 'Link';
   return [
     `Title: ${cleanText(entry.title)} | Cantoni Digital Studio`,
     '',
@@ -162,18 +170,18 @@ function textForYoutubeShort(entry, rotation) {
     'Short structure:',
     ...entry.tiktok.scenes.map((scene, index) => `${index + 1}. ${cleanText(scene)}`),
     '',
-    `Description: ${localizeProof(entry.tiktok.caption)} ${proofLine(proofLabel, entry.proof)}`,
+    `Description: ${localizeProof(entry.tiktok.caption)} ${proofLine(proofLabel, entry.proof)} ${CONTACT_URL}`.trim(),
     '',
     PLATFORM_TAGS.youtube.join(' ')
   ].join('\n');
 }
 
 function textForYoutubeShortCaption(entry) {
-  const proofLabel = entry.pillar === 'method' ? 'Approccio' : 'Link';
+  const proofLabel = entry.pillar === 'method' ? 'Approccio' : entry.pillar === 'services' ? 'Perimetro' : 'Link';
   return [
     `${cleanText(entry.title)} | Cantoni Digital Studio`,
     '',
-    `${localizeProof(entry.tiktok.caption)} ${proofLine(proofLabel, entry.proof)}`.trim(),
+    `${localizeProof(entry.tiktok.caption)} ${proofLine(proofLabel, entry.proof)} ${CONTACT_URL}`.trim(),
     '',
     PLATFORM_TAGS.youtube.join(' ')
   ].join('\n');

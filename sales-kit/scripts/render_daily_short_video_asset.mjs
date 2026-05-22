@@ -48,6 +48,10 @@ function clean(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+function trimTrailingWhitespace(value) {
+  return String(value || '').replace(/[ \t]+$/gm, '');
+}
+
 function wrapText(value, maxChars = 26, maxLines = 4) {
   const words = clean(value).split(' ').filter(Boolean);
   const lines = [];
@@ -258,7 +262,7 @@ function slideSvg({ logo, icon, mainImage, title, kicker, body, footer, variant 
 }
 
 async function writeSlide(svg, targetSvg, targetPng) {
-  await fs.writeFile(targetSvg, svg, 'utf8');
+  await fs.writeFile(targetSvg, trimTrailingWhitespace(svg), 'utf8');
   await execFileAsync('sips', ['-s', 'format', 'png', targetSvg, '--out', targetPng], { maxBuffer: 1024 * 1024 * 4 });
 }
 

@@ -1,5 +1,6 @@
 Se un progetto include pagamenti o login, serve più rigore: sicurezza, UX, privacy, test e descrizione chiara di cosa compra l'utente.
 
 Perimetro: Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente
+Audit e contatto: https://cantonidigitalstudio.com/preventivo
 
 Per una proposta seria: audit reale, perimetro scritto del lavoro e prossimo passo chiaro.

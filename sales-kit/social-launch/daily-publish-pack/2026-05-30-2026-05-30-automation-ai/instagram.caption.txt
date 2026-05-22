@@ -1,5 +1,6 @@
 Le automazioni AI funzionano solo se il processo è chiaro. Prima si definisce cosa deve succedere, quando, con quali dati e con quale controllo umano. Poi si automatizza. Altrimenti si crea solo confusione più veloce.
 
 Perimetro: Automazioni: lead, follow-up, documenti, smistamento richieste, assistenza e decisioni operative
+Audit e contatto: https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

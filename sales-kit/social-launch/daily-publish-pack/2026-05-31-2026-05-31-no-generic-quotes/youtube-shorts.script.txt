@@ -10,6 +10,6 @@ Short structure:
 2. Mostra: audit reale del cliente
 3. Chiudi: ogni cliente va trattato come unico
 
-Description: Meno messaggi generici. Più audit reale e proposta specifica. Approccio: Standard: ogni proposta deve parlare del cliente, non di noi
+Description: Meno messaggi generici. Più audit reale e proposta specifica. Approccio: Standard: ogni proposta deve parlare del cliente, non di noi https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth

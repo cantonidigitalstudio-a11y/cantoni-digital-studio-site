@@ -1,5 +1,6 @@
 Un sito che sembra ordinato da desktop può perdere richieste da mobile. Noi controlliamo leggibilità, percorso di contatto, form, WhatsApp e priorità delle informazioni.
 
 Approccio: QA: layout, testi, pulsanti, WhatsApp, form e velocità percepita su telefono
+Audit e contatto: https://cantonidigitalstudio.com/preventivo
 
 Per una proposta seria: audit reale, perimetro scritto del lavoro e prossimo passo chiaro.

@@ -40,6 +40,10 @@ function clean(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+function trimTrailingWhitespace(value) {
+  return String(value || '').replace(/[ \t]+$/gm, '');
+}
+
 function wrapText(value, maxChars = 22, maxLines = 4) {
   const words = clean(value).split(' ').filter(Boolean);
   const lines = [];
@@ -93,7 +97,7 @@ async function imageSize(filePath) {
 
 async function writeSvgSlide(svg, targetPng) {
   const targetSvg = targetPng.replace(/\.png$/, '.svg');
-  await fs.writeFile(targetSvg, svg, 'utf8');
+  await fs.writeFile(targetSvg, trimTrailingWhitespace(svg), 'utf8');
   await execFileAsync('sips', ['-s', 'format', 'png', targetSvg, '--out', targetPng], {
     maxBuffer: 1024 * 1024 * 4
   });
@@ -281,11 +285,18 @@ async function run() {
     const source = path.join(generatedAuditCarousel ? outDir : shortDir, file);
     const target = path.join(outDir, file);
     if (source !== target) await fs.copyFile(source, target);
+    const sourceSvg = source.replace(/\.png$/, '.svg');
+    const targetSvg = target.replace(/\.png$/, '.svg');
+    const hasSvgSource = await exists(sourceSvg);
+    if (hasSvgSource && sourceSvg !== targetSvg) {
+      await fs.writeFile(targetSvg, trimTrailingWhitespace(await fs.readFile(sourceSvg, 'utf8')), 'utf8');
+    }
     const size = await imageSize(target);
     if (size.width !== 1080 || size.height !== 1920) failures.push(`${file}_${size.width}x${size.height}`);
     copiedSlides.push({
       file,
       path: path.relative(projectDir, target),
+      ...(hasSvgSource ? { source_svg: path.relative(projectDir, targetSvg) } : {}),
       ...size
     });
   }
@@ -308,11 +319,11 @@ async function run() {
   };
 
   await fs.writeFile(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
-  await fs.writeFile(path.join(outDir, 'review.html'), reviewHtml({
+  await fs.writeFile(path.join(outDir, 'review.html'), trimTrailingWhitespace(reviewHtml({
     entryId,
     slides: copiedSlides.map((slide) => slide.file),
     caption
-  }), 'utf8');
+  })), 'utf8');
   await fs.writeFile(path.join(outDir, 'README.md'), [
     `# TikTok carousel - ${entryId}`,
     '',

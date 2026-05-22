@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "entry": "2026-05-22-2026-05-22-services-complete",
+  "type": "tiktok_image_carousel",
+  "output_dir": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel",
+  "slides": [
+    {
+      "file": "slide-01.png",
+      "path": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-01.png",
+      "source_svg": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-01.svg",
+      "width": 1080,
+      "height": 1920
+    },
+    {
+      "file": "slide-02.png",
+      "path": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-02.png",
+      "source_svg": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-02.svg",
+      "width": 1080,
+      "height": 1920
+    },
+    {
+      "file": "slide-03.png",
+      "path": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-03.png",
+      "source_svg": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-03.svg",
+      "width": 1080,
+      "height": 1920
+    },
+    {
+      "file": "slide-04.png",
+      "path": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-04.png",
+      "source_svg": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok-carousel/slide-04.svg",
+      "width": 1080,
+      "height": 1920
+    }
+  ],
+  "caption": "sales-kit/social-launch/daily-publish-pack/2026-05-22-2026-05-22-services-complete/tiktok.caption.txt",
+  "music": "choose_trending_sound_inside_tiktok_before_publish",
+  "status": "review_required_before_upload",
+  "failures": []
+}

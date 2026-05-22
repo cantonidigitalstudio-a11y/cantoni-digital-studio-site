@@ -10,6 +10,6 @@ Short structure:
 2. Spiega: cambiano sicurezza e responsabilità
 3. Chiudi: si progettano nel perimetro iniziale
 
-Description: Checkout, login e area cliente vanno progettati e testati prima del lancio. Link: Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente
+Description: Checkout, login e area cliente vanno progettati e testati prima del lancio. Perimetro: Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth
