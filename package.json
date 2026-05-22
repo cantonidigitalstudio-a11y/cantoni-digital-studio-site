@@ -42,7 +42,7 @@
     "test:lead-endpoint": "node scripts/verify_lead_capture_endpoint.cjs",
     "test:starter-queue": "npm run build:lead-batch && OUTREACH_QUEUE_FILE=sales-kit/generated/outreach-fixtures/sanitized-starter/outreach_queue.json node sales-kit/scripts/verify_cold_outreach_contract.mjs",
     "test:branded-outreach": "npm run build:branded-outreach && node sales-kit/scripts/verify_outreach_branding.mjs --allow-empty --html=sales-kit/generated/outreach-fixtures/sanitized-starter/branded/internal-review-branded.html --queue=sales-kit/generated/outreach-fixtures/sanitized-starter/branded/outreach_queue_branded.json",
-    "test:social": "npm run build:social && node sales-kit/scripts/verify_social_launch_assets.mjs && npm run test:social:daily && npm run test:social:video && npm run test:social:voice",
+    "test:social": "npm run build:social && node sales-kit/scripts/verify_social_launch_assets.mjs && npm run test:social:daily && npm run test:social:video && npm run test:social:carousel && npm run test:social:voice",
     "test:social:daily": "npm run build:social:daily && node sales-kit/scripts/verify_daily_social_calendar.mjs",
     "test:social:video": "node sales-kit/scripts/verify_portfolio_content_registry.mjs && npm run build:social:video",
     "test:social:short": "node sales-kit/scripts/verify_daily_short_video_asset.mjs",

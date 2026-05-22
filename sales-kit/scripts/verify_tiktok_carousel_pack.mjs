@@ -11,9 +11,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const projectDir = path.resolve(rootDir, '..');
 const packDir = path.join(rootDir, 'social-launch/daily-publish-pack');
-const entryId = process.env.SOCIAL_CAROUSEL_ENTRY || process.env.SOCIAL_SHORT_ENTRY || '2026-05-21-2026-05-21-audit-before-price';
-const outDir = path.join(packDir, entryId, 'tiktok-carousel');
-const manifestFile = path.join(outDir, 'manifest.json');
+const requestedEntry = process.env.SOCIAL_CAROUSEL_ENTRY || process.env.SOCIAL_SHORT_ENTRY || '';
 
 function fail(message) {
   console.error(message);
@@ -39,7 +37,39 @@ async function imageSize(filePath) {
   };
 }
 
+function romeDateIso() {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Rome',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
+}
+
+async function resolveEntryId() {
+  if (requestedEntry) return requestedEntry;
+
+  const entries = await fs.readdir(packDir, { withFileTypes: true });
+  const carouselEntries = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const manifestPath = path.join(packDir, entry.name, 'tiktok-carousel', 'manifest.json');
+    if (await exists(manifestPath)) carouselEntries.push(entry.name);
+  }
+
+  const today = romeDateIso();
+  const todayEntries = carouselEntries.filter((entry) => entry.startsWith(today));
+  if (todayEntries.length) return todayEntries.sort().at(-1);
+  if (carouselEntries.length) return carouselEntries.sort().at(-1);
+
+  fail(`No TikTok carousel manifests found in ${packDir}`);
+}
+
 async function run() {
+  const entryId = await resolveEntryId();
+  const outDir = path.join(packDir, entryId, 'tiktok-carousel');
+  const manifestFile = path.join(outDir, 'manifest.json');
+
   if (!(await exists(manifestFile))) fail(`Missing carousel manifest: ${manifestFile}`);
 
   const manifest = JSON.parse(await fs.readFile(manifestFile, 'utf8'));
