@@ -464,7 +464,7 @@ async function run() {
     },
     {
       kicker: 'PROSSIMO PASSO',
-      title: 'Prima testiamo il percorso, poi decidiamo cosa rifare',
+      title: 'Testiamo il percorso prima di rifare',
       body: `Partenza: ${publicReference}`,
       footer: 'Cantoni Digital Studio',
       variant: 'light',
