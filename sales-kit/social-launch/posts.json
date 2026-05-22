@@ -58,5 +58,15 @@
     "body": "Un negozio online deve chiarire cosa si compra, come si paga, quando arriva, come si gestiscono dubbi e resi, e chi aggiorna catalogo e ordini.",
     "caption_it": "Un e-commerce fatto bene non e solo catalogo. Servono pagamenti, spedizioni, resi, fiducia, schede chiare, mobile veloce e gestione semplice: senza perimetro scritto, il negozio rischia di essere online ma non operativo.",
     "cta": "Definisci scope"
+  },
+  {
+    "id": "07-mobile-first",
+    "type": "method",
+    "title": "Mobile prima di tutto",
+    "subtitle": "Testi, pulsanti, WhatsApp, form e velocita percepita",
+    "proof": "QA: primo impatto da telefono, contatto visibile e percorso senza attrito",
+    "body": "La maggior parte delle prime visite arriva da telefono: se il cliente non capisce subito cosa fai, come contattarti e perche fidarsi, il sito sta gia perdendo richieste.",
+    "caption_it": "Il mobile non e una versione secondaria del sito. Spesso e il primo contatto: testi leggibili, pulsanti chiari, WhatsApp visibile, form corto e velocita percepita cambiano quante persone arrivano davvero a chiedere informazioni.",
+    "cta": "Controlla mobile"
   }
 ]

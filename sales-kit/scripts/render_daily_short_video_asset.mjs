@@ -324,6 +324,7 @@ async function run() {
   const isDestinationCocoa = entryId.includes('destination-cocoa');
   const isEc8Platform = entryId.includes('ec8-platform');
   const isEcommercePost = entryId.includes('ecommerce');
+  const isMobileFirstPost = entryId.includes('mobile-first');
   const isServicesPost = entryId.includes('services') || entryId.includes('servizi') || entryId.includes('ecommerce') || entryId.includes('mobile-first') || entryId.includes('payments-login') || entryId.includes('dashboard-admin') || entryId.includes('automation-ai');
   const isMethodPost = entryId.includes('audit') || entryId.includes('perimetro') || entryId.includes('quote') || entryId.includes('quality') || entryId.includes('lead-quality');
   const publicReference = isExcellentia
@@ -341,11 +342,13 @@ async function run() {
         ? 'EC8 Platform: sito, app e sistema verificabile.'
         : isEcommercePost
           ? 'E-commerce: catalogo, checkout, spedizioni, resi e gestione.'
-        : isServicesPost
-          ? 'Siti, e-commerce, web app, app e crescita digitale.'
-          : isMethodPost
-            ? 'Metodo Cantoni: audit reale e perimetro scritto.'
-            : 'Cantoni Digital Studio: lavoro verificabile e perimetro chiaro.';
+          : isMobileFirstPost
+            ? 'Mobile-first: testi, pulsanti, WhatsApp, form e velocita percepita.'
+            : isServicesPost
+              ? 'Siti, e-commerce, web app, app e crescita digitale.'
+              : isMethodPost
+                ? 'Metodo Cantoni: audit reale e perimetro scritto.'
+                : 'Cantoni Digital Studio: lavoro verificabile e perimetro chiaro.';
   const firstKicker = isExcellentia || isDestinationCocoa
     ? 'PORTFOLIO REALE'
     : isServicesPost
@@ -429,6 +432,39 @@ async function run() {
     {
       kicker: 'PROSSIMO PASSO',
       title: 'Prima audit, poi preventivo sostenibile',
+      body: `Partenza: ${publicReference}`,
+      footer: 'Cantoni Digital Studio',
+      variant: 'light',
+      duration: 3.4
+    }
+  ] : isMobileFirstPost ? [
+    {
+      kicker: 'MOBILE-FIRST',
+      title: parsed.hook,
+      body: '',
+      footer: footerReference,
+      variant: 'dark',
+      duration: 2.8
+    },
+    {
+      kicker: 'PRIMO IMPATTO',
+      title: 'Il cliente deve capire subito dove andare',
+      body: 'Testi leggibili, pulsanti chiari e WhatsApp visibile contano piu di effetti inutili.',
+      footer: 'Da telefono il percorso deve essere immediato.',
+      variant: 'light',
+      duration: 3.2
+    },
+    {
+      kicker: 'QA REALE',
+      title: 'Non basta ridurre il sito desktop',
+      body: 'Controlliamo layout, form, contatto, velocita percepita e priorita delle informazioni.',
+      footer: 'Il mobile va progettato, non sistemato alla fine.',
+      variant: 'dark',
+      duration: 3.2
+    },
+    {
+      kicker: 'PROSSIMO PASSO',
+      title: 'Prima testiamo il percorso, poi decidiamo cosa rifare',
       body: `Partenza: ${publicReference}`,
       footer: 'Cantoni Digital Studio',
       variant: 'light',
