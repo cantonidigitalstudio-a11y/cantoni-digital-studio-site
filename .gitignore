@@ -43,3 +43,9 @@ sales-kit/business-cards/*.pdf
 sales-kit/business-cards/*.png
 sales-kit/business-cards/preview-*/
 sales-kit/business-cards/support/*.png
+
+# Private outreach and lead pipeline data. The GitHub repo is public, so new
+# client/lead batches must not be committed unless they are explicitly sanitized.
+sales-kit/lead_pipeline.csv
+sales-kit/lead-batches/20*/
+!sales-kit/lead-batches/README.md

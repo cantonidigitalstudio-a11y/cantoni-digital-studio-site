@@ -176,3 +176,27 @@ Prossima decisione:
 1. review pipeline lead e batch storici;
 2. scegliere cosa committare come archivio commerciale privato;
 3. lasciare fuori dal deploy pubblico ogni file non necessario o sensibile.
+
+## Aggiornamento cascata 15:18 CEST - repo pubblico e lead
+
+Verifica GitHub:
+
+- repo: `cantonidigitalstudio-a11y/cantoni-digital-studio-site`;
+- visibilita: `PUBLIC`;
+- default branch: `codex/cantoni-production-grade-preview`.
+
+Conseguenza:
+
+- i nuovi batch lead reali non vanno committati nel repo pubblico;
+- `sales-kit/lead_pipeline.csv` contiene dati operativi e non deve entrare in
+  commit automatici;
+- i file gia tracciati nel repo vanno trattati come debito da audit/sanificare,
+  non come modello per aggiungere altri dati sensibili.
+
+Protezione applicata:
+
+- `.gitignore` blocca nuovi batch datati sotto `sales-kit/lead-batches/20*/`;
+- `.gitignore` blocca `sales-kit/lead_pipeline.csv` per prevenire re-add dopo
+  eventuale de-tracking futuro;
+- il README lead chiarisce che in Git devono stare solo esempi sanificati,
+  script, regole e documentazione.
