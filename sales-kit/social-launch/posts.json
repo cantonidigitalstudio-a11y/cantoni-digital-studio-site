@@ -48,5 +48,15 @@
     "body": "Progettiamo sistemi digitali per aziende: sito pubblico, e-commerce, area cliente, dashboard, app mobile e crescita continuativa.",
     "caption_it": "Cantoni Digital Studio realizza siti, e-commerce, web app, app mobile, pagamenti, login, dashboard, prenotazioni e automazioni AI. Prima capiamo il lavoro reale, poi scegliamo la soluzione giusta: una presenza pubblica, un negozio online, una piattaforma interna, un'app o un percorso di crescita continuativa.",
     "cta": "Richiedi audit"
+  },
+  {
+    "id": "06-ecommerce-perimetro",
+    "type": "services",
+    "title": "E-commerce con perimetro scritto",
+    "subtitle": "Catalogo, checkout, spedizioni, resi e gestione",
+    "proof": "Perimetro: prodotti, pagamenti, spedizioni, fiducia, resi, tracciamento e gestione",
+    "body": "Un negozio online deve chiarire cosa si compra, come si paga, quando arriva, come si gestiscono dubbi e resi, e chi aggiorna catalogo e ordini.",
+    "caption_it": "Un e-commerce fatto bene non e solo catalogo. Servono pagamenti, spedizioni, resi, fiducia, schede chiare, mobile veloce e gestione semplice: senza perimetro scritto, il negozio rischia di essere online ma non operativo.",
+    "cta": "Definisci scope"
   }
 ]

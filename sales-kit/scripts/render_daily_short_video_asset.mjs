@@ -323,6 +323,7 @@ async function run() {
   const isExcellentia = entryId.includes('excellentia');
   const isDestinationCocoa = entryId.includes('destination-cocoa');
   const isEc8Platform = entryId.includes('ec8-platform');
+  const isEcommercePost = entryId.includes('ecommerce');
   const isServicesPost = entryId.includes('services') || entryId.includes('servizi') || entryId.includes('ecommerce') || entryId.includes('mobile-first') || entryId.includes('payments-login') || entryId.includes('dashboard-admin') || entryId.includes('automation-ai');
   const isMethodPost = entryId.includes('audit') || entryId.includes('perimetro') || entryId.includes('quote') || entryId.includes('quality') || entryId.includes('lead-quality');
   const publicReference = isExcellentia
@@ -338,6 +339,8 @@ async function run() {
       ? 'Destination Cocoa: prenotazioni, servizi e percorso operativo.'
       : isEc8Platform
         ? 'EC8 Platform: sito, app e sistema verificabile.'
+        : isEcommercePost
+          ? 'E-commerce: catalogo, checkout, spedizioni, resi e gestione.'
         : isServicesPost
           ? 'Siti, e-commerce, web app, app e crescita digitale.'
           : isMethodPost
@@ -396,6 +399,39 @@ async function run() {
       body: `Riferimento: ${publicReference}`,
       footer: 'Siti, e-commerce, web app, app e automazioni AI.',
       layout: 'hero',
+      duration: 3.4
+    }
+  ] : isEcommercePost ? [
+    {
+      kicker: 'E-COMMERCE',
+      title: parsed.hook,
+      body: '',
+      footer: footerReference,
+      variant: 'dark',
+      duration: 2.8
+    },
+    {
+      kicker: 'CHECKOUT',
+      title: 'Pagare deve essere chiaro, veloce e credibile',
+      body: 'Prodotti, prezzo, spedizione, reso e pagamento devono stare nello stesso percorso.',
+      footer: 'Ogni dubbio non risolto riduce la probabilita di ordine.',
+      variant: 'light',
+      duration: 3.2
+    },
+    {
+      kicker: 'GESTIONE',
+      title: 'Non basta pubblicare prodotti',
+      body: 'Serve sapere chi aggiorna catalogo, ordini, tracciamenti, clienti e contenuti.',
+      footer: 'Il perimetro scritto evita sorprese dopo il lancio.',
+      variant: 'dark',
+      duration: 3.1
+    },
+    {
+      kicker: 'PROSSIMO PASSO',
+      title: 'Prima audit, poi preventivo sostenibile',
+      body: `Partenza: ${publicReference}`,
+      footer: 'Cantoni Digital Studio',
+      variant: 'light',
       duration: 3.4
     }
   ] : [

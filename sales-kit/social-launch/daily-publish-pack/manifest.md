@@ -49,7 +49,7 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale s
   - YouTube Shorts: `2026-05-22-2026-05-22-services-complete/youtube-shorts.script.txt`
   - YouTube Shorts caption: `2026-05-22-2026-05-22-services-complete/youtube-shorts.caption.txt`
   - Lingue: `2026-05-22-2026-05-22-services-complete/language-plan.md`
-- 2026-05-23: Un e-commerce non è solo catalogo
+- 2026-05-23: E-commerce con perimetro scritto
   - asset: `2026-05-23-2026-05-23-ecommerce-perimetro/2026-05-23-2026-05-23-ecommerce-perimetro.png`
   - Instagram: `2026-05-23-2026-05-23-ecommerce-perimetro/instagram.caption.txt`
   - Facebook: `2026-05-23-2026-05-23-ecommerce-perimetro/facebook.caption.txt`

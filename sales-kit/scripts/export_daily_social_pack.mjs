@@ -33,12 +33,20 @@ function localizeProof(value) {
 }
 
 function stripProofPrefix(value) {
-  return localizeProof(value).replace(/^Riferimento(?:\s+(?:pubblico|verificabile|operativo))?:\s*/i, '').trim();
+  return localizeProof(value)
+    .replace(/^(?:Riferimento(?:\s+(?:pubblico|verificabile|operativo))?|Perimetro|Approccio):\s*/i, '')
+    .trim();
 }
 
 function proofLine(label, value) {
   const proof = stripProofPrefix(value);
   return proof ? `${label}: ${proof}` : '';
+}
+
+function proofLabelFor(entry, fallback = 'Riferimento pubblico') {
+  if (entry.pillar === 'method') return 'Approccio';
+  if (entry.pillar === 'services' || entry.pillar === 'education') return 'Perimetro';
+  return fallback;
 }
 
 function contactLine(label = 'Audit e contatto') {
@@ -64,7 +72,7 @@ function indentBlock(value, spaces = 4) {
 }
 
 function textForInstagram(entry) {
-  const proofLabel = entry.pillar === 'method' ? 'Approccio' : entry.pillar === 'services' ? 'Perimetro' : 'Prova pubblica';
+  const proofLabel = proofLabelFor(entry, 'Prova pubblica');
   return [
     localizeProof(entry.instagram),
     '',
@@ -76,7 +84,7 @@ function textForInstagram(entry) {
 }
 
 function textForFacebook(entry) {
-  const proofLabel = entry.pillar === 'method' ? 'Approccio' : entry.pillar === 'services' ? 'Perimetro' : 'Riferimento pubblico';
+  const proofLabel = proofLabelFor(entry, 'Riferimento pubblico');
   return [
     localizeProof(entry.facebook),
     '',
@@ -158,7 +166,7 @@ function textForLanguagePlan(entry, rotation) {
 
 function textForYoutubeShort(entry, rotation) {
   const plan = languagePlanForEntry(entry, rotation);
-  const proofLabel = entry.pillar === 'method' ? 'Approccio' : entry.pillar === 'services' ? 'Perimetro' : 'Link';
+  const proofLabel = proofLabelFor(entry, 'Link');
   return [
     `Title: ${cleanText(entry.title)} | Cantoni Digital Studio`,
     '',
@@ -177,7 +185,7 @@ function textForYoutubeShort(entry, rotation) {
 }
 
 function textForYoutubeShortCaption(entry) {
-  const proofLabel = entry.pillar === 'method' ? 'Approccio' : entry.pillar === 'services' ? 'Perimetro' : 'Link';
+  const proofLabel = proofLabelFor(entry, 'Link');
   return [
     `${cleanText(entry.title)} | Cantoni Digital Studio`,
     '',

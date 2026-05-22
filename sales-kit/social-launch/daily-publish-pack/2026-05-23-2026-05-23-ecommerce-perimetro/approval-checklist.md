@@ -1,4 +1,4 @@
-# 2026-05-23 - Un e-commerce non è solo catalogo
+# 2026-05-23 - E-commerce con perimetro scritto
 
 - [ ] Immagine leggibile su telefono.
 - [ ] Caption coerente con la piattaforma.

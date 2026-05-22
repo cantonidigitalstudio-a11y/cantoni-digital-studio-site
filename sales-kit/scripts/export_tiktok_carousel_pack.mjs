@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -218,11 +219,15 @@ async function carouselSlides() {
 }
 
 function reviewHtml({ entryId, slides, caption }) {
-  const cards = slides.map((slide, index) => `
+  const cards = slides.map((slide, index) => {
+    const file = typeof slide === 'string' ? slide : slide.file;
+    const version = typeof slide === 'string' ? '' : `?v=${escapeHtml(slide.version || '')}`;
+    return `
     <article class="slide">
       <p>Slide ${index + 1}</p>
-      <img src="./${escapeHtml(slide)}" alt="TikTok carousel slide ${index + 1}">
-    </article>`).join('\n');
+      <img src="./${escapeHtml(file)}${version}" alt="TikTok carousel slide ${index + 1}">
+    </article>`;
+  }).join('\n');
   return `<!doctype html>
 <html lang="it">
 <head>
@@ -292,10 +297,12 @@ async function run() {
       await fs.writeFile(targetSvg, trimTrailingWhitespace(await fs.readFile(sourceSvg, 'utf8')), 'utf8');
     }
     const size = await imageSize(target);
+    const version = crypto.createHash('sha256').update(await fs.readFile(target)).digest('hex').slice(0, 12);
     if (size.width !== 1080 || size.height !== 1920) failures.push(`${file}_${size.width}x${size.height}`);
     copiedSlides.push({
       file,
       path: path.relative(projectDir, target),
+      version,
       ...(hasSvgSource ? { source_svg: path.relative(projectDir, targetSvg) } : {}),
       ...size
     });
@@ -321,7 +328,7 @@ async function run() {
   await fs.writeFile(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
   await fs.writeFile(path.join(outDir, 'review.html'), trimTrailingWhitespace(reviewHtml({
     entryId,
-    slides: copiedSlides.map((slide) => slide.file),
+    slides: copiedSlides,
     caption
   })), 'utf8');
   await fs.writeFile(path.join(outDir, 'README.md'), [

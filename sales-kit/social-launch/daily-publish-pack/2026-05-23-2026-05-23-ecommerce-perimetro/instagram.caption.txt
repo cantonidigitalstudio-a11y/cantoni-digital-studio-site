@@ -1,6 +1,6 @@
 Un e-commerce fatto bene non è solo mettere prodotti online. Serve fiducia, pagamenti, spedizioni, resi, schede chiare, mobile veloce e gestione semplice. Senza questi pezzi, il negozio rischia di sembrare aperto ma non vendere.
 
-Prova pubblica: Perimetro: prodotti, pagamenti, spedizioni, fiducia, resi, tracciamento e gestione
+Perimetro: prodotti, pagamenti, spedizioni, fiducia, resi, tracciamento e gestione
 Audit e contatto: https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI
