@@ -68,6 +68,7 @@ Tentativo Instagram:
 - account Instagram verificato: `cantonidigitalstudio`.
 - composer `Crea nuovo post` aperto nel Browser destro.
 - caricamento file non completato: il Browser non espone un metodo upload file per il campo nascosto Instagram; paste da clipboard non accettato dal composer; selettore file non ha agganciato il PNG.
+- diagnostica selettore file: il controllo macOS del file picker e bloccato da permessi Accessibilita (`osascript non ammette l'accesso di assistenza`).
 - stato: non pubblicato.
 
 Decisione operativa:
