@@ -11,12 +11,12 @@ Goal: verify whether the published public sites reflect the quality standard Can
 
 ## Executive Verdict
 
-Both published sites have a strong technical baseline: core pages return `200`, SEO essentials are present, no console errors were found in the audited pages, no horizontal mobile overflow was found, and the main contact / booking paths are reachable.
+Both published sites now have a strong technical baseline: core pages return `200`, SEO essentials are present, no console errors were found in the audited pages, no horizontal mobile overflow was found, the main contact / booking paths are reachable, and both public sites expose a discreet Cantoni Digital Studio attribution path.
 
-They are not fully closed as "Cantoni-standard proof" yet because the discreet Cantoni imprint is live on Mr Collins but not yet live on Excellentia VIP. The Excellentia imprint work exists locally, but deployment is not complete:
+They can be used as public Cantoni proof with normal commercial care:
 
 - Mr Collins Travel has the live Cantoni credit rendered in the footer.
-- Excellentia VIP has local imprint and branded-email work, but the repo has many pre-existing dirty changes, so it must be committed and deployed with a narrow allowlist.
+- Excellentia VIP now has the live Cantoni credit rendered in the footer after the controlled production deploy.
 
 ## Live Browser Audit
 
@@ -58,9 +58,11 @@ Result:
 - No mobile horizontal overflow observed.
 - No placeholder copy found.
 - Contact / booking paths present.
-- Cantoni imprint not live yet.
+- Cantoni imprint is live: `Digital infrastructure by Cantoni Digital Studio`, linked to `https://cantonidigitalstudio.com`.
 
-Note: one lazy-loaded fleet image was flagged during mobile automation, but direct asset verification returned `HTTP 200`. This is not currently treated as a broken asset, but it should be visually checked again after the next deploy.
+Production deploy verified: Netlify site `excellentiavip`, deploy `6a111bdd21ca26924390008a`, published to `https://excellentiavip.com`.
+
+Note: one lazy-loaded fleet image was flagged during an earlier mobile automation pass, but direct asset verification returned `HTTP 200`. This is not currently treated as a broken asset.
 
 ### Mr Collins Travel
 
@@ -86,7 +88,7 @@ Result:
 
 Mr Collins is currently stronger than Excellentia on global/AI discovery structure: multilingual SEO, hreflang coverage, sitemap structure and AI-search gates are more mature.
 
-Note: one partner logo was flagged during mobile automation, but direct asset verification returned `HTTP 200`. This is likely lazy loading during the automated pass, not a live missing asset.
+Note: two MP4 proof assets were reported as `net::ERR_ABORTED` during browser automation, but direct header checks returned `HTTP/2 200` with `content-type: video/mp4`. This is treated as browser media loading behavior, not a missing production asset.
 
 ## Local Gates Re-run
 
@@ -94,6 +96,7 @@ Excellentia VIP:
 
 - `npm run test:vip-cross-page`
 - `npm run test:vip-branded-manual-email`
+- `npm run test:vip-local-flow`
 - `npm run gate:vip-predeploy`
 
 Result: passed.
@@ -108,15 +111,15 @@ Result: passed.
 
 ## Critical Findings
 
-### P1 - Excellentia Cantoni imprint not live
+### P1 - Excellentia Cantoni imprint live
 
-Excellentia should show a discreet, professional "digital partner" or "website by Cantoni Digital Studio" signal in an appropriate footer or credits location. This gives prospects a path back to Cantoni without making the client site look polluted.
+Excellentia now shows a discreet, professional digital infrastructure credit in the public footer. This gives prospects a path back to Cantoni without making the client site look polluted.
 
 Current state:
 
 - Mr Collins: live footer credit verified in browser render.
-- Excellentia: local files include footer credit and branded-email attribution.
-- Excellentia published site: imprint not visible yet.
+- Excellentia: live footer credit verified in production render.
+- Excellentia production URL checked: `https://excellentiavip.com/excellentia-vip`.
 
 ### P2 - Mr Collins remote/auth issue resolved for current branch
 
@@ -131,36 +134,36 @@ fatal: repository 'https://github.com/mrcollinstravel-dr/destination-cocoa-site.
 
 Guardrail: always verify the active GitHub identity before pushing across Cantoni, Mr Collins and Excellentia repositories.
 
-### P1 - Excellentia repo requires controlled commit
+### P1 - Excellentia repo controlled deploy closed
 
-Excellentia has many existing dirty files unrelated to the Cantoni imprint. Do not run `git add .`.
+Excellentia had many existing dirty files unrelated to the Cantoni imprint, so the work was isolated in a clean temporary worktree and committed with an allowlist.
 
-Next commit must stage only the intended attribution / branded-email / QA files after a narrow diff review.
+Relevant branch and commits:
+
+- Branch: `codex/excellentia-cantoni-imprint`
+- `c6b00dd` - Add Cantoni footer credit to VIP pages
+- `a2158b6` - Force local mock auth in VIP preview
+- `23f3b5e` - Keep VIP local mocks isolated from live env
 
 ### P2 - Live proof strength differs by project
 
 Mr Collins is already strong as multilingual travel infrastructure proof.
 
-Excellentia is solid visually and operationally, but it should be strengthened as a public case study with:
+Excellentia is solid visually and operationally, and now has the live Cantoni imprint. It should still be strengthened as a public case study with:
 
 - clearer public proof page / case study,
-- visible Cantoni imprint,
 - branded email proof,
 - AI/search visibility language where truthful,
 - post-launch growth narrative.
 
 ## Next Actions
 
-1. Isolate Excellentia attribution/branded-email changes, commit only allowlisted files, run gates, deploy.
-2. Verify Excellentia live footer credit and branded email preview.
-3. Add a live-production credit check to Excellentia gates.
-4. Keep the Mr Collins live credit check inside the smoke gate.
-5. After deploys, update Cantoni portfolio/case studies so prospects can click from Cantoni to real public proof and back.
+1. Add a live-production credit check to Excellentia gates.
+2. Keep the Mr Collins live credit check inside the smoke gate.
+3. Improve Cantoni portfolio/case studies so prospects can click from Cantoni to real public proof and back.
+4. Add Excellentia branded-email proof to the public/private case-study package after final copy review.
+5. Keep future project imprint changes isolated per client repo and verify the active GitHub identity before every push.
 
 ## Decision
 
-Use Excellentia as commercial proof only with this wording until the imprint deploy is complete:
-
-> "Sono progetti reali su cui lavoriamo; stiamo completando anche la firma tecnica pubblica e la documentazione case study."
-
-Mr Collins can already be presented as public proof with the live Cantoni credit. After the Excellentia imprint and case-study deploy are live, both can be presented as clean public proof without caveats.
+Mr Collins and Excellentia can now both be presented as public proof with live Cantoni attribution. Use truthful wording: Cantoni Digital Studio contributed digital infrastructure / site systems / booking and commercial flow, without overstating ownership of the client's full business operations.
