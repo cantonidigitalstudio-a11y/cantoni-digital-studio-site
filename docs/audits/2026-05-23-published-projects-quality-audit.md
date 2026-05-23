@@ -141,6 +141,7 @@ Excellentia had many existing dirty files unrelated to the Cantoni imprint, so t
 Relevant branch and commits:
 
 - Branch: `codex/excellentia-cantoni-imprint`
+- PR: `https://github.com/excellentia-vip/excellentia-vip-site/pull/2`
 - `c6b00dd` - Add Cantoni footer credit to VIP pages
 - `a2158b6` - Force local mock auth in VIP preview
 - `23f3b5e` - Keep VIP local mocks isolated from live env
