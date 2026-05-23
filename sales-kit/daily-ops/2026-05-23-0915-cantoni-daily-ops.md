@@ -5,7 +5,7 @@
 - Account Gmail controllato nel Browser destro: `cantonidigitalstudio@gmail.com`.
 - Verifica visiva: titolo Gmail `Posta in arrivo (100) - cantonidigitalstudio@gmail.com - Gmail` e account Google attivo `Emanuele Cantoni (cantonidigitalstudio@gmail.com)`.
 - Nessuna email inviata.
-- Nessun post pubblicato.
+- Nessun post pubblicato al momento del primo controllo.
 - Nessun pagamento eseguito.
 - Nessun deploy eseguito.
 
@@ -75,6 +75,16 @@ Decisione operativa:
 
 - Il contenuto e valido.
 - Per pubblicarlo serve usare un canale di upload effettivamente funzionante: selettore file manuale nel Browser destro, app mobile, Meta Business Suite con upload disponibile, o automazione dedicata con supporto file upload.
+
+Aggiornamento 2026-05-23 03:04 CEST:
+
+- Pubblicazione Instagram approvata esplicitamente dall'utente dopo review nel Browser destro.
+- File caricato tramite selettore macOS aperto dal composer Instagram.
+- Account verificato: `@cantonidigitalstudio`.
+- Stato Instagram: pubblicato e verificato sul profilo.
+- URL pubblico: `https://www.instagram.com/cantonidigitalstudio/p/DYqXZC0Agwv/`.
+- Verifica visiva: profilo Instagram aggiornato a `5 post`; primo post aperto con URL `/cantonidigitalstudio/p/DYqXZC0Agwv/`.
+- Facebook, TikTok e YouTube Shorts non pubblicati in questo passaggio.
 
 ## Verifiche eseguite
 
