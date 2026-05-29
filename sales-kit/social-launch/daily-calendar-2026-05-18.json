@@ -26,13 +26,13 @@
       }
     },
     {
-      "id": "2026-05-19-destination-cocoa",
+      "id": "2026-05-19-mr-collins-travel",
       "date": "2026-05-19",
       "pillar": "portfolio",
-      "title": "Destination Cocoa: prenotazioni turistiche",
-      "proof": "Riferimento pubblico: https://destination-cocoa-site.netlify.app",
-      "asset_id": "02-destination-cocoa",
-      "instagram": "Destination Cocoa è un riferimento pubblico su turismo, transfer, servizi extra e percorso operativo. Quando un cliente deve scegliere data, servizio e dettagli, il sito deve aiutare anche il team: meno messaggi confusi, più richieste complete.",
+      "title": "Mr Collins Travel: prenotazioni turistiche",
+      "proof": "Riferimento pubblico: https://mrcollinstravel.com",
+      "asset_id": "02-mr-collins-travel",
+      "instagram": "Mr Collins Travel è un riferimento pubblico su turismo, transfer, servizi extra e percorso operativo. Quando un cliente deve scegliere data, servizio e dettagli, il sito deve aiutare anche il team: meno messaggi confusi, più richieste complete.",
       "facebook": "Un sito turistico serio non è solo vetrina. Deve ordinare servizi, transfer, upsell e informazioni operative in un percorso semplice per cliente e team.",
       "tiktok": {
         "hook": "Il sito turistico giusto fa risparmiare tempo anche al team.",
@@ -41,7 +41,7 @@
           "Spiega: richieste più chiare riducono messaggi inutili",
           "Chiudi: il sito deve aiutare vendita e operatività"
         ],
-        "caption": "Destination Cocoa: prenotazioni turistiche, servizi extra e percorso operativo."
+        "caption": "Mr Collins Travel: prenotazioni turistiche, servizi extra e percorso operativo."
       }
     },
     {
@@ -211,18 +211,18 @@
       "date": "2026-05-28",
       "pillar": "services",
       "title": "Pagamenti e login vanno progettati",
-      "proof": "Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente",
+      "proof": "Percorso cliente: acquisto, accesso, area riservata e assistenza devono essere pensati prima dello sviluppo",
       "asset_id": "05-servizi-completi",
-      "instagram": "Pagamenti, rate, login e area cliente cambiano completamente il tipo di progetto. Non sono dettagli da aggiungere alla fine: vanno messi nel perimetro iniziale, testati e spiegati al cliente prima di partire.",
-      "facebook": "Se un progetto include pagamenti o login, serve più rigore: sicurezza, UX, privacy, test e descrizione chiara di cosa compra l'utente.",
+      "instagram": "Quando un sito deve far pagare, far accedere i clienti o mostrare un'area riservata, il progetto cambia livello. Non basta aggiungere un bottone alla fine: bisogna definire cosa compra l'utente, come entra, cosa vede dopo il pagamento e come viene assistito.",
+      "facebook": "Pagamenti, login e area cliente non sono dettagli tecnici: sono parte del percorso commerciale. Se sono progettati bene, il cliente capisce cosa compra e l'azienda lavora con meno caos.",
       "tiktok": {
-        "hook": "Pagamenti e login non sono bottoni qualunque.",
+        "hook": "Pagamenti e login non si aggiungono alla fine.",
         "scenes": [
-          "Mostra: checkout, login, area cliente",
-          "Spiega: cambiano sicurezza e responsabilità",
-          "Chiudi: si progettano nel perimetro iniziale"
+          "Mostra: cosa compra il cliente",
+          "Spiega: come accede dopo il pagamento",
+          "Chiudi: tutto va scritto prima di sviluppare"
         ],
-        "caption": "Checkout, login e area cliente vanno progettati e testati prima del lancio."
+        "caption": "Se vendi online, il percorso dopo il pagamento è importante quanto il sito."
       }
     },
     {
@@ -231,7 +231,7 @@
       "pillar": "services",
       "title": "Quando serve una dashboard",
       "proof": "Web app: dati, richieste, clienti, ordini, prenotazioni e gestione interna",
-      "asset_id": "05-servizi-completi",
+      "asset_id": "08-dashboard-admin",
       "instagram": "Una dashboard serve quando il progetto non deve solo presentare informazioni, ma gestire lavoro: richieste, ordini, clienti, appuntamenti, prenotazioni o contenuti. In quel caso non stai comprando solo un sito: stai costruendo uno strumento operativo.",
       "facebook": "La differenza tra sito e web app spesso è questa: il sito comunica, la web app gestisce. La scelta va fatta guardando il lavoro reale dell'azienda.",
       "tiktok": {
@@ -515,7 +515,7 @@
       "date": "2026-06-13",
       "pillar": "portfolio",
       "title": "Il portfolio deve essere verificabile",
-      "proof": "Riferimento: Excellentia VIP, Destination Cocoa/Mr Collins, EC8 Platform, Coconut Armor e case studies pubblici",
+      "proof": "Riferimento: Excellentia VIP, Mr Collins Travel, EC8 Platform, Coconut Armor e case studies pubblici",
       "asset_id": "03-ec8-platform",
       "instagram": "Il portfolio non deve essere una lista di nomi. Excellentia VIP, Mr Collins, EC8 Platform e Coconut Armor mostrano pezzi diversi: prenotazioni, app, piattaforme, brand, e-commerce e crescita. Ogni progetto deve provare una capacita concreta.",
       "facebook": "I riferimenti servono quando rispondono a una domanda: posso fidarmi di questo studio per un progetto reale? Per questo distinguiamo clienti, progetti nostri, app pubbliche e materiali da revisionare.",

@@ -24,6 +24,15 @@ const ffprobeBin = process.env.FFPROBE_BIN || '/opt/homebrew/bin/ffprobe';
 
 const CLIENT_CASES = [
   {
+    match: 'mr-collins-travel',
+    name: 'Mr Collins Travel',
+    label: 'CLIENTE',
+    proof: 'mrcollinstravel.com',
+    accent: '#f0a23b',
+    logoPath: path.resolve(projectDir, '../mr-collins-travel/site/assets/brand/mr-collins-logo-preview.png'),
+    chips: ['Prenotazioni', 'Transfer', 'Mobile', 'Operativita']
+  },
+  {
     match: 'ec8-platform',
     name: 'EC8 Platform',
     label: 'CLIENTE / PROGETTO',
@@ -321,7 +330,7 @@ async function run() {
   ]);
   const parsed = parseTikTokScript(tikTokScript);
   const isExcellentia = entryId.includes('excellentia');
-  const isDestinationCocoa = entryId.includes('destination-cocoa');
+  const isMrCollins = entryId.includes('mr-collins-travel');
   const isEc8Platform = entryId.includes('ec8-platform');
   const isEcommercePost = entryId.includes('ecommerce');
   const isMobileFirstPost = entryId.includes('mobile-first');
@@ -329,15 +338,15 @@ async function run() {
   const isMethodPost = entryId.includes('audit') || entryId.includes('perimetro') || entryId.includes('quote') || entryId.includes('quality') || entryId.includes('lead-quality');
   const publicReference = isExcellentia
     ? 'excellentiavip.com'
-    : isDestinationCocoa
-      ? 'destination-cocoa-site.netlify.app'
+    : isMrCollins
+      ? 'mrcollinstravel.com'
       : isEc8Platform
         ? 'ec8platform.com'
         : 'cantonidigitalstudio.com';
   const footerReference = isExcellentia
     ? 'Excellentia VIP: prova pubblica, non grafica generica.'
-    : isDestinationCocoa
-      ? 'Destination Cocoa: prenotazioni, servizi e percorso operativo.'
+    : isMrCollins
+      ? 'Mr Collins Travel: prenotazioni, servizi e percorso operativo.'
       : isEc8Platform
         ? 'EC8 Platform: sito, app e sistema verificabile.'
         : isEcommercePost
@@ -349,7 +358,7 @@ async function run() {
               : isMethodPost
                 ? 'Metodo Cantoni: audit reale e perimetro scritto.'
                 : 'Cantoni Digital Studio: lavoro verificabile e perimetro chiaro.';
-  const firstKicker = isExcellentia || isDestinationCocoa
+  const firstKicker = isExcellentia || isMrCollins
     ? 'PORTFOLIO REALE'
     : isServicesPost
       ? 'SERVIZI CANTONI'

@@ -26,7 +26,7 @@ Aggiornato: 2026-05-20.
 ### Instagram
 
 - Profilo operativo: `https://www.instagram.com/cantonidigitalstudio/`
-- Stato noto: Excellentia VIP risulta gia pubblicato; Destination Cocoa era approvato ma l'upload file nel composer Instagram era stato il blocco operativo.
+- Stato noto: Excellentia VIP risulta gia pubblicato; il vecchio contenuto turistico non va pubblicato come proof Cantoni. Usare Mr Collins Travel come riferimento pubblico quando serve questo caso.
 - Prima di pubblicare nuovi post: controllare visuale reale, logo cliente, testo, crop, caption, link e coerenza lingua.
 
 ### YouTube
@@ -59,7 +59,7 @@ Aggiornato: 2026-05-20.
 
 - Il calendario social e i pack arrivano fino a giugno in `sales-kit/social-launch/daily-publish-pack/`.
 - Ogni post va rivisto manualmente prima della pubblicazione: niente pubblicazione automatica cieca.
-- Prossimi temi prioritari: EC8 Platform, Mr Collins, Excellentia VIP, Coconut Armor, Destination Cocoa, case study reali Cantoni.
+- Prossimi temi prioritari: EC8 Platform, Mr Collins Travel, Excellentia VIP, Coconut Armor e case study reali Cantoni.
 
 ## Regole qualita pubblicazione
 

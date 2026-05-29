@@ -48,7 +48,7 @@
 
 Recommended order:
 1. Excellentia VIP portfolio proof.
-2. Destination Cocoa / Mr Collins booking flow.
+2. Mr Collins Travel booking flow.
 3. EC8 Platform positioning.
 4. Method: preventivi dopo audit.
 5. Service range: siti, e-commerce, app, automazioni AI.

@@ -46,7 +46,7 @@ Stabilizzare il controllo operativo via dispositivi e tenere la cascata commerci
 - Gate branding aggiornato al nuovo standard pubblico: Instagram, Facebook, TikTok, WhatsApp, sito, portfolio e prova app EC8 restano riferimenti obbligatori; rimosso il vecchio requisito `TikTok configurato` con avviso browser.
 - Worker Gmail irrigidito in dry-run: anche con `SEND_ENABLED=false` costruisce l'HTML, carica il logo inline e applica i guardrail branding/anti-prezzi/reply-to, cosi un dry-run verde corrisponde davvero a invio processabile.
 - Script invio day-1 protetto: `SEND_ENABLED=true` ora richiede anche `OUTREACH_APPROVAL_TOKEN=APPROVED_REAL_SEND`; senza token lo script esce prima di contattare il worker.
-- Registro portfolio/video aggiunto: Excellentia VIP, Mr Collins/Destination Cocoa, EC8 Platform, Coconut Armor, Etsy operations e Cantoni Digital Studio.
+- Registro portfolio/video aggiunto: Excellentia VIP, Mr Collins Travel, EC8 Platform, Coconut Armor, Etsy operations e Cantoni Digital Studio.
 - Video storyboard pack creato per produrre Reel/TikTok/Shorts con proof reali, screen recording/screenshot e guardrail anti-AI generico.
 - Voiceover protocol aggiunto: cartelle private ignorate da git, review candidati WhatsApp solo inviati da Emanuele, selezione manuale 10-15 clip solo voce Emanuele e nessun dato privato.
 - Discovery voice reference eseguita con filtro `sent_by_me`: 122 media inviati visti nel database WhatsApp, 88 audio inviati risolti localmente, 85 candidati per durata, 40 staged in review privata.

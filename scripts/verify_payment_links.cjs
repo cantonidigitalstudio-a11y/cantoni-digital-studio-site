@@ -7,7 +7,7 @@ const ROOT_DIR = path.resolve(process.env.SITE_ROOT || path.join(__dirname, '..'
 const PAYMENT_LINK_PATTERN = /<a\b[^>]*href=["'](https:\/\/buy\.stripe\.com\/[^"']+)["'][^>]*>/gi;
 const EXPECTED_AMOUNT_TEXT = '€250.00';
 const EXPECTED_MERCHANT_NAME = process.env.EXPECTED_MERCHANT_NAME || 'Cantoni Digital Studio';
-const FORBIDDEN_CHECKOUT_TEXT = (process.env.FORBIDDEN_CHECKOUT_TEXT || 'coaching,Mr Collins,Excellentia,Destination Cocoa')
+const FORBIDDEN_CHECKOUT_TEXT = (process.env.FORBIDDEN_CHECKOUT_TEXT || 'coaching,Mr Collins,Excellentia')
   .split(',')
   .map((value) => value.trim())
   .filter(Boolean);

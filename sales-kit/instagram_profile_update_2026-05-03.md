@@ -20,7 +20,7 @@ Link: https://cantonidigitalstudio.com
 - Preventivo: https://cantonidigitalstudio.com/preventivo.html
 - Case studies: https://cantonidigitalstudio.com/case-studies.html
 - Excellentia VIP: https://excellentiavip.com
-- Destination Cocoa / Mr Collins: https://destination-cocoa-site.netlify.app
+- Mr Collins Travel: https://mrcollinstravel.com
 - EC8 Platform: https://ec8platform.com
 
 ## Highlight consigliati
@@ -35,8 +35,8 @@ Link: https://cantonidigitalstudio.com
 1. Post portfolio: Excellentia VIP
    Caption: "Excellentia VIP e un progetto live di luxury transport e concierge: sito, pacchetti, flotta, booking e struttura operativa pubblica."
 
-2. Post portfolio: Destination Cocoa by Collins
-   Caption: "Destination Cocoa by Collins mostra un flusso pubblico di booking, transfer, upsell e routing operativo per un servizio turistico reale."
+2. Post portfolio: Mr Collins Travel
+   Caption: "Mr Collins Travel mostra un percorso pubblico di prenotazioni turistiche, transfer, servizi extra e routing operativo per un servizio reale."
 
 3. Post portfolio: EC8 Platform
    Caption: "EC8 Platform e una reference pubblica su coaching, education, posizionamento e architettura digitale pronta per sistemi di pagamento."

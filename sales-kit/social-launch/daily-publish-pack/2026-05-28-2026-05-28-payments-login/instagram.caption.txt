@@ -1,6 +1,6 @@
-Pagamenti, rate, login e area cliente cambiano completamente il tipo di progetto. Non sono dettagli da aggiungere alla fine: vanno messi nel perimetro iniziale, testati e spiegati al cliente prima di partire.
+Quando un sito deve far pagare, far accedere i clienti o mostrare un'area riservata, il progetto cambia livello. Non basta aggiungere un bottone alla fine: bisogna definire cosa compra l'utente, come entra, cosa vede dopo il pagamento e come viene assistito.
 
-Perimetro: Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente
+Perimetro: Percorso cliente: acquisto, accesso, area riservata e assistenza devono essere pensati prima dello sviluppo
 Audit e contatto: https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

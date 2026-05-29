@@ -5,7 +5,7 @@
 Published projects audited for Cantoni Digital Studio quality:
 
 - Excellentia VIP: `https://excellentiavip.com`
-- Mr Collins Travel / Destination Cocoa: `https://mrcollinstravel.com`
+- Mr Collins Travel: `https://mrcollinstravel.com`
 
 Goal: verify whether the published public sites reflect the quality standard Cantoni Digital Studio wants to show to prospects, and identify what must be closed before using them as public proof without caveats.
 
@@ -129,7 +129,7 @@ Earlier blocker:
 
 ```text
 remote: Repository not found.
-fatal: repository 'https://github.com/mrcollinstravel-dr/destination-cocoa-site.git/' not found
+fatal: repository '[wrong legacy Mr Collins remote]' not found
 ```
 
 Guardrail: always verify the active GitHub identity before pushing across Cantoni, Mr Collins and Excellentia repositories.

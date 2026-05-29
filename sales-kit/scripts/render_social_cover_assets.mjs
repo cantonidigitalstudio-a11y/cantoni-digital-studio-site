@@ -246,14 +246,14 @@ async function run() {
   await fs.writeFile(coverHtmlFile, htmlFor(logoDataUri), 'utf8');
   await fs.writeFile(avatarHtmlFile, avatarHtmlFor(iconDataUri), 'utf8');
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
   try {
     const page = await browser.newPage({ viewport: { width: 1640, height: 624 }, deviceScaleFactor: 1 });
     await page.setContent(htmlFor(logoDataUri), { waitUntil: 'load' });
-    await page.screenshot({ path: coverPngFile, fullPage: false });
+    await page.screenshot({ path: coverPngFile, fullPage: false, animations: 'disabled', timeout: 60000 });
     await page.setViewportSize({ width: 1080, height: 1080 });
     await page.setContent(avatarHtmlFor(iconDataUri), { waitUntil: 'load' });
-    await page.screenshot({ path: avatarPngFile, fullPage: false });
+    await page.screenshot({ path: avatarPngFile, fullPage: false, animations: 'disabled', timeout: 60000 });
   } finally {
     await browser.close();
   }

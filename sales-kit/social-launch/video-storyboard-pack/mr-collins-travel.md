@@ -1,7 +1,7 @@
-# Mr Collins / Destination Cocoa - Video storyboard
+# Mr Collins Travel - Video storyboard
 
 Status: ready_after_visual_review
-Reference: https://destination-cocoa-site.netlify.app
+Reference: https://mrcollinstravel.com
 Format: reservation path walkthrough
 
 ## Perche pubblicarlo
@@ -32,17 +32,16 @@ Testo su schermo:
 
 Voiceover breve:
 
-"Questo e Mr Collins / Destination Cocoa. Lo usiamo come prova per spiegare un punto: prenotazioni turistiche, transfer, servizi extra, percorso operativo e riduzione messaggi confusi. Un progetto digitale non deve solo esistere online. Deve rendere piu chiaro cosa vendi, aumentare fiducia e aiutare le persone a fare il passo giusto."
+"Questo e Mr Collins Travel. Lo usiamo come prova per spiegare un punto: prenotazioni turistiche, transfer, servizi extra, percorso operativo e riduzione messaggi confusi. Un progetto digitale non deve solo esistere online. Deve rendere piu chiaro cosa vendi, aumentare fiducia e aiutare le persone a fare il passo giusto."
 
 Caption:
 
-"Mr Collins / Destination Cocoa: prenotazioni turistiche, transfer, servizi extra, percorso operativo e riduzione messaggi confusi. Cantoni Digital Studio lavora su siti, e-commerce, web app, app, automazioni AI e crescita digitale con audit reale prima della proposta."
+"Mr Collins Travel: prenotazioni turistiche, transfer, servizi extra, percorso operativo e riduzione messaggi confusi. Cantoni Digital Studio lavora su siti, e-commerce, web app, app, automazioni AI e crescita digitale con audit reale prima della proposta."
 
 ## Asset sicuri
 
-- ../mr-collins-travel/site/output/playwright/destination-cocoa-home.png
-- ../mr-collins-travel/site/output/playwright/destination-cocoa-booking.png
-- sales-kit/social-launch/output/02-destination-cocoa.png
+- ../mr-collins-travel/site/assets/brand/mr-collins-logo-preview.png
+- sales-kit/social-launch/output/02-mr-collins-travel.png
 - ../mr-collins-travel/review-assets/mr-collins-tiktok-local.png
 - ../mr-collins-travel/review-assets/mr-collins-tiktok-local-video-players.png
 

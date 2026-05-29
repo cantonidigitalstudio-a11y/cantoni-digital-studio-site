@@ -1,6 +1,3 @@
-var DEFAULT_OUTREACH_SHARED_SECRET = 'P3wcVS7_dyUspIoed2SzDTOxrbLEUi0s_MYqxyVLyiI';
-var DEFAULT_ADMIN_SHARED_SECRET = 'P3wcVS7_dyUspIoed2SzDTOxrbLEUi0s_MYqxyVLyiI';
-
 function doGet(e) {
   var params = (e && e.parameter) ? e.parameter : {};
   var action = String(params.action || 'health').toLowerCase();
@@ -421,7 +418,7 @@ function ensureSheetHeaders_(sheet, headers) {
 
 function assertSecret_(candidate) {
   var props = PropertiesService.getScriptProperties();
-  var expected = String(props.getProperty('OUTREACH_SHARED_SECRET') || DEFAULT_OUTREACH_SHARED_SECRET || '').trim();
+  var expected = String(props.getProperty('OUTREACH_SHARED_SECRET') || '').trim();
 
   if (!expected) {
     throw new Error('OUTREACH_SHARED_SECRET not configured.');
@@ -434,7 +431,7 @@ function assertSecret_(candidate) {
 
 function assertAdminSecret_(candidate) {
   var props = PropertiesService.getScriptProperties();
-  var expected = String(props.getProperty('ADMIN_SHARED_SECRET') || props.getProperty('OUTREACH_SHARED_SECRET') || DEFAULT_ADMIN_SHARED_SECRET || '').trim();
+  var expected = String(props.getProperty('ADMIN_SHARED_SECRET') || props.getProperty('OUTREACH_SHARED_SECRET') || '').trim();
 
   if (!expected) {
     throw new Error('ADMIN_SHARED_SECRET not configured.');

@@ -20,17 +20,16 @@
       "video_format": "case study walkthrough"
     },
     {
-      "id": "mr-collins-destination-cocoa",
-      "name": "Mr Collins / Destination Cocoa",
+      "id": "mr-collins-travel",
+      "name": "Mr Collins Travel",
       "category": "client",
       "publish_status": "ready_after_visual_review",
-      "public_reference": "https://destination-cocoa-site.netlify.app",
+      "public_reference": "https://mrcollinstravel.com",
       "proof_angle": "prenotazioni turistiche, transfer, servizi extra, percorso operativo e riduzione messaggi confusi",
       "services_to_show": ["sito", "prenotazioni", "pagamenti", "mobile", "operativita"],
       "safe_assets": [
-        "../mr-collins-travel/site/output/playwright/destination-cocoa-home.png",
-        "../mr-collins-travel/site/output/playwright/destination-cocoa-booking.png",
-        "sales-kit/social-launch/output/02-destination-cocoa.png",
+        "../mr-collins-travel/site/assets/brand/mr-collins-logo-preview.png",
+        "sales-kit/social-launch/output/02-mr-collins-travel.png",
         "../mr-collins-travel/review-assets/mr-collins-tiktok-local.png",
         "../mr-collins-travel/review-assets/mr-collins-tiktok-local-video-players.png"
       ],

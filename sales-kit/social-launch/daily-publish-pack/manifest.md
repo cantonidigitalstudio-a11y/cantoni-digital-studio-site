@@ -13,15 +13,15 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale s
   - YouTube Shorts: `2026-05-18-2026-05-18-excellentia-vip/youtube-shorts.script.txt`
   - YouTube Shorts caption: `2026-05-18-2026-05-18-excellentia-vip/youtube-shorts.caption.txt`
   - Lingue: `2026-05-18-2026-05-18-excellentia-vip/language-plan.md`
-- 2026-05-19: Destination Cocoa: prenotazioni turistiche
-  - asset: `2026-05-19-2026-05-19-destination-cocoa/2026-05-19-2026-05-19-destination-cocoa.png`
-  - Instagram: `2026-05-19-2026-05-19-destination-cocoa/instagram.caption.txt`
-  - Facebook: `2026-05-19-2026-05-19-destination-cocoa/facebook.caption.txt`
-  - TikTok: `2026-05-19-2026-05-19-destination-cocoa/tiktok.script.txt`
-  - TikTok caption: `2026-05-19-2026-05-19-destination-cocoa/tiktok.caption.txt`
-  - YouTube Shorts: `2026-05-19-2026-05-19-destination-cocoa/youtube-shorts.script.txt`
-  - YouTube Shorts caption: `2026-05-19-2026-05-19-destination-cocoa/youtube-shorts.caption.txt`
-  - Lingue: `2026-05-19-2026-05-19-destination-cocoa/language-plan.md`
+- 2026-05-19: Mr Collins Travel: prenotazioni turistiche
+  - asset: `2026-05-19-2026-05-19-mr-collins-travel/2026-05-19-2026-05-19-mr-collins-travel.png`
+  - Instagram: `2026-05-19-2026-05-19-mr-collins-travel/instagram.caption.txt`
+  - Facebook: `2026-05-19-2026-05-19-mr-collins-travel/facebook.caption.txt`
+  - TikTok: `2026-05-19-2026-05-19-mr-collins-travel/tiktok.script.txt`
+  - TikTok caption: `2026-05-19-2026-05-19-mr-collins-travel/tiktok.caption.txt`
+  - YouTube Shorts: `2026-05-19-2026-05-19-mr-collins-travel/youtube-shorts.script.txt`
+  - YouTube Shorts caption: `2026-05-19-2026-05-19-mr-collins-travel/youtube-shorts.caption.txt`
+  - Lingue: `2026-05-19-2026-05-19-mr-collins-travel/language-plan.md`
 - 2026-05-20: EC8 Platform: piattaforma e app
   - asset: `2026-05-20-2026-05-20-ec8-platform/2026-05-20-2026-05-20-ec8-platform.png`
   - Instagram: `2026-05-20-2026-05-20-ec8-platform/instagram.caption.txt`

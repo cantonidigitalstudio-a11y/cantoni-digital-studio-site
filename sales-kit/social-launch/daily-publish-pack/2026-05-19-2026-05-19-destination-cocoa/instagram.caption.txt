@@ -1,6 +1,0 @@
-Destination Cocoa è un riferimento pubblico su turismo, transfer, servizi extra e percorso operativo. Quando un cliente deve scegliere data, servizio e dettagli, il sito deve aiutare anche il team: meno messaggi confusi, più richieste complete.
-
-Prova pubblica: https://destination-cocoa-site.netlify.app
-Audit e contatto: https://cantonidigitalstudio.com/preventivo
-
-#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI

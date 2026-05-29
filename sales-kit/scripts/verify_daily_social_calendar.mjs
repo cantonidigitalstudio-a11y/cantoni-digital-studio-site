@@ -33,7 +33,7 @@ const packForbiddenPatterns = [
 
 const requiredTopics = [
   ['portfolio', 'Excellentia VIP'],
-  ['portfolio', 'Destination Cocoa'],
+  ['portfolio', 'Mr Collins Travel'],
   ['portfolio', 'EC8 Platform'],
   ['services', 'e-commerce'],
   ['services', 'app'],

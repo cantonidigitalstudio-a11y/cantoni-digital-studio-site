@@ -1,4 +1,4 @@
-# 2026-05-19 - Destination Cocoa: prenotazioni turistiche
+# 2026-05-19 - Mr Collins Travel: prenotazioni turistiche
 
 - [ ] Immagine leggibile su telefono.
 - [ ] Caption coerente con la piattaforma.

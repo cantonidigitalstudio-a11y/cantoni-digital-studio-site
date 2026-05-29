@@ -70,7 +70,7 @@ Video migliori:
 - fiducia prima della richiesta;
 - AI visibility e contenuti post-lancio.
 
-### Mr Collins / Destination Cocoa
+### Mr Collins Travel
 
 Video migliori:
 

@@ -10,13 +10,13 @@
     "cta": "Apri case study"
   },
   {
-    "id": "02-destination-cocoa",
+    "id": "02-mr-collins-travel",
     "type": "portfolio",
-    "title": "Destination Cocoa",
+    "title": "Mr Collins Travel",
     "subtitle": "Prenotazioni turistiche, servizi extra e passaggi operativi",
-    "proof": "Verificabile: destination-cocoa-site.netlify.app",
+    "proof": "Verificabile: mrcollinstravel.com",
     "body": "Transfer, esperienze, servizi extra e recap operativo devono stare in un percorso più chiaro per cliente e team.",
-    "caption_it": "Destination Cocoa by Collins mostra un percorso pubblico per prenotazioni turistiche, transfer, servizi extra e passaggi operativi. Quando un servizio dipende da richieste pulite e passaggi interni chiari, il sito deve aiutare anche l'organizzazione, non solo fare bella figura. Riferimento verificabile: https://destination-cocoa-site.netlify.app",
+    "caption_it": "Mr Collins Travel mostra un percorso pubblico per prenotazioni turistiche, transfer, servizi extra e passaggi operativi. Quando un servizio dipende da richieste pulite e passaggi interni chiari, il sito deve aiutare anche l'organizzazione, non solo fare bella figura. Riferimento verificabile: https://mrcollinstravel.com",
     "cta": "Vedi percorso"
   },
   {
@@ -68,5 +68,15 @@
     "body": "La maggior parte delle prime visite arriva da telefono: se il cliente non capisce subito cosa fai, come contattarti e perche fidarsi, il sito sta gia perdendo richieste.",
     "caption_it": "Il mobile non e una versione secondaria del sito. Spesso e il primo contatto: testi leggibili, pulsanti chiari, WhatsApp visibile, form corto e velocita percepita cambiano quante persone arrivano davvero a chiedere informazioni.",
     "cta": "Controlla mobile"
+  },
+  {
+    "id": "08-dashboard-admin",
+    "type": "services",
+    "title": "Quando serve una dashboard",
+    "subtitle": "Clienti, ordini, prenotazioni e gestione interna",
+    "proof": "Web app: dati, richieste, clienti, ordini, prenotazioni e back office",
+    "body": "Una dashboard serve quando il digitale deve aiutare il team a lavorare: vedere richieste, aggiornare dati, gestire prenotazioni, ordini, clienti e contenuti.",
+    "caption_it": "Una dashboard serve quando il progetto non deve solo presentare informazioni, ma gestire lavoro: richieste, ordini, clienti, appuntamenti, prenotazioni o contenuti. In quel caso non stai comprando solo un sito: stai costruendo uno strumento operativo.",
+    "cta": "Valuta web app"
   }
 ]

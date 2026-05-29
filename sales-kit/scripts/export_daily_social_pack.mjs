@@ -270,6 +270,15 @@ async function run() {
   const calendar = JSON.parse(await fs.readFile(calendarFile, 'utf8'));
   const rotation = JSON.parse(await fs.readFile(languageFile, 'utf8'));
   await fs.mkdir(packDir, { recursive: true });
+  const expectedDayDirs = new Set((calendar.entries || []).map((entry) => `${entry.date}-${entry.id}`));
+  const existingItems = await fs.readdir(packDir, { withFileTypes: true });
+  for (const item of existingItems) {
+    if (!item.isDirectory()) continue;
+    if (!/^\d{4}-\d{2}-\d{2}-/.test(item.name)) continue;
+    if (!expectedDayDirs.has(item.name)) {
+      await fs.rm(path.join(packDir, item.name), { recursive: true, force: true });
+    }
+  }
 
   const manifest = [
     '# Cantoni Digital Studio - Daily Social Publish Pack',

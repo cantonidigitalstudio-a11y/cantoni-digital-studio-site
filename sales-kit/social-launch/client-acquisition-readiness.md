@@ -30,7 +30,7 @@ Partire con proposte internazionali solo quando il brand pubblico è coerente, i
 ## Primo batch contenuti
 
 1. Excellentia VIP: portfolio pubblico e percorso di prenotazione premium.
-2. Destination Cocoa / Mr Collins: prenotazioni turistiche e gestione delle richieste.
+2. Mr Collins Travel: prenotazioni turistiche e gestione delle richieste.
 3. EC8 Platform: reference su posizionamento e architettura digitale.
 4. Metodo preventivi: audit reale prima del prezzo.
 5. Servizi completi: siti, e-commerce, web app, app, pagamenti, login, dashboard, AI e crescita continuativa.

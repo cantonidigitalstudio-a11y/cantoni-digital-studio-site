@@ -519,51 +519,6 @@ async function testQuoteSubmitFallback(browser, baseUrl) {
   await context.close();
 }
 
-async function testDestinationCocoaFlow(browser, baseUrl) {
-  const context = await createContext(browser, baseUrl, { captureWindowOpen: true });
-  const page = await context.newPage();
-  const issues = [];
-  attachPageGuards(page, issues);
-
-  await page.goto('/destination-cocoa.html', { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('h1');
-
-  const landing = await page.evaluate(() => ({
-    title: document.title,
-    hero: document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : ''
-  }));
-
-  assert.match(landing.title, /Destination Cocoa/u, 'Destination Cocoa landing should expose the correct document title');
-  assert.match(landing.hero, /Airport arrivals, excursions and local bookings/u, 'Destination Cocoa landing should render the intended hero copy');
-
-  await page.goto('/destination-cocoa-booking.html?service=airport&route=bavaro&format=vipSuv&package=grand&extras=fastTrack,champagne', { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => {
-    const total = document.getElementById('summaryTotal');
-    return total && total.textContent.trim() !== '$0';
-  });
-
-  const booking = await page.evaluate(() => ({
-    service: document.getElementById('summaryService').textContent.trim(),
-    route: document.getElementById('summaryRoute').textContent.trim(),
-    total: document.getElementById('summaryTotal').textContent.trim(),
-    deposit: document.getElementById('summaryDeposit').textContent.trim(),
-    mode: document.getElementById('summaryMode').textContent.trim(),
-    payDisabled: document.getElementById('payDepositBtn').disabled,
-    note: document.getElementById('actionNote').textContent.trim()
-  }));
-
-  assert.equal(booking.service, 'Airport transfer', 'Booking summary should preselect the airport transfer service');
-  assert.match(booking.route, /Bavaro/u, 'Booking summary should preselect the Bavaro route');
-  assert.equal(booking.total, '$414', 'Booking total should include route, format, package and selected extras');
-  assert.equal(booking.deposit, '$124', 'Booking deposit should reflect the configured 30 percent rule');
-  assert.equal(booking.mode, 'Book now', 'Airport transfer should stay book-now');
-  assert.equal(booking.payDisabled, true, 'Checkout buttons should stay disabled until Stripe is enabled in config');
-  assert.match(booking.note, /Stripe checkout is wired/i, 'Booking note should explain why checkout is disabled');
-  assert.deepEqual(issues, [], `Destination Cocoa flow emitted runtime errors: ${issues.join(' | ')}`);
-
-  await context.close();
-}
-
 async function main() {
   const server = createStaticServer(ROOT_DIR);
   const address = await listen(server);
@@ -598,8 +553,6 @@ async function main() {
     await testQuoteSubmitFallback(browser, baseUrl);
     console.log('PASS quote-submit-fallback');
 
-    await testDestinationCocoaFlow(browser, baseUrl);
-    console.log('PASS destination-cocoa-flow');
   } finally {
     await browser.close();
     await closeServer(server);

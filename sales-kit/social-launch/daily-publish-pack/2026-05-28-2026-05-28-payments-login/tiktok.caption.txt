@@ -1,4 +1,4 @@
-Checkout, login e area cliente vanno progettati e testati prima del lancio.
+Se vendi online, il percorso dopo il pagamento è importante quanto il sito.
 
 Metodo Cantoni: prima audit reale, poi proposta chiara.
 Link: https://cantonidigitalstudio.com/preventivo

@@ -11,7 +11,7 @@ const outDir = path.join(rootDir, 'social-launch/output');
 const logoFile = path.resolve(rootDir, '../assets/logo/cantoni_primary_horizontal_small.svg');
 const projectMarkFiles = {
   '01-excellentia-vip': path.resolve(rootDir, '../assets/portfolio/excellentia-vip/brand/excellentia-vip-logo.svg'),
-  '02-destination-cocoa': path.resolve(rootDir, '../../mr-collins-travel/site/output/playwright/destination-cocoa-home.png')
+  '02-mr-collins-travel': path.resolve(rootDir, '../../mr-collins-travel/site/assets/brand/mr-collins-logo-preview.png')
 };
 
 function escapeHtml(value) {
@@ -85,7 +85,7 @@ function htmlFor(post, logoDataUri, projectMarks) {
   const proofText = proofDomain(post.proof || post.cta || 'cantonidigitalstudio.com');
   const markDataUri = projectMarks[post.id];
   const hasProjectMark = Boolean(markDataUri);
-  const isProjectPreview = post.id === '02-destination-cocoa' && hasProjectMark;
+  const isProjectPreview = post.id === '02-mr-collins-travel' && hasProjectMark;
   const markMode = isProjectPreview ? 'has-project-preview' : hasProjectMark ? 'has-project-mark' : 'has-client-initials';
   const markHtml = markDataUri
     ? `<img class="client-logo" src="${markDataUri}" alt="${escapeHtml(post.title)} logo">`
@@ -360,9 +360,10 @@ async function run() {
   const posts = JSON.parse(await fs.readFile(postsFile, 'utf8'));
   const logoDataUri = await readDataUri(logoFile);
   const projectMarks = await readProjectMarks();
+  await fs.rm(outDir, { recursive: true, force: true });
   await fs.mkdir(outDir, { recursive: true });
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
   try {
     const page = await browser.newPage({ viewport: { width: 1080, height: 1080 }, deviceScaleFactor: 1 });
     for (const post of posts) {
@@ -370,7 +371,7 @@ async function run() {
       const pngPath = path.join(outDir, `${post.id}.png`);
       const htmlPath = path.join(outDir, `${post.id}.html`);
       await fs.writeFile(htmlPath, htmlFor(post, logoDataUri, projectMarks), 'utf8');
-      await page.screenshot({ path: pngPath, fullPage: false });
+      await page.screenshot({ path: pngPath, fullPage: false, animations: 'disabled', timeout: 60000 });
     }
   } finally {
     await browser.close();

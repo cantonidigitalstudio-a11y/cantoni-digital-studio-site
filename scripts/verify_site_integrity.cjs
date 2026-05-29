@@ -15,7 +15,7 @@ const PRIMARY_PAGES = new Set([
 
 const REQUIRED_PUBLIC_REFERENCES = [
   'https://excellentiavip.com',
-  'https://destination-cocoa-site.netlify.app',
+  'https://mrcollinstravel.com',
   'https://ec8platform.com',
   'https://www.instagram.com/cantonidigitalstudio/',
   'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
@@ -39,7 +39,7 @@ const SAME_SITE_HOSTS = new Set([
   'www.cantonidigitalstudio.com',
   'excellentiavip.com',
   'www.excellentiavip.com',
-  'destination-cocoa-site.netlify.app',
+  'mrcollinstravel.com',
   'ec8platform.com',
   'www.ec8platform.com'
 ]);

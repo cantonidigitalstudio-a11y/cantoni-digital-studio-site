@@ -49,7 +49,7 @@ const REQUIRED_TEXT = [
       'Platform positioning and payment-ready architecture',
       'Where a prospect can verify the studio',
       'https://excellentiavip.com',
-      'https://destination-cocoa-site.netlify.app',
+      'https://mrcollinstravel.com',
       'https://ec8platform.com',
       'https://www.instagram.com/cantonidigitalstudio/',
       'https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/',
@@ -61,7 +61,7 @@ const REQUIRED_TEXT = [
     file: 'sales-kit/social-launch/posts.json',
     contains: [
       'Riferimento verificabile: https://excellentiavip.com',
-      'Riferimento verificabile: https://destination-cocoa-site.netlify.app',
+      'Riferimento verificabile: https://mrcollinstravel.com',
       'Riferimento verificabile: https://ec8platform.com',
       'social, recensioni, competitor',
       'web app, app mobile'
@@ -70,7 +70,7 @@ const REQUIRED_TEXT = [
 ];
 
 const KNOWN_INTERNAL_ROOTS = [
-  /^destination-cocoa-notification-flow\.md$/,
+  /^archive\//,
   /^functions\//,
   /^sales-kit\//,
   /^scripts\//,

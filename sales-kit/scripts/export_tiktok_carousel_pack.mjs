@@ -12,7 +12,9 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const projectDir = path.resolve(rootDir, '..');
 const packDir = path.join(rootDir, 'social-launch/daily-publish-pack');
-const entryId = process.env.SOCIAL_CAROUSEL_ENTRY || process.env.SOCIAL_SHORT_ENTRY || '2026-05-21-2026-05-21-audit-before-price';
+const requestedEntry = process.env.SOCIAL_CAROUSEL_ENTRY || process.env.SOCIAL_SHORT_ENTRY || '';
+const fallbackEntry = '2026-05-21-2026-05-21-audit-before-price';
+const entryId = await resolveEntryId();
 const entryDir = path.join(packDir, entryId);
 const shortDir = path.join(entryDir, 'short-video');
 const outDir = path.join(entryDir, 'tiktok-carousel');
@@ -85,6 +87,33 @@ async function exists(filePath) {
   } catch {
     return false;
   }
+}
+
+function romeDateIso() {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Rome',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
+}
+
+async function resolveEntryId() {
+  if (requestedEntry) return requestedEntry;
+
+  const entries = await fs.readdir(packDir, { withFileTypes: true }).catch(() => []);
+  const carouselEntries = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const manifestPath = path.join(packDir, entry.name, 'tiktok-carousel', 'manifest.json');
+    if (await exists(manifestPath)) carouselEntries.push(entry.name);
+  }
+
+  const today = romeDateIso();
+  const todayEntries = carouselEntries.filter((entry) => entry.startsWith(today));
+  if (todayEntries.length) return todayEntries.sort().at(-1);
+  if (carouselEntries.length) return carouselEntries.sort().at(-1);
+  return fallbackEntry;
 }
 
 async function imageSize(filePath) {
@@ -212,10 +241,17 @@ async function carouselSlides() {
   const files = (await fs.readdir(shortDir))
     .filter((file) => /^slide-\d+\.png$/.test(file))
     .sort();
-  if (files.length < 3) {
-    throw new Error(`TikTok carousel needs at least 3 slides; found ${files.length} in ${shortDir}`);
+  if (files.length >= 3) {
+    return files;
   }
-  return files;
+  const svgFiles = (await fs.readdir(shortDir))
+    .filter((file) => /^slide-\d+\.svg$/.test(file))
+    .map((file) => file.replace(/\.svg$/, '.png'))
+    .sort();
+  if (svgFiles.length >= 3) {
+    return svgFiles;
+  }
+  throw new Error(`TikTok carousel needs at least 3 slides; found ${files.length} PNG and ${svgFiles.length} SVG in ${shortDir}`);
 }
 
 function reviewHtml({ entryId, slides, caption }) {
@@ -289,11 +325,18 @@ async function run() {
   for (const file of slideFiles) {
     const source = path.join(generatedAuditCarousel ? outDir : shortDir, file);
     const target = path.join(outDir, file);
-    if (source !== target) await fs.copyFile(source, target);
     const sourceSvg = source.replace(/\.png$/, '.svg');
     const targetSvg = target.replace(/\.png$/, '.svg');
     const hasSvgSource = await exists(sourceSvg);
-    if (hasSvgSource && sourceSvg !== targetSvg) {
+    if (await exists(source)) {
+      if (source !== target) await fs.copyFile(source, target);
+    } else if (hasSvgSource) {
+      await fs.writeFile(targetSvg, trimTrailingWhitespace(await fs.readFile(sourceSvg, 'utf8')), 'utf8');
+      await execFileAsync('sips', ['-s', 'format', 'png', targetSvg, '--out', target], {
+        maxBuffer: 1024 * 1024 * 4
+      });
+    }
+    if (hasSvgSource && sourceSvg !== targetSvg && !(await exists(targetSvg))) {
       await fs.writeFile(targetSvg, trimTrailingWhitespace(await fs.readFile(sourceSvg, 'utf8')), 'utf8');
     }
     const size = await imageSize(target);

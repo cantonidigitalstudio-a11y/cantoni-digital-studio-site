@@ -1,5 +1,5 @@
 Pagamenti e login vanno progettati | Cantoni Digital Studio
 
-Checkout, login e area cliente vanno progettati e testati prima del lancio. Perimetro: Possibili componenti: Stripe, PayPal, Klarna, login Google/Apple e area cliente https://cantonidigitalstudio.com/preventivo
+Se vendi online, il percorso dopo il pagamento è importante quanto il sito. Perimetro: Percorso cliente: acquisto, accesso, area riservata e assistenza devono essere pensati prima dello sviluppo https://cantonidigitalstudio.com/preventivo
 
 #CantoniDigitalStudio #SitiWeb #Ecommerce #App #DigitalGrowth
