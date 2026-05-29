@@ -88,6 +88,12 @@ async function snapshotPage(page, channel) {
     await page.waitForLoadState('domcontentloaded', { timeout: 12000 }).catch(() => {});
   }
   await page.waitForTimeout(channel.id === 'tiktok' ? 2500 : 1800);
+  if (channel.id === 'youtube') {
+    await waitForPublicProofText(page, channel.requiredText || [], 18000).catch(async () => {
+      await page.reload({ waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => {});
+      await waitForPublicProofText(page, channel.requiredText || [], 12000).catch(() => {});
+    });
+  }
   const data = await page.evaluate(() => ({
     title: document.title || '',
     url: window.location.href || '',
@@ -98,15 +104,35 @@ async function snapshotPage(page, channel) {
       .join(' ')
   }));
   const screenshot = path.join(SCREENSHOT_DIR, `cantoni-public-channel-${channel.id}-${Date.now()}.png`);
-  await page.screenshot({ path: screenshot, fullPage: false }).catch(() => {});
+  await page.screenshot({ path: screenshot, fullPage: false, animations: 'disabled', timeout: 15000 }).catch(() => {});
   return {
     statusCode: response ? response.status() : 0,
     title: data.title,
     finalUrl: data.url,
     text: normalize(data.text),
-    proofText: normalize([data.title, data.metadata, data.text].join(' ')),
+    proofText: normalize([data.title, data.url, data.metadata, data.text].join(' ')),
     screenshot
   };
+}
+
+async function waitForPublicProofText(page, requiredText, timeout) {
+  if (!requiredText.length) return;
+  await page.waitForFunction(
+    (required) => {
+      const meta = Array.from(document.querySelectorAll('meta'))
+        .map((item) => item.getAttribute('content') || '')
+        .join(' ');
+      const text = [
+        document.title || '',
+        window.location.href || '',
+        meta,
+        document.body ? document.body.innerText || '' : ''
+      ].join(' ').toLowerCase();
+      return required.some((snippet) => text.includes(String(snippet).toLowerCase()));
+    },
+    requiredText,
+    { timeout }
+  );
 }
 
 function validatePublicProof(channel, result) {
@@ -156,7 +182,7 @@ function validateLoginGated(channel, result) {
 }
 
 async function main() {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, args: ['--disable-gpu'] });
   const context = await browser.newContext({
     viewport: { width: 1366, height: 900 },
     locale: 'it-IT'

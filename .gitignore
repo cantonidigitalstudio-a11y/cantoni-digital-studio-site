@@ -5,6 +5,10 @@
 node_modules/
 output/
 
+# Local archive of non-Cantoni/non-client material removed from the public site.
+# Keep it off the public GitHub repo unless it is explicitly sanitized.
+archive/legacy-destination-cocoa/
+
 # Local Netlify folder
 .netlify
 
