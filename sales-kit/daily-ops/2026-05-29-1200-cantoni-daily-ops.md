@@ -160,3 +160,45 @@ Verifica whitespace:
 Gate completo:
 
 - `npm run test:full`: passa dopo accesso Gmail, correzione follow-up state e hardening del verifier YouTube.
+
+## Ricontrollo Browser destro - 16:18 CEST
+
+Superficie valida:
+
+- Browser in-app destro `iab`;
+- URL verificato: `https://mail.google.com/mail/u/3/#inbox`;
+- titolo verificato: `Posta in arrivo (102) - cantonidigitalstudio@gmail.com - Gmail`;
+- account Google visibile nel pannello: `cantonidigitalstudio@gmail.com`.
+
+Query commerciale non-automatica:
+
+- `after:2026/5/22 -from:cantonidigitalstudio@gmail.com -Google -Facebook -TikTok -Cloudflare -Netlify -GitHub -Stripe -PayPal -MOO -DHL -Instagram`;
+- risultato: nessun messaggio corrispondente.
+
+Query operativa:
+
+- `after:2026/5/22 (MOO OR DHL OR Stripe OR PayPal OR GitHub OR Cloudflare OR Netlify OR Instagram OR Facebook OR TikTok OR Google OR sicurezza OR security OR pagamento OR payment OR ordine OR consegna OR delivery OR account OR accesso) -from:cantonidigitalstudio@gmail.com`;
+- risultato: `1-6 di 6`;
+- elementi visibili: Facebook `Aggiornamento per te: 1 nuova notifica` del 28 maggio; avvisi Google sicurezza per `mrcollinstravel@gmail.com` del 22, 24 e 25 maggio; avviso Google sicurezza per `kairorisk@gmail.com` del 22 maggio.
+
+Classificazione aggiornata:
+
+- positiva commerciale: `0`;
+- dubbia/da review: `1` avviso Google su `kairorisk@gmail.com`, da confermare come account noto;
+- negativa: `0`;
+- automatica/generica: `1` notifica Facebook del 28 maggio;
+- operativa urgente: `0`;
+- operativa non urgente: avvisi Google sicurezza/recupero su account collegati e notifica Facebook;
+- irrilevante: `0`.
+
+Verifiche rilanciate:
+
+- `npm run test:global-followup-d3`: passa, `50` righe `FOLLOWUP_D3`, `0` righe `CONTACTED` scadute;
+- `npm run test:social:daily`: passa, `30` giorni e `4` canali previsti.
+
+Azioni reali:
+
+- nessuna email inviata;
+- nessun post pubblicato;
+- nessun pagamento;
+- nessun deploy.
