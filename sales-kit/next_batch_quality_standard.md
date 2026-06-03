@@ -44,9 +44,16 @@
 - no prices
 - no full 3-point audit in the first touch
 - the full 3 issues and 3 improvements stay in `internal_audit` until the lead replies or asks for detail
+- text-first delivery: no attachment, no tracking pixel, no heavy branded HTML in the cold first touch
+- maximum two links in the first touch: audited site when useful and Cantoni official site in the signature
+- no spam-like urgency or promises: avoid "guaranteed", "free offer", "limited time", excessive punctuation and uppercase
+- run `npm run test:outreach-deliverability` before any new cold batch
 
 ## Batch rule
 - better 20 strong leads than 100 weak leads
 - do not move to READY_TO_CONTACT until audit is commercially specific
-- run `npm run test:outreach-micro` for first-touch copy and `npm run test:outreach-queue-quality` for complete-audit/internal review batches
+- run `npm run test:outreach-micro` and `npm run test:outreach-deliverability` for first-touch copy; run `npm run test:outreach-queue-quality` for complete-audit/internal review batches
 - if the proposal could be reused for another client by changing only the name, it is not ready
+
+## Deliverability rule
+See `sales-kit/outreach_deliverability_playbook.md`. If Gmail deliverability is uncertain, reduce volume and increase specificity before increasing sends.

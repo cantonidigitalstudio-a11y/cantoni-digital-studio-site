@@ -21,6 +21,9 @@ Generare clienti internazionali per siti, e-commerce, web app, app mobile, autom
 - La gestione mensile non e solo manutenzione tecnica: e collaborazione continuativa su contenuti, fiducia, richieste, posizione rispetto ai competitor, ricerca Google e visibilita nelle risposte delle intelligenze artificiali.
 - La prima email di outreach non e un preventivo e non deve includere prezzi, pacchetti o condizioni commerciali.
 - La prima email deve usare formato micro-audit: una sola osservazione concreta, una conseguenza business semplice e una richiesta di permesso per mandare le 3 priorita.
+- La prima email fredda deve essere text-first: niente allegati, niente immagini, niente tracking pixel, niente HTML pesante e massimo due link.
+- La brandizzazione completa si usa per review interna, risposta calda, mini-audit richiesto e preventivo; non per il primo contatto a freddo.
+- Prima di aumentare volume, verificare reputazione e autenticazione dominio: se si scala oltre invii manuali a basso volume, servono SPF, DKIM e DMARC su una casella coerente con `@cantonidigitalstudio.com`.
 - L audit completo resta obbligatorio ma non va scaricato tutto nel primo messaggio: serve per scegliere il punto giusto e per rispondere bene se il cliente apre la conversazione.
 - Prezzi, scope e condizioni commerciali si mandano solo dopo audit approfondito e solo in un preventivo bespoke.
 - Lingua sempre locale del cliente o della sede operativa principale.
@@ -113,4 +116,6 @@ Queste sono fasce di partenza, non prezzi automatici. Ogni proposta deve essere 
 - Queue builder: `node sales-kit/scripts/build_outreach_queue_from_csv.mjs`
 - Queue builder micro-audit: `OUTREACH_STYLE=micro_audit node sales-kit/scripts/build_outreach_queue_from_csv.mjs`
 - Gate micro-audit: `npm run test:outreach-micro`
+- Gate deliverability primo contatto: `npm run test:outreach-deliverability`
 - Day 1 runbook: `sales-kit/day1_outbound_runbook.md`
+- Deliverability playbook: `sales-kit/outreach_deliverability_playbook.md`
