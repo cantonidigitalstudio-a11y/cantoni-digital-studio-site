@@ -245,6 +245,10 @@ function stripIssuePrefix(line) {
   return line.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
 }
 
+function isMicroAuditItem(item) {
+  return String(item.outreach_style || '').replace(/-/g, '_') === 'micro_audit';
+}
+
 const CLIENT_FRIENDLY_REWRITES = [
   [/Hero con CTA unica verso disponibilità o richiesta preventivo/gi, 'Prima parte del sito con un invito chiaro a verificare disponibilità o chiedere un preventivo'],
   [/Sezione hero con vantaggi diretti e CTA prenota\/richiedi offerta più chiara/gi, "Prima parte del sito con vantaggi diretti e pulsanti chiari per prenotare o richiedere un'offerta"],
@@ -287,9 +291,31 @@ function displayLeadName(item) {
   return item.lead_name || item.business_name || String(item.subject || '').split(':')[0].trim() || item.lead_id || item.id || 'Lead';
 }
 
-function parsePlainBody(body = '', language = 'it') {
+function parsePlainBody(body = '', language = 'it', style = 'complete_audit') {
   const labels = labelsFor(language);
   const lines = body.split('\n').map((line) => line.trim()).filter(Boolean);
+  if (String(style || '').replace(/-/g, '_') === 'micro_audit') {
+    const observationIndex = lines.findIndex((line) =>
+      /^(Una cosa concreta|One concrete point|Un punto concreto|Um ponto concreto|Un point concret|Ein konkreter Punkt|具体的な所見)/i.test(line)
+    );
+    const explicitCtaIndex = lines.findIndex((line) =>
+      /^(Se può essere utile|If useful|Si os parece útil|Si os parece util|Se fizer sentido|Si cela vous semble utile|Wenn sinnvoll|必要であれば)/i.test(line)
+    );
+    const ctaIndex = explicitCtaIndex >= 0 ? explicitCtaIndex : lines.length - 1;
+    const observationStart = observationIndex >= 0 ? observationIndex : Math.min(2, lines.length - 1);
+    return {
+      mode: 'micro_audit',
+      greeting: clientFriendlyCopy(lines[0] || 'Buongiorno,', language),
+      opening: clientFriendlyCopy(lines.slice(1, observationStart).join(' '), language),
+      issueIntro: clientFriendlyCopy(lines[observationStart] || labels.defaultIssueIntro, language),
+      issues: [],
+      priorities: [],
+      consequence: clientFriendlyCopy(lines.slice(observationStart + 1, ctaIndex).join(' '), language),
+      impact: '',
+      cta: clientFriendlyCopy(lines[ctaIndex] || labels.defaultCta, language),
+      signoff: lines.slice(ctaIndex + 1)
+    };
+  }
   const issueIntroIndex = lines.findIndex((line) =>
     /^(Ho visto|Vedo|These are|Veo|Je vois|Ich sehe|Vejo|現在|目前|Abhi)/i.test(line)
   );
@@ -315,6 +341,7 @@ function parsePlainBody(body = '', language = 'it') {
     issueIntro: clientFriendlyCopy(issueIntroIndex >= 0 ? lines[issueIntroIndex] : labels.defaultIssueIntro, language),
     issues: lines.slice(issueStart, issueEnd).map(stripIssuePrefix).map((line) => clientFriendlyCopy(line, language)).filter(Boolean),
     priorities: lines.slice(priorityStart, priorityEnd).map(stripIssuePrefix).map((line) => clientFriendlyCopy(line, language)).filter(Boolean),
+    consequence: '',
     impact: clientFriendlyCopy(impactIndex >= 0 ? lines[impactIndex].replace(/^(Impatto economico realistico|Risultato commerciale realistico|Realistic business impact|Impacto comercial realista|Impact commercial realiste|Impact commercial réaliste|Realistischer Business-Effekt|想定できる事業効果|可预期的商业效果)\s*:\s*/i, '') : '', language),
     cta: clientFriendlyCopy(ctaIndex >= 0 && ctaIndex < lines.length ? lines[ctaIndex] : labels.defaultCta, language),
     signoff: lines.slice(Math.max(ctaIndex + 1, 0)).filter((line) => !/^Se può essere utile/i.test(line))
@@ -518,11 +545,73 @@ function renderReferenceFooter(language = 'it') {
 function renderBrandedEmail(item, logoSrc, options = {}) {
   const language = item.language || 'it';
   const labels = labelsFor(language);
-  const parsed = parsePlainBody(item.body, language);
+  const parsed = parsePlainBody(item.body, language, item.outreach_style);
   const leadName = displayLeadName(item);
   const title = item.subject || `${leadName}: verifica sito`;
   const preheader = `${labels.badge} Cantoni Digital Studio - ${leadName || 'lead'}.`;
   const showRecipient = options.showRecipient === true;
+
+  if (parsed.mode === 'micro_audit') {
+    return `<!doctype html>
+<html lang="${escapeHtml(language)}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>${escapeHtml(title)}</title>
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body style="margin:0;padding:0;background:#eef2f7;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(preheader)}</div>
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#eef2f7;table-layout:fixed;">
+    <tr>
+      <td align="center" style="padding:26px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;max-width:720px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #dce4ee;box-shadow:0 18px 45px rgba(19,37,74,.10);">
+          <tr>
+            <td style="padding:28px 32px;background:#13254a;">
+              <div style="display:inline-block;background:#ffffff;border-radius:14px;padding:12px 16px;margin:0 0 20px 0;box-shadow:0 10px 26px rgba(0,0,0,.16);">
+                <img src="${logoSrc}" width="230" alt="Cantoni Digital Studio" style="display:block;width:230px;max-width:78vw;height:auto;border:0;margin:0;">
+              </div><br>
+              <div style="display:inline-block;padding:7px 10px;border-radius:999px;background:#f29d38;color:#13254a;font:700 11px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;">Micro-audit sito live</div>
+              <h1 style="margin:16px 0 0 0;color:#ffffff;font:700 27px/1.18 Arial,sans-serif;letter-spacing:0;">${escapeHtml(title)}</h1>
+              ${showRecipient ? `<p style="margin:10px 0 0 0;color:#cdd7e6;font:400 14px/1.5 Arial,sans-serif;">Destinatario: ${escapeHtml(item.to || 'da confermare')}</p>` : ''}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:28px 32px 10px 32px;">
+              <p style="margin:0 0 12px 0;color:#20304a;font:400 16px/1.65 Arial,sans-serif;">${escapeHtml(parsed.greeting)}</p>
+              ${parsed.opening ? `<p style="margin:0 0 18px 0;color:#20304a;font:400 16px/1.65 Arial,sans-serif;">${escapeHtml(parsed.opening)}</p>` : ''}
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;background:#f8fafc;border:1px solid #dfe7f0;border-radius:14px;">
+                <tr>
+                  <td style="padding:22px;">
+                    <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a8798;margin-bottom:12px;">Osservazione concreta</div>
+                    <p style="margin:0;color:#20304a;font:700 17px/1.55 Arial,sans-serif;">${escapeHtml(parsed.issueIntro)}</p>
+                    ${parsed.consequence ? `<p style="margin:14px 0 0 0;color:#34435a;font:400 15px/1.6 Arial,sans-serif;">${escapeHtml(parsed.consequence)}</p>` : ''}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:12px 32px 28px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:1px solid #f2d8b7;background:#fffaf4;border-radius:14px;">
+                <tr>
+                  <td style="padding:22px;">
+                    <p style="margin:0;color:#20304a;font:700 16px/1.6 Arial,sans-serif;">${escapeHtml(parsed.cta)}</p>
+                    <p style="margin:18px 0 0 0;color:#5b6678;font:400 14px/1.6 Arial,sans-serif;">Emanuele Cantoni<br>${BRAND_NAME}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          ${renderReferenceFooter(language)}
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+  }
 
   return `<!doctype html>
 <html lang="${escapeHtml(language)}">
@@ -617,6 +706,15 @@ function renderBrandedEmail(item, logoSrc, options = {}) {
 
 function renderTextEmail(item) {
   const labels = labelsFor(item.language || 'it');
+  if (isMicroAuditItem(item)) {
+    return `${item.body}
+
+${labels.publicRefs}:
+- ${labels.sitePill}: ${LINKS.site}
+- ${labels.casesPill}: ${LINKS.cases}
+- WhatsApp: ${BRAND_PHONE_DISPLAY}
+`;
+  }
   return `${renderClientPlainBody(item)}
 
 ${labels.publicRefs}:
@@ -637,8 +735,9 @@ ${BRAND_PHONE_DISPLAY}
 }
 
 function renderClientPlainBody(item) {
+  if (isMicroAuditItem(item)) return item.body;
   const labels = labelsFor(item.language || 'it');
-  const parsed = parsePlainBody(item.body, item.language || 'it');
+  const parsed = parsePlainBody(item.body, item.language || 'it', item.outreach_style);
   const lines = [
     parsed.greeting,
     parsed.opening,
@@ -668,8 +767,9 @@ function renderInternalReview(items, logoSrc) {
     ? 'Queste versioni sostituiscono le bozze statiche: struttura Cantoni, logo, sezioni leggibili, riferimenti pubblici e footer social. Non sono ancora state inviate.'
     : 'Nessuna bozza in coda: l\'ultimo batch risulta processato. Restano visibili i riferimenti pubblici Cantoni usati nei messaggi.';
   const previews = items.map((item) => {
-    const parsed = parsePlainBody(item.body, item.language || 'it');
+    const parsed = parsePlainBody(item.body, item.language || 'it', item.outreach_style);
     const leadName = displayLeadName(item);
+    const isMicro = parsed.mode === 'micro_audit';
     return `
       <tr>
         <td style="padding:0 30px 26px 30px;">
@@ -683,12 +783,18 @@ function renderInternalReview(items, logoSrc) {
             </tr>
             <tr>
               <td style="padding:22px;">
+                ${isMicro ? `
+                <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a8798;margin-bottom:10px;">Micro-audit primo contatto</div>
+                <p style="margin:0 0 14px 0;color:#20304a;font:400 15px/1.6 Arial,sans-serif;">${escapeHtml(parsed.opening)}</p>
+                <p style="margin:0 0 14px 0;color:#20304a;font:700 16px/1.55 Arial,sans-serif;">${escapeHtml(parsed.issueIntro)}</p>
+                <p style="margin:0 0 14px 0;color:#34435a;font:400 15px/1.6 Arial,sans-serif;">${escapeHtml(parsed.consequence)}</p>
+                <p style="margin:0;color:#20304a;font:700 15px/1.6 Arial,sans-serif;">${escapeHtml(parsed.cta)}</p>` : `
                 <p style="margin:0 0 16px 0;color:#20304a;font:700 16px/1.55 Arial,sans-serif;">${escapeHtml(parsed.issueIntro)}</p>
                 <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#7a8798;margin-bottom:10px;">Punti usati nella bozza</div>
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">${listItems(parsed.issues)}</table>
                 <div style="height:12px;"></div>
                 <div style="font:700 12px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a66a20;margin-bottom:10px;">Azioni proposte</div>
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">${listItems(parsed.priorities)}</table>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">${listItems(parsed.priorities)}</table>`}
               </td>
             </tr>
           </table>

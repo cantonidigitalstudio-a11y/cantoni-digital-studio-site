@@ -36,8 +36,17 @@
 - local language
 - local currency
 
+## First-contact copy standard
+- first email uses `OUTREACH_STYLE=micro_audit`
+- one specific observation only
+- one plain business consequence
+- one permission-based question
+- no prices
+- no full 3-point audit in the first touch
+- the full 3 issues and 3 improvements stay in `internal_audit` until the lead replies or asks for detail
+
 ## Batch rule
 - better 20 strong leads than 100 weak leads
 - do not move to READY_TO_CONTACT until audit is commercially specific
-- run `npm run test:outreach-queue-quality` before any send
+- run `npm run test:outreach-micro` for first-touch copy and `npm run test:outreach-queue-quality` for complete-audit/internal review batches
 - if the proposal could be reused for another client by changing only the name, it is not ready

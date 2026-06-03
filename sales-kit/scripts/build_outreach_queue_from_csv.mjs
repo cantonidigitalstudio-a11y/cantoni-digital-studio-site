@@ -19,6 +19,9 @@ const csvFile = process.env.LEAD_PIPELINE_CSV
 const outFile = process.env.OUTREACH_QUEUE_FILE
   ? path.resolve(process.env.OUTREACH_QUEUE_FILE)
   : path.resolve(__dirname, '../queue/outreach_queue.json');
+const OUTREACH_STYLE = String(process.env.OUTREACH_STYLE || 'complete_audit')
+  .toLowerCase()
+  .replace(/-/g, '_');
 
 function moneyLabel(currency, amount) {
   return new Intl.NumberFormat(localeTagFor(currency), {
@@ -49,6 +52,12 @@ function normalizeImpact(value) {
 }
 
 const CLIENT_FRIENDLY_REWRITES = [
+  [/Direct booking value is not clear in the first screen/gi, 'Il valore della prenotazione diretta non è chiaro nella prima schermata'],
+  [/Mobile visitors need a shorter path to request availability/gi, 'Chi visita da telefono ha bisogno di un percorso più breve per chiedere disponibilità'],
+  [/Trust proof is not grouped before the contact step/gi, 'Le prove di fiducia non sono raccolte prima del momento di contatto'],
+  [/Clarify the first screen with one booking or request path/gi, 'Rendere subito chiaro il percorso per prenotare o chiedere informazioni'],
+  [/Reduce mobile steps between room review and contact/gi, 'Ridurre i passaggi da telefono tra la scelta della camera e il contatto'],
+  [/Group reviews direct benefits and contact options before the final request/gi, 'Raccogliere recensioni, vantaggi diretti e contatti prima della richiesta finale'],
   [/Hero con CTA unica verso disponibilità o richiesta preventivo/gi, 'Prima parte del sito con un invito chiaro a verificare disponibilità o chiedere un preventivo'],
   [/Sezione hero con vantaggi diretti e CTA prenota\/richiedi offerta più chiara/gi, "Prima parte del sito con vantaggi diretti e pulsanti chiari per prenotare o richiedere un'offerta"],
   [/Le CTA principali sono chiamata\/email e non costruiscono un percorso di disponibilità\/preventivo/gi, 'Oggi i principali inviti sono solo chiamata ed email: manca un percorso semplice per verificare disponibilità o chiedere un preventivo'],
@@ -178,6 +187,20 @@ function subjectByLanguage(language, row) {
   return `${name}: 3 concrete improvements for the website`;
 }
 
+function microSubjectByLanguage(language, row) {
+  const name = row.business_name || 'your website';
+  if (language === 'it') return `${name}: una osservazione concreta sul sito`;
+  if (language === 'es') return `${name}: una observación concreta sobre el sitio`;
+  if (language === 'pt') return `${name}: uma observação concreta sobre o site`;
+  if (language === 'fr') return `${name} : une observation concrète sur le site`;
+  if (language === 'de') return `${name}: eine konkrete Website-Beobachtung`;
+  if (language === 'ja') return `${name} サイトについて1つの具体的な所見`;
+  if (language === 'zh') return `${name}：一个具体的网站观察`;
+  if (language === 'hi') return `${name}: website par ek concrete observation`;
+  if (language === 'ar') return `${name}: ملاحظة واحدة واضحة على الموقع`;
+  return `${name}: one concrete website observation`;
+}
+
 function templateByLanguage(language, row, currency) {
   const contact = row.contact_name || '';
   const website = resolveAuditedAsset(language, row);
@@ -191,6 +214,137 @@ function templateByLanguage(language, row, currency) {
   const friendlyImpact = impact.map((item) => polishCopyForLanguage(clientFriendlyCopy(item, language), language));
   const cta = polishCopyForLanguage(clientFriendlyCopy(row.email_angle || '', language), language);
   const opening = polishCopyForLanguage(row.what_the_business_does || '', language);
+  const firstIssue = friendlyIssues[0] || opening;
+  const microTemplates = {
+    it: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        'Buongiorno,',
+        '',
+        `sono Emanuele Cantoni, di Cantoni Digital Studio. Ho guardato ${website}${marketSuffix} da telefono e con una logica di richieste, non solo estetica.`,
+        '',
+        `Una cosa concreta: ${firstIssue}`,
+        '',
+        'Questo può far perdere richieste a persone già interessate, perché il passaggio successivo non è abbastanza immediato.',
+        '',
+        'Se può essere utile, vi mando una mini-analisi con le 3 priorità da sistemare, senza impegno.',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    },
+    en: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        contact ? `Hi ${contact},` : `Hi ${row.business_name} team,`,
+        '',
+        `I am Emanuele Cantoni from Cantoni Digital Studio. I reviewed ${website}${marketSuffix} from a mobile and client-request perspective, not only visually.`,
+        '',
+        `One concrete point: ${firstIssue}`,
+        '',
+        'This can cost qualified inquiries because the next step is not clear enough for someone already interested.',
+        '',
+        'If useful, I can send a short 3-point audit with the first priorities to fix.',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    },
+    es: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        `Hola equipo de ${row.business_name},`,
+        '',
+        `Soy Emanuele Cantoni, de Cantoni Digital Studio. He revisado ${website}${marketSuffix} desde móvil y con una mirada comercial, no solo estética.`,
+        '',
+        `Un punto concreto: ${firstIssue}`,
+        '',
+        'Esto puede hacer perder solicitudes de personas que ya están interesadas, porque el siguiente paso no es lo bastante inmediato.',
+        '',
+        'Si os parece útil, puedo enviar una mini auditoría con las 3 prioridades que corregiría primero.',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    },
+    pt: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        `Olá equipa do ${row.business_name},`,
+        '',
+        `Sou Emanuele Cantoni, da Cantoni Digital Studio. Analisei ${website}${marketSuffix} no telemóvel e com uma visão comercial, não apenas estética.`,
+        '',
+        `Um ponto concreto: ${firstIssue}`,
+        '',
+        'Isto pode fazer perder pedidos de pessoas já interessadas, porque o próximo passo não é suficientemente imediato.',
+        '',
+        'Se fizer sentido, posso enviar uma mini análise com as 3 prioridades que corrigiria primeiro.',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    },
+    fr: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        'Bonjour,',
+        '',
+        `je suis Emanuele Cantoni, de Cantoni Digital Studio. J'ai regardé ${website}${marketSuffix} sur mobile, avec une logique de demandes clients et pas seulement esthétique.`,
+        '',
+        `Un point concret : ${firstIssue}`,
+        '',
+        "Cela peut faire perdre des demandes de personnes déjà intéressées, parce que l'étape suivante n'est pas assez immédiate.",
+        '',
+        "Si cela vous semble utile, je peux envoyer une mini-analyse avec les 3 priorités à corriger en premier.",
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    },
+    de: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        `Hallo ${contact || row.business_name},`,
+        '',
+        `ich bin Emanuele Cantoni von Cantoni Digital Studio. Ich habe ${website}${marketSuffix} mobil und aus Sicht echter Anfragen geprüft, nicht nur visuell.`,
+        '',
+        `Ein konkreter Punkt: ${firstIssue}`,
+        '',
+        'Das kann qualifizierte Anfragen kosten, weil der nächste Schritt für interessierte Besucher nicht klar genug ist.',
+        '',
+        'Wenn sinnvoll, sende ich gern eine kurze 3-Punkte-Analyse mit den wichtigsten Prioritäten.',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    },
+    ja: {
+      subject: microSubjectByLanguage(language, row),
+      lines: [
+        `${contact || row.business_name} 様`,
+        '',
+        `Cantoni Digital StudioのEmanuele Cantoniです。${website}${marketSuffix}をモバイルと問い合わせ導線の視点で確認しました。`,
+        '',
+        `具体的な所見: ${firstIssue}`,
+        '',
+        '興味を持った人が次に何をすればよいか分かりにくいと、問い合わせを逃す可能性があります。',
+        '',
+        '必要であれば、最初に直すべき3つの優先事項を短く整理してお送りします。',
+        '',
+        'Emanuele Cantoni',
+        'Cantoni Digital Studio',
+        'https://cantonidigitalstudio.com'
+      ]
+    }
+  };
+
+  if (OUTREACH_STYLE === 'micro_audit') return microTemplates[language] || microTemplates.en;
 
   const templates = {
     it: {
@@ -394,6 +548,7 @@ function buildQueueItem(row) {
     website: row.website || '',
     sector: row.sector || '',
     email_kind: 'cold_intro',
+    outreach_style: OUTREACH_STYLE,
     to: row.email,
     reply_to: 'cantonidigitalstudio@gmail.com',
     language,

@@ -10,6 +10,7 @@ const PRICE_PATTERN = /\b(?:EUR|USD|GBP|MXN|DOP|CAD|BRL|JPY|AED|SAR|INR|CNY|AUD|
 const REVIEW_SIGNAL = /\b(?:google|maps|tripadvisor|booking|yelp|trustpilot|review|reviews|recension|reseñas|avis|bewertung)\b/i;
 const SOCIAL_SIGNAL = /\b(?:instagram|facebook|tiktok|youtube|linkedin|x\.com|twitter|social)\b/i;
 const SEARCH_AI_SIGNAL = /\b(?:google|maps|search|ricerca|visibil|visibility|ai|ia|intelligen|answers|risposte)\b/i;
+const PERMISSION_CTA = /\b(?:se puo essere utile|se può essere utile|vi mando|posso inviare|posso mandar|ti mando|if useful|i can send|should i send|si os parece útil|si os parece util|puedo enviar|puedo mand|se fizer sentido|posso enviar|si cela vous semble utile|je peux envoyer|wenn sinnvoll|sende ich|必要であれば)\b/i;
 
 const SOLUTION_REQUIREMENTS = {
   website: /\b(?:website|site|sito|web|mobile|telefono|phone|contact|contatt|fiducia|trust|prenot|booking|richiest|inquir)\b/i,
@@ -29,6 +30,10 @@ function argValue(flag, fallback) {
 
 function hasFlag(flag) {
   return process.argv.includes(flag);
+}
+
+function normalizeStyle(value) {
+  return String(value || 'complete_audit').toLowerCase().replace(/-/g, '_');
 }
 
 function compact(value) {
@@ -57,7 +62,7 @@ function includesBusinessAnchor(item) {
   );
 }
 
-function validateItem(item, index) {
+function validateItem(item, index, style) {
   const failures = [];
   const prefix = `item_${index + 1}:${item.lead_id || 'NO_ID'}`;
   const subject = compact(item.subject);
@@ -82,8 +87,16 @@ function validateItem(item, index) {
   if (FORBIDDEN_GENERIC.test(subject) || FORBIDDEN_GENERIC.test(body)) failures.push(`${prefix}:generic_placeholder_detected`);
   if (FORBIDDEN_CLIENT_JARGON.test(body)) failures.push(`${prefix}:client_unfriendly_jargon`);
   if (PRICE_PATTERN.test(body)) failures.push(`${prefix}:first_email_must_not_include_price`);
-  if (countNumberedIssues(body) < 3) failures.push(`${prefix}:body_requires_3_numbered_observations`);
-  if (countBullets(body) < 3) failures.push(`${prefix}:body_requires_3_priority_bullets`);
+  if (style === 'micro_audit') {
+    if (compact(body).length > 1400) failures.push(`${prefix}:micro_audit_body_too_long`);
+    if (countNumberedIssues(body) > 1) failures.push(`${prefix}:micro_audit_must_not_send_full_numbered_audit`);
+    if (countBullets(body) > 1) failures.push(`${prefix}:micro_audit_must_not_send_full_bullet_audit`);
+    if (!PERMISSION_CTA.test(body)) failures.push(`${prefix}:micro_audit_missing_permission_cta`);
+    if (!/Cantoni Digital Studio/i.test(body)) failures.push(`${prefix}:missing_cantoni_identity`);
+  } else {
+    if (countNumberedIssues(body) < 3) failures.push(`${prefix}:body_requires_3_numbered_observations`);
+    if (countBullets(body) < 3) failures.push(`${prefix}:body_requires_3_priority_bullets`);
+  }
   if (compact(audit.what_the_business_does).length < 70) failures.push(`${prefix}:audit_business_summary_too_short`);
   if (!Array.isArray(audit.issues) || audit.issues.length < 3) failures.push(`${prefix}:audit_requires_3_issues`);
   if (!Array.isArray(audit.improvements) || audit.improvements.length < 3) failures.push(`${prefix}:audit_requires_3_improvements`);
@@ -104,6 +117,7 @@ function validateItem(item, index) {
 
 async function run() {
   const queueFile = path.resolve(argValue('--queue', process.env.OUTREACH_QUEUE_FILE || DEFAULT_QUEUE));
+  const style = normalizeStyle(argValue('--style', process.env.OUTREACH_QUALITY_STYLE || 'complete_audit'));
   const allowEmpty = hasFlag('--allow-empty');
   const queue = JSON.parse(await fs.readFile(queueFile, 'utf8'));
   const failures = [];
@@ -112,14 +126,15 @@ async function run() {
   if (Array.isArray(queue) && queue.length === 0 && !allowEmpty) failures.push('queue_empty');
 
   if (Array.isArray(queue)) {
-    queue.forEach((item, index) => failures.push(...validateItem(item, index)));
+    queue.forEach((item, index) => failures.push(...validateItem(item, index, style)));
   }
 
   console.log(JSON.stringify({
     ok: failures.length === 0,
     file: queueFile,
     items: Array.isArray(queue) ? queue.length : 0,
-    standard: 'pre_send_outreach_quality_v2',
+    standard: style === 'micro_audit' ? 'pre_send_micro_audit_quality_v1' : 'pre_send_outreach_quality_v2',
+    style,
     failures
   }, null, 2));
 

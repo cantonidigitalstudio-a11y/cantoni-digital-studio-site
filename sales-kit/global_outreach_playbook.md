@@ -20,6 +20,8 @@ Generare clienti internazionali per siti, e-commerce, web app, app mobile, autom
 - L offerta deve includere chiaramente, quando pertinente, siti, e-commerce, web app, app mobile, pagamenti, login Google/Apple, automazioni AI e miglioramento continuativo.
 - La gestione mensile non e solo manutenzione tecnica: e collaborazione continuativa su contenuti, fiducia, richieste, posizione rispetto ai competitor, ricerca Google e visibilita nelle risposte delle intelligenze artificiali.
 - La prima email di outreach non e un preventivo e non deve includere prezzi, pacchetti o condizioni commerciali.
+- La prima email deve usare formato micro-audit: una sola osservazione concreta, una conseguenza business semplice e una richiesta di permesso per mandare le 3 priorita.
+- L audit completo resta obbligatorio ma non va scaricato tutto nel primo messaggio: serve per scegliere il punto giusto e per rispondere bene se il cliente apre la conversazione.
 - Prezzi, scope e condizioni commerciali si mandano solo dopo audit approfondito e solo in un preventivo bespoke.
 - Lingua sempre locale del cliente o della sede operativa principale.
 - Valuta sempre locale del cliente o del mercato di riferimento.
@@ -39,7 +41,7 @@ Generare clienti internazionali per siti, e-commerce, web app, app mobile, autom
 2. Audit minimo obbligatorio compilato in `lead_pipeline.csv`.
 3. Stato lead portato a `READY_TO_CONTACT` solo se audit completo.
 4. Generazione queue da CSV per la sola email iniziale.
-5. Review manuale di subject/body, con conferma che la mail non contenga prezzi, pacchetti o chiusure da preventivo.
+5. Review manuale di subject/body, con conferma che la mail sia micro-audit, non contenga prezzi, pacchetti o chiusure da preventivo.
 6. Preflight Gmail sul solo account `cantonidigitalstudio@gmail.com`.
 7. Invio batch controllato.
 8. Aggiornamento CRM a `CONTACTED` con follow-up day 3.
@@ -109,4 +111,6 @@ Queste sono fasce di partenza, non prezzi automatici. Ogni proposta deve essere 
 - FX rates baseline: `sales-kit/fx_rates.json`
 - CRM validator: `node sales-kit/scripts/validate_day1_pipeline.mjs`
 - Queue builder: `node sales-kit/scripts/build_outreach_queue_from_csv.mjs`
+- Queue builder micro-audit: `OUTREACH_STYLE=micro_audit node sales-kit/scripts/build_outreach_queue_from_csv.mjs`
+- Gate micro-audit: `npm run test:outreach-micro`
 - Day 1 runbook: `sales-kit/day1_outbound_runbook.md`
