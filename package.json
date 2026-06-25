@@ -74,6 +74,7 @@
     "audit:cloudflare-api": "node scripts/verify_cloudflare_api_credentials.mjs",
     "audit:cloudflare-pages-api": "node scripts/verify_cloudflare_api_credentials.mjs --pages-only",
     "audit:cloudflare-dns-api": "node scripts/verify_cloudflare_api_credentials.mjs --dns-only",
+    "audit:git-deploy-state": "node scripts/verify_git_deploy_state.cjs",
     "test:cloudflare-api-audit": "node scripts/verify_cloudflare_api_credentials.mjs --allow-missing",
     "test:cloudflare-api-contract": "node scripts/verify_cloudflare_api_credentials_contract.cjs",
     "test:cloudflare-direct-deploy-contract": "node scripts/verify_cloudflare_direct_deploy_contract.cjs",

@@ -142,6 +142,9 @@ async function main() {
     if (!operatorMarkdown.includes('## Verified Passing Gates') || !operatorMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('operator_pack: Markdown must expose verified passing readiness gates');
     }
+    if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
+      failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');
+    }
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');
     }

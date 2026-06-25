@@ -26,6 +26,7 @@ Verifica:
 ```bash
 cd "<repo-root>"
 npm run audit:cloudflare-auth
+npm run audit:git-deploy-state
 npm run audit:cloudflare-api
 npm run audit:cloudflare-pages-api
 npm run audit:cloudflare-dns-api
@@ -124,9 +125,13 @@ bash scripts/deploy_cloudflare_pages.sh
 ## Deploy preview con token diretto
 Usare questo percorso quando OAuth Wrangler non e affidabile ma sono disponibili
 `CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` dell'account Cantoni.
+Il percorso diretto blocca automaticamente worktree sporca, branch non pushato,
+upstream diverso da `cantoni` o remoto diverso da
+`cantonidigitalstudio-a11y/cantoni-digital-studio-site`.
 
 ```bash
 cd "<repo-root>"
+npm run audit:git-deploy-state
 export CLOUDFLARE_API_TOKEN="<token-live-only>"
 export CLOUDFLARE_ACCOUNT_ID="<account-id-cantoni>"
 export CLOUDFLARE_PAGES_PROJECT_NAME="cantonidigitalstudio"
@@ -138,6 +143,8 @@ npm run deploy:cloudflare:direct
 
 Regole del percorso diretto:
 - il token resta solo in ambiente live, mai nel repo;
+- lo stato Git deve essere pulito e allineato al remoto Cantoni prima di ogni
+  deploy;
 - l'approval richiesta e esattamente
   `CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`;
 - `--pages-only` verifica token attivo e lettura deployments Pages senza

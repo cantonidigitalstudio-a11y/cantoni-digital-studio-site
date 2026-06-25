@@ -37,6 +37,9 @@ if [ "$DEPLOY_BRANCH" = "main" ]; then
   fi
 fi
 
+echo "step=git_deploy_state"
+node scripts/verify_git_deploy_state.cjs
+
 echo "step=cloudflare_pages_api_preflight"
 node scripts/verify_cloudflare_api_credentials.mjs --pages-only
 

@@ -37,6 +37,9 @@ git diff --check
 Per un deploy serio usa `npm run test:full`, poi `npm run audit:launch-readiness`.
 Il deploy parte solo se l'audit non segnala blocchi Cloudflare/DNS o hold
 operativi, dopo review del pacchetto e consenso esplicito.
+Prima di qualsiasi deploy diretto, `npm run audit:git-deploy-state` deve
+passare: upstream sul remoto `cantoni`, commit pushato, worktree pulita e URL
+remoto coerente con `cantonidigitalstudio-a11y/cantoni-digital-studio-site`.
 `npm run audit:launch-readiness` ricostruisce anche `.cloudflare-pages` e
 verifica il contratto dell'artifact pubblicabile come gate separato dal live.
 Per diagnosticare token/API Cloudflare senza mutazioni, usa

@@ -53,6 +53,7 @@ const checks = [
     required: [
       'Cloudflare Pages',
       'npm run audit:cloudflare-auth',
+      'npm run audit:git-deploy-state',
       'scripts/verify_cloudflare_deploy_auth.mjs',
       'npm run deploy:cloudflare:direct',
       'npm run test:cloudflare-direct-deploy-contract',
@@ -73,6 +74,7 @@ const checks = [
       'ALLOW_PRODUCTION_DEPLOY',
       'CANTONI_PRODUCTION_DEPLOY_APPROVAL',
       'deploy-cantoni-production',
+      'node scripts/verify_git_deploy_state.cjs',
       'npm run test:full',
       'bash "$ROOT_DIR/scripts/build_cloudflare_public_dir.sh"',
       'pages deploy "$PUBLIC_DIR"',

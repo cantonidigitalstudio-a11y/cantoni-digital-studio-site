@@ -287,13 +287,14 @@ function renderMarkdown(payload) {
     '## Required Sequence',
     '',
     '1. Fix Cloudflare auth for the Cantoni Digital Studio account only, or provide direct token credentials for that same account.',
-    '2. Run `npm run audit:cloudflare-auth` for OAuth, or `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` for direct token deploy.',
-    '3. Deploy only the verified `.cloudflare-pages` artifact or ZIP referenced in this pack, after explicit deploy approval; use `npm run deploy:cloudflare:direct` for the token path.',
-    '4. Run `npm run dns:cloudflare:plan`; apply only if the plan is ready and explicit DNS approval is present.',
-    '5. Run `npm run audit:email-dns` after DNS propagation.',
-    '6. Generate and publish the Google DKIM value from Google Admin.',
-    '7. Run `npm run test:live-site` and `npm run audit:launch-readiness` after deploy.',
-    '8. Keep outbound paused until all gates are green and the exact send batch is approved.',
+    '2. Run `npm run audit:git-deploy-state` and require clean, pushed Cantoni Git provenance before any deploy.',
+    '3. Run `npm run audit:cloudflare-auth` for OAuth, or `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` for direct token deploy.',
+    '4. Deploy only the verified `.cloudflare-pages` artifact or ZIP referenced in this pack, after explicit deploy approval; use `npm run deploy:cloudflare:direct` for the token path.',
+    '5. Run `npm run dns:cloudflare:plan`; apply only if the plan is ready and explicit DNS approval is present.',
+    '6. Run `npm run audit:email-dns` after DNS propagation.',
+    '7. Generate and publish the Google DKIM value from Google Admin.',
+    '8. Run `npm run test:live-site` and `npm run audit:launch-readiness` after deploy.',
+    '9. Keep outbound paused until all gates are green and the exact send batch is approved.',
     ''
   ].join('\n');
 }

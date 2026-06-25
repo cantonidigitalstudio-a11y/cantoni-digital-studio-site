@@ -10,6 +10,10 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const DEPLOY_SCRIPT = path.join(PROJECT_ROOT, 'scripts/deploy_cloudflare_pages_direct.sh');
 const FAKE_TOKEN = 'cf_test_token_for_direct_deploy_contract_only_1234567890';
 const ACCOUNT_ID = '33333333333333333333333333333333';
+const COMMIT = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+const BRANCH = 'codex/cantoni-production-grade-preview';
+const UPSTREAM = `cantoni/${BRANCH}`;
+const REMOTE_URL = 'https://github.com/cantonidigitalstudio-a11y/cantoni-digital-studio-site.git';
 const PROJECT_NAME = 'cantonidigitalstudio';
 const DOMAIN = 'cantonidigitalstudio.com';
 
@@ -135,6 +139,38 @@ console.error('unexpected bash call: ' + args.join(' '));
 process.exit(92);
 `);
 
+  await writeTool(path.join(toolsDir, 'git'), `${toolPrelude}
+const args = process.argv.slice(2);
+write({ tool: 'git', args });
+const joined = args.join(' ');
+if (joined === 'rev-parse HEAD') {
+  console.log('${COMMIT}');
+  process.exit(0);
+}
+if (joined === 'rev-parse --abbrev-ref HEAD') {
+  console.log('${BRANCH}');
+  process.exit(0);
+}
+if (joined === 'rev-parse --abbrev-ref --symbolic-full-name @{u}') {
+  console.log('${UPSTREAM}');
+  process.exit(0);
+}
+if (joined === 'config --get remote.cantoni.url') {
+  console.log('${REMOTE_URL}');
+  process.exit(0);
+}
+if (joined === 'status --porcelain --untracked-files=normal') {
+  if (process.env.CANTONI_DIRECT_DEPLOY_CONTRACT_GIT_DIRTY === '1') console.log(' M index.html');
+  process.exit(0);
+}
+if (joined === 'rev-list --left-right --count HEAD...${UPSTREAM}') {
+  console.log('0\\t0');
+  process.exit(0);
+}
+console.error('unexpected git call: ' + joined);
+process.exit(94);
+`);
+
   await writeTool(path.join(toolsDir, 'wrangler'), `${toolPrelude}
 const args = process.argv.slice(2);
 write({ tool: 'wrangler', args });
@@ -249,6 +285,28 @@ async function main() {
     assert((await readToolLog(fakeTools.logPath)).length === 0, 'production guard must not invoke npm/bash/wrangler');
     assert(fixture.requests.length === 0, 'production guard must not call Cloudflare API');
 
+    const dirtyGitGuard = await runDeploy({
+      apiBaseUrl: fixture.baseUrl,
+      toolsDir: fakeTools.toolsDir,
+      logPath: fakeTools.logPath,
+      env: {
+        CLOUDFLARE_API_TOKEN: FAKE_TOKEN,
+        CLOUDFLARE_ACCOUNT_ID: ACCOUNT_ID,
+        CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL: 'deploy-cantoni-pages-direct',
+        CLOUDFLARE_PAGES_BRANCH: 'preview-contract',
+        CANTONI_DIRECT_DEPLOY_CONTRACT_GIT_DIRTY: '1'
+      }
+    });
+    assert(dirtyGitGuard.status !== 0, 'direct deploy should fail when git deploy state is dirty');
+    assert(dirtyGitGuard.stdout.includes('step=git_deploy_state'), 'dirty git guard should run before Cloudflare API preflight');
+    assert(dirtyGitGuard.stdout.includes('git_worktree_dirty'), 'dirty git guard should report git_worktree_dirty');
+    assert(!dirtyGitGuard.stdout.includes('step=cloudflare_pages_api_preflight'), 'dirty git guard must stop before Cloudflare API preflight');
+    assert(!dirtyGitGuard.stdout.includes(FAKE_TOKEN), 'dirty git guard stdout must not leak token');
+    assert(!dirtyGitGuard.stderr.includes(FAKE_TOKEN), 'dirty git guard stderr must not leak token');
+    assert(fixture.requests.length === 0, 'dirty git guard must not call Cloudflare API');
+    const afterDirtyLog = await readToolLog(fakeTools.logPath);
+    assert(!afterDirtyLog.some((entry) => ['npm', 'bash', 'wrangler'].includes(entry.tool)), 'dirty git guard must not invoke npm/bash/wrangler');
+
     const success = await runDeploy({
       apiBaseUrl: fixture.baseUrl,
       toolsDir: fakeTools.toolsDir,
@@ -266,6 +324,7 @@ async function main() {
     assert(!success.stdout.includes(FAKE_TOKEN), 'direct deploy stdout must not leak token');
     assert(!success.stderr.includes(FAKE_TOKEN), 'direct deploy stderr must not leak token');
     assert(success.stdout.includes('deploy_channel=cloudflare-pages-direct-token'), 'direct deploy should report deploy channel');
+    assert(success.stdout.includes('step=git_deploy_state'), 'direct deploy should verify git state before Cloudflare API preflight');
 
     const apiPaths = fixture.requests.map((request) => request.path);
     assert(apiPaths.filter((item) => item === '/user/tokens/verify').length === 2, 'direct deploy should verify token before and after tests');
@@ -275,6 +334,9 @@ async function main() {
     assert(fixture.requests.every((request) => request.authorization === `Bearer ${FAKE_TOKEN}`), 'Cloudflare preflight should use bearer auth');
 
     const log = await readToolLog(fakeTools.logPath);
+    const gitCalls = log.filter((entry) => entry.tool === 'git').map((entry) => entry.args.join(' '));
+    assert(gitCalls.includes('status --porcelain --untracked-files=normal'), 'direct deploy should check clean worktree');
+    assert(gitCalls.includes(`rev-list --left-right --count HEAD...${UPSTREAM}`), 'direct deploy should check upstream alignment');
     const npmCalls = log.filter((entry) => entry.tool === 'npm').map((entry) => entry.args.join(' '));
     assert(npmCalls.includes('run test:full'), 'direct deploy should run full test suite before deploy');
     assert(npmCalls.includes('run test:artifact'), 'direct deploy should verify artifact integrity');
@@ -297,6 +359,7 @@ async function main() {
       checked: [
         'missing_token_guard',
         'production_approval_guard',
+        'git_deploy_state_guard',
         'pages_only_preflight',
         'artifact_only_deploy_path',
         'preview_branch_deploy',
