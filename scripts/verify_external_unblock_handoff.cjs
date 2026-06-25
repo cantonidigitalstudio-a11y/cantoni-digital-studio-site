@@ -177,6 +177,39 @@ async function main() {
   }
   const dkim = dashboardRecords.find((record) => record.id === 'google_dkim');
   if (dkim && dkim.manual_value_required !== true) failures.push('Google DKIM record must stay manual-value-required.');
+  for (const destination of ['hello@cantonidigitalstudio.com', 'quotes@cantonidigitalstudio.com', 'support@cantonidigitalstudio.com', 'dmarc@cantonidigitalstudio.com']) {
+    if (!emailDns?.required_workspace_destinations?.includes(destination)) {
+      failures.push(`Email DNS task must require Google Workspace destination ${destination}.`);
+    }
+  }
+  if (!String(emailDns?.api_payload?.path || '').includes('sales-kit/generated/email-dns-handoff/')) {
+    failures.push('Email DNS task must reference the generated email DNS API-safe payload path.');
+  }
+  if (emailDns?.api_payload_latest_alias !== 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json') {
+    failures.push('Email DNS task must reference the latest Cloudflare API-safe DNS payload alias.');
+  }
+  if (!emailDns?.manual_value_records?.some((record) => record.id === 'google_dkim' && record.reason === 'manual_value_required')) {
+    failures.push('Email DNS task must keep google_dkim in manual_value_records.');
+  }
+  if (!emailDns?.verification_commands?.includes('npm run export:email-dns-handoff')) {
+    failures.push('Email DNS task must require npm run export:email-dns-handoff.');
+  }
+  if (!emailDns?.verification_commands?.includes('npm run audit:cloudflare-dns-api')) {
+    failures.push('Email DNS task must require npm run audit:cloudflare-dns-api.');
+  }
+  if (!emailDns?.verification_commands?.includes('npm run dns:cloudflare:plan')) {
+    failures.push('Email DNS task must require npm run dns:cloudflare:plan.');
+  }
+  if (emailDns?.mutation_command_after_approval !== 'npm run dns:cloudflare:apply') {
+    failures.push('Email DNS task must name npm run dns:cloudflare:apply as the mutation command after approval.');
+  }
+  if (!emailDns?.approval_tokens_required?.includes('CANTONI_DNS_APPROVAL=apply-cantoni-email-dns')) {
+    failures.push('Email DNS task must preserve the explicit DNS approval token.');
+  }
+  const dnsSafetyText = JSON.stringify(emailDns?.apply_safety_rules || []);
+  for (const requiredText of ['cloudflare_lookup_required', 'zone identity mismatch', 'google._domainkey', 'CANTONI_DNS_ALLOW_EXISTING_REPLACE=yes']) {
+    if (!dnsSafetyText.includes(requiredText)) failures.push(`Email DNS task must preserve safety rule text: ${requiredText}`);
+  }
   if (paymentBranding?.flag !== 'sales-kit/payment_branding_review.flag') failures.push('Payment branding task must reference sales-kit/payment_branding_review.flag.');
   if (paymentBranding?.evidence !== 'sales-kit/payment_branding_review_evidence.json') failures.push('Payment branding task must reference sales-kit/payment_branding_review_evidence.json.');
   if (paymentBranding?.remediation !== 'sales-kit/payment_branding_remediation.md') failures.push('Payment branding task must reference sales-kit/payment_branding_remediation.md.');
@@ -231,6 +264,11 @@ async function main() {
       'sales-kit/payment_branding_review_evidence.json',
       'sales-kit/payment_branding_remediation.md',
       'sales-kit/outbound_pause.flag',
+      'cantoni-email-dns-handoff-latest.cloudflare-api-records.json',
+      'npm run dns:cloudflare:apply',
+      'CANTONI_DNS_APPROVAL=apply-cantoni-email-dns',
+      'cloudflare_lookup_required',
+      'google._domainkey',
       'npm run test:social-public',
       'npm run test:lead-endpoint',
       'npm run test:outreach-readiness'

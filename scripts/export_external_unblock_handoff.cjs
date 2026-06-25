@@ -235,6 +235,12 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
         id: 'google_workspace_email_dns',
         status: emailDnsGate?.ok === true ? 'ok' : 'blocked',
         destination: 'Google Workspace and Cloudflare DNS for cantonidigitalstudio.com',
+        required_workspace_destinations: [
+          'hello@cantonidigitalstudio.com',
+          'quotes@cantonidigitalstudio.com',
+          'support@cantonidigitalstudio.com',
+          'dmarc@cantonidigitalstudio.com'
+        ],
         prerequisites: [
           'Create the required Google Workspace mailbox, alias, or group destinations before changing MX.',
           'Create or route dmarc@cantonidigitalstudio.com before relying on DMARC aggregate reports.',
@@ -242,10 +248,30 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
         ],
         dashboard_records: records,
         api_payload: emailDnsHandoff?.cloudflare_api_payload || null,
+        api_payload_latest_alias: 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json',
+        manual_value_records: records
+          .filter((record) => record.manual_value_required === true)
+          .map((record) => ({
+            id: record.id || null,
+            type: record.type || null,
+            name: record.name || null,
+            reason: 'manual_value_required'
+          })),
         verification_commands: [
           'npm run export:email-dns-handoff',
+          'npm run audit:cloudflare-dns-api',
           'npm run dns:cloudflare:plan',
           'npm run audit:email-dns'
+        ],
+        mutation_command_after_approval: 'npm run dns:cloudflare:apply',
+        approval_tokens_required: [
+          'CANTONI_DNS_APPROVAL=apply-cantoni-email-dns'
+        ],
+        apply_safety_rules: [
+          'Run npm run dns:cloudflare:plan with live CLOUDFLARE_API_TOKEN and CLOUDFLARE_ZONE_ID before apply.',
+          'Do not apply if the plan reports cloudflare_lookup_required, blocked, or a zone identity mismatch.',
+          'Do not publish google._domainkey until the exact Google Admin DKIM TXT value is available.',
+          'Do not use CANTONI_DNS_ALLOW_EXISTING_REPLACE=yes unless a human has reviewed the existing SPF, DMARC or MX record conflict.'
         ],
         failures: failuresForGate(emailDnsGate)
       },
@@ -374,9 +400,18 @@ function renderMarkdown(payload) {
     '',
     '## Google Workspace Email DNS',
     '',
+    `- Status: \`${emailTask.status}\``,
     '- Create required Google Workspace mailboxes, aliases or groups before changing MX.',
+    `- Required destinations: ${(emailTask.required_workspace_destinations || []).map((item) => `\`${item}\``).join(', ') || 'not recorded'}.`,
     '- Create or route `dmarc@cantonidigitalstudio.com` before relying on DMARC reports.',
     '- Generate the Google DKIM value in Google Admin before publishing `google._domainkey`.',
+    `- API-safe payload: \`${emailTask.api_payload?.path || 'not generated'}\` (${emailTask.api_payload?.records_count ?? 0} automatic records).`,
+    `- Latest API-safe alias: \`${emailTask.api_payload_latest_alias}\`.`,
+    `- Manual-value records: ${(emailTask.manual_value_records || []).map((record) => `\`${record.id}\``).join(', ') || 'none'}.`,
+    '- Dry-run before mutation: `npm run export:email-dns-handoff`, `npm run audit:cloudflare-dns-api`, `npm run dns:cloudflare:plan`.',
+    '- Mutation command after DNS approval only: `npm run dns:cloudflare:apply`.',
+    '- Required approval token name/value: `CANTONI_DNS_APPROVAL=apply-cantoni-email-dns`.',
+    '- Stop if the DNS plan reports `cloudflare_lookup_required`, `blocked`, or a zone identity mismatch.',
     '',
     ...recordRows(emailTask.dashboard_records),
     '',

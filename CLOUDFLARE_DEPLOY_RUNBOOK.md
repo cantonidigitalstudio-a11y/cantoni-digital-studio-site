@@ -146,6 +146,12 @@ controllo come gate `external_unblock_handoff`, cosi il report principale mostra
 anche se il dossier di sblocco esterno e pronto. Se il latest e stale durante
 una generazione di pack, il gate resta informativo; i blocker reali rimangono
 Cloudflare, DNS, live contract e outbound hold.
+Il blocco Google Workspace Email DNS del dossier deve indicare il payload
+API-safe `cantoni-email-dns-handoff-latest.cloudflare-api-records.json`, il
+dry-run `npm run dns:cloudflare:plan`, l'apply separato
+`npm run dns:cloudflare:apply`, l'approvazione
+`CANTONI_DNS_APPROVAL=apply-cantoni-email-dns` e lo stop se il piano segnala
+`cloudflare_lookup_required`, `blocked` o mismatch della zona Cloudflare.
 
 `npm run export:launch-handoff` scrive anche
 `cantoni-launch-handoff-latest.md/json`; il verifier confronta questi alias con

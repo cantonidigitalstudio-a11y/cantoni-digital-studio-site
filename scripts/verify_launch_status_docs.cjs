@@ -50,6 +50,9 @@ function main() {
   if (!readme.includes('cantoni-external-unblock-handoff-latest')) {
     failures.push('README.md: must document the stable latest external unblock handoff aliases');
   }
+  if (!readme.includes('cantoni-email-dns-handoff-latest.cloudflare-api-records.json') || !readme.includes('npm run dns:cloudflare:apply') || !readme.includes('CANTONI_DNS_APPROVAL=apply-cantoni-email-dns')) {
+    failures.push('README.md: must document DNS apply boundary in external unblock handoff');
+  }
   if (!readme.includes('cantoni-launch-operator-pack-latest')) {
     failures.push('README.md: must document the stable latest launch operator pack aliases');
   }
@@ -109,6 +112,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('cantoni-external-unblock-handoff-latest.md/json')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest external unblock handoff aliases');
+  }
+  if (!cloudflareRunbook.includes('cantoni-email-dns-handoff-latest.cloudflare-api-records.json') || !cloudflareRunbook.includes('npm run dns:cloudflare:apply') || !cloudflareRunbook.includes('cloudflare_lookup_required')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document DNS apply boundary in external unblock handoff');
   }
   if (!cloudflareRunbook.includes('cantoni-launch-operator-pack-latest.md/json')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest launch operator pack aliases');
