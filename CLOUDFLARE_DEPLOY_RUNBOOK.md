@@ -284,17 +284,17 @@ preview valida il pacchetto ma lascia invariato il sito pubblico di produzione.
 
 Verifica PayPal obbligatoria prima del deploy: aprire entrambi i Payment Link nel browser reale, controllare che Stripe Checkout mostri `Cantoni Digital Studio`, che PayPal sia selezionabile, e fermarsi senza premere pagamento finale.
 
-Stato 2026-05-05: PayPal verificato visualmente su entrambi i Payment Link dopo aggiunta dei domini affidabili Stripe `cantonidigitalstudio.com` e `buy.stripe.com`.
+Stato corrente 2026-06-25: `sales-kit/payment_branding_review_evidence.json` registra `blocked_paypal_not_visible` e `release_ready=false`. La verifica del 2026-05-05 e superata: non dimostra lo stato attuale dei Payment Link e non puo sbloccare il gate PayPal/branding.
 
 Se PayPal non compare nemmeno nel browser reale, il codice del sito non può correggerlo da solo: PayPal va attivato/configurato nelle impostazioni metodi di pagamento del Dashboard Stripe e deve risultare compatibile con importo, valuta e paese del checkout.
 
 ## Gate PayPal / branding
-- Decisione temporanea 2026-05-05: PayPal puo essere collegato al conto business gia esistente legato a EC8/EC8 Platform per sbloccare la disponibilita del metodo PayPal.
-- Rischio accettato: PayPal puo mostrare o usare riferimenti del conto storico nelle schermate PayPal, nelle ricevute o nelle comunicazioni, anche se Stripe Checkout deve continuare a identificare il merchant come `Cantoni Digital Studio`.
+- Decisione corrente 2026-06-25: nessuna eccezione EC8 e valida per la release. PayPal deve risultare selezionabile e non deve esporre EC8, EC8 Platform o altri brand/account non correlati.
+- Se PayPal risulta collegato a un account storico o non coerente, il gate resta bloccato finche Stripe/PayPal non mostrano solo branding coerente con `Cantoni Digital Studio`.
 - Gate strutturato: `sales-kit/payment_branding_review.flag` resta presente finche `npm run audit:payment-branding` non e verde dopo verifica reale dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
 - Evidenza: `sales-kit/payment_branding_review_evidence.json` registra l'ultima verifica Browser reale; il flag non va rimosso finche l'evidenza non ha `release_ready=true`.
 - Remediation Stripe/PayPal: `sales-kit/payment_branding_remediation.md`, verificato da `npm run test:payment-branding-remediation`.
-- Il test pagamenti blocca altri brand non correlati nel checkout Stripe, ma non blocca EC8/EC8 Platform finche questa eccezione temporanea resta approvata.
+- Il test pagamenti automatico puo non entrare nel wallet PayPal; il gate vincolante resta `npm run audit:payment-branding`, che richiede evidenza Browser reale e nessuna eccezione EC8.
 
 ## Controlli dopo il go-live
 - preview Pages raggiungibile e coerente con artifact locale

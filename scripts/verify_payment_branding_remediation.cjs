@@ -6,6 +6,7 @@ const path = require('path');
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const REMEDIATION_PATH = 'sales-kit/payment_branding_remediation.md';
 const EVIDENCE_PATH = 'sales-kit/payment_branding_review_evidence.json';
+const RUNBOOK_PATH = 'CLOUDFLARE_DEPLOY_RUNBOOK.md';
 
 function read(file) {
   return fs.readFileSync(path.join(PROJECT_ROOT, file), 'utf8');
@@ -15,6 +16,7 @@ function main() {
   const failures = [];
   const remediation = read(REMEDIATION_PATH);
   const evidence = JSON.parse(read(EVIDENCE_PATH));
+  const runbook = read(RUNBOOK_PATH);
 
   for (const required of [
     'https://docs.stripe.com/payments/paypal',
@@ -42,12 +44,34 @@ function main() {
   if (evidence?.summary?.release_ready !== true && !remediation.includes('Se anche uno solo di questi punti manca, il flag resta.')) {
     failures.push('Payment branding remediation must preserve the hold when evidence is not release_ready=true.');
   }
+  for (const required of [
+    'Stato corrente 2026-06-25',
+    'blocked_paypal_not_visible',
+    'release_ready=false',
+    'La verifica del 2026-05-05 e superata',
+    'nessuna eccezione EC8',
+    'non deve esporre EC8, EC8 Platform o altri brand/account non correlati',
+    'npm run audit:payment-branding'
+  ]) {
+    if (!runbook.includes(required)) {
+      failures.push(`Cloudflare deploy runbook must include current payment branding boundary: ${required}.`);
+    }
+  }
+  for (const forbidden of [
+    'Rischio accettato: PayPal puo mostrare o usare riferimenti del conto storico',
+    'questa eccezione temporanea resta approvata'
+  ]) {
+    if (runbook.includes(forbidden)) {
+      failures.push(`Cloudflare deploy runbook must not keep stale PayPal/EC8 exception text: ${forbidden}.`);
+    }
+  }
 
   const report = {
     ok: failures.length === 0,
     checked: [
       REMEDIATION_PATH,
-      EVIDENCE_PATH
+      EVIDENCE_PATH,
+      RUNBOOK_PATH
     ],
     evidence_status: evidence?.status || null,
     release_ready: evidence?.summary?.release_ready === true,
