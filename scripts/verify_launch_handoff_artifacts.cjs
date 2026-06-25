@@ -715,12 +715,16 @@ async function main() {
       'Manual package README',
       'Production live-site contract coverage in this ZIP',
       'Do not upload only these files',
+      'ZIP bytes:',
       'Full artifact required: yes',
       'Partial upload safe: no'
     ]) {
       if (!launchMarkdown.includes(requiredLaunchPackageText)) {
         failures.push(`launch_handoff: Markdown must expose Cloudflare manual package safety text: ${requiredLaunchPackageText}`);
       }
+    }
+    if (!operatorMarkdown.includes('ZIP bytes:')) {
+      failures.push('operator_pack: Markdown must expose Cloudflare ZIP byte size');
     }
 
     const cloudflareAuth = launchHandoff.cloudflare_auth || {};

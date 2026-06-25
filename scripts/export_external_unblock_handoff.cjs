@@ -423,6 +423,7 @@ function renderMarkdown(payload) {
     `- Execution blockers: ${(candidate.execution_blockers || []).map((id) => `\`${id}\``).join(', ') || 'none'}`,
     `- ZIP: \`${candidate.package.zip_path || 'unknown'}\``,
     `- ZIP SHA-256: \`${candidate.package.zip_sha256 || 'unknown'}\``,
+    `- ZIP bytes: ${candidate.package.zip_bytes ?? 'unknown'}`,
     `- Manifest: \`${candidate.package.manifest || 'unknown'}\``,
     `- Checksums: \`${candidate.package.checksums || 'unknown'}\``,
     `- Manual package README: \`${candidate.package.readme || 'unknown'}\``,

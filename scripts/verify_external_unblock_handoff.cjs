@@ -350,6 +350,7 @@ async function main() {
       'Current upstream:',
       'Operator pack commit:',
       'If any commit, branch, upstream, ZIP checksum or operator pack reference differs from this handoff',
+      'ZIP bytes:',
       'Current Holds',
       'payment_branding_review',
       'commercial_outbound_pause'
@@ -360,6 +361,7 @@ async function main() {
       currentShortCommit,
       currentCommit,
       operatorShortCommit,
+      payload?.deploy_candidate?.package?.zip_bytes != null ? `ZIP bytes: ${payload.deploy_candidate.package.zip_bytes}` : null,
       payload?.git?.current?.branch,
       payload?.git?.current?.upstream
     ].filter(Boolean)) {

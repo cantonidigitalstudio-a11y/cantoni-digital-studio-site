@@ -265,6 +265,7 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
         `- Checksums: \`${latestPackage.checksums}\``,
         `- Manual package README: \`${latestPackage.readme}\``,
         `- SHA-256: \`${latestPackage.checksum}\``,
+        `- ZIP bytes: ${latestPackage.zip_bytes ?? 'unknown'}`,
         `- Files: ${latestPackage.files_count || 'unknown'}`,
         `- Full artifact required: ${latestPackage.contract_coverage?.full_artifact_required === true ? 'yes' : 'unknown'}`,
         `- Partial upload safe: ${latestPackage.contract_coverage?.partial_upload_safe === false ? 'no' : 'unknown'}`,
