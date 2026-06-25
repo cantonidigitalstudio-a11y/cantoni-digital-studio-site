@@ -119,6 +119,8 @@ async function main() {
 
   const zipPath = resolveRepoPath(payload?.deploy_candidate?.package?.zip_path);
   const manifestPath = resolveRepoPath(payload?.deploy_candidate?.package?.manifest);
+  const checksumsPath = resolveRepoPath(payload?.deploy_candidate?.package?.checksums);
+  const readmePath = resolveRepoPath(payload?.deploy_candidate?.package?.readme);
   if (!zipPath) failures.push('Deploy candidate ZIP path must be repo-relative.');
   else {
     try {
@@ -134,9 +136,42 @@ async function main() {
   if (!manifestPath) failures.push('Deploy candidate manifest path must be repo-relative.');
   else {
     try {
-      await fs.access(manifestPath);
+      const manifest = await readJson(manifestPath);
+      if (manifest.contract_coverage?.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
+        failures.push('Deploy candidate manifest must expose live-site contract coverage.');
+      }
+      if (manifest.contract_coverage?.full_artifact_required !== true || manifest.contract_coverage?.partial_upload_safe !== false) {
+        failures.push('Deploy candidate manifest contract coverage must require full artifact deployment.');
+      }
     } catch (error) {
       failures.push(`Unable to read deploy candidate manifest: ${error.message}`);
+    }
+  }
+  if (!checksumsPath) failures.push('Deploy candidate checksums path must be repo-relative.');
+  else {
+    try {
+      await fs.access(checksumsPath);
+    } catch (error) {
+      failures.push(`Unable to read deploy candidate checksums: ${error.message}`);
+    }
+  }
+  if (!readmePath) failures.push('Deploy candidate README path must be repo-relative.');
+  else {
+    try {
+      const readme = await fs.readFile(readmePath, 'utf8');
+      for (const requiredReadmeText of [
+        'Production live-site contract coverage in this ZIP',
+        'Full artifact required: yes',
+        'Partial upload safe: no',
+        'Do not upload only these files',
+        'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production'
+      ]) {
+        if (!readme.includes(requiredReadmeText)) {
+          failures.push(`Deploy candidate README missing contract coverage text: ${requiredReadmeText}`);
+        }
+      }
+    } catch (error) {
+      failures.push(`Unable to read deploy candidate README: ${error.message}`);
     }
   }
 
@@ -155,6 +190,8 @@ async function main() {
   if (!pagesAuth?.required_environment_names?.includes('CLOUDFLARE_ACCOUNT_ID')) failures.push('Pages auth task must name CLOUDFLARE_ACCOUNT_ID.');
   if (!deploy?.approval_tokens_required?.some((item) => item.includes('deploy-cantoni-pages-direct'))) failures.push('Deploy task must require direct deploy approval token.');
   if (!deploy?.approval_tokens_required?.some((item) => item.includes('deploy-cantoni-production'))) failures.push('Deploy task must preserve separate production approval.');
+  if (deploy?.approved_candidate_package?.readme !== payload?.deploy_candidate?.package?.readme) failures.push('Deploy task README path must match deploy candidate package README.');
+  if (deploy?.approved_candidate_package?.checksums !== payload?.deploy_candidate?.package?.checksums) failures.push('Deploy task checksums path must match deploy candidate package checksums.');
   if (deploy?.branch_policy?.default_direct_deploy_branch !== 'preview-cantoni-site') failures.push('Deploy task must document preview-cantoni-site as the default direct branch.');
   if (deploy?.branch_policy?.production_branch !== 'main') failures.push('Deploy task must document main as the production branch.');
   if (deploy?.branch_policy?.preview_deploy_clears_live_site_contract !== false) failures.push('Deploy task must state that preview deploys do not clear the production live-site contract.');
@@ -279,6 +316,8 @@ async function main() {
       'google._domainkey',
       'Live Site Contract Drift',
       'Do not upload only the drift files',
+      'Manual package README',
+      'Production live-site contract coverage in this ZIP',
       '/case-studies.html',
       '/termini-commerciali.html',
       '/privacy.html',

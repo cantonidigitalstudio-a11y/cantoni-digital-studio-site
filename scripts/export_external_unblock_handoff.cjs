@@ -171,8 +171,11 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
       package: {
         zip_path: candidate.package?.zip_path || null,
         zip_sha256: candidate.package?.zip_sha256 || null,
+        zip_bytes: candidate.package?.zip_bytes ?? null,
         manifest: candidate.package?.manifest || null,
         checksums: candidate.package?.checksums || null,
+        readme: candidate.package?.readme || null,
+        files_total_bytes: candidate.package?.files_total_bytes ?? null,
         files_count: candidate.package?.files_count ?? null
       },
       zip_exists: Boolean(zipPath),
@@ -397,6 +400,9 @@ function renderMarkdown(payload) {
     `- ZIP: \`${candidate.package.zip_path || 'unknown'}\``,
     `- ZIP SHA-256: \`${candidate.package.zip_sha256 || 'unknown'}\``,
     `- Manifest: \`${candidate.package.manifest || 'unknown'}\``,
+    `- Checksums: \`${candidate.package.checksums || 'unknown'}\``,
+    `- Manual package README: \`${candidate.package.readme || 'unknown'}\``,
+    '- Read the manual package README before upload; it contains `Production live-site contract coverage in this ZIP` and the no-partial-upload rule.',
     '',
     '## Live Site Contract Drift',
     '',
