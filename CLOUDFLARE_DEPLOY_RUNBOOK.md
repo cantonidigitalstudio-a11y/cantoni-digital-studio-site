@@ -77,6 +77,17 @@ accetta ZIP o cartella solo per progetti Direct Upload. Se il progetto esistente
 non espone drag-and-drop, usare lo ZIP solo come handoff/review e pubblicare la
 cartella `.cloudflare-pages` via Wrangler dopo auth corretta.
 
+Per preparare in una sola run lo ZIP, i record DNS email, il report drift live e
+il launch handoff indicizzato, usare:
+
+```bash
+cd "<repo-root>"
+npm run export:launch-operator-pack
+```
+
+L'indice viene scritto in `sales-kit/generated/launch-operator-pack/` e deve
+essere letto prima di qualsiasi operazione manuale su Cloudflare o DNS.
+
 ## Deploy preview
 ```bash
 cd "<repo-root>"

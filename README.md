@@ -50,6 +50,10 @@ Per dimostrare se il live e solo indietro rispetto all'artifact pronto al
 deploy, usa `npm run export:live-drift`. Il report resta sotto
 `sales-kit/generated/live-drift/` ed e ignorato da git.
 
+Per preparare un indice unico di deploy/DNS/drift/launch handoff generati nella
+stessa run, usa `npm run export:launch-operator-pack`. Il report resta sotto
+`sales-kit/generated/launch-operator-pack/` ed e ignorato da git.
+
 ## Regole operative
 
 - Non salvare password, token, OTP, cookie o dati di recupero nel repo.
