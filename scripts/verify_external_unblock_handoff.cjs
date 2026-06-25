@@ -98,8 +98,13 @@ function assertGateDetails({ ids, details, label, failures }) {
       continue;
     }
     if (!detail.label) failures.push(`${label} detail ${id} must include a label.`);
+    if (!detail.category) failures.push(`${label} detail ${id} must include a category.`);
+    if (!detail.severity) failures.push(`${label} detail ${id} must include a severity.`);
     if (!Number.isInteger(detail.failure_count)) failures.push(`${label} detail ${id} must include integer failure_count.`);
     if (!Array.isArray(detail.failures)) failures.push(`${label} detail ${id} must include failures array.`);
+    if (Array.isArray(detail.failures) && detail.failure_count !== detail.failures.length) {
+      failures.push(`${label} detail ${id} failure_count must match failures length.`);
+    }
   }
   for (const id of detailIds) {
     if (!ids.includes(id)) failures.push(`${label} details include unexpected ${id}.`);
@@ -163,11 +168,28 @@ async function main() {
   if (operatorPack) {
     const operatorBlockerIds = (operatorPack.readiness?.blockers || []).map((blocker) => blocker.id);
     const operatorHoldIds = (operatorPack.readiness?.holds || []).map((hold) => hold.id);
+    const operatorGates = Array.isArray(operatorPack.readiness?.gates) ? operatorPack.readiness.gates : [];
     if (JSON.stringify(payload?.current_blockers || []) !== JSON.stringify(operatorBlockerIds)) {
       failures.push('Current blockers must match source operator pack blockers.');
     }
     if (JSON.stringify(payload?.current_hold_ids || []) !== JSON.stringify(operatorHoldIds)) {
       failures.push('Current holds must match source operator pack holds.');
+    }
+    for (const detail of [
+      ...(payload?.current_blocker_details || []),
+      ...(payload?.current_hold_details || [])
+    ]) {
+      const gate = operatorGates.find((item) => item.id === detail.id);
+      if (!gate) {
+        failures.push(`Current gate detail ${detail.id || 'unknown'} must match a source operator pack gate.`);
+        continue;
+      }
+      if (detail.label !== gate.label) failures.push(`Current gate detail ${detail.id} label must match source operator pack gate.`);
+      if (detail.category !== gate.category) failures.push(`Current gate detail ${detail.id} category must match source operator pack gate.`);
+      if (detail.severity !== gate.severity) failures.push(`Current gate detail ${detail.id} severity must match source operator pack gate.`);
+      if (detail.failure_count !== (Array.isArray(gate.failures) ? gate.failures.length : 0)) {
+        failures.push(`Current gate detail ${detail.id} failure_count must match source operator pack gate failures.`);
+      }
     }
   }
 

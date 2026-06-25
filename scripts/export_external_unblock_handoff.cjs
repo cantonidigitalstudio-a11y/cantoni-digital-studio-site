@@ -127,14 +127,16 @@ function failuresForGate(gate) {
   })) : [];
 }
 
-function gateDetails(items) {
+function gateDetails(items, readiness) {
+  const gates = Array.isArray(readiness?.gates) ? readiness.gates : [];
   return (Array.isArray(items) ? items : []).map((item) => {
+    const sourceGate = gates.find((gate) => gate.id === item.id) || {};
     const failures = failuresForGate(item);
     return {
       id: item.id || null,
-      label: item.label || null,
-      category: item.category || null,
-      severity: item.severity || null,
+      label: item.label || sourceGate.label || null,
+      category: item.category || sourceGate.category || null,
+      severity: item.severity || sourceGate.severity || null,
       failure_count: failures.length,
       failures
     };
@@ -186,9 +188,9 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
       operator_pack: operatorPack.git || null
     },
     current_blockers: blockerIds(readiness),
-    current_blocker_details: gateDetails(readiness.blockers),
+    current_blocker_details: gateDetails(readiness.blockers, readiness),
     current_hold_ids: (readiness.holds || []).map((hold) => hold.id),
-    current_hold_details: gateDetails(readiness.holds),
+    current_hold_details: gateDetails(readiness.holds, readiness),
     deploy_candidate: {
       status: candidate.status || null,
       artifact_ready: candidate.artifact_ready === true,
