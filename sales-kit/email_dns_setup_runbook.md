@@ -33,7 +33,9 @@ npm run dns:cloudflare:plan
 Il comando usa l'ultimo payload generato. Senza credenziali non contatta
 Cloudflare e segnala che serve il lookup live. Con `CLOUDFLARE_API_TOKEN` e
 `CLOUDFLARE_ZONE_ID` disponibili, legge i record esistenti e produce azioni
-`create`, `update`, `noop` o `blocked`.
+`create`, `update`, `noop` o `blocked`. Prima di leggere i record, verifica che
+lo zone id appartenga alla zona attiva `cantonidigitalstudio.com`; se punta a un
+altro dominio, il piano resta bloccato e l'apply non puo mutare nulla.
 
 Prima di qualunque apply, eseguire anche:
 
@@ -41,8 +43,9 @@ Prima di qualunque apply, eseguire anche:
 npm run audit:cloudflare-api
 ```
 
-Deve confermare token attivo e lettura DNS della zona Cantoni. Il check e
-read-only e non sostituisce l'approvazione esplicita dell'apply.
+Deve confermare token attivo, identita della zona `cantonidigitalstudio.com` e
+lettura DNS della zona Cantoni. Il check e read-only e non sostituisce
+l'approvazione esplicita dell'apply.
 
 L'applicazione reale e separata e richiede consenso esplicito nel processo:
 
@@ -68,6 +71,8 @@ Il piano e incluso anche in `npm run export:launch-operator-pack`, cosi il
 pacchetto di lancio contiene sia i file record sia lo stato applicabile del
 dry-run Cloudflare. Se il pack mostra `source=no_credentials`, non e un via
 libera: serve ripetere il piano con token e zone id del solo account Cantoni.
+Se mostra `source=cloudflare_zone_identity_blocked`, lo zone id non e quello
+attivo di `cantonidigitalstudio.com` e non va usato per l'apply.
 
 ## Profilo scelto
 

@@ -23,7 +23,9 @@ function jsonResponse(res, status, payload) {
   res.end(JSON.stringify(payload));
 }
 
-function startServer() {
+function startServer(options = {}) {
+  const zoneName = options.zoneName || DOMAIN;
+  const zoneStatus = options.zoneStatus || 'active';
   const requests = [];
   const sockets = new Set();
   const server = http.createServer((req, res) => {
@@ -63,6 +65,19 @@ function startServer() {
           id: 'deployment-fixture-id',
           project_name: PROJECT_NAME
         }]
+      });
+      return;
+    }
+
+    if (url.pathname === `/zones/${ZONE_ID}`) {
+      jsonResponse(res, 200, {
+        success: true,
+        errors: [],
+        result: {
+          id: ZONE_ID,
+          name: zoneName,
+          status: zoneStatus
+        }
       });
       return;
     }
@@ -182,11 +197,15 @@ async function main() {
     assert(parsed.zone_id_suffix === ZONE_ID.slice(-6), 'zone id suffix should be reported');
     assert(parsed.checks.token_verify.ok === true, 'token verify check should pass');
     assert(parsed.checks.pages_project_deployments_read.ok === true, 'Pages read check should pass');
+    assert(parsed.checks.dns_zone_identity_read.ok === true, 'DNS zone identity check should pass');
+    assert(parsed.checks.dns_zone_identity_read.zone_name_matches_domain === true, 'DNS zone identity should match the Cantoni domain');
+    assert(parsed.checks.dns_zone_identity_read.zone_status_active === true, 'DNS zone identity should require active status');
     assert(parsed.checks.dns_records_read.ok === true, 'DNS read check should pass');
 
     const requestPaths = requests.map((request) => request.path).sort();
     assert(requestPaths.includes('/user/tokens/verify'), 'token verify endpoint should be called');
     assert(requestPaths.includes(`/accounts/${ACCOUNT_ID}/pages/projects/${PROJECT_NAME}/deployments`), 'Pages deployments endpoint should be called');
+    assert(requestPaths.includes(`/zones/${ZONE_ID}`), 'DNS zone identity endpoint should be called');
     assert(requestPaths.includes(`/zones/${ZONE_ID}/dns_records`), 'DNS records endpoint should be called');
     assert(requests.every((request) => request.method === 'GET'), 'all fixture requests should use GET');
     assert(requests.every((request) => request.authorization === `Bearer ${FAKE_TOKEN}`), 'all fixture requests should use bearer auth');
@@ -213,6 +232,8 @@ async function main() {
     assert(pagesOnlyParsed.has_cloudflare_zone_id === false, 'pages-only audit should not require zone id presence');
     assert(pagesOnlyParsed.checks.token_verify.ok === true, 'pages-only token verify check should pass');
     assert(pagesOnlyParsed.checks.pages_project_deployments_read.ok === true, 'pages-only Pages read check should pass');
+    assert(pagesOnlyParsed.checks.dns_zone_identity_read.ok === true, 'pages-only DNS zone identity check should be non-blocking');
+    assert(pagesOnlyParsed.checks.dns_zone_identity_read.skipped === true, 'pages-only DNS zone identity check should be skipped');
     assert(pagesOnlyParsed.checks.dns_records_read.ok === true, 'pages-only DNS check should be non-blocking');
     assert(pagesOnlyParsed.checks.dns_records_read.skipped === true, 'pages-only DNS check should be skipped');
 
@@ -241,11 +262,13 @@ async function main() {
     assert(dnsOnlyParsed.checks.token_verify.ok === true, 'dns-only token verify check should pass');
     assert(dnsOnlyParsed.checks.pages_project_deployments_read.ok === true, 'dns-only Pages check should be non-blocking');
     assert(dnsOnlyParsed.checks.pages_project_deployments_read.skipped === true, 'dns-only Pages check should be skipped');
+    assert(dnsOnlyParsed.checks.dns_zone_identity_read.ok === true, 'dns-only DNS zone identity check should pass');
     assert(dnsOnlyParsed.checks.dns_records_read.ok === true, 'dns-only DNS records check should pass');
 
     const dnsOnlyRequestPaths = requests.map((request) => request.path).sort();
     assert(dnsOnlyRequestPaths.includes('/user/tokens/verify'), 'dns-only token verify endpoint should be called');
     assert(!dnsOnlyRequestPaths.some((requestPath) => requestPath.startsWith('/accounts/')), 'dns-only audit must not call Pages endpoints');
+    assert(dnsOnlyRequestPaths.includes(`/zones/${ZONE_ID}`), 'dns-only DNS zone identity endpoint should be called');
     assert(dnsOnlyRequestPaths.includes(`/zones/${ZONE_ID}/dns_records`), 'dns-only DNS records endpoint should be called');
     const dnsOnlyDnsRequest = requests.find((request) => request.path === `/zones/${ZONE_ID}/dns_records`);
     assert(dnsOnlyDnsRequest?.query.name === DOMAIN, 'dns-only DNS records check should scope by Cantoni domain');
@@ -259,18 +282,36 @@ async function main() {
     assert(invalidScopeParsed.ok === false, 'invalid scope audit should return ok=false');
     assert(invalidScopeParsed.failures.some((failure) => failure.id === 'invalid_scope_flags'), 'invalid scope audit should report invalid_scope_flags');
 
+    const mismatch = await startServer({ zoneName: 'example.com' });
+    try {
+      const mismatchResult = await runAudit(mismatch.baseUrl, { args: ['--dns-only'] });
+      assert(mismatchResult.status !== 0, 'dns-only audit should fail when zone id points at another domain');
+      assert(!mismatchResult.stdout.includes(FAKE_TOKEN), 'zone mismatch stdout must not leak CLOUDFLARE_API_TOKEN');
+      assert(!mismatchResult.stderr.includes(FAKE_TOKEN), 'zone mismatch stderr must not leak CLOUDFLARE_API_TOKEN');
+      const mismatchParsed = JSON.parse(mismatchResult.stdout);
+      assert(mismatchParsed.ok === false, 'zone mismatch audit should return ok=false');
+      assert(mismatchParsed.checks.dns_zone_identity_read.ok === false, 'zone mismatch should fail zone identity check');
+      assert(mismatchParsed.checks.dns_zone_identity_read.zone_name === 'example.com', 'zone mismatch should report the wrong zone name');
+      assert(mismatchParsed.failures.some((failure) => failure.id === 'cloudflare_dns_zone_identity'), 'zone mismatch should report cloudflare_dns_zone_identity');
+      assert(!mismatch.requests.some((request) => request.path === `/zones/${ZONE_ID}/dns_records`), 'zone mismatch must not read DNS records after identity failure');
+    } finally {
+      await closeServer(mismatch.server, mismatch.sockets);
+    }
+
     console.log(JSON.stringify({
       ok: true,
       checked: [
         'token_verify_success',
         'pages_deployments_read_success',
+        'dns_zone_identity_success',
         'dns_records_read_success',
         'token_redaction',
         'endpoint_contract',
         'query_contract',
         'pages_only_contract',
         'dns_only_contract',
-        'invalid_scope_contract'
+        'invalid_scope_contract',
+        'zone_identity_mismatch_contract'
       ]
     }, null, 2));
   } finally {

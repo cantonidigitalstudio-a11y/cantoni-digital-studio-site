@@ -144,6 +144,9 @@ function cloudflareApiSummary(readiness) {
     has_cloudflare_zone_id: details.has_cloudflare_zone_id === true,
     token_verify_ok: details.token_verify_ok === true,
     pages_read_ok: details.pages_read_ok === true,
+    dns_zone_identity_ok: details.dns_zone_identity_ok === true,
+    dns_zone_name: details.dns_zone_name || null,
+    dns_zone_status: details.dns_zone_status || null,
     dns_read_ok: details.dns_read_ok === true,
     next_actions: details.next_actions || []
   };
@@ -175,6 +178,9 @@ function cloudflareApiDiagnosticLines(cloudflareApi) {
     `- CLOUDFLARE_ZONE_ID set: ${cloudflareApi.has_cloudflare_zone_id ? 'yes' : 'no'}`,
     `- Token verify: ${cloudflareApi.token_verify_ok ? 'ok' : 'not ok'}`,
     `- Pages read: ${cloudflareApi.pages_read_ok ? 'ok' : 'not ok'}`,
+    `- DNS zone identity: ${cloudflareApi.dns_zone_identity_ok ? 'ok' : 'not ok'}`,
+    `- DNS zone name: \`${cloudflareApi.dns_zone_name || 'unknown'}\``,
+    `- DNS zone status: \`${cloudflareApi.dns_zone_status || 'unknown'}\``,
     `- DNS read: ${cloudflareApi.dns_read_ok ? 'ok' : 'not ok'}`,
     '',
     'Next API actions:',

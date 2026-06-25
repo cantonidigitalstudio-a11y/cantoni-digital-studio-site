@@ -10,6 +10,10 @@ const zoneId = process.env.CLOUDFLARE_ZONE_ID || '';
 const projectName = process.env.CLOUDFLARE_PAGES_PROJECT_NAME || 'cantonidigitalstudio';
 const domain = process.env.CLOUDFLARE_CUSTOM_DOMAIN || process.env.CANTONI_EMAIL_DOMAIN || 'cantonidigitalstudio.com';
 
+function normalizeName(value) {
+  return String(value || '').trim().toLowerCase().replace(/\.$/u, '');
+}
+
 function redact(value) {
   return String(value || '')
     .replace(/Bearer\s+[A-Za-z0-9._~+/-]+=*/gi, 'Bearer ************************************')
@@ -89,7 +93,42 @@ function skipped(reason, ok = false) {
   };
 }
 
-function nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }) {
+function verifyZoneIdentity(zoneAccess) {
+  if (!zoneAccess.ok) return zoneAccess;
+  const zoneName = normalizeName(zoneAccess.result_summary?.name);
+  const zoneStatus = zoneAccess.result_summary?.status
+    ? String(zoneAccess.result_summary.status).toLowerCase()
+    : null;
+  const expectedDomain = normalizeName(domain);
+
+  const checked = {
+    ...zoneAccess,
+    expected_domain: domain,
+    zone_name: zoneName || null,
+    zone_status: zoneStatus,
+    zone_name_matches_domain: zoneName === expectedDomain,
+    zone_status_active: zoneStatus ? zoneStatus === 'active' : null
+  };
+
+  if (!checked.zone_name_matches_domain) {
+    return {
+      ...checked,
+      ok: false,
+      reason: `CLOUDFLARE_ZONE_ID resolves to ${zoneName || '(unknown zone)'}; expected ${domain}.`
+    };
+  }
+  if (zoneStatus && zoneStatus !== 'active') {
+    return {
+      ...checked,
+      ok: false,
+      reason: `CLOUDFLARE_ZONE_ID resolves to ${zoneName}, but zone status is ${zoneStatus}; expected active.`
+    };
+  }
+
+  return checked;
+}
+
+function nextActionsFor({ tokenVerify, pagesAccess, dnsZoneIdentity, dnsAccess }) {
   const actions = [];
   if (!token) {
     actions.push('Create or provide a Cloudflare API token for the Cantoni account; keep it in environment only, never in the repo.');
@@ -116,6 +155,8 @@ function nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }) {
   if (!pagesOnly) {
     if (!zoneId) {
       actions.push('Set CLOUDFLARE_ZONE_ID for cantonidigitalstudio.com to verify DNS access.');
+    } else if (dnsZoneIdentity && !dnsZoneIdentity.ok) {
+      actions.push('Set CLOUDFLARE_ZONE_ID to the active cantonidigitalstudio.com Cloudflare zone before planning or applying email DNS records.');
     } else if (!dnsAccess.ok) {
       actions.push('Grant the token DNS access on the cantonidigitalstudio.com zone before planning or applying email DNS records.');
     }
@@ -154,10 +195,18 @@ async function main() {
     ? await cloudflareGet(`/accounts/${encodeURIComponent(accountId)}/pages/projects/${encodeURIComponent(projectName)}/deployments`, { per_page: 1 })
     : skipped(token ? 'CLOUDFLARE_ACCOUNT_ID is not set' : 'CLOUDFLARE_API_TOKEN is not set');
 
+  const dnsZoneIdentity = pagesOnly
+    ? skipped('DNS zone identity check skipped by --pages-only', true)
+    : token && zoneId
+    ? verifyZoneIdentity(await cloudflareGet(`/zones/${encodeURIComponent(zoneId)}`))
+    : skipped(token ? 'CLOUDFLARE_ZONE_ID is not set' : 'CLOUDFLARE_API_TOKEN is not set');
+
   const dnsAccess = pagesOnly
     ? skipped('DNS check skipped by --pages-only', true)
-    : token && zoneId
+    : token && zoneId && dnsZoneIdentity.ok
     ? await cloudflareGet(`/zones/${encodeURIComponent(zoneId)}/dns_records`, { name: domain, per_page: 1 })
+    : token && zoneId
+    ? skipped('DNS records read skipped because Cloudflare zone identity did not pass.', true)
     : skipped(token ? 'CLOUDFLARE_ZONE_ID is not set' : 'CLOUDFLARE_API_TOKEN is not set');
 
   const failures = [];
@@ -179,6 +228,12 @@ async function main() {
       reason: dnsAccess.reason || 'Cloudflare API token cannot read DNS records for the Cantoni zone.'
     });
   }
+  if (!pagesOnly && token && zoneId && !dnsZoneIdentity.ok) {
+    failures.push({
+      id: 'cloudflare_dns_zone_identity',
+      reason: dnsZoneIdentity.reason || 'Cloudflare API token cannot verify the cantonidigitalstudio.com zone identity.'
+    });
+  }
 
   const result = {
     ok: failures.length === 0,
@@ -196,9 +251,10 @@ async function main() {
     checks: {
       token_verify: tokenVerify,
       pages_project_deployments_read: pagesAccess,
+      dns_zone_identity_read: dnsZoneIdentity,
       dns_records_read: dnsAccess
     },
-    next_actions: nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }),
+    next_actions: nextActionsFor({ tokenVerify, pagesAccess, dnsZoneIdentity, dnsAccess }),
     references: [
       {
         label: 'Cloudflare Pages REST API',

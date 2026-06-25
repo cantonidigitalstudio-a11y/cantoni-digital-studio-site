@@ -49,6 +49,9 @@ DNS quando `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e
 `CLOUDFLARE_ZONE_ID` sono presenti.
 Per separare i gate, usa `npm run audit:cloudflare-pages-api` prima di un deploy
 Pages diretto e `npm run audit:cloudflare-dns-api` prima di applicare DNS email.
+Il gate DNS verifica prima che `CLOUDFLARE_ZONE_ID` risolva alla zona attiva
+`cantonidigitalstudio.com`; se punta a un altro dominio, non legge ne pianifica
+record DNS.
 
 Se OAuth Wrangler e bloccato ma e disponibile un token API Cantoni con permesso
 Account > Cloudflare Pages > Edit, il deploy Pages diretto passa da
@@ -72,7 +75,9 @@ payload JSON API-safe che esclude i record con valore manuale, come DKIM.
 Il piano API-safe si verifica senza effetti esterni con `npm run
 dns:cloudflare:plan`. L'apply reale resta separato e richiede
 `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ZONE_ID` e
-`CANTONI_DNS_APPROVAL=apply-cantoni-email-dns`.
+`CANTONI_DNS_APPROVAL=apply-cantoni-email-dns`. Con credenziali live, il piano
+e l'apply bloccano prima di qualsiasi lookup record se lo zone id non appartiene
+alla zona attiva `cantonidigitalstudio.com`.
 
 Per dimostrare se il live e solo indietro rispetto all'artifact pronto al
 deploy, usa `npm run export:live-drift`. Il report resta sotto

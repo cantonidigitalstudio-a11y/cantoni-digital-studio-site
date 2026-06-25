@@ -103,6 +103,17 @@ function normalizeTxt(value) {
   return String(value || '').replace(/\s+/gu, ' ').trim();
 }
 
+function zoneIdentityFailure(zoneIdentity) {
+  if (!zoneIdentity) return 'Cloudflare zone identity was not verified.';
+  if (!zoneIdentity.name_matches_domain) {
+    return `CLOUDFLARE_ZONE_ID resolves to ${zoneIdentity.zone_name || '(unknown zone)'}; expected ${EXPECTED_DOMAIN}.`;
+  }
+  if (zoneIdentity.status && !zoneIdentity.active) {
+    return `CLOUDFLARE_ZONE_ID resolves to ${zoneIdentity.zone_name}, but zone status is ${zoneIdentity.status}; expected active.`;
+  }
+  return null;
+}
+
 function normalizeContent(record) {
   if (record.type === 'TXT') return normalizeTxt(record.content);
   return String(record.content || '').trim().toLowerCase().replace(/\.$/u, '');
@@ -326,6 +337,26 @@ async function cloudflareRequest({ token, zoneId, method, pathname, query, body 
   return parsed.result;
 }
 
+async function loadCloudflareZoneIdentity(credentials) {
+  const result = await cloudflareRequest({
+    token: credentials.token,
+    zoneId: credentials.zoneId,
+    method: 'GET',
+    pathname: '/zones/{zone_id}'
+  });
+  const status = result?.status ? String(result.status).toLowerCase() : null;
+  const zoneName = result?.name ? normalizeName(result.name) : null;
+
+  return {
+    expected_domain: EXPECTED_DOMAIN,
+    zone_name: zoneName,
+    status,
+    active: status ? status === 'active' : null,
+    name_matches_domain: zoneName === normalizeName(EXPECTED_DOMAIN),
+    zone_id_suffix: credentials.zoneId ? credentials.zoneId.slice(-6) : null
+  };
+}
+
 async function loadCloudflareExisting(records, credentials) {
   const byKey = new Map();
   const results = [];
@@ -381,6 +412,17 @@ function planWithoutCredentials(records) {
   }));
 }
 
+function planBlockedByZoneIdentity(records, reason) {
+  return records.map((record) => ({
+    id: record.id,
+    type: record.type,
+    name: record.name,
+    action: 'blocked',
+    reason,
+    endpoint: '/zones/{zone_id}/dns_records'
+  }));
+}
+
 async function applyActions(actions, credentials) {
   const results = [];
 
@@ -417,7 +459,7 @@ async function applyActions(actions, credentials) {
   return results;
 }
 
-function buildReport({ ok, mode, inputPath, source, credentials, allowReplace, records, actions, skippedRecords, failures, applyResults }) {
+function buildReport({ ok, mode, inputPath, source, credentials, zoneIdentity, allowReplace, records, actions, skippedRecords, failures, applyResults }) {
   const blockedActions = actions.filter((action) => action.action === 'blocked');
   const lookupRequired = actions.filter((action) => action.action === 'cloudflare_lookup_required');
   const mutableActions = actions.filter((action) => ['create', 'update'].includes(action.action));
@@ -432,7 +474,8 @@ function buildReport({ ok, mode, inputPath, source, credentials, allowReplace, r
     cloudflare: {
       token_present: Boolean(credentials.token),
       zone_id_present: Boolean(credentials.zoneId),
-      zone_id_suffix: credentials.zoneId ? credentials.zoneId.slice(-6) : null
+      zone_id_suffix: credentials.zoneId ? credentials.zoneId.slice(-6) : null,
+      zone_identity: zoneIdentity
     },
     safety: {
       approval_required_for_apply: REQUIRED_APPROVAL,
@@ -473,19 +516,30 @@ async function main() {
   const allowReplace = process.env.CANTONI_DNS_ALLOW_EXISTING_REPLACE === 'yes';
   let source = 'not_loaded';
   let existingRecords = [];
+  let zoneIdentity = null;
+  let zoneBlockReason = null;
 
   if (args.fixtureExisting) {
     existingRecords = await readExistingFixture(args.fixtureExisting);
     source = 'fixture';
   } else if (credentials.token && credentials.zoneId) {
-    existingRecords = await loadCloudflareExisting(records, credentials);
-    source = 'cloudflare_api';
+    zoneIdentity = await loadCloudflareZoneIdentity(credentials);
+    zoneBlockReason = zoneIdentityFailure(zoneIdentity);
+    if (zoneBlockReason) {
+      failures.push(zoneBlockReason);
+      source = 'cloudflare_zone_identity_blocked';
+    } else {
+      existingRecords = await loadCloudflareExisting(records, credentials);
+      source = 'cloudflare_api';
+    }
   } else {
     source = 'no_credentials';
   }
 
   let actions = source === 'no_credentials'
     ? planWithoutCredentials(records)
+    : source === 'cloudflare_zone_identity_blocked'
+      ? planBlockedByZoneIdentity(records, zoneBlockReason)
     : records.map((record) => planAction(record, existingRecords, allowReplace));
 
   if (mode === 'apply') {
@@ -517,6 +571,7 @@ async function main() {
     inputPath,
     source,
     credentials,
+    zoneIdentity,
     allowReplace,
     records,
     actions,

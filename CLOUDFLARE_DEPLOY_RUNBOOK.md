@@ -46,7 +46,7 @@ Stato verificato 2026-06-25:
 - Non tentare deploy diretto finche `npm run audit:git-deploy-state` non torna
   verde su worktree pulita, upstream `cantoni` e branch pushato.
 - Se OAuth resta bloccato, usare il percorso token diretto solo quando `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` passa con token e account Cantoni.
-- `npm run audit:cloudflare-api` e read-only: verifica `/user/tokens/verify`, lettura deployments Pages e lettura DNS quando sono impostati `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_ZONE_ID`.
+- `npm run audit:cloudflare-api` e read-only: verifica `/user/tokens/verify`, lettura deployments Pages, identita della zona attiva `cantonidigitalstudio.com` e lettura DNS quando sono impostati `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_ZONE_ID`.
 - `npm run audit:cloudflare-pages-api` verifica solo il percorso deploy Pages diretto; non richiede `CLOUDFLARE_ZONE_ID`.
 - `npm run audit:cloudflare-dns-api` verifica solo il percorso DNS; non richiede `CLOUDFLARE_ACCOUNT_ID`.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
@@ -55,7 +55,7 @@ Permessi minimi per token/API:
 
 - account corretto di Cantoni Digital Studio;
 - `CLOUDFLARE_ACCOUNT_ID` dell'account Cantoni quando si usa CI o token non interattivo;
-- `CLOUDFLARE_ZONE_ID` della zona `cantonidigitalstudio.com` per diagnosticare e applicare record DNS;
+- `CLOUDFLARE_ZONE_ID` della zona attiva `cantonidigitalstudio.com` per diagnosticare e applicare record DNS; i comandi DNS bloccano se lo zone id punta a un altro dominio;
 - permesso Account > Cloudflare Pages > Edit per deploy diretto Pages;
 - permesso Zone > DNS > Edit per applicare record email DNS;
 - token salvato solo in ambiente sicuro, mai nel repo.

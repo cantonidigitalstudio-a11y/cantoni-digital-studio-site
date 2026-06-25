@@ -178,7 +178,7 @@ async function main() {
     if ((operatorCloudflareApi.ok === true) !== (cloudflareApi.ok === true)) {
       failures.push('operator_pack: Cloudflare direct API ok state does not match launch handoff');
     }
-    for (const key of ['has_cloudflare_api_token', 'has_cloudflare_account_id', 'has_cloudflare_zone_id', 'token_verify_ok', 'pages_read_ok', 'dns_read_ok']) {
+    for (const key of ['has_cloudflare_api_token', 'has_cloudflare_account_id', 'has_cloudflare_zone_id', 'token_verify_ok', 'pages_read_ok', 'dns_zone_identity_ok', 'dns_read_ok']) {
       if ((operatorCloudflareApi[key] === true) !== (cloudflareApi[key] === true)) {
         failures.push(`operator_pack: Cloudflare direct API ${key} state does not match launch handoff`);
       }

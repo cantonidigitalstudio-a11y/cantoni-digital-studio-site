@@ -217,6 +217,9 @@ const gates = [
       has_cloudflare_zone_id: parsed?.has_cloudflare_zone_id === true,
       token_verify_ok: parsed?.checks?.token_verify?.ok === true,
       pages_read_ok: parsed?.checks?.pages_project_deployments_read?.ok === true,
+      dns_zone_identity_ok: parsed?.checks?.dns_zone_identity_read?.ok === true,
+      dns_zone_name: parsed?.checks?.dns_zone_identity_read?.zone_name || null,
+      dns_zone_status: parsed?.checks?.dns_zone_identity_read?.zone_status || null,
       dns_read_ok: parsed?.checks?.dns_records_read?.ok === true,
       next_actions: parsed?.next_actions || []
     })
