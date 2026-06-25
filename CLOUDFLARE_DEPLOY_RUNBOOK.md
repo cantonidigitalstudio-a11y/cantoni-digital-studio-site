@@ -240,13 +240,14 @@ in `pages project list`, fermarsi e correggere account/progetto nel dashboard
 Cloudflare prima di riprovare.
 
 ## Cosa fa lo script token diretto
-1. verifica `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`
-2. esegue `npm run test:full`
-3. genera `.cloudflare-pages`
-4. verifica artifact, browser smoke e Payment Link sull'artifact
-5. riverifica `--pages-only`
-6. verifica il candidato deploy dall'operator pack con `--require-execution-ready`
-7. pubblica con `wrangler pages deploy .cloudflare-pages --project-name ... --branch ...`
+1. verifica `node scripts/verify_git_deploy_state.cjs`
+2. verifica `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`
+3. esegue `npm run test:full`
+4. genera `.cloudflare-pages`
+5. verifica artifact, browser smoke e Payment Link sull'artifact
+6. riverifica `--pages-only`
+7. verifica il candidato deploy dall'operator pack con `--require-execution-ready`
+8. pubblica con `wrangler pages deploy .cloudflare-pages --project-name ... --branch ...`
 
 ## Produzione
 La produzione non parte da questo runbook senza approvazione separata. Se un

@@ -61,7 +61,8 @@ const checks = [
       'npm run test:cloudflare-oauth-deploy-contract',
       'npm run audit:cloudflare-pages-api',
       'npm run audit:cloudflare-dns-api',
-      'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct'
+      'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct',
+      '## Cosa fa lo script token diretto\n1. verifica `node scripts/verify_git_deploy_state.cjs`\n2. verifica `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`'
     ],
     forbidden: []
   },
