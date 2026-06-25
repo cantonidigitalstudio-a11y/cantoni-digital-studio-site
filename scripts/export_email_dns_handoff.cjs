@@ -15,6 +15,10 @@ const MARKDOWN_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.md`);
 const JSON_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.json`);
 const CSV_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.cloudflare-records.csv`);
 const API_PAYLOAD_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.cloudflare-api-records.json`);
+const LATEST_MARKDOWN_PATH = path.join(OUTPUT_DIR, 'cantoni-email-dns-handoff-latest.md');
+const LATEST_JSON_PATH = path.join(OUTPUT_DIR, 'cantoni-email-dns-handoff-latest.json');
+const LATEST_CSV_PATH = path.join(OUTPUT_DIR, 'cantoni-email-dns-handoff-latest.cloudflare-records.csv');
+const LATEST_API_PAYLOAD_PATH = path.join(OUTPUT_DIR, 'cantoni-email-dns-handoff-latest.cloudflare-api-records.json');
 
 function normalizeRel(value) {
   return String(value || '').split(path.sep).join('/');
@@ -125,11 +129,11 @@ function renderObservedChecks(checks) {
   });
 }
 
-function renderMarkdown({ audit, records }) {
+function renderMarkdown({ audit, records, generatedAt }) {
   return [
     '# Cantoni Email DNS Handoff',
     '',
-    `Generated: ${new Date().toISOString()}`,
+    `Generated: ${generatedAt}`,
     `Domain: ${audit.domain}`,
     `Audit ok: ${audit.ok === true ? 'yes' : 'no'}`,
     `Sender profile: ${audit.sender_profile || 'unknown'}`,
@@ -183,6 +187,7 @@ async function main() {
   const auditRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
   if (auditRun.error) throw new Error(auditRun.error);
 
+  const generatedAt = new Date().toISOString();
   const audit = auditRun.parsed;
   const records = (audit.recommended_records || []).map(dashboardRecord);
   const apiRecords = (audit.recommended_records || [])
@@ -198,7 +203,7 @@ async function main() {
     }));
   const apiPayload = {
     ok: true,
-    generated_at: new Date().toISOString(),
+    generated_at: generatedAt,
     domain: audit.domain,
     zone_id_required: true,
     apply_rule: 'Apply only after Google Workspace mailboxes or aliases exist and after explicit DNS approval.',
@@ -207,7 +212,7 @@ async function main() {
   };
   const payload = {
     ok: audit.ok === true,
-    generated_at: new Date().toISOString(),
+    generated_at: generatedAt,
     domain: audit.domain,
     sender_profile: audit.sender_profile,
     checked_at: audit.checked_at,
@@ -221,12 +226,22 @@ async function main() {
     failures: audit.failures || [],
     references: audit.references || []
   };
+  const jsonSource = JSON.stringify(payload, null, 2) + '\n';
+  const apiPayloadSource = JSON.stringify(apiPayload, null, 2) + '\n';
+  const csvSource = renderCsv(records);
+  const markdownSource = renderMarkdown({ audit, records, generatedAt });
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
-  await fs.writeFile(JSON_PATH, JSON.stringify(payload, null, 2) + '\n');
-  await fs.writeFile(API_PAYLOAD_PATH, JSON.stringify(apiPayload, null, 2) + '\n');
-  await fs.writeFile(CSV_PATH, renderCsv(records));
-  await fs.writeFile(MARKDOWN_PATH, renderMarkdown({ audit, records }));
+  await Promise.all([
+    fs.writeFile(JSON_PATH, jsonSource),
+    fs.writeFile(API_PAYLOAD_PATH, apiPayloadSource),
+    fs.writeFile(CSV_PATH, csvSource),
+    fs.writeFile(MARKDOWN_PATH, markdownSource),
+    fs.writeFile(LATEST_JSON_PATH, jsonSource),
+    fs.writeFile(LATEST_API_PAYLOAD_PATH, apiPayloadSource),
+    fs.writeFile(LATEST_CSV_PATH, csvSource),
+    fs.writeFile(LATEST_MARKDOWN_PATH, markdownSource)
+  ]);
 
   console.log(JSON.stringify({
     ok: true,
@@ -236,7 +251,13 @@ async function main() {
     markdown: MARKDOWN_PATH,
     json: JSON_PATH,
     csv: CSV_PATH,
-    cloudflare_api_json: API_PAYLOAD_PATH
+    cloudflare_api_json: API_PAYLOAD_PATH,
+    latest: {
+      markdown: LATEST_MARKDOWN_PATH,
+      json: LATEST_JSON_PATH,
+      csv: LATEST_CSV_PATH,
+      cloudflare_api_json: LATEST_API_PAYLOAD_PATH
+    }
   }, null, 2));
 }
 

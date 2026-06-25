@@ -7,10 +7,33 @@ const GENERATED_ROOT = path.join(PROJECT_ROOT, 'sales-kit/generated');
 const FILE_PATTERNS = {
   launchHandoff: /^cantoni-launch-handoff-.+\.json$/,
   operatorPack: /^cantoni-launch-operator-pack-.+\.json$/,
-  emailDns: /^cantoni-email-dns-handoff-.+\.json$/,
+  emailDns: /^cantoni-email-dns-handoff-(?!.*\.cloudflare-api-records\.json$).+\.json$/,
   emailDnsApi: /^cantoni-email-dns-handoff-.+\.cloudflare-api-records\.json$/,
   liveDrift: /^cantoni-live-drift-.+\.json$/
 };
+
+const EMAIL_DNS_LATEST_ALIASES = [
+  {
+    label: 'email_dns_latest_json',
+    alias: 'cantoni-email-dns-handoff-latest.json',
+    timestampedPattern: /^cantoni-email-dns-handoff-(?!latest\b)(?!.*\.cloudflare-api-records\.json$).+\.json$/
+  },
+  {
+    label: 'email_dns_latest_markdown',
+    alias: 'cantoni-email-dns-handoff-latest.md',
+    timestampedPattern: /^cantoni-email-dns-handoff-(?!latest\b).+\.md$/
+  },
+  {
+    label: 'email_dns_latest_csv',
+    alias: 'cantoni-email-dns-handoff-latest.cloudflare-records.csv',
+    timestampedPattern: /^cantoni-email-dns-handoff-(?!latest\b).+\.cloudflare-records\.csv$/
+  },
+  {
+    label: 'email_dns_latest_api_json',
+    alias: 'cantoni-email-dns-handoff-latest.cloudflare-api-records.json',
+    timestampedPattern: /^cantoni-email-dns-handoff-(?!latest\b).+\.cloudflare-api-records\.json$/
+  }
+];
 
 const LEAK_RULES = [
   { id: 'absolute_volumes_path', pattern: /\/Volumes\// },
@@ -59,6 +82,35 @@ async function scanLeaks(filePath, failures) {
   }
 }
 
+async function verifyEmailDnsLatestAliases(failures) {
+  const emailDnsDir = path.join(GENERATED_ROOT, 'email-dns-handoff');
+
+  for (const item of EMAIL_DNS_LATEST_ALIASES) {
+    const aliasPath = path.join(emailDnsDir, item.alias);
+    const timestampedPath = await latestFile('email-dns-handoff', item.timestampedPattern).catch((error) => {
+      failures.push(`${item.label}: unable to find latest timestamped artifact (${error.message})`);
+      return null;
+    });
+
+    if (!await pathExists(aliasPath)) {
+      failures.push(`${item.label}: missing stable latest alias ${item.alias}`);
+      continue;
+    }
+    if (!timestampedPath) {
+      failures.push(`${item.label}: missing timestamped source artifact`);
+      continue;
+    }
+
+    const [aliasSource, timestampedSource] = await Promise.all([
+      fs.readFile(aliasPath, 'utf8'),
+      fs.readFile(timestampedPath, 'utf8')
+    ]);
+    if (aliasSource !== timestampedSource) {
+      failures.push(`${item.label}: latest alias does not match latest timestamped artifact`);
+    }
+  }
+}
+
 function requireRelativePath(file, label, failures) {
   if (!file || typeof file !== 'string') {
     failures.push(`${label}: missing path`);
@@ -78,6 +130,8 @@ async function requireReferencedFile(relPath, label, failures) {
 
 async function main() {
   const failures = [];
+  await verifyEmailDnsLatestAliases(failures);
+
   const files = {
     launchHandoff: await latestFile('launch-handoff', FILE_PATTERNS.launchHandoff),
     operatorPack: await latestFile('launch-operator-pack', FILE_PATTERNS.operatorPack),
@@ -255,6 +309,9 @@ async function main() {
     if (dnsPlan.mode !== 'dry_run') {
       failures.push('operator_pack: Cloudflare email DNS plan must be dry_run');
     }
+    if (dnsPlan.input !== 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json') {
+      failures.push('operator_pack: Cloudflare email DNS plan must use the stable latest API payload alias');
+    }
     if (!Array.isArray(dnsPlan.skipped_records) || !dnsPlan.skipped_records.some((record) => record.id === 'google_dkim' && record.reason === 'manual_value_required')) {
       failures.push('operator_pack: Cloudflare DNS plan must keep google_dkim skipped as manual');
     }
@@ -329,6 +386,9 @@ async function main() {
     }
 
     const stepOutput = operatorPack.steps?.email_dns_handoff?.output || {};
+    if (stepOutput.latest?.cloudflare_api_json !== 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json') {
+      failures.push('operator_pack: email DNS handoff output must expose the latest API payload alias');
+    }
     await requireReferencedFile(cloudflareDeployCandidate.package?.zip_path, 'operator_pack.deploy_candidate_zip', failures);
     await requireReferencedFile(cloudflareDeployCandidate.package?.manifest, 'operator_pack.deploy_candidate_manifest', failures);
     await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path, 'operator_pack.cloudflare_zip', failures);

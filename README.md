@@ -85,6 +85,9 @@ Per preparare i record DNS email in formato handoff/CSV per Cloudflare, usa
 `npm run export:email-dns-handoff`. Il report resta sotto
 `sales-kit/generated/email-dns-handoff/` ed e ignorato da git. Genera anche un
 payload JSON API-safe che esclude i record con valore manuale, come DKIM.
+Scrive sia file timestampati sia alias stabili
+`cantoni-email-dns-handoff-latest.*`; il piano DNS usa di default l'alias latest
+del payload API-safe, cosi l'apply non dipende da un vecchio file timestampato.
 Il piano API-safe si verifica senza effetti esterni con `npm run
 dns:cloudflare:plan`. L'apply reale resta separato e richiede
 `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ZONE_ID` e

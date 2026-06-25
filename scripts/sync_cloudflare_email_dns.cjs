@@ -9,6 +9,8 @@ const EXPECTED_DOMAIN = process.env.CANTONI_EMAIL_DOMAIN || 'cantonidigitalstudi
 const API_BASE_URL = (process.env.CLOUDFLARE_API_BASE_URL || 'https://api.cloudflare.com/client/v4').replace(/\/+$/u, '');
 const REQUIRED_APPROVAL = 'apply-cantoni-email-dns';
 const API_PAYLOAD_PATTERN = /^cantoni-email-dns-handoff-.+\.cloudflare-api-records\.json$/u;
+const LATEST_API_PAYLOAD_NAME = 'cantoni-email-dns-handoff-latest.cloudflare-api-records.json';
+const LATEST_API_PAYLOAD_PATH = path.join(GENERATED_HANDOFF_DIR, LATEST_API_PAYLOAD_NAME);
 
 function usage() {
   return [
@@ -71,6 +73,13 @@ function relativeToRoot(filePath) {
 }
 
 async function latestApiPayloadPath() {
+  try {
+    await fs.access(LATEST_API_PAYLOAD_PATH);
+    return LATEST_API_PAYLOAD_PATH;
+  } catch {
+    // Older handoff exports did not include a stable latest alias.
+  }
+
   let entries;
   try {
     entries = await fs.readdir(GENERATED_HANDOFF_DIR, { withFileTypes: true });
@@ -79,7 +88,7 @@ async function latestApiPayloadPath() {
   }
 
   const matches = entries
-    .filter((entry) => entry.isFile() && API_PAYLOAD_PATTERN.test(entry.name))
+    .filter((entry) => entry.isFile() && entry.name !== LATEST_API_PAYLOAD_NAME && API_PAYLOAD_PATTERN.test(entry.name))
     .map((entry) => path.join(GENERATED_HANDOFF_DIR, entry.name))
     .sort()
     .reverse();

@@ -141,6 +141,13 @@ anche se il dossier di sblocco esterno e pronto. Se il latest e stale durante
 una generazione di pack, il gate resta informativo; i blocker reali rimangono
 Cloudflare, DNS, live contract e outbound hold.
 
+`npm run export:email-dns-handoff` scrive anche
+`cantoni-email-dns-handoff-latest.*` sotto
+`sales-kit/generated/email-dns-handoff/`. `npm run dns:cloudflare:plan` usa di
+default l'alias latest del payload API-safe, mentre
+`npm run test:launch-handoff-artifacts` fallisce se gli alias latest non
+corrispondono all'ultimo artifact timestampato.
+
 Dopo che accessi Cloudflare/DNS e Google Workspace sono stati applicati, usare
 `npm run audit:post-unblock-launch`: fallisce finche live site, Pages access,
 DNS API, email DNS e readiness senza outbound non sono tutti chiudibili.

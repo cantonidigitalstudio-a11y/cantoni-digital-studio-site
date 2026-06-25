@@ -74,6 +74,12 @@ function normalizeStepOutput(step) {
       path: relativeToRoot(output.zip.path)
     };
   }
+  if (output.latest && typeof output.latest === 'object' && !Array.isArray(output.latest)) {
+    output.latest = Object.fromEntries(Object.entries(output.latest).map(([key, value]) => [
+      key,
+      typeof value === 'string' ? relativeToRoot(value) : value
+    ]));
+  }
   return {
     ...step,
     output

@@ -22,7 +22,9 @@ npm run export:email-dns-handoff
 Il CSV generato e un handoff operativo, non un permesso a modificare DNS senza
 review: il valore DKIM resta manuale finche non viene generato in Google Admin.
 Lo stesso comando genera anche un JSON API-safe per Cloudflare che esclude i
-record con valore manuale non ancora disponibile.
+record con valore manuale non ancora disponibile. Ogni export scrive file
+timestampati e alias stabili `cantoni-email-dns-handoff-latest.*`; usare gli
+alias latest quando si passa il materiale a chi deve applicare i record.
 
 Per trasformare quel JSON in un piano Cloudflare senza modificare DNS:
 
