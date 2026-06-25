@@ -34,6 +34,13 @@ Stato verificato 2026-06-25:
 - Non tentare deploy finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`, oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
 
+Permessi minimi per token/API:
+
+- account corretto di Cantoni Digital Studio;
+- `CLOUDFLARE_ACCOUNT_ID` dell'account Cantoni quando si usa CI o token non interattivo;
+- permesso Account > Cloudflare Pages > Edit per deploy diretto Pages;
+- token salvato solo in ambiente sicuro, mai nel repo.
+
 ## Build artifact locale
 ```bash
 cd "<repo-root>"

@@ -1,14 +1,16 @@
 # Resend Setup Runbook (Cantoni Digital Studio)
 
 ## Goal
-Use Resend as transactional + outreach-safe email infrastructure for multilingual client communication.
+Use Resend only after the primary Google Workspace domain-authentication path is
+green. The authoritative email DNS runbook is
+`sales-kit/email_dns_setup_runbook.md`.
 
 ## Account
 - Login email: cantonidigitalstudio@gmail.com
 
 ## Steps
 1. Create/enter Resend account with business email.
-2. Add sending domain (recommended: mail.cantonidigitalstudio.com).
+2. Add sending domain only after `npm run audit:email-dns` passes for the root domain.
 3. Configure DNS records in domain provider:
    - SPF TXT
    - DKIM CNAME(s)

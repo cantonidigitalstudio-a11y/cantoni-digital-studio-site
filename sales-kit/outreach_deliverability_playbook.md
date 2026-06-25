@@ -60,6 +60,9 @@ Prima di scalare volumi seri, passare a una casella Google Workspace su dominio 
 - DMARC almeno in monitoraggio;
 - dominio mittente coerente con sito, firma e link.
 
+Piano DNS autorevole: `sales-kit/email_dns_setup_runbook.md`.
+Gate tecnico: `npm run audit:email-dns`.
+
 Riferimento operativo: linee guida Google per mittenti email, incluse autenticazione SPF/DKIM/DMARC, spam rate e formato messaggi: https://support.google.com/a/answer/81126
 
 ## Gate di qualita cliente-per-cliente
