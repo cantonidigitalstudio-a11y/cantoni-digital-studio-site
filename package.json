@@ -14,6 +14,7 @@
     "build:social:voice-review": "node sales-kit/scripts/discover_voice_reference_candidates.mjs",
     "build:social:pack": "npm run build:social && node sales-kit/scripts/export_social_publish_pack.mjs && npm run build:social:daily && npm run build:social:video",
     "build:cloudflare-upload-package": "node scripts/export_cloudflare_manual_upload_package.cjs",
+    "export:launch-handoff": "node scripts/export_launch_handoff.cjs",
     "build:lead-batch": "LEAD_PIPELINE_CSV=sales-kit/fixtures/lead-batches/sanitized-starter/leads.csv OUTREACH_QUEUE_FILE=sales-kit/generated/outreach-fixtures/sanitized-starter/outreach_queue.json node sales-kit/scripts/build_outreach_queue_from_csv.mjs",
     "build:lead-batch:micro": "OUTREACH_STYLE=micro_audit LEAD_PIPELINE_CSV=sales-kit/fixtures/lead-batches/sanitized-starter/leads.csv OUTREACH_QUEUE_FILE=sales-kit/generated/outreach-fixtures/sanitized-starter/outreach_queue_micro.json node sales-kit/scripts/build_outreach_queue_from_csv.mjs",
     "build:branded-outreach": "npm run build:lead-batch && OUTREACH_QUEUE_FILE=sales-kit/generated/outreach-fixtures/sanitized-starter/outreach_queue.json BRANDED_OUTREACH_DIR=sales-kit/generated/outreach-fixtures/sanitized-starter/branded node sales-kit/scripts/render_branded_outreach_emails.mjs",

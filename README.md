@@ -38,6 +38,10 @@ Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
 pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto
 resta sotto `sales-kit/generated/cloudflare-manual-upload/` ed e ignorato da git.
 
+Per produrre un riepilogo operativo dei blocker correnti, usa
+`npm run export:launch-handoff`. Il report resta sotto
+`sales-kit/generated/launch-handoff/` ed e ignorato da git.
+
 ## Regole operative
 
 - Non salvare password, token, OTP, cookie o dati di recupero nel repo.
