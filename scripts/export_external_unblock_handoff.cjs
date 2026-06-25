@@ -174,6 +174,8 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
     generated_at: new Date().toISOString(),
     source_operator_pack: relativeToRoot(operatorPackPath),
     operator_pack_generated_at: operatorPack.generated_at || null,
+    source_commit: operatorPack.git?.commit || null,
+    source_short_commit: operatorPack.git?.short_commit || null,
     status: readiness.ok === true ? 'no_external_unblock_required' : 'external_access_required',
     deploy_candidate_status: candidate.status || null,
     account_boundary: {
@@ -418,6 +420,7 @@ function renderMarkdown(payload) {
     `Generated: ${payload.generated_at}`,
     `Status: \`${payload.status}\``,
     `Source operator pack: \`${payload.source_operator_pack}\``,
+    `Source commit: \`${payload.source_short_commit || payload.source_commit || 'unknown'}\` (${payload.source_commit || 'full SHA unavailable'})`,
     '',
     '## Git Provenance',
     '',
@@ -586,6 +589,7 @@ async function main() {
       latest_markdown: relativeToRoot(LATEST_MARKDOWN_PATH)
     },
     source_operator_pack: payload.source_operator_pack,
+    source_commit: payload.source_commit,
     deploy_candidate_status: payload.deploy_candidate.status
   }, null, 2));
 }

@@ -134,6 +134,8 @@ async function main() {
     failures.push('External unblock handoff type must be cantoni_external_unblock_handoff_v1.');
   }
   if (!payload?.source_operator_pack) failures.push('External unblock handoff must reference a source operator pack.');
+  if (!payload?.source_commit) failures.push('External unblock handoff must expose top-level source_commit.');
+  if (!payload?.source_short_commit) failures.push('External unblock handoff must expose top-level source_short_commit.');
   if (payload?.account_boundary?.brand !== 'Cantoni Digital Studio') failures.push('Account boundary must be Cantoni Digital Studio.');
   if (payload?.account_boundary?.git_remote !== 'cantoni') failures.push('Account boundary must require git remote cantoni.');
   if (payload?.account_boundary?.operating_email !== 'cantonidigitalstudio@gmail.com') failures.push('Account boundary must use official Cantoni operating email.');
@@ -154,6 +156,8 @@ async function main() {
     try {
       operatorPack = await readJson(operatorPackPath);
       if (operatorPack.git?.commit !== payload.git?.operator_pack?.commit) failures.push('Source operator pack commit does not match handoff payload.');
+      if (operatorPack.git?.commit !== payload.source_commit) failures.push('Source operator pack commit does not match top-level source_commit.');
+      if (operatorPack.git?.short_commit !== payload.source_short_commit) failures.push('Source operator pack short commit does not match top-level source_short_commit.');
       if (operatorPack.cloudflare_deploy_candidate?.package?.zip_sha256 !== payload.deploy_candidate?.package?.zip_sha256) {
         failures.push('Source operator pack ZIP SHA-256 does not match handoff deploy candidate.');
       }
@@ -453,6 +457,7 @@ async function main() {
       'npm run test:lead-endpoint',
       'npm run test:outreach-readiness',
       'Git Provenance',
+      'Source commit:',
       'Current commit:',
       'Current upstream:',
       'Operator pack commit:',
@@ -473,6 +478,8 @@ async function main() {
     for (const requiredDynamicText of [
       currentShortCommit,
       currentCommit,
+      payload?.source_short_commit,
+      payload?.source_commit,
       operatorShortCommit,
       payload?.deploy_candidate?.package?.zip_bytes != null ? `ZIP bytes: ${payload.deploy_candidate.package.zip_bytes}` : null,
       payload?.git?.current?.branch,
