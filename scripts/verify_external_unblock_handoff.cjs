@@ -165,6 +165,12 @@ async function main() {
     label: 'Current hold',
     failures
   });
+  if (!Array.isArray(payload?.current_holds)) {
+    failures.push('Current holds must be exposed as current_holds array.');
+  }
+  if (JSON.stringify(payload?.current_holds || []) !== JSON.stringify(payload?.current_hold_ids || [])) {
+    failures.push('Current holds must match current_hold_ids compatibility alias.');
+  }
   if (operatorPack) {
     const operatorBlockerIds = (operatorPack.readiness?.blockers || []).map((blocker) => blocker.id);
     const operatorHoldIds = (operatorPack.readiness?.holds || []).map((hold) => hold.id);
@@ -174,6 +180,9 @@ async function main() {
     }
     if (JSON.stringify(payload?.current_hold_ids || []) !== JSON.stringify(operatorHoldIds)) {
       failures.push('Current holds must match source operator pack holds.');
+    }
+    if (JSON.stringify(payload?.current_holds || []) !== JSON.stringify(operatorHoldIds)) {
+      failures.push('Current holds array must match source operator pack holds.');
     }
     for (const detail of [
       ...(payload?.current_blocker_details || []),

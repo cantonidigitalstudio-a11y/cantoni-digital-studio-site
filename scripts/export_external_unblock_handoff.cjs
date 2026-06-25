@@ -189,6 +189,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
     },
     current_blockers: blockerIds(readiness),
     current_blocker_details: gateDetails(readiness.blockers, readiness),
+    current_holds: (readiness.holds || []).map((hold) => hold.id),
     current_hold_ids: (readiness.holds || []).map((hold) => hold.id),
     current_hold_details: gateDetails(readiness.holds, readiness),
     deploy_candidate: {
