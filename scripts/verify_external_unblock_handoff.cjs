@@ -310,7 +310,7 @@ async function main() {
   if (deploy?.branch_policy?.production_branch !== 'main') failures.push('Deploy task must document main as the production branch.');
   if (deploy?.branch_policy?.preview_deploy_clears_live_site_contract !== false) failures.push('Deploy task must state that preview deploys do not clear the production live-site contract.');
   if (deploy?.branch_policy?.live_site_contract_fix_requires_production_branch !== true) failures.push('Deploy task must state that live-site contract fix requires production branch.');
-  if (!deploy?.verification_commands_before_mutation?.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
+  if (!deploy?.verification_commands_before_mutation?.includes('npm run audit:cloudflare-deploy-candidate')) {
     failures.push('Deploy task must require execution-ready candidate verification before mutation.');
   }
   if (!deploy?.post_deploy_commands?.includes('npm run audit:post-unblock-launch')) {
@@ -407,7 +407,7 @@ async function main() {
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:post-unblock-launch')) {
     failures.push('Post-unblock checks must include the consolidated post-unblock launch audit.');
   }
-  if (!postChecks?.required_commands_after_external_changes?.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
+  if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:cloudflare-deploy-candidate')) {
     failures.push('Post-unblock checks must include deploy candidate execution-readiness verification.');
   }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run test:social-public')) {

@@ -192,7 +192,7 @@ Dopo che accessi Cloudflare/DNS e Google Workspace sono stati applicati, usare
 `npm run audit:post-unblock-launch`: fallisce finche live site, Pages access,
 DNS API, email DNS, payment branding e readiness senza outbound non sono tutti chiudibili.
 Nella stessa finestra post-sblocco eseguire anche
-`node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`,
+`npm run audit:cloudflare-deploy-candidate`,
 che deve passare prima di considerare il candidato deploy realmente eseguibile.
 `npm run audit:payment-branding` controlla `sales-kit/payment_branding_review.flag`;
 il flag va rimosso solo dopo verifica reale Stripe/PayPal senza brand mismatch.
@@ -242,7 +242,7 @@ Regole del percorso diretto:
   `CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`;
 - `--pages-only` verifica token attivo e lettura deployments Pages senza
   richiedere `CLOUDFLARE_ZONE_ID`;
-- prima di `wrangler pages deploy`, `scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`
+- prima di `wrangler pages deploy`, `npm run audit:cloudflare-deploy-candidate`
   deve confermare che l'ultimo operator pack contiene un candidato deploy fresco
   sul commit corrente, con ZIP/manifest/checksum coerenti e full artifact in
   grado di risolvere il live drift;
@@ -257,7 +257,7 @@ Regole del percorso diretto:
 4. genera `.cloudflare-pages`
 5. verifica artifact, browser smoke e Payment Link sull'artifact
 6. riverifica `npm run audit:cloudflare-auth`
-7. verifica il candidato deploy dall'operator pack con `--require-execution-ready`
+7. verifica il candidato deploy dall'operator pack con `npm run audit:cloudflare-deploy-candidate`
 8. pubblica su branch preview, di default `preview-cantoni-site`
 
 Lo script OAuth non crea progetti Pages. Se `cantonidigitalstudio` non compare
@@ -271,7 +271,7 @@ Cloudflare prima di riprovare.
 4. genera `.cloudflare-pages`
 5. verifica artifact, browser smoke e Payment Link sull'artifact
 6. riverifica `--pages-only`
-7. verifica il candidato deploy dall'operator pack con `--require-execution-ready`
+7. verifica il candidato deploy dall'operator pack con `npm run audit:cloudflare-deploy-candidate`
 8. pubblica con `wrangler pages deploy .cloudflare-pages --project-name ... --branch ...`
 
 ## Produzione

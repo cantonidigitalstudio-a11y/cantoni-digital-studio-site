@@ -132,7 +132,7 @@ const runs = {
   leadEndpoint: runJson(process.execPath, ['scripts/verify_lead_capture_endpoint.cjs']),
   paymentBranding: runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']),
   launchReadiness: runJson(process.execPath, ['scripts/verify_launch_readiness.mjs', '--allow-blocked']),
-  cloudflareDeployCandidate: runJson(process.execPath, ['scripts/verify_cloudflare_deploy_candidate.cjs', '--require-execution-ready']),
+  cloudflareDeployCandidate: runJson('npm', ['run', '--silent', 'audit:cloudflare-deploy-candidate']),
   externalHandoff: runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs'])
 };
 

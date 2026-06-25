@@ -260,7 +260,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
           'npm run audit:git-deploy-state',
           'npm run audit:cloudflare-pages-api',
           'npm run test:cloudflare-deploy-candidate',
-          'node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready'
+          'npm run audit:cloudflare-deploy-candidate'
         ],
         allowed_mutation_command_after_approval: 'npm run deploy:cloudflare:direct',
         post_deploy_commands: [
@@ -375,7 +375,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
         status: 'pending_external_changes',
         required_commands_after_external_changes: [
           'npm run audit:post-unblock-launch',
-          'node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready',
+          'npm run audit:cloudflare-deploy-candidate',
           'npm run test:live-site',
           'npm run test:social-public',
           'npm run test:lead-endpoint',
@@ -489,7 +489,7 @@ function renderMarkdown(payload) {
     '## Deploy Command Boundary',
     '',
     `- Status: \`${deployTask.status}\``,
-    '- Before mutation: `npm run audit:git-deploy-state`, `npm run audit:cloudflare-pages-api`, `npm run test:cloudflare-deploy-candidate`, `node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`.',
+    '- Before mutation: `npm run audit:git-deploy-state`, `npm run audit:cloudflare-pages-api`, `npm run test:cloudflare-deploy-candidate`, `npm run audit:cloudflare-deploy-candidate`.',
     '- Mutation command after approval only: `npm run deploy:cloudflare:direct`.',
     '- Default direct branch `preview-cantoni-site` validates the artifact but does not clear the production `live_site_contract`.',
     '- To clear the production live contract, set `CLOUDFLARE_PAGES_BRANCH=main` and use the separate production approvals.',
@@ -535,7 +535,7 @@ function renderMarkdown(payload) {
     '',
     '- `npm run test:live-site`',
     '- `npm run audit:post-unblock-launch`',
-    '- `node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`',
+    '- `npm run audit:cloudflare-deploy-candidate`',
     '- `npm run test:social-public`',
     '- `npm run test:lead-endpoint`',
     '- `npm run test:outreach-readiness`',

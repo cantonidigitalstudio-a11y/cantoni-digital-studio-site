@@ -87,7 +87,7 @@ function main() {
   if (!readme.includes('npm run audit:post-unblock-launch') || !readme.includes('npm run test:post-unblock-launch')) {
     failures.push('README.md: must document strict and nonfatal post-unblock launch audits');
   }
-  if (!readme.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
+  if (!readme.includes('npm run audit:cloudflare-deploy-candidate')) {
     failures.push('README.md: must document deploy candidate execution-readiness check in post-unblock closure');
   }
   if (!readme.includes('canali social') || !readme.includes('pubblici')) {
@@ -192,7 +192,7 @@ function main() {
   if (!cloudflareRunbook.includes('npm run audit:post-unblock-launch') || !cloudflareRunbook.includes('npm run test:post-unblock-launch')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document strict and nonfatal post-unblock launch audits');
   }
-  if (!cloudflareRunbook.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
+  if (!cloudflareRunbook.includes('npm run audit:cloudflare-deploy-candidate')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document deploy candidate execution-readiness check in post-unblock closure');
   }
   if (!cloudflareRunbook.includes('npm run test:social-public')) {

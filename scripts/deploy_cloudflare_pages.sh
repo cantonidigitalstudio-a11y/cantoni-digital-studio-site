@@ -43,7 +43,7 @@ echo "step=cloudflare_auth_recheck"
 npm run audit:cloudflare-auth
 
 echo "step=cloudflare_deploy_candidate"
-node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready
+npm run audit:cloudflare-deploy-candidate
 
 echo "step=deploy"
 "$WRANGLER_BIN" pages deploy "$PUBLIC_DIR" --project-name "$PROJECT_NAME" --branch "$DEPLOY_BRANCH"

@@ -60,7 +60,7 @@ Per il percorso OAuth Wrangler, `npm run audit:cloudflare-auth` deve vedere anch
 `project_listed=true` per `cantonidigitalstudio`: gli script non creano un Pages
 project implicitamente. `npm run deploy:cloudflare` verifica Git pulito/allineato,
 auth OAuth, suite completa, artifact `.cloudflare-pages`, Payment Link/browser
-smoke sull'artifact e `cloudflare_deploy_candidate --require-execution-ready`
+smoke sull'artifact e `npm run audit:cloudflare-deploy-candidate`
 prima di chiamare `wrangler pages deploy`.
 
 Se OAuth Wrangler e bloccato ma e disponibile un token API Cantoni con permesso
@@ -157,7 +157,7 @@ Quando Cloudflare Pages/DNS e Google Workspace sono stati sbloccati, usa
 verifica Git, live site, accesso Pages, DNS API, email DNS, canali social
 pubblici, endpoint lead, payment branding, readiness senza rilascio outbound e
 handoff. Nella stessa chiusura va eseguito anche
-`node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`,
+`npm run audit:cloudflare-deploy-candidate`,
 cosi il candidato deploy non resta solo artifact-ready ma diventa realmente
 eseguibile dopo lo sblocco Cloudflare Pages. Prima dello sblocco,
 `npm run test:post-unblock-launch` mostra gli stessi blocker senza fallire il

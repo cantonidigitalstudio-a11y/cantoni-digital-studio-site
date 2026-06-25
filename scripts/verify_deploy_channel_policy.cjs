@@ -61,6 +61,7 @@ const checks = [
       'npm run test:cloudflare-oauth-deploy-contract',
       'npm run audit:cloudflare-pages-api',
       'npm run audit:cloudflare-dns-api',
+      'npm run audit:cloudflare-deploy-candidate',
       'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct',
       '## Cosa fa lo script token diretto\n1. verifica `node scripts/verify_git_deploy_state.cjs`\n2. verifica `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`'
     ],
@@ -74,7 +75,7 @@ const checks = [
       'npm run test:full',
       'SITE_ROOT=.cloudflare-pages npm run test:browser',
       'SITE_ROOT=.cloudflare-pages npm run test:payments',
-      'node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready',
+      'npm run audit:cloudflare-deploy-candidate',
       'ALLOW_PRODUCTION_DEPLOY',
       'CANTONI_PRODUCTION_DEPLOY_APPROVAL',
       'deploy-cantoni-production',
@@ -102,6 +103,7 @@ const checks = [
       'node scripts/verify_git_deploy_state.cjs',
       'npm run test:full',
       'bash "$ROOT_DIR/scripts/build_cloudflare_public_dir.sh"',
+      'npm run audit:cloudflare-deploy-candidate',
       'post_deploy_checks=npm run test:live-site; npm run audit:post-unblock-launch; npm run audit:launch-readiness',
       'pages deploy "$PUBLIC_DIR"',
       '--project-name "$PROJECT_NAME"',
@@ -129,9 +131,15 @@ for (const check of checks) {
   }
 }
 
+const packageJson = JSON.parse(read('package.json'));
+const cloudflareDeployCandidateAudit = packageJson.scripts?.['audit:cloudflare-deploy-candidate'];
+if (cloudflareDeployCandidateAudit !== 'node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready') {
+  failures.push('package.json: audit:cloudflare-deploy-candidate must run verify_cloudflare_deploy_candidate.cjs --require-execution-ready');
+}
+
 const report = {
   ok: failures.length === 0,
-  checked: checks.map((check) => check.file),
+  checked: [...checks.map((check) => check.file), 'package.json'],
   primary_deploy_channel: 'cloudflare-pages',
   fallback_deploy_channel: 'netlify-explicit-only'
 };
