@@ -1,0 +1,5 @@
+Una dashboard serve quando il progetto non deve solo presentare informazioni, ma gestire lavoro: richieste, ordini, clienti, appuntamenti, prenotazioni o contenuti. In quel caso non stai comprando solo un sito: stai costruendo uno strumento operativo.
+
+Metodo: audit reale, scope scritto, QA e percorso commerciale chiaro.
+
+#CantoniDigitalStudio #SitiWeb #Ecommerce #WebApp #App #AutomazioniAI #VisibilitaAI

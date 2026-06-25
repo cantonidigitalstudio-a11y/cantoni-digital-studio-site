@@ -189,15 +189,42 @@ function subjectByLanguage(language, row) {
 
 function microSubjectByLanguage(language, row) {
   const name = row.business_name || 'your website';
+  const solution = String(row.recommended_solution_type || '').toLowerCase();
+  const sector = String(row.sector || '').toLowerCase();
+  const isEcommerce = solution === 'ecommerce' || /e-?commerce|shop|store|retail|boutique|product|prodott|moda|fashion/i.test(sector);
+  const isProfessional = /architecture|interior|design|creative studio|legal|law|agency|consult/i.test(sector);
+  const isBooking = solution === 'web_app' || /booking|class|course|fitness|yoga|clinic|dental|appointment|reserv|prenot|whatsapp/i.test(sector);
+
   if (language === 'it') return `${name}: una osservazione concreta sul sito`;
-  if (language === 'es') return `${name}: una observación concreta sobre el sitio`;
-  if (language === 'pt') return `${name}: uma observação concreta sobre o site`;
-  if (language === 'fr') return `${name} : une observation concrète sur le site`;
-  if (language === 'de') return `${name}: eine konkrete Website-Beobachtung`;
+  if (language === 'es') {
+    if (isEcommerce) return `${name}: una observación concreta sobre la tienda online`;
+    if (isProfessional) return `${name}: una observación concreta sobre solicitudes`;
+    if (isBooking) return `${name}: una observación concreta sobre reservas`;
+    return `${name}: una observación concreta sobre el sitio`;
+  }
+  if (language === 'pt') {
+    if (isEcommerce) return `${name}: uma observação concreta sobre a loja online`;
+    if (isBooking) return `${name}: uma observação concreta sobre reservas`;
+    return `${name}: uma observação concreta sobre o site`;
+  }
+  if (language === 'fr') {
+    if (isEcommerce) return `${name} : une observation concrète sur l'achat en ligne`;
+    if (isProfessional) return `${name} : une observation concrète sur les demandes`;
+    if (isBooking) return `${name} : une observation concrète sur les demandes`;
+    return `${name} : une observation concrète sur le site`;
+  }
+  if (language === 'de') {
+    if (isBooking) return `${name}: eine konkrete Beobachtung zum Buchungsweg`;
+    if (isEcommerce) return `${name}: eine konkrete Beobachtung zum Online-Shop`;
+    return `${name}: eine konkrete Website-Beobachtung`;
+  }
   if (language === 'ja') return `${name} サイトについて1つの具体的な所見`;
   if (language === 'zh') return `${name}：一个具体的网站观察`;
   if (language === 'hi') return `${name}: website par ek concrete observation`;
   if (language === 'ar') return `${name}: ملاحظة واحدة واضحة على الموقع`;
+  if (isEcommerce) return `${name}: one concrete ecommerce path observation`;
+  if (isProfessional) return `${name}: one concrete inquiry path observation`;
+  if (isBooking) return `${name}: one concrete booking path observation`;
   return `${name}: one concrete website observation`;
 }
 

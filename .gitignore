@@ -53,3 +53,5 @@ sales-kit/business-cards/support/*.png
 sales-kit/lead_pipeline.csv
 sales-kit/lead-batches/20*/
 !sales-kit/lead-batches/README.md
+sales-kit/outreach-1000-sprint/
+sales-kit/daily-ops/2026-06-*.md

@@ -25,6 +25,9 @@ Pacchetto pronto per pubblicazione manuale. Non pubblicare senza review finale.
 7. Mobile prima di tutto
    - immagine: `07-07-mobile-first.png`
    - caption: `07-07-mobile-first.caption.txt`
+8. Quando serve una dashboard
+   - immagine: `08-08-dashboard-admin.png`
+   - caption: `08-08-dashboard-admin.caption.txt`
 
 ## Regole
 
