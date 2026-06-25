@@ -8,6 +8,9 @@ const { gitProvenance } = require('./lib/git_provenance.cjs');
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.resolve(process.env.EXTERNAL_UNBLOCK_HANDOFF_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/external-unblock-handoff'));
 const HANDOFF_PATTERN = /^cantoni-external-unblock-handoff-.+\.json$/u;
+const TIMESTAMPED_HANDOFF_PATTERN = /^cantoni-external-unblock-handoff-(?!latest\b).+\.json$/u;
+const LATEST_JSON_PATH = path.join(OUTPUT_DIR, 'cantoni-external-unblock-handoff-latest.json');
+const LATEST_MARKDOWN_PATH = path.join(OUTPUT_DIR, 'cantoni-external-unblock-handoff-latest.md');
 const REQUIRED_TASKS = [
   'cloudflare_pages_auth',
   'cloudflare_pages_deploy',
@@ -34,9 +37,26 @@ function resolveRepoPath(relPath) {
 }
 
 async function latestHandoffPath() {
+  try {
+    await fs.access(LATEST_JSON_PATH);
+    return LATEST_JSON_PATH;
+  } catch (error) {
+    if (!error || error.code !== 'ENOENT') throw error;
+  }
+
   const entries = await fs.readdir(OUTPUT_DIR, { withFileTypes: true });
   const matches = entries
     .filter((entry) => entry.isFile() && HANDOFF_PATTERN.test(entry.name))
+    .map((entry) => path.join(OUTPUT_DIR, entry.name))
+    .sort()
+    .reverse();
+  return matches[0] || null;
+}
+
+async function latestTimestampedHandoffPath() {
+  const entries = await fs.readdir(OUTPUT_DIR, { withFileTypes: true });
+  const matches = entries
+    .filter((entry) => entry.isFile() && TIMESTAMPED_HANDOFF_PATTERN.test(entry.name))
     .map((entry) => path.join(OUTPUT_DIR, entry.name))
     .sort()
     .reverse();
@@ -170,6 +190,38 @@ async function main() {
       'sales-kit/outbound_pause.flag'
     ]) {
       if (!markdown.includes(requiredText)) failures.push(`External unblock markdown missing required safety text: ${requiredText}`);
+    }
+
+    const timestampedPath = await latestTimestampedHandoffPath().catch((error) => {
+      failures.push(`Unable to inspect timestamped handoff files: ${error.message}`);
+      return null;
+    });
+    if (!timestampedPath) {
+      failures.push('External unblock handoff must include a timestamped JSON file in addition to latest alias.');
+    } else {
+      const [latestJson, timestampedJson] = await Promise.all([
+        fs.readFile(LATEST_JSON_PATH, 'utf8').catch((error) => {
+          failures.push(`Unable to read latest handoff JSON alias: ${error.message}`);
+          return null;
+        }),
+        fs.readFile(timestampedPath, 'utf8')
+      ]);
+      const latestMarkdown = await fs.readFile(LATEST_MARKDOWN_PATH, 'utf8').catch((error) => {
+        failures.push(`Unable to read latest handoff Markdown alias: ${error.message}`);
+        return null;
+      });
+      const timestampedMarkdownPath = timestampedPath.replace(/\.json$/u, '.md');
+      const timestampedMarkdown = await fs.readFile(timestampedMarkdownPath, 'utf8').catch((error) => {
+        failures.push(`Unable to read timestamped handoff Markdown: ${error.message}`);
+        return null;
+      });
+
+      if (latestJson !== null && latestJson !== timestampedJson) {
+        failures.push('External unblock latest JSON alias does not match latest timestamped JSON.');
+      }
+      if (latestMarkdown !== null && timestampedMarkdown !== null && latestMarkdown !== timestampedMarkdown) {
+        failures.push('External unblock latest Markdown alias does not match latest timestamped Markdown.');
+      }
     }
   }
 

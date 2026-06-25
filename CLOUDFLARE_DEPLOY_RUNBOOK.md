@@ -125,10 +125,13 @@ npm run test:external-unblock-handoff
 ```
 
 Il dossier viene scritto in `sales-kit/generated/external-unblock-handoff/`.
-Deve indicare l'ultimo operator pack, il deploy candidate verificato, permessi
-minimi Cloudflare, record DNS Google Workspace, approval gate e controlli
-post-unblock. Il verifier blocca se il dossier contiene assegnazioni di valori
-Cloudflare, perde gli approval token o non punta allo ZIP corrente.
+Produce file timestampati e gli alias stabili
+`cantoni-external-unblock-handoff-latest.md/json`. Deve indicare l'ultimo
+operator pack, il deploy candidate verificato, permessi minimi Cloudflare,
+record DNS Google Workspace, approval gate e controlli post-unblock. Il verifier
+blocca se il dossier contiene assegnazioni di valori Cloudflare, perde gli
+approval token, non punta allo ZIP corrente o gli alias latest non corrispondono
+all'ultimo file timestampato.
 
 ## Deploy preview
 ```bash

@@ -18,6 +18,8 @@ if (!/^[A-Za-z0-9._-]+$/.test(VERSION)) {
 const BASE_NAME = `cantoni-external-unblock-handoff-${VERSION}`;
 const JSON_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.json`);
 const MARKDOWN_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.md`);
+const LATEST_JSON_PATH = path.join(OUTPUT_DIR, 'cantoni-external-unblock-handoff-latest.json');
+const LATEST_MARKDOWN_PATH = path.join(OUTPUT_DIR, 'cantoni-external-unblock-handoff-latest.md');
 
 function normalizeRel(value) {
   return String(value || '').split(path.sep).join('/');
@@ -371,8 +373,12 @@ async function main() {
   }));
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
-  await fs.writeFile(JSON_PATH, JSON.stringify(payload, null, 2) + '\n');
-  await fs.writeFile(MARKDOWN_PATH, renderMarkdown(payload));
+  const json = JSON.stringify(payload, null, 2) + '\n';
+  const markdown = renderMarkdown(payload);
+  await fs.writeFile(JSON_PATH, json);
+  await fs.writeFile(MARKDOWN_PATH, markdown);
+  await fs.writeFile(LATEST_JSON_PATH, json);
+  await fs.writeFile(LATEST_MARKDOWN_PATH, markdown);
 
   console.log(JSON.stringify({
     ok: true,
@@ -380,7 +386,9 @@ async function main() {
     blockers: payload.current_blockers,
     handoff: {
       json: relativeToRoot(JSON_PATH),
-      markdown: relativeToRoot(MARKDOWN_PATH)
+      markdown: relativeToRoot(MARKDOWN_PATH),
+      latest_json: relativeToRoot(LATEST_JSON_PATH),
+      latest_markdown: relativeToRoot(LATEST_MARKDOWN_PATH)
     },
     source_operator_pack: payload.source_operator_pack,
     deploy_candidate_status: payload.deploy_candidate.status
