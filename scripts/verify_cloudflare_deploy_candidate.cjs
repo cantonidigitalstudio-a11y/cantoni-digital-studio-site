@@ -92,14 +92,15 @@ async function main() {
   const zipPath = resolveRepoPath(candidate.package?.zip_path);
   const manifestPath = resolveRepoPath(candidate.package?.manifest);
   const checksumsPath = resolveRepoPath(candidate.package?.checksums);
+  const readmePath = resolveRepoPath(candidate.package?.readme);
   if (!zipPath) failures.push('Cloudflare deploy candidate ZIP path must be repo-relative.');
   else if (!await pathExists(zipPath)) failures.push(`Cloudflare deploy candidate ZIP does not exist: ${candidate.package?.zip_path}`);
   if (!manifestPath) failures.push('Cloudflare deploy candidate manifest path must be repo-relative.');
   else if (!await pathExists(manifestPath)) failures.push(`Cloudflare deploy candidate manifest does not exist: ${candidate.package?.manifest}`);
-  if (candidate.package?.checksums) {
-    if (!checksumsPath) failures.push('Cloudflare deploy candidate checksums path must be repo-relative.');
-    else if (!await pathExists(checksumsPath)) failures.push(`Cloudflare deploy candidate checksums file does not exist: ${candidate.package.checksums}`);
-  }
+  if (!checksumsPath) failures.push('Cloudflare deploy candidate checksums path must be repo-relative.');
+  else if (!await pathExists(checksumsPath)) failures.push(`Cloudflare deploy candidate checksums file does not exist: ${candidate.package?.checksums}`);
+  if (!readmePath) failures.push('Cloudflare deploy candidate README path must be repo-relative.');
+  else if (!await pathExists(readmePath)) failures.push(`Cloudflare deploy candidate README does not exist: ${candidate.package?.readme}`);
   if (zipPath && await pathExists(zipPath) && candidate.package?.zip_sha256) {
     const actualZipHash = await sha256File(zipPath);
     if (actualZipHash !== candidate.package.zip_sha256) failures.push('Cloudflare deploy candidate ZIP SHA-256 does not match the referenced ZIP.');
@@ -110,6 +111,38 @@ async function main() {
     const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
     if (manifest.git?.commit !== currentGit.commit) failures.push('Cloudflare manual upload manifest commit does not match current HEAD.');
     if (manifest.zip?.sha256 !== candidate.package?.zip_sha256) failures.push('Cloudflare manual upload manifest ZIP SHA-256 does not match deploy candidate.');
+    if (manifest.contract_coverage?.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
+      failures.push('Cloudflare manual upload manifest must expose live-site contract coverage.');
+    }
+    if (manifest.contract_coverage?.full_artifact_required !== true || manifest.contract_coverage?.partial_upload_safe !== false) {
+      failures.push('Cloudflare manual upload manifest contract coverage must require full artifact deployment.');
+    }
+    if (manifest.contract_coverage?.production_branch !== 'main') {
+      failures.push('Cloudflare manual upload manifest contract coverage must require production branch main.');
+    }
+  }
+  if (checksumsPath && await pathExists(checksumsPath)) {
+    const checksums = await fs.readFile(checksumsPath, 'utf8');
+    const zipName = path.basename(candidate.package?.zip_path || '');
+    if (!checksums.includes(`${candidate.package?.zip_sha256}  ${zipName}`)) {
+      failures.push('Cloudflare manual upload checksums must include the deploy candidate ZIP SHA-256.');
+    }
+  }
+  if (readmePath && await pathExists(readmePath)) {
+    const readme = await fs.readFile(readmePath, 'utf8');
+    for (const requiredReadmeText of [
+      'Production live-site contract coverage in this ZIP',
+      'Full artifact required: yes',
+      'Partial upload safe: no',
+      'Do not upload only these files',
+      'CLOUDFLARE_PAGES_BRANCH=main',
+      'ALLOW_PRODUCTION_DEPLOY=yes',
+      'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production'
+    ]) {
+      if (!readme.includes(requiredReadmeText)) {
+        failures.push(`Cloudflare manual upload README missing deploy safety text: ${requiredReadmeText}`);
+      }
+    }
   }
 
   const executionBlockers = Array.isArray(candidate.execution_blockers) ? candidate.execution_blockers : [];
@@ -137,7 +170,9 @@ async function main() {
     package: {
       zip_path: candidate.package?.zip_path || null,
       zip_sha256: candidate.package?.zip_sha256 || null,
-      manifest: candidate.package?.manifest || null
+      manifest: candidate.package?.manifest || null,
+      checksums: candidate.package?.checksums || null,
+      readme: candidate.package?.readme || null
     },
     git: {
       commit: currentGit.commit,
