@@ -30,7 +30,9 @@ npm run audit:git-deploy-state
 npm run audit:cloudflare-api
 npm run audit:cloudflare-pages-api
 npm run audit:cloudflare-dns-api
+npm run test:cloudflare-auth-contract
 npm run test:cloudflare-direct-deploy-contract
+npm run test:cloudflare-oauth-deploy-contract
 node scripts/verify_cloudflare_api_credentials.mjs --pages-only
 ```
 
@@ -42,7 +44,8 @@ Stato verificato 2026-06-25:
 - `npm run audit:cloudflare-auth` fallisce prima del deploy: `wrangler whoami` passa, ma `wrangler pages project list --json` fallisce con `Authentication error [code: 10000]`.
 - Diagnosi attesa nel JSON: `diagnostic_code=pages_api_authentication_error_10000`.
 - Causa probabile: token/sessione Cloudflare scaduta, account Cloudflare non corretto o permessi Pages insufficienti.
-- Non tentare deploy OAuth finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`.
+- Non tentare deploy OAuth finche `npm run audit:cloudflare-auth` non torna verde su `whoami`, su `pages project list` e su `project_listed=true` per `cantonidigitalstudio`.
+- Gli script non creano piu il progetto Pages implicitamente: il progetto Cloudflare Pages corretto deve essere gia visibile all'audit, oppure va creato/linkato nel dashboard Cloudflare prima del deploy.
 - Non tentare deploy diretto finche `npm run audit:git-deploy-state` non torna
   verde su worktree pulita, upstream `cantoni` e branch pushato.
 - Se OAuth resta bloccato, usare il percorso token diretto solo quando `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` passa con token e account Cantoni.
@@ -182,13 +185,18 @@ Regole del percorso diretto:
   `CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
 
 ## Cosa fa lo script OAuth
-1. verifica `npm run audit:cloudflare-auth`
-2. esegue `npm run test:full`
-3. genera `.cloudflare-pages`
-4. verifica l'artifact pubblico
-5. riverifica `npm run audit:cloudflare-auth`
-6. crea il progetto Pages se non esiste
-7. pubblica su branch preview, di default `preview-cantoni-site`
+1. verifica `node scripts/verify_git_deploy_state.cjs`
+2. verifica `npm run audit:cloudflare-auth`, incluso `project_listed=true`
+3. esegue `npm run test:full`
+4. genera `.cloudflare-pages`
+5. verifica artifact, browser smoke e Payment Link sull'artifact
+6. riverifica `npm run audit:cloudflare-auth`
+7. verifica il candidato deploy dall'operator pack con `--require-execution-ready`
+8. pubblica su branch preview, di default `preview-cantoni-site`
+
+Lo script OAuth non crea progetti Pages. Se `cantonidigitalstudio` non compare
+in `pages project list`, fermarsi e correggere account/progetto nel dashboard
+Cloudflare prima di riprovare.
 
 ## Cosa fa lo script token diretto
 1. verifica `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`

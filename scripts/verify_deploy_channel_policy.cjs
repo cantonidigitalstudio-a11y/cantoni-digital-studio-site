@@ -56,12 +56,35 @@ const checks = [
       'npm run audit:git-deploy-state',
       'scripts/verify_cloudflare_deploy_auth.mjs',
       'npm run deploy:cloudflare:direct',
+      'npm run test:cloudflare-auth-contract',
       'npm run test:cloudflare-direct-deploy-contract',
+      'npm run test:cloudflare-oauth-deploy-contract',
       'npm run audit:cloudflare-pages-api',
       'npm run audit:cloudflare-dns-api',
       'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct'
     ],
     forbidden: []
+  },
+  {
+    file: 'scripts/deploy_cloudflare_pages.sh',
+    required: [
+      'node scripts/verify_git_deploy_state.cjs',
+      'npm run audit:cloudflare-auth',
+      'npm run test:full',
+      'SITE_ROOT=.cloudflare-pages npm run test:browser',
+      'SITE_ROOT=.cloudflare-pages npm run test:payments',
+      'node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready',
+      'ALLOW_PRODUCTION_DEPLOY',
+      'CANTONI_PRODUCTION_DEPLOY_APPROVAL',
+      'deploy-cantoni-production',
+      'pages deploy "$PUBLIC_DIR"',
+      '--project-name "$PROJECT_NAME"',
+      '--branch "$DEPLOY_BRANCH"'
+    ],
+    forbidden: [
+      'pages project create',
+      'step=ensure_project'
+    ]
   },
   {
     file: 'scripts/deploy_cloudflare_pages_direct.sh',

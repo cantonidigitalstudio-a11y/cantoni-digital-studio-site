@@ -74,6 +74,10 @@ function objectContainsProject(value, name) {
   return false;
 }
 
+const pagesJson = parseJsonOutput(pagesOutput.stdout);
+const projectListed = pagesRun?.status === 0 &&
+  (objectContainsProject(pagesJson, projectName) || pagesOutput.stdout.includes(projectName));
+
 function diagnosticFromOutputs() {
   if (whoamiRun.error) return 'wrangler_executable_unavailable';
   if (whoamiRun.status !== 0) return 'wrangler_not_authenticated';
@@ -84,6 +88,7 @@ function diagnosticFromOutputs() {
     return 'pages_api_authentication_error_10000';
   }
   if (pagesRun.status !== 0) return 'pages_api_access_error';
+  if (!projectListed) return 'pages_project_not_listed';
   return 'ok';
 }
 
@@ -107,6 +112,13 @@ function nextActionsFor(diagnosticCode) {
       'Refresh the active Wrangler OAuth session or provide a Cloudflare token for the Cantoni account with Account > Cloudflare Pages > Edit.',
       'Confirm the active Cloudflare account can list Pages projects before deploying.',
       'Keep using the verified manual upload/operator pack as handoff material until the audit passes.'
+    ];
+  }
+  if (diagnosticCode === 'pages_project_not_listed') {
+    return [
+      `Confirm the active Cantoni Cloudflare account has a Pages project named ${projectName}.`,
+      'Do not let deploy scripts create a new Pages project implicitly; create or link the intended project in Cloudflare first.',
+      'Re-run `npm run audit:cloudflare-auth` and require project_listed=true before any deploy attempt.'
     ];
   }
   return [
@@ -146,6 +158,11 @@ if (pagesRun?.error) {
     id: 'cloudflare_pages_api',
     reason: 'Cloudflare token/session cannot access the Pages projects API for the selected account.'
   });
+} else if (pagesRun && pagesRun.status === 0 && !projectListed) {
+  failures.push({
+    id: 'cloudflare_pages_project',
+    reason: `Cloudflare Pages project ${projectName} was not listed for the active token/session.`
+  });
 }
 
 if (!accountId && /account IDs|CLOUDFLARE_ACCOUNT_ID|account_id/i.test(combined)) {
@@ -154,10 +171,6 @@ if (!accountId && /account IDs|CLOUDFLARE_ACCOUNT_ID|account_id/i.test(combined)
     reason: 'Wrangler could not infer an account ID; set a verified CLOUDFLARE_ACCOUNT_ID only for the Cantoni Cloudflare account.'
   });
 }
-
-const pagesJson = parseJsonOutput(pagesOutput.stdout);
-const projectListed = pagesRun?.status === 0 &&
-  (objectContainsProject(pagesJson, projectName) || pagesOutput.stdout.includes(projectName));
 
 const result = {
   ok: failures.length === 0,

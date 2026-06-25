@@ -10,11 +10,16 @@ PUBLIC_DIR="${CLOUDFLARE_PAGES_OUTPUT_DIR:-$ROOT_DIR/.cloudflare-pages}"
 DEPLOY_BRANCH="${CLOUDFLARE_PAGES_BRANCH:-preview-cantoni-site}"
 WRANGLER_BIN="${WRANGLER_BIN:-wrangler}"
 
-if [ "$DEPLOY_BRANCH" = "main" ] && [ "${ALLOW_PRODUCTION_DEPLOY:-}" != "yes" ]; then
-  echo "error=production_deploy_requires_explicit_allow" >&2
-  echo "Set ALLOW_PRODUCTION_DEPLOY=yes only after a separate production approval." >&2
-  exit 1
+if [ "$DEPLOY_BRANCH" = "main" ]; then
+  if [ "${ALLOW_PRODUCTION_DEPLOY:-}" != "yes" ] || [ "${CANTONI_PRODUCTION_DEPLOY_APPROVAL:-}" != "deploy-cantoni-production" ]; then
+    echo "error=production_deploy_requires_explicit_allow" >&2
+    echo "Set ALLOW_PRODUCTION_DEPLOY=yes and CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production only after separate production approval." >&2
+    exit 1
+  fi
 fi
+
+echo "step=git_deploy_state"
+node scripts/verify_git_deploy_state.cjs
 
 echo "step=cloudflare_auth_preflight"
 npm run audit:cloudflare-auth
@@ -28,13 +33,17 @@ bash "$ROOT_DIR/scripts/build_cloudflare_public_dir.sh"
 echo "step=artifact_integrity"
 npm run test:artifact
 
-echo "step=whoami"
+echo "step=artifact_browser_smoke"
+SITE_ROOT=.cloudflare-pages npm run test:browser
+
+echo "step=artifact_payment_links"
+SITE_ROOT=.cloudflare-pages npm run test:payments
+
+echo "step=cloudflare_auth_recheck"
 npm run audit:cloudflare-auth
 
-echo "step=ensure_project"
-if ! "$WRANGLER_BIN" pages project list | grep -Fq "$PROJECT_NAME"; then
-  "$WRANGLER_BIN" pages project create "$PROJECT_NAME" --production-branch main
-fi
+echo "step=cloudflare_deploy_candidate"
+node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready
 
 echo "step=deploy"
 "$WRANGLER_BIN" pages deploy "$PUBLIC_DIR" --project-name "$PROJECT_NAME" --branch "$DEPLOY_BRANCH"

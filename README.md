@@ -56,6 +56,13 @@ Il gate DNS verifica prima che `CLOUDFLARE_ZONE_ID` risolva alla zona attiva
 `cantonidigitalstudio.com`; se punta a un altro dominio, non legge ne pianifica
 record DNS.
 
+Per il percorso OAuth Wrangler, `npm run audit:cloudflare-auth` deve vedere anche
+`project_listed=true` per `cantonidigitalstudio`: gli script non creano un Pages
+project implicitamente. `npm run deploy:cloudflare` verifica Git pulito/allineato,
+auth OAuth, suite completa, artifact `.cloudflare-pages`, Payment Link/browser
+smoke sull'artifact e `cloudflare_deploy_candidate --require-execution-ready`
+prima di chiamare `wrangler pages deploy`.
+
 Se OAuth Wrangler e bloccato ma e disponibile un token API Cantoni con permesso
 Account > Cloudflare Pages > Edit, il deploy Pages diretto passa da
 `npm run deploy:cloudflare:direct`. Lo script usa `--pages-only` per verificare
