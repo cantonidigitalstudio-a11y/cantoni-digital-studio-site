@@ -128,7 +128,7 @@ async function waitForPublicProofText(page, requiredText, timeout) {
         meta,
         document.body ? document.body.innerText || '' : ''
       ].join(' ').toLowerCase();
-      return required.some((snippet) => text.includes(String(snippet).toLowerCase()));
+      return required.every((snippet) => text.includes(String(snippet).toLowerCase()));
     },
     requiredText,
     { timeout }
