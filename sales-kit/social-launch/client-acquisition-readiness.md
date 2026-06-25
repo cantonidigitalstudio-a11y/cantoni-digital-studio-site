@@ -14,18 +14,29 @@ Partire con proposte internazionali solo quando il brand pubblico è coerente, i
 - Asset social: prima batch da 5 post generata in `sales-kit/social-launch/output/`, più cover Facebook e avatar Instagram centrato.
 - Email operativa: usare solo `cantonidigitalstudio@gmail.com`.
 
+## Snapshot automatizzato 2026-06-25
+
+Fonte: `npm run test:social-public`.
+
+- Instagram: passa come prova pubblica; il verifier blocca la ricomparsa di `zumu.be/ecantoni`.
+- Facebook: passa come prova pubblica con pagina Cantoni Digital Studio, categoria, email e sito.
+- TikTok: resta configurato come `@cantonidigitalstudio`, ma e ancora trattato come `login-gated-ok`; non usarlo come prova autonoma.
+- YouTube: passa come prova pubblica su `https://www.youtube.com/@cantonidigitalstudio`.
+- Pagina identita operativa: contratto locale valido con canali ufficiali e nessun link storico `zumu.be/ecantoni`.
+
 ## Gate prima di mandare proposte mondiali
 
 1. Verificare il sito live/preview con `npm run test:full`.
 2. Verificare asset e copy social con `npm run test:social`.
-3. Pubblicare almeno 3 contenuti credibili su Instagram, dopo review finale di asset e caption.
-4. Usare Facebook come prova pubblica; non usare TikTok come prova autonoma finché non passa QA pubblica senza login.
-5. Aggiungere TikTok al sito solo dopo QA pubblica senza login.
-6. Creare lista lead pulita: nessun lead già contattato, dominio reale verificato.
-7. Fare audit live del sito cliente prima di qualunque email.
-8. Mandare prima email senza prezzi e senza preventivo completo.
-9. Preparare preventivo solo se il lead risponde o è top tier.
-10. Tracciare ogni lead in `sales-kit/lead_pipeline.csv`.
+3. Verificare canali pubblici e pagina identita con `npm run test:social-public`.
+4. Pubblicare almeno 3 contenuti credibili su Instagram, dopo review finale di asset e caption.
+5. Usare Facebook e YouTube come prove pubbliche; non usare TikTok come prova autonoma finché non passa QA pubblica senza login.
+6. Aggiungere TikTok al sito come prova pubblica solo dopo QA senza login.
+7. Creare lista lead pulita: nessun lead già contattato, dominio reale verificato.
+8. Fare audit live del sito cliente prima di qualunque email.
+9. Mandare prima email senza prezzi e senza preventivo completo.
+10. Preparare preventivo solo se il lead risponde o è top tier.
+11. Tracciare ogni lead in `sales-kit/lead_pipeline.csv`.
 
 ## Primo batch contenuti
 

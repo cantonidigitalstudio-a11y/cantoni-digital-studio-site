@@ -425,6 +425,7 @@ async function main() {
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
+    const publicSocialGate = readinessGates.find((gate) => gate.id === 'public_social_channels');
     const paymentBrandingGate = readinessGates.find((gate) => gate.id === 'payment_branding_review');
     const externalUnblockHandoffGate = readinessGates.find((gate) => gate.id === 'external_unblock_handoff');
     const paymentBrandingFlagPresent = await pathExists(path.join(PROJECT_ROOT, 'sales-kit/payment_branding_review.flag'));
@@ -439,6 +440,13 @@ async function main() {
       failures.push('operator_pack: missing git_deploy_state readiness gate');
     } else if (!gitDeployStateGate.details || typeof gitDeployStateGate.details.dirty !== 'boolean') {
       failures.push('operator_pack: git_deploy_state gate must include Git cleanliness details');
+    }
+    if (!publicSocialGate) {
+      failures.push('operator_pack: missing public_social_channels readiness gate');
+    } else if (publicSocialGate.ok !== true) {
+      failures.push('operator_pack: public_social_channels readiness gate must pass before handoff');
+    } else if (!Array.isArray(publicSocialGate.details?.results) || publicSocialGate.details.results.length < 5) {
+      failures.push('operator_pack: public_social_channels gate must expose checked channel details');
     }
     if (paymentBrandingFlagPresent) {
       if (!paymentBrandingGate) {
@@ -479,6 +487,9 @@ async function main() {
     if (!operatorMarkdown.includes('## Verified Passing Gates') || !operatorMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('operator_pack: Markdown must expose verified passing readiness gates');
     }
+    if (!operatorMarkdown.includes('public_social_channels')) {
+      failures.push('operator_pack: Markdown must expose public social channel verification');
+    }
     if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
       failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');
     }
@@ -495,6 +506,9 @@ async function main() {
     }
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');
+    }
+    if (!launchMarkdown.includes('public_social_channels')) {
+      failures.push('launch_handoff: Markdown must expose public social channel verification');
     }
     if (paymentBrandingFlagPresent && (!launchMarkdown.includes('payment_branding_review') || !launchMarkdown.includes('sales-kit/payment_branding_review.flag'))) {
       failures.push('launch_handoff: Markdown must expose payment branding hold while flag exists');

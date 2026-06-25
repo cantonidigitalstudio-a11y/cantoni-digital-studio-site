@@ -2,6 +2,16 @@
 
 The current business-card print file includes full-color Facebook, Instagram and TikTok icons with `@cantonidigitalstudio`. Before using these channels in public proposals, verify each profile opens correctly in a logged-out browser, or treat Facebook/TikTok as reserved handles to activate immediately.
 
+## Current Automated QA - 2026-06-25
+
+`npm run test:social-public` is the current source of truth before launch, print, or outbound use.
+
+- Instagram `https://www.instagram.com/cantonidigitalstudio/`: passes as public proof; title resolves to `Cantoni Digital Studio (@cantonidigitalstudio)` and the stale `zumu.be/ecantoni` link is forbidden by the verifier.
+- Facebook `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`: passes as public proof with studio name, category, email and website.
+- TikTok `https://www.tiktok.com/@cantonidigitalstudio`: remains an official configured handle, but logged-out access is accepted only as `login-gated-ok`; do not use it as standalone public proof.
+- YouTube `https://www.youtube.com/@cantonidigitalstudio`: passes as public proof.
+- `identita-operativa.html`: must keep official channel links and must not reintroduce `zumu.be/ecantoni`.
+
 ## Browser QA - 2026-05-10
 
 - Instagram `https://www.instagram.com/cantonidigitalstudio/`: official handle exists, but the 2026-05-10 logged-out Browser session redirected to Instagram login. Treat it as the official studio handle, not as a standalone public proof channel.
@@ -73,4 +83,4 @@ Phone / WhatsApp:
 - Instagram profile link is corrected to `https://cantonidigitalstudio.com`; the centered generated avatar is live.
 - Bio must not promise impossible delivery or fixed prices without scope.
 - Instagram, Facebook and TikTok handles must be tested before adding them to a print order.
-- After Facebook/TikTok are public, update `identita-operativa.html`, footer references, JSON-LD `sameAs`, outreach templates and `scripts/verify_site_integrity.cjs`.
+- When a new public channel changes status, update `identita-operativa.html`, footer references, JSON-LD `sameAs`, outreach templates and `scripts/verify_public_channels.cjs`, then rerun `npm run test:social-public`.

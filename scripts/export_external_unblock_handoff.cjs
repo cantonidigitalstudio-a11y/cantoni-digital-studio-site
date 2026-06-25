@@ -272,6 +272,8 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
         required_commands_after_external_changes: [
           'npm run audit:post-unblock-launch',
           'npm run test:live-site',
+          'npm run test:social-public',
+          'npm run test:lead-endpoint',
           'npm run audit:email-dns',
           'npm run audit:payment-branding',
           'npm run audit:cloudflare-pages-api',
@@ -384,6 +386,8 @@ function renderMarkdown(payload) {
     '',
     '- `npm run test:live-site`',
     '- `npm run audit:post-unblock-launch`',
+    '- `npm run test:social-public`',
+    '- `npm run test:lead-endpoint`',
     '- `npm run audit:email-dns`',
     '- `npm run audit:payment-branding`',
     '- `npm run audit:cloudflare-pages-api`',

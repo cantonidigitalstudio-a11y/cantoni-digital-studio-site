@@ -196,6 +196,7 @@ const cloudflareDnsApiRun = runJson(process.execPath, ['scripts/verify_cloudflar
 const artifactRun = runJson(process.execPath, ['scripts/verify_cloudflare_artifact_readiness.cjs']);
 const paymentBrandingRun = runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
+const publicChannelsRun = runJson(process.execPath, ['scripts/verify_public_channels.cjs']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_state.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
@@ -290,6 +291,27 @@ const gates = [
       domain: parsed?.domain || null,
       checked_at: parsed?.checked_at || null,
       check_count: Array.isArray(parsed?.checks) ? parsed.checks.length : 0
+    })
+  }),
+  gateFromRun({
+    id: 'public_social_channels',
+    label: 'Public social channel contract',
+    category: 'social',
+    run: publicChannelsRun,
+    details: (parsed) => ({
+      checked: parsed?.checked ?? 0,
+      results: Array.isArray(parsed?.results)
+        ? parsed.results.map((result) => ({
+            id: result.id || null,
+            expected: result.expected || null,
+            observed: result.observed || null,
+            statusCode: result.statusCode ?? null,
+            finalUrl: result.finalUrl || null,
+            title: result.title || null,
+            file: result.file || null,
+            ok: result.ok === true
+          }))
+        : []
     })
   }),
   paymentBrandingGate(paymentBrandingRun),

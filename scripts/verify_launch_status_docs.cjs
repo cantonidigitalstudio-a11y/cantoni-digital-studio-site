@@ -70,6 +70,9 @@ function main() {
   if (!readme.includes('npm run audit:post-unblock-launch') || !readme.includes('npm run test:post-unblock-launch')) {
     failures.push('README.md: must document strict and nonfatal post-unblock launch audits');
   }
+  if (!readme.includes('canali social') || !readme.includes('pubblici')) {
+    failures.push('README.md: must document public social channels in post-unblock launch audits');
+  }
   if (!readme.includes('npm run audit:payment-branding') || !readme.includes('sales-kit/payment_branding_review.flag')) {
     failures.push('README.md: must document payment branding audit and review flag');
   }
@@ -114,6 +117,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('npm run audit:post-unblock-launch') || !cloudflareRunbook.includes('npm run test:post-unblock-launch')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document strict and nonfatal post-unblock launch audits');
+  }
+  if (!cloudflareRunbook.includes('npm run test:social-public')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document public social channel verification');
   }
   if (!cloudflareRunbook.includes('npm run audit:payment-branding') || !cloudflareRunbook.includes('sales-kit/payment_branding_review.flag')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding audit and review flag');

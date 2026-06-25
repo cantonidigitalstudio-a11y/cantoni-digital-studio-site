@@ -128,6 +128,7 @@ const runs = {
   cloudflarePagesApi: runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--pages-only']),
   cloudflareDnsApi: runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--dns-only']),
   emailDns: runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']),
+  publicChannels: runJson(process.execPath, ['scripts/verify_public_channels.cjs']),
   paymentBranding: runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']),
   launchReadiness: runJson(process.execPath, ['scripts/verify_launch_readiness.mjs', '--allow-blocked']),
   externalHandoff: runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs'])
@@ -216,6 +217,28 @@ const steps = [
       domain: parsed?.domain || null,
       checked_at: parsed?.checked_at || null,
       check_count: Array.isArray(parsed?.checks) ? parsed.checks.length : 0
+    })
+  }),
+  stepFromRun({
+    id: 'public_social_channels',
+    label: 'Public social channel contract',
+    category: 'social',
+    run: runs.publicChannels,
+    ok: (parsed) => parsed?.ok === true,
+    details: (parsed) => ({
+      checked: parsed?.checked ?? null,
+      results: Array.isArray(parsed?.results)
+        ? parsed.results.map((result) => ({
+            id: result.id || null,
+            expected: result.expected || null,
+            observed: result.observed || null,
+            statusCode: result.statusCode ?? null,
+            finalUrl: result.finalUrl || null,
+            title: result.title || null,
+            file: result.file || null,
+            ok: result.ok === true
+          }))
+        : []
     })
   }),
   stepFromRun({
