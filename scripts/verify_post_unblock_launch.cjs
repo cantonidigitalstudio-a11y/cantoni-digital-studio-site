@@ -262,6 +262,7 @@ const steps = [
     ok: (parsed) => parsed?.ok === true,
     details: (parsed) => ({
       flag: parsed?.flag || null,
+      evidence: parsed?.evidence || null,
       next_actions: parsed?.next_actions || []
     })
   }),

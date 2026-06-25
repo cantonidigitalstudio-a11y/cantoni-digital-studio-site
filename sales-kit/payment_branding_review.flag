@@ -7,5 +7,6 @@ Do not remove this file before final go-live until all of these are true:
 - PayPal is selectable in a real browser session for both public Payment Links.
 - no EC8 or unrelated brand/account text appears in PayPal.
 - do not submit the final payment step during verification.
+- latest structured evidence in `sales-kit/payment_branding_review_evidence.json` has release_ready=true.
 
 This flag does not block local artifact generation, lead research, draft work, or no-payment checkout QA.

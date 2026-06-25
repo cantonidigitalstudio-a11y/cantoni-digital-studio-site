@@ -103,7 +103,7 @@ function failuresForGate(gate) {
   })) : [];
 }
 
-function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
+function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, paymentBrandingEvidence }) {
   const readiness = operatorPack.readiness || {};
   const candidate = operatorPack.cloudflare_deploy_candidate || {};
   const currentGit = gitProvenance(PROJECT_ROOT);
@@ -254,6 +254,9 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
         status: paymentBrandingGate?.ok === true ? 'ok' : 'blocked',
         destination: 'Stripe Checkout and PayPal wallet branding for Cantoni Digital Studio',
         flag: 'sales-kit/payment_branding_review.flag',
+        evidence: 'sales-kit/payment_branding_review_evidence.json',
+        evidence_status: paymentBrandingEvidence?.status || null,
+        evidence_summary: paymentBrandingEvidence?.summary || null,
         required_review: [
           'Stripe Checkout merchant shows Cantoni Digital Studio on both public Payment Links.',
           'PayPal is selectable in a real browser session.',
@@ -380,6 +383,7 @@ function renderMarkdown(payload) {
     '',
     `- Status: \`${paymentBranding.status}\``,
     '- Required flag: `sales-kit/payment_branding_review.flag` remains until review is complete.',
+    `- Evidence: \`${paymentBranding.evidence}\` (${paymentBranding.evidence_status || 'not recorded'}; release_ready=${paymentBranding.evidence_summary?.release_ready === true ? 'true' : 'false'})`,
     '- Verify with `npm run audit:payment-branding` and `npm run test:payments`.',
     '- Confirm Stripe Checkout and PayPal show Cantoni Digital Studio only; stop before final payment submission.',
     '',
@@ -412,10 +416,12 @@ async function main() {
 
   const operatorPack = await readJson(operatorPackPath);
   const emailDnsHandoff = await readOptionalJson(operatorPack.steps?.email_dns_handoff?.output?.json);
+  const paymentBrandingEvidence = await readOptionalJson('sales-kit/payment_branding_review_evidence.json');
   const payload = await enrichArtifactHashes(buildPayload({
     operatorPackPath,
     operatorPack,
-    emailDnsHandoff
+    emailDnsHandoff,
+    paymentBrandingEvidence
   }));
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });

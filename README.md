@@ -150,6 +150,9 @@ batch esatto e account mittente approvati.
 `sales-kit/payment_branding_review.flag`: va rimosso solo dopo verifica reale
 dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile
 e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
+L'evidenza strutturata resta in
+`sales-kit/payment_branding_review_evidence.json`; l'audit non diventa verde se
+il flag viene rimosso senza `release_ready=true`.
 
 ## Regole operative
 

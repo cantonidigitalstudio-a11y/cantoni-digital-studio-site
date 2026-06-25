@@ -114,6 +114,7 @@ function paymentBrandingGate(run) {
     }],
     details: {
       flag: run.parsed?.flag || null,
+      evidence: run.parsed?.evidence || null,
       next_actions: run.parsed?.next_actions || []
     }
   };

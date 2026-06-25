@@ -82,6 +82,9 @@ function main() {
   if (!readme.includes('npm run audit:payment-branding') || !readme.includes('sales-kit/payment_branding_review.flag')) {
     failures.push('README.md: must document payment branding audit and review flag');
   }
+  if (!readme.includes('sales-kit/payment_branding_review_evidence.json') || !readme.includes('release_ready=true')) {
+    failures.push('README.md: must document payment branding evidence and release_ready gate');
+  }
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
@@ -135,6 +138,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('npm run audit:payment-branding') || !cloudflareRunbook.includes('sales-kit/payment_branding_review.flag')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding audit and review flag');
+  }
+  if (!cloudflareRunbook.includes('sales-kit/payment_branding_review_evidence.json') || !cloudflareRunbook.includes('release_ready=true')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding evidence and release_ready gate');
   }
   if (!cloudflareRunbook.includes('preview-cantoni-site') || !cloudflareRunbook.includes('CLOUDFLARE_PAGES_BRANCH=main') || !cloudflareRunbook.includes('live_site_contract')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document preview-vs-production branch behavior for live contract closure');

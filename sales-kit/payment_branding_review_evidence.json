@@ -1,0 +1,78 @@
+{
+  "type": "cantoni_payment_branding_review_evidence_v1",
+  "status": "blocked_paypal_not_visible",
+  "checked_at": "2026-06-25T11:08:02Z",
+  "review_surface": "Codex in-app Browser, Stripe Checkout public Payment Links",
+  "reviewer_boundary": {
+    "no_payment_data_entered": true,
+    "no_login_attempted": true,
+    "final_payment_submitted": false
+  },
+  "public_payment_links": [
+    {
+      "id": "consultation_phase_1",
+      "url": "https://buy.stripe.com/aFa6oG0TAdf3cOY70zd3i00",
+      "product_label": "Consulenza fase 1",
+      "stripe_checkout_title": "Cantoni Digital Studio",
+      "stripe_checkout_merchant": "Cantoni Digital Studio",
+      "stripe_merchant_visible": true,
+      "amount_visible": "EUR 250.00",
+      "observed_payment_methods_after_expanding": [
+        "card",
+        "apple_pay",
+        "mb_way",
+        "klarna",
+        "bancontact",
+        "amazon_pay",
+        "eps"
+      ],
+      "paypal_selectable": false,
+      "unrelated_brand_terms_checked": [
+        "EC8",
+        "EC8 Platform"
+      ],
+      "unrelated_brand_text_detected": false,
+      "final_payment_submitted": false,
+      "note": "The Stripe Checkout page showed Cantoni Digital Studio and no EC8 text, but PayPal was not visible after expanding additional payment methods."
+    },
+    {
+      "id": "consultation_phase_2",
+      "url": "https://buy.stripe.com/8x2eVc6dUfnbg1a2Kjd3i01",
+      "product_label": "Consulenza fase 2",
+      "stripe_checkout_title": "Cantoni Digital Studio",
+      "stripe_checkout_merchant": "Cantoni Digital Studio",
+      "stripe_merchant_visible": true,
+      "amount_visible": "EUR 250.00",
+      "observed_payment_methods_after_expanding": [
+        "card",
+        "apple_pay",
+        "mb_way",
+        "klarna",
+        "bancontact",
+        "amazon_pay",
+        "eps"
+      ],
+      "paypal_selectable": false,
+      "unrelated_brand_terms_checked": [
+        "EC8",
+        "EC8 Platform"
+      ],
+      "unrelated_brand_text_detected": false,
+      "final_payment_submitted": false,
+      "note": "The Stripe Checkout page showed Cantoni Digital Studio and no EC8 text, but PayPal was not visible after expanding additional payment methods."
+    }
+  ],
+  "summary": {
+    "all_stripe_merchant_cantoni": true,
+    "all_paypal_selectable": false,
+    "no_unrelated_brand_text": true,
+    "final_payment_submitted": false,
+    "release_ready": false
+  },
+  "next_actions": [
+    "Keep sales-kit/payment_branding_review.flag in place.",
+    "Enable or fix PayPal availability in the Stripe Dashboard for both public Payment Links.",
+    "Re-run browser review after PayPal is visible and selectable.",
+    "Stop before submitting the final payment step."
+  ]
+}

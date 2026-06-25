@@ -178,6 +178,7 @@ async function main() {
   const dkim = dashboardRecords.find((record) => record.id === 'google_dkim');
   if (dkim && dkim.manual_value_required !== true) failures.push('Google DKIM record must stay manual-value-required.');
   if (paymentBranding?.flag !== 'sales-kit/payment_branding_review.flag') failures.push('Payment branding task must reference sales-kit/payment_branding_review.flag.');
+  if (paymentBranding?.evidence !== 'sales-kit/payment_branding_review_evidence.json') failures.push('Payment branding task must reference sales-kit/payment_branding_review_evidence.json.');
   if (!paymentBranding?.verification_commands?.includes('npm run audit:payment-branding')) {
     failures.push('Payment branding task must require npm run audit:payment-branding.');
   }
@@ -226,6 +227,7 @@ async function main() {
       'This file is a handoff, not deploy/DNS approval.',
       'No passwords, tokens, OTPs, cookies or recovery data belong in this repo.',
       'sales-kit/payment_branding_review.flag',
+      'sales-kit/payment_branding_review_evidence.json',
       'sales-kit/outbound_pause.flag',
       'npm run test:social-public',
       'npm run test:lead-endpoint',
