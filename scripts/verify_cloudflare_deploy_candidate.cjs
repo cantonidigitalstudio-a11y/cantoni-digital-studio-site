@@ -76,7 +76,6 @@ async function main() {
     failures.push('Cloudflare deploy candidate must require explicit approval and must not allow unapproved deploy.');
   }
   if (candidate.artifact_ready !== true) failures.push('Cloudflare deploy candidate artifact_ready must be true.');
-  if (candidate.git_ready !== true) failures.push('Cloudflare deploy candidate git_ready must be true.');
   if (candidate.would_fix_live_contract !== true) failures.push('Cloudflare deploy candidate must prove the full artifact should fix live contract drift.');
 
   if (pack?.git?.commit !== currentGit.commit) failures.push('Launch operator pack commit does not match current HEAD.');
@@ -109,7 +108,11 @@ async function main() {
   }
 
   const executionBlockers = Array.isArray(candidate.execution_blockers) ? candidate.execution_blockers : [];
+  if (candidate.git_ready !== true && !executionBlockers.includes('git_deploy_state')) {
+    failures.push('Cloudflare deploy candidate git_ready=false must be explained by git_deploy_state.');
+  }
   if (REQUIRE_EXECUTION_READY) {
+    if (candidate.git_ready !== true) failures.push('Cloudflare deploy candidate git_ready must be true.');
     if (candidate.execution_ready !== true) failures.push(`Cloudflare deploy candidate is not execution-ready: ${(executionBlockers.length ? executionBlockers : ['unknown']).join(', ')}`);
     if (executionBlockers.length) failures.push(`Cloudflare deploy candidate still has execution blockers: ${executionBlockers.join(', ')}`);
     if (candidate.status !== 'ready_for_explicit_deploy_approval') failures.push(`Cloudflare deploy candidate status must be ready_for_explicit_deploy_approval, got ${candidate.status || 'unknown'}.`);
