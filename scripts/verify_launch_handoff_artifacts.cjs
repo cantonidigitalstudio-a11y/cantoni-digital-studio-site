@@ -3,6 +3,11 @@ const path = require('path');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const GENERATED_ROOT = path.join(PROJECT_ROOT, 'sales-kit/generated');
+const REQUIRED_POST_DEPLOY_CHECKS = [
+  'npm run test:live-site',
+  'npm run audit:post-unblock-launch',
+  'npm run audit:launch-readiness'
+];
 
 const FILE_PATTERNS = {
   launchHandoff: /^cantoni-launch-handoff-(?!latest\b).+\.json$/,
@@ -400,8 +405,10 @@ async function main() {
     if (cloudflareDeployCandidate.git?.commit && operatorPack.git?.commit && cloudflareDeployCandidate.git.commit !== operatorPack.git.commit) {
       failures.push('operator_pack: Cloudflare deploy candidate Git commit does not match operator pack');
     }
-    if (!cloudflareDeployCandidate.required_post_deploy_checks?.includes('npm run audit:post-unblock-launch')) {
-      failures.push('operator_pack: Cloudflare deploy candidate must require the consolidated post-unblock audit after deploy');
+    for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
+      if (!cloudflareDeployCandidate.required_post_deploy_checks?.includes(requiredPostDeployCheck)) {
+        failures.push(`operator_pack: Cloudflare deploy candidate must require ${requiredPostDeployCheck} after deploy`);
+      }
     }
     if (cloudflareDeployCandidate.deploy_branch_policy?.default_direct_deploy_branch !== 'preview-cantoni-site') {
       failures.push('operator_pack: Cloudflare deploy candidate must document preview-cantoni-site as default direct branch');
@@ -464,8 +471,10 @@ async function main() {
     if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
       failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');
     }
-    if (!operatorMarkdown.includes('npm run audit:post-unblock-launch')) {
-      failures.push('operator_pack: Markdown must require the consolidated post-unblock audit after deploy');
+    for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
+      if (!operatorMarkdown.includes(requiredPostDeployCheck)) {
+        failures.push(`operator_pack: Markdown must require ${requiredPostDeployCheck} after deploy`);
+      }
     }
     if (!operatorMarkdown.includes('preview-cantoni-site') || !operatorMarkdown.includes('CLOUDFLARE_PAGES_BRANCH=main')) {
       failures.push('operator_pack: Markdown must document preview-vs-production branch behavior for live contract fix');
