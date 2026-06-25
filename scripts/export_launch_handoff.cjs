@@ -117,12 +117,15 @@ function cloudflareAuthSummary(readiness) {
 }
 
 function cloudflareApiSummary(readiness) {
-  const gate = (readiness.gates || []).find((item) => item.id === 'cloudflare_api_credentials');
+  const gate = (readiness.gates || []).find((item) => item.id === 'cloudflare_dns_api_credentials') ||
+    (readiness.gates || []).find((item) => item.id === 'cloudflare_api_credentials');
   const details = gate?.details || {};
   return {
     ok: gate?.ok === true,
+    gate_id: gate?.id || null,
     project_name: details.project_name || null,
     domain: details.domain || null,
+    scope: details.scope || null,
     has_cloudflare_api_token: details.has_cloudflare_api_token === true,
     has_cloudflare_account_id: details.has_cloudflare_account_id === true,
     has_cloudflare_zone_id: details.has_cloudflare_zone_id === true,
@@ -149,10 +152,11 @@ function cloudflareDiagnosticLines(cloudflareAuth) {
 }
 
 function cloudflareApiDiagnosticLines(cloudflareApi) {
-  if (!cloudflareApi || cloudflareApi.ok) return ['- Cloudflare direct API credentials: ok'];
+  if (!cloudflareApi || cloudflareApi.ok) return ['- Cloudflare DNS API credentials: ok'];
   return [
     `- Project: \`${cloudflareApi.project_name || 'unknown'}\``,
     `- Domain: \`${cloudflareApi.domain || 'unknown'}\``,
+    `- Scope: \`${cloudflareApi.scope || 'unknown'}\``,
     `- CLOUDFLARE_API_TOKEN set: ${cloudflareApi.has_cloudflare_api_token ? 'yes' : 'no'}`,
     `- CLOUDFLARE_ACCOUNT_ID set: ${cloudflareApi.has_cloudflare_account_id ? 'yes' : 'no'}`,
     `- CLOUDFLARE_ZONE_ID set: ${cloudflareApi.has_cloudflare_zone_id ? 'yes' : 'no'}`,
@@ -216,7 +220,7 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     '',
     ...cloudflareDiagnosticLines(cloudflareAuth),
     '',
-    '## Cloudflare API Credential Diagnostic',
+    '## Cloudflare DNS API Credential Diagnostic',
     '',
     ...cloudflareApiDiagnosticLines(cloudflareApi),
     '',
@@ -247,6 +251,7 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     'npm run audit:cloudflare-auth',
     'npm run audit:cloudflare-api',
     'node scripts/verify_cloudflare_api_credentials.mjs --pages-only',
+    'node scripts/verify_cloudflare_api_credentials.mjs --dns-only',
     'npm run deploy:cloudflare:direct',
     'npm run audit:email-dns',
     'npm run test:live-site',

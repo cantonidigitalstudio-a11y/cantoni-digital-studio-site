@@ -130,8 +130,9 @@ function cloudflareDiagnosticLines(cloudflareAuth) {
 
 function cloudflareApiDiagnosticLines(cloudflareApi) {
   if (!cloudflareApi) return ['- No Cloudflare direct API diagnostic payload was available.'];
-  if (cloudflareApi.ok) return ['- Cloudflare direct API credentials: ok'];
+  if (cloudflareApi.ok) return ['- Cloudflare DNS API credentials: ok'];
   return [
+    `- Scope: \`${cloudflareApi.scope || 'unknown'}\``,
     `- CLOUDFLARE_API_TOKEN set: ${cloudflareApi.has_cloudflare_api_token ? 'yes' : 'no'}`,
     `- CLOUDFLARE_ACCOUNT_ID set: ${cloudflareApi.has_cloudflare_account_id ? 'yes' : 'no'}`,
     `- CLOUDFLARE_ZONE_ID set: ${cloudflareApi.has_cloudflare_zone_id ? 'yes' : 'no'}`,
@@ -207,7 +208,7 @@ function renderMarkdown(payload) {
     '',
     ...cloudflareDiagnosticLines(payload.cloudflare_auth),
     '',
-    '## Cloudflare API Credential Diagnostic',
+    '## Cloudflare DNS API Credential Diagnostic',
     '',
     ...cloudflareApiDiagnosticLines(payload.cloudflare_api),
     '',

@@ -1,5 +1,7 @@
 const allowMissing = process.argv.includes('--allow-missing');
 const pagesOnly = process.argv.includes('--pages-only');
+const dnsOnly = process.argv.includes('--dns-only');
+const scope = pagesOnly ? 'pages_only' : dnsOnly ? 'dns_only' : 'pages_and_dns';
 
 const apiBaseUrl = (process.env.CLOUDFLARE_API_BASE_URL || 'https://api.cloudflare.com/client/v4').replace(/\/+$/u, '');
 const token = process.env.CLOUDFLARE_API_TOKEN || '';
@@ -93,18 +95,22 @@ function nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }) {
     actions.push('Create or provide a Cloudflare API token for the Cantoni account; keep it in environment only, never in the repo.');
     actions.push(pagesOnly
       ? 'Use Account > Cloudflare Pages > Edit for direct Pages deploy access.'
+      : dnsOnly
+      ? 'Use Zone > DNS > Edit for the cantonidigitalstudio.com zone before applying email DNS records.'
       : 'Use Account > Cloudflare Pages > Edit for deploy access and Zone > DNS > Edit for DNS apply.');
     actions.push(pagesOnly
       ? 'Set CLOUDFLARE_ACCOUNT_ID for the Cantoni account before re-running this Pages-only audit.'
+      : dnsOnly
+      ? 'Set CLOUDFLARE_ZONE_ID for cantonidigitalstudio.com before re-running this DNS-only audit.'
       : 'Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_ZONE_ID for the Cantoni account before re-running this audit.');
     return actions;
   }
   if (!tokenVerify.ok) {
     actions.push('Replace CLOUDFLARE_API_TOKEN; /user/tokens/verify did not report an active token.');
   }
-  if (!accountId) {
+  if (!dnsOnly && !accountId) {
     actions.push('Set CLOUDFLARE_ACCOUNT_ID for the Cantoni Cloudflare account to verify Pages access.');
-  } else if (!pagesAccess.ok) {
+  } else if (!dnsOnly && !pagesAccess.ok) {
     actions.push('Grant the token Cloudflare Pages access on the Cantoni account, then verify the Pages project can be read.');
   }
   if (!pagesOnly) {
@@ -117,17 +123,34 @@ function nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }) {
   if (!actions.length) {
     actions.push(pagesOnly
       ? 'Cloudflare Pages direct API read checks passed; run full tests and the approved direct deploy script before any Pages mutation.'
+      : dnsOnly
+      ? 'Cloudflare DNS API read checks passed; run the DNS plan and apply only with explicit DNS approval.'
       : 'Direct Cloudflare API read checks passed; run the Wrangler auth audit and deploy/DNS dry-runs before any mutation.');
   }
   return actions;
 }
 
 async function main() {
+  if (pagesOnly && dnsOnly) {
+    console.log(JSON.stringify({
+      ok: false,
+      allow_missing: allowMissing,
+      scope: 'invalid',
+      failures: [{
+        id: 'invalid_scope_flags',
+        reason: 'Use only one of --pages-only or --dns-only.'
+      }]
+    }, null, 2));
+    process.exit(1);
+  }
+
   const tokenVerify = token
     ? await cloudflareGet('/user/tokens/verify')
     : skipped('CLOUDFLARE_API_TOKEN is not set');
 
-  const pagesAccess = token && accountId
+  const pagesAccess = dnsOnly
+    ? skipped('Pages check skipped by --dns-only', true)
+    : token && accountId
     ? await cloudflareGet(`/accounts/${encodeURIComponent(accountId)}/pages/projects/${encodeURIComponent(projectName)}/deployments`, { per_page: 1 })
     : skipped(token ? 'CLOUDFLARE_ACCOUNT_ID is not set' : 'CLOUDFLARE_API_TOKEN is not set');
 
@@ -144,7 +167,7 @@ async function main() {
       reason: tokenVerify.reason || 'Cloudflare API token is missing or not active.'
     });
   }
-  if (!pagesAccess.ok) {
+  if (!dnsOnly && !pagesAccess.ok) {
     failures.push({
       id: 'cloudflare_pages_api_read',
       reason: pagesAccess.reason || 'Cloudflare API token cannot read the Cantoni Pages project deployments endpoint.'
@@ -160,7 +183,7 @@ async function main() {
   const result = {
     ok: failures.length === 0,
     allow_missing: allowMissing,
-    scope: pagesOnly ? 'pages_only' : 'pages_and_dns',
+    scope,
     checked_at: new Date().toISOString(),
     api_base_url: apiBaseUrl,
     project_name: projectName,

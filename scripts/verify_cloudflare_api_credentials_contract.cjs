@@ -223,6 +223,42 @@ async function main() {
     const pagesOnlyPagesRequest = requests.find((request) => request.path === `/accounts/${ACCOUNT_ID}/pages/projects/${PROJECT_NAME}/deployments`);
     assert(pagesOnlyPagesRequest?.query.per_page === '1', 'pages-only Pages deployments check should request one deployment');
 
+    requests.length = 0;
+    const dnsOnlyResult = await runAudit(baseUrl, {
+      args: ['--dns-only'],
+      env: { CLOUDFLARE_ACCOUNT_ID: null }
+    });
+    assert(!dnsOnlyResult.timedOut, `dns-only audit should not time out\nstdout=${dnsOnlyResult.stdout}\nstderr=${dnsOnlyResult.stderr}`);
+    assert(!dnsOnlyResult.error, `dns-only audit should not error: ${dnsOnlyResult.error?.message || dnsOnlyResult.error}`);
+    assert(dnsOnlyResult.status === 0, `dns-only audit should pass without account id, got ${dnsOnlyResult.status}\nstdout=${dnsOnlyResult.stdout}\nstderr=${dnsOnlyResult.stderr}`);
+    assert(!dnsOnlyResult.stdout.includes(FAKE_TOKEN), 'dns-only audit stdout must not leak CLOUDFLARE_API_TOKEN');
+    assert(!dnsOnlyResult.stderr.includes(FAKE_TOKEN), 'dns-only audit stderr must not leak CLOUDFLARE_API_TOKEN');
+
+    const dnsOnlyParsed = JSON.parse(dnsOnlyResult.stdout);
+    assert(dnsOnlyParsed.ok === true, 'dns-only audit should return ok=true without account id');
+    assert(dnsOnlyParsed.scope === 'dns_only', 'dns-only audit should report dns_only scope');
+    assert(dnsOnlyParsed.has_cloudflare_account_id === false, 'dns-only audit should not require account id presence');
+    assert(dnsOnlyParsed.checks.token_verify.ok === true, 'dns-only token verify check should pass');
+    assert(dnsOnlyParsed.checks.pages_project_deployments_read.ok === true, 'dns-only Pages check should be non-blocking');
+    assert(dnsOnlyParsed.checks.pages_project_deployments_read.skipped === true, 'dns-only Pages check should be skipped');
+    assert(dnsOnlyParsed.checks.dns_records_read.ok === true, 'dns-only DNS records check should pass');
+
+    const dnsOnlyRequestPaths = requests.map((request) => request.path).sort();
+    assert(dnsOnlyRequestPaths.includes('/user/tokens/verify'), 'dns-only token verify endpoint should be called');
+    assert(!dnsOnlyRequestPaths.some((requestPath) => requestPath.startsWith('/accounts/')), 'dns-only audit must not call Pages endpoints');
+    assert(dnsOnlyRequestPaths.includes(`/zones/${ZONE_ID}/dns_records`), 'dns-only DNS records endpoint should be called');
+    const dnsOnlyDnsRequest = requests.find((request) => request.path === `/zones/${ZONE_ID}/dns_records`);
+    assert(dnsOnlyDnsRequest?.query.name === DOMAIN, 'dns-only DNS records check should scope by Cantoni domain');
+    assert(dnsOnlyDnsRequest?.query.per_page === '1', 'dns-only DNS records check should request one record page');
+
+    const invalidScopeResult = await runAudit(baseUrl, {
+      args: ['--pages-only', '--dns-only']
+    });
+    assert(invalidScopeResult.status !== 0, 'combined pages-only and dns-only flags should fail');
+    const invalidScopeParsed = JSON.parse(invalidScopeResult.stdout);
+    assert(invalidScopeParsed.ok === false, 'invalid scope audit should return ok=false');
+    assert(invalidScopeParsed.failures.some((failure) => failure.id === 'invalid_scope_flags'), 'invalid scope audit should report invalid_scope_flags');
+
     console.log(JSON.stringify({
       ok: true,
       checked: [
@@ -232,7 +268,9 @@ async function main() {
         'token_redaction',
         'endpoint_contract',
         'query_contract',
-        'pages_only_contract'
+        'pages_only_contract',
+        'dns_only_contract',
+        'invalid_scope_contract'
       ]
     }, null, 2));
   } finally {

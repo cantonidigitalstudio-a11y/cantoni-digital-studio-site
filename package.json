@@ -70,6 +70,8 @@
     "test:email-dns-audit": "node sales-kit/scripts/verify_cantoni_email_dns.mjs --allow-missing",
     "test:cloudflare-email-dns-plan": "node scripts/verify_cloudflare_email_dns_plan.cjs",
     "audit:cloudflare-api": "node scripts/verify_cloudflare_api_credentials.mjs",
+    "audit:cloudflare-pages-api": "node scripts/verify_cloudflare_api_credentials.mjs --pages-only",
+    "audit:cloudflare-dns-api": "node scripts/verify_cloudflare_api_credentials.mjs --dns-only",
     "test:cloudflare-api-audit": "node scripts/verify_cloudflare_api_credentials.mjs --allow-missing",
     "test:cloudflare-api-contract": "node scripts/verify_cloudflare_api_credentials_contract.cjs",
     "test:cloudflare-direct-deploy-contract": "node scripts/verify_cloudflare_direct_deploy_contract.cjs",

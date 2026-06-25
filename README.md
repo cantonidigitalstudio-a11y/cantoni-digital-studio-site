@@ -40,6 +40,8 @@ Per diagnosticare token/API Cloudflare senza mutazioni, usa
 `npm run audit:cloudflare-api`: verifica token attivo, lettura Pages e lettura
 DNS quando `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e
 `CLOUDFLARE_ZONE_ID` sono presenti.
+Per separare i gate, usa `npm run audit:cloudflare-pages-api` prima di un deploy
+Pages diretto e `npm run audit:cloudflare-dns-api` prima di applicare DNS email.
 
 Se OAuth Wrangler e bloccato ma e disponibile un token API Cantoni con permesso
 Account > Cloudflare Pages > Edit, il deploy Pages diretto passa da

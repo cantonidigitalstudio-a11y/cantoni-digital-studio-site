@@ -139,7 +139,8 @@ async function readOptional(file) {
 }
 
 const cloudflareRun = runJson(process.execPath, ['scripts/verify_cloudflare_deploy_auth.mjs', '--allow-missing']);
-const cloudflareApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing']);
+const cloudflarePagesApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--pages-only']);
+const cloudflareDnsApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--dns-only']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
@@ -167,15 +168,16 @@ const gates = [
       checked: parsed?.checked || []
     })
   }),
-  cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun }),
+  cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun: cloudflarePagesApiRun }),
   gateFromRun({
-    id: 'cloudflare_api_credentials',
-    label: 'Cloudflare direct API credentials',
-    category: 'deploy',
-    run: cloudflareApiRun,
+    id: 'cloudflare_dns_api_credentials',
+    label: 'Cloudflare DNS API credentials',
+    category: 'email',
+    run: cloudflareDnsApiRun,
     details: (parsed) => ({
       project_name: parsed?.project_name || null,
       domain: parsed?.domain || null,
+      scope: parsed?.scope || null,
       has_cloudflare_api_token: parsed?.has_cloudflare_api_token === true,
       has_cloudflare_account_id: parsed?.has_cloudflare_account_id === true,
       has_cloudflare_zone_id: parsed?.has_cloudflare_zone_id === true,

@@ -26,6 +26,8 @@ Verifica:
 cd "<repo-root>"
 npm run audit:cloudflare-auth
 npm run audit:cloudflare-api
+npm run audit:cloudflare-pages-api
+npm run audit:cloudflare-dns-api
 npm run test:cloudflare-direct-deploy-contract
 node scripts/verify_cloudflare_api_credentials.mjs --pages-only
 ```
@@ -41,6 +43,8 @@ Stato verificato 2026-06-25:
 - Non tentare deploy OAuth finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`.
 - Se OAuth resta bloccato, usare il percorso token diretto solo quando `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` passa con token e account Cantoni.
 - `npm run audit:cloudflare-api` e read-only: verifica `/user/tokens/verify`, lettura deployments Pages e lettura DNS quando sono impostati `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_ZONE_ID`.
+- `npm run audit:cloudflare-pages-api` verifica solo il percorso deploy Pages diretto; non richiede `CLOUDFLARE_ZONE_ID`.
+- `npm run audit:cloudflare-dns-api` verifica solo il percorso DNS; non richiede `CLOUDFLARE_ACCOUNT_ID`.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
 
 Permessi minimi per token/API:
