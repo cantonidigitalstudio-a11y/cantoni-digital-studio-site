@@ -400,6 +400,9 @@ async function main() {
     if (cloudflareDeployCandidate.git?.commit && operatorPack.git?.commit && cloudflareDeployCandidate.git.commit !== operatorPack.git.commit) {
       failures.push('operator_pack: Cloudflare deploy candidate Git commit does not match operator pack');
     }
+    if (!cloudflareDeployCandidate.required_post_deploy_checks?.includes('npm run audit:post-unblock-launch')) {
+      failures.push('operator_pack: Cloudflare deploy candidate must require the consolidated post-unblock audit after deploy');
+    }
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
@@ -448,6 +451,9 @@ async function main() {
     }
     if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
       failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');
+    }
+    if (!operatorMarkdown.includes('npm run audit:post-unblock-launch')) {
+      failures.push('operator_pack: Markdown must require the consolidated post-unblock audit after deploy');
     }
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');

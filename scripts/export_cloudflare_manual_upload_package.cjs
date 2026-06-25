@@ -143,6 +143,7 @@ async function writeTextArtifacts(manifest, zipStats) {
     '',
     'Post-upload checks:',
     '- npm run test:live-site',
+    '- npm run audit:post-unblock-launch',
     '- npm run audit:launch-readiness',
     '',
     'If Cloudflare dashboard drag-and-drop is not available for this Pages project, use the unzipped .cloudflare-pages folder with Wrangler after Cloudflare auth is fixed.'

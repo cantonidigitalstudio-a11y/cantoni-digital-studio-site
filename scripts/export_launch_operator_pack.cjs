@@ -313,6 +313,7 @@ function buildCloudflareDeployCandidate({ cloudflarePackage, liveDrift, readines
     ],
     required_post_deploy_checks: [
       'npm run test:live-site',
+      'npm run audit:post-unblock-launch',
       'npm run audit:launch-readiness'
     ]
   };
@@ -421,7 +422,7 @@ function renderMarkdown(payload) {
     '5. Run `npm run dns:cloudflare:plan`; apply only if the plan is ready and explicit DNS approval is present.',
     '6. Run `npm run audit:email-dns` after DNS propagation.',
     '7. Generate and publish the Google DKIM value from Google Admin.',
-    '8. Run `npm run test:live-site` and `npm run audit:launch-readiness` after deploy.',
+    '8. Run `npm run test:live-site`, `npm run audit:post-unblock-launch` and `npm run audit:launch-readiness` after deploy.',
     '9. Keep outbound paused until all gates are green and the exact send batch is approved.',
     ''
   ].join('\n');
