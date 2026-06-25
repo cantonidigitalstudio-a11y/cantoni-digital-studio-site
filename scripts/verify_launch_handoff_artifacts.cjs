@@ -873,6 +873,15 @@ async function main() {
     if (dnsPlan.input !== 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json') {
       failures.push('operator_pack: Cloudflare email DNS plan must use the stable latest API payload alias');
     }
+    if (dnsPlan.payload_source_commit !== operatorPack.git?.commit) {
+      failures.push('operator_pack: Cloudflare email DNS plan payload_source_commit must match operator pack Git commit');
+    }
+    if (dnsPlan.payload_git?.commit !== operatorPack.git?.commit) {
+      failures.push('operator_pack: Cloudflare email DNS plan payload_git commit must match operator pack Git commit');
+    }
+    if (dnsPlan.payload_source_handoff?.json !== normalizeRel(path.relative(PROJECT_ROOT, files.emailDns))) {
+      failures.push('operator_pack: Cloudflare email DNS plan must reference the timestamped email DNS handoff source');
+    }
     if (!Array.isArray(dnsPlan.skipped_records) || !dnsPlan.skipped_records.some((record) => record.id === 'google_dkim' && record.reason === 'manual_value_required')) {
       failures.push('operator_pack: Cloudflare DNS plan must keep google_dkim skipped as manual');
     }

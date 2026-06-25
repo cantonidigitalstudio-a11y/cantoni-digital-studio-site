@@ -468,10 +468,13 @@ async function applyActions(actions, credentials) {
   return results;
 }
 
-function buildReport({ ok, mode, inputPath, source, credentials, zoneIdentity, allowReplace, records, actions, skippedRecords, failures, applyResults }) {
+function buildReport({ ok, mode, inputPath, payload, source, credentials, zoneIdentity, allowReplace, records, actions, skippedRecords, failures, applyResults }) {
   const blockedActions = actions.filter((action) => action.action === 'blocked');
   const lookupRequired = actions.filter((action) => action.action === 'cloudflare_lookup_required');
   const mutableActions = actions.filter((action) => ['create', 'update'].includes(action.action));
+  const payloadGit = payload?.git && typeof payload.git === 'object' && !Array.isArray(payload.git)
+    ? payload.git
+    : null;
 
   return {
     ok,
@@ -479,6 +482,10 @@ function buildReport({ ok, mode, inputPath, source, credentials, zoneIdentity, a
     mode,
     domain: EXPECTED_DOMAIN,
     input: relativeToRoot(inputPath),
+    payload_source_commit: payload?.source_commit || payloadGit?.commit || null,
+    payload_source_short_commit: payload?.source_short_commit || payloadGit?.short_commit || null,
+    payload_git: payloadGit,
+    payload_source_handoff: payload?.source_handoff || null,
     source,
     cloudflare: {
       token_present: Boolean(credentials.token),
@@ -578,6 +585,7 @@ async function main() {
     ok,
     mode,
     inputPath,
+    payload,
     source,
     credentials,
     zoneIdentity,
