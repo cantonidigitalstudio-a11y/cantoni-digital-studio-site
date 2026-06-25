@@ -26,6 +26,13 @@ npx wrangler whoami
 
 Lo script usa il binario installato `wrangler` o `WRANGLER_BIN` se impostato. Non usa `npx` per evitare download impliciti in fase di deploy.
 
+Stato verificato 2026-06-25:
+
+- `npx wrangler whoami` fallisce prima del deploy con errore su recupero automatico degli account ID.
+- Causa probabile: token/sessione Cloudflare scaduta o permessi insufficienti.
+- Non tentare deploy finche `wrangler whoami` non torna verde oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
+- Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
+
 ## Build artifact locale
 ```bash
 cd "<repo-root>"
