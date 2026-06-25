@@ -28,7 +28,7 @@ iOS currently refuses to launch it until the developer certificate is trusted on
 
 `Settings` -> `General` -> `VPN & Device Management` -> Developer App -> trust the Apple Development certificate.
 
-After that trust step, rerun the WDA launch before using the iPad for future mobile-only profile/account automation. This is no longer required to accept the current Instagram official profile/link boundary. Current automated QA may report `public-proof` with `loadError=false` when Instagram renders logged out, or `metadata-proof-load-error` when only metadata is reliable because the visible page rendered a load/error page; the latter is metadata proof only and not standalone public proof.
+After that trust step, rerun the WDA launch before using the iPad for future mobile-only profile/account automation. This is no longer required to accept the current Instagram official profile/link boundary. This is no longer required to accept the current Instagram public proof when the current verifier reports `public-proof` with `loadError=false`. Current automated QA may report `public-proof` with `loadError=false` when Instagram renders logged out, or `metadata-proof-load-error` when only metadata is reliable because the visible page rendered a load/error page; the latter is metadata proof only and not standalone public proof.
 
 ## Resolved Instagram Task - 2026-05-14
 
