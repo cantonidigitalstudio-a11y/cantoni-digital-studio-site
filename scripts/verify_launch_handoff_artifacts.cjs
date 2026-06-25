@@ -364,8 +364,10 @@ function verifyManualUploadContractCoverage(manualPackageManifest, manualPackage
     'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production',
     'Do not upload only these files',
     'complete ZIP/root artifact',
-    'production branch main'
+    'production branch main',
+    'npm run test:cloudflare-deploy-candidate'
   ];
+  const zip = manualPackageManifest?.zip || {};
 
   if (coverage.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
     failures.push('cloudflare_manual_upload: manifest must expose live-site contract coverage');
@@ -383,6 +385,16 @@ function verifyManualUploadContractCoverage(manualPackageManifest, manualPackage
     coverage.cli_approval_guard?.ALLOW_PRODUCTION_DEPLOY !== 'yes' ||
     coverage.cli_approval_guard?.CANTONI_PRODUCTION_DEPLOY_APPROVAL !== 'deploy-cantoni-production') {
     failures.push('cloudflare_manual_upload: contract coverage must preserve production deploy approval guards');
+  }
+  if (!zip.sha256) {
+    failures.push('cloudflare_manual_upload: manifest must expose ZIP SHA-256');
+  } else if (!manualPackageReadme.includes(`ZIP SHA-256: ${zip.sha256}`)) {
+    failures.push('cloudflare_manual_upload: README must expose the manifest ZIP SHA-256');
+  }
+  if (!Number.isInteger(zip.bytes) || zip.bytes <= 0) {
+    failures.push('cloudflare_manual_upload: manifest must expose positive ZIP byte size');
+  } else if (!manualPackageReadme.includes(`ZIP bytes: ${zip.bytes}`)) {
+    failures.push('cloudflare_manual_upload: README must expose the manifest ZIP byte size');
   }
   for (const snippet of requiredReadmeSnippets) {
     if (!manualPackageReadme.includes(snippet)) {
@@ -461,7 +473,8 @@ async function main() {
     for (const [label, git] of [
       ['launch_handoff', launchHandoff.git],
       ['operator_pack', operatorPack.git],
-      ['cloudflare_manual_upload', manualPackageManifest?.git]
+      ['cloudflare_manual_upload', manualPackageManifest?.git],
+      ['live_drift', liveDrift.git]
     ]) {
       if (!git || typeof git !== 'object') {
         failures.push(`${label}: missing Git provenance`);
@@ -478,6 +491,9 @@ async function main() {
     }
     if (launchHandoff.git?.commit && manualPackageManifest?.git?.commit && launchHandoff.git.commit !== manualPackageManifest.git.commit) {
       failures.push('cloudflare_manual_upload: Git commit does not match launch handoff');
+    }
+    if (launchHandoff.git?.commit && liveDrift.git?.commit && launchHandoff.git.commit !== liveDrift.git.commit) {
+      failures.push('live_drift: Git commit does not match launch handoff');
     }
     if (launchHandoff.git?.upstream && operatorPack.git?.upstream && launchHandoff.git.upstream !== operatorPack.git.upstream) {
       failures.push('operator_pack: Git upstream does not match launch handoff');

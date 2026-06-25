@@ -137,7 +137,10 @@ async function main() {
       'Do not upload only these files',
       'CLOUDFLARE_PAGES_BRANCH=main',
       'ALLOW_PRODUCTION_DEPLOY=yes',
-      'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production'
+      'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production',
+      `ZIP SHA-256: ${candidate.package?.zip_sha256}`,
+      `ZIP bytes: ${candidate.package?.zip_bytes}`,
+      'npm run test:cloudflare-deploy-candidate'
     ]) {
       if (!readme.includes(requiredReadmeText)) {
         failures.push(`Cloudflare manual upload README missing deploy safety text: ${requiredReadmeText}`);

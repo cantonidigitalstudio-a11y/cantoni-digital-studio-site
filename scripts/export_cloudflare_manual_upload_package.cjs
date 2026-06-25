@@ -199,6 +199,8 @@ async function writeTextArtifacts(manifest, zipStats) {
     '',
     'Upload artifact:',
     `- ${zipRelativeName}`,
+    `- ZIP SHA-256: ${zipStats.sha256}`,
+    `- ZIP bytes: ${zipStats.bytes}`,
     '',
     'Stable local aliases:',
     `- ${path.basename(LATEST_ZIP_PATH)} mirrors this timestamped ZIP for handoff convenience.`,
@@ -234,6 +236,11 @@ async function writeTextArtifacts(manifest, zipStats) {
     '- npm run test:live-site',
     '- npm run audit:post-unblock-launch',
     '- npm run audit:launch-readiness',
+    '',
+    'Pre-mutation verification:',
+    '- Confirm this README Git commit, branch, upstream, ZIP SHA-256 and ZIP bytes match the operator pack or external unblock handoff.',
+    '- Run npm run test:cloudflare-deploy-candidate before any deploy mutation.',
+    '- For CLI/direct deploys, also run node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready after Cloudflare auth is fixed.',
     '',
     'If Cloudflare dashboard drag-and-drop is not available for this Pages project, use the unzipped .cloudflare-pages folder with Wrangler after Cloudflare auth is fixed.'
   ].join('\n') + '\n';

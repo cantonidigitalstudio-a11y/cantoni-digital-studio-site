@@ -164,7 +164,10 @@ async function main() {
         'Full artifact required: yes',
         'Partial upload safe: no',
         'Do not upload only these files',
-        'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production'
+        'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production',
+        `ZIP SHA-256: ${payload.deploy_candidate.package.zip_sha256}`,
+        `ZIP bytes: ${payload.deploy_candidate.package.zip_bytes}`,
+        'npm run test:cloudflare-deploy-candidate'
       ]) {
         if (!readme.includes(requiredReadmeText)) {
           failures.push(`Deploy candidate README missing contract coverage text: ${requiredReadmeText}`);

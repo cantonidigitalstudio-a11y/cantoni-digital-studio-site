@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 const crypto = require('crypto');
 const { spawnSync } = require('child_process');
+const { gitProvenance } = require('./lib/git_provenance.cjs');
 const { HTML_PAGES } = require('./lib/live_site_contract.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -48,6 +49,17 @@ function sha256Text(value) {
 
 function shortHash(value) {
   return String(value || '').slice(0, 12);
+}
+
+function gitProvenanceLines(git) {
+  if (!git) return ['- Git provenance unavailable.'];
+  return [
+    `- Commit: \`${git.short_commit || 'unknown'}\` (${git.commit || 'unknown'})`,
+    `- Branch: \`${git.branch || 'unknown'}\``,
+    `- Upstream: \`${git.upstream || 'unknown'}\``,
+    `- Remote: \`${git.remote_name || 'unknown'}\` / \`${git.remote_url || 'unknown'}\``,
+    `- Worktree dirty: ${git.dirty ? 'yes' : 'no'}`
+  ];
 }
 
 async function fetchWithTimeout(url) {
@@ -141,6 +153,10 @@ function renderMarkdown(payload) {
     `Live contract ok: ${payload.live_contract_ok ? 'yes' : 'no'}`,
     `Deploy-only drift: ${payload.deploy_only_drift ? 'yes' : 'no'}`,
     '',
+    '## Git Provenance',
+    '',
+    ...gitProvenanceLines(payload.git),
+    '',
     '## Page Drift',
     '',
     '| Page | Live HTTP | Live contract ok | Artifact contract ok | Deploy should fix | Live missing snippets |',
@@ -197,6 +213,7 @@ async function main() {
   const payload = {
     ok: true,
     generated_at: new Date().toISOString(),
+    git: gitProvenance(PROJECT_ROOT),
     base_url: BASE_URL,
     artifact_root: '.cloudflare-pages',
     artifact_contract_ok: artifactContractOk,
