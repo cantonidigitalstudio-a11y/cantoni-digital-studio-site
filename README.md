@@ -58,7 +58,10 @@ Account > Cloudflare Pages > Edit, il deploy Pages diretto passa da
 `npm run deploy:cloudflare:direct`. Lo script usa `--pages-only` per verificare
 solo token e Pages, richiede `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e
 `CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`, e
-continua a bloccare la produzione senza approval separata.
+continua a bloccare la produzione senza approval separata. Prima di chiamare
+Wrangler, il percorso diretto verifica anche il `cloudflare_deploy_candidate`
+dell'ultimo operator pack: ZIP/manifest/checksum, Git pulito/allineato, artifact
+pronto e live drift risolvibile dal full artifact devono essere coerenti.
 
 Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
 pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto

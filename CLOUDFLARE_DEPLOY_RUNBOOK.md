@@ -151,6 +151,10 @@ Regole del percorso diretto:
   `CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`;
 - `--pages-only` verifica token attivo e lettura deployments Pages senza
   richiedere `CLOUDFLARE_ZONE_ID`;
+- prima di `wrangler pages deploy`, `scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`
+  deve confermare che l'ultimo operator pack contiene un candidato deploy fresco
+  sul commit corrente, con ZIP/manifest/checksum coerenti e full artifact in
+  grado di risolvere il live drift;
 - lo script pubblica solo `.cloudflare-pages`;
 - produzione su branch `main` richiede anche `ALLOW_PRODUCTION_DEPLOY=yes` e
   `CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
@@ -170,7 +174,8 @@ Regole del percorso diretto:
 3. genera `.cloudflare-pages`
 4. verifica artifact, browser smoke e Payment Link sull'artifact
 5. riverifica `--pages-only`
-6. pubblica con `wrangler pages deploy .cloudflare-pages --project-name ... --branch ...`
+6. verifica il candidato deploy dall'operator pack con `--require-execution-ready`
+7. pubblica con `wrangler pages deploy .cloudflare-pages --project-name ... --branch ...`
 
 ## Produzione
 La produzione non parte da questo runbook senza approvazione separata. Se un

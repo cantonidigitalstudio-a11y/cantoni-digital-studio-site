@@ -61,6 +61,9 @@ SITE_ROOT=.cloudflare-pages npm run test:payments
 echo "step=cloudflare_pages_api_recheck"
 node scripts/verify_cloudflare_api_credentials.mjs --pages-only
 
+echo "step=cloudflare_deploy_candidate"
+node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready
+
 echo "step=deploy_direct"
 "$WRANGLER_BIN" pages deploy "$PUBLIC_DIR" --project-name "$PROJECT_NAME" --branch "$DEPLOY_BRANCH"
 

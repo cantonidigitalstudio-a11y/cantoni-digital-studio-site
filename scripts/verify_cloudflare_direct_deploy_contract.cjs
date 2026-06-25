@@ -106,11 +106,17 @@ async function createFakeTools() {
   const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cantoni-direct-deploy-contract-'));
   const toolsDir = path.join(tmpDir, 'bin');
   const logPath = path.join(tmpDir, 'tool-log.jsonl');
+  const packDir = path.join(PROJECT_ROOT, 'sales-kit/generated', `direct-deploy-contract-${path.basename(tmpDir)}`);
+  const zipRel = path.relative(PROJECT_ROOT, path.join(packDir, 'candidate.zip')).split(path.sep).join('/');
+  const manifestRel = path.relative(PROJECT_ROOT, path.join(packDir, 'candidate.manifest.json')).split(path.sep).join('/');
+  const checksumsRel = path.relative(PROJECT_ROOT, path.join(packDir, 'candidate.SHA256SUMS')).split(path.sep).join('/');
   await fs.mkdir(toolsDir, { recursive: true });
 
   const toolPrelude = [
     '#!/usr/bin/env node',
     "const fs = require('fs');",
+    "const path = require('path');",
+    "const crypto = require('crypto');",
     "const logPath = process.env.CANTONI_DIRECT_DEPLOY_CONTRACT_LOG;",
     "function write(entry) { fs.appendFileSync(logPath, JSON.stringify(entry) + '\\n'); }",
     ''
@@ -128,6 +134,70 @@ const allowed = new Set([
 if (!allowed.has(args.join(' '))) {
   console.error('unexpected npm call: ' + args.join(' '));
   process.exit(91);
+}
+if (args.join(' ') === 'run test:full') {
+  const projectRoot = process.env.CANTONI_DIRECT_DEPLOY_CONTRACT_PROJECT_ROOT;
+  const packDir = process.env.LAUNCH_OPERATOR_PACK_DIR;
+  const zipRel = process.env.CANTONI_DIRECT_DEPLOY_CONTRACT_ZIP_REL;
+  const manifestRel = process.env.CANTONI_DIRECT_DEPLOY_CONTRACT_MANIFEST_REL;
+  const checksumsRel = process.env.CANTONI_DIRECT_DEPLOY_CONTRACT_CHECKSUMS_REL;
+  const zipPath = path.join(projectRoot, zipRel);
+  const manifestPath = path.join(projectRoot, manifestRel);
+  const checksumsPath = path.join(projectRoot, checksumsRel);
+  fs.mkdirSync(packDir, { recursive: true });
+  fs.writeFileSync(zipPath, 'direct deploy candidate fixture\\n');
+  const zipHash = crypto.createHash('sha256').update(fs.readFileSync(zipPath)).digest('hex');
+  const git = {
+    commit: '${COMMIT}',
+    short_commit: '${COMMIT.slice(0, 7)}',
+    branch: '${BRANCH}',
+    upstream: '${UPSTREAM}',
+    remote_name: 'cantoni',
+    remote_url: '${REMOTE_URL}',
+    ahead: 0,
+    behind: 0,
+    dirty: false,
+    status_entries: 0
+  };
+  fs.writeFileSync(manifestPath, JSON.stringify({
+    ok: true,
+    package_type: 'cloudflare_pages_manual_upload_v1',
+    git,
+    zip: { path: zipRel, bytes: fs.statSync(zipPath).size, sha256: zipHash },
+    files_count: 28
+  }, null, 2) + '\\n');
+  fs.writeFileSync(checksumsPath, zipHash + '  candidate.zip\\n');
+  fs.writeFileSync(path.join(packDir, 'cantoni-launch-operator-pack-fixture.json'), JSON.stringify({
+    ok: true,
+    git,
+    cloudflare_deploy_candidate: {
+      type: 'cloudflare_pages_deploy_candidate_v1',
+      artifact_ready: true,
+      git_ready: true,
+      would_fix_live_contract: true,
+      execution_ready: true,
+      deployment_approval_required: true,
+      deploy_allowed_without_approval: false,
+      status: 'ready_for_explicit_deploy_approval',
+      execution_blockers: [],
+      non_site_blockers: ['cloudflare_dns_api_credentials', 'cantoni_email_dns'],
+      git,
+      package: {
+        zip_path: zipRel,
+        zip_sha256: zipHash,
+        zip_bytes: fs.statSync(zipPath).size,
+        manifest: manifestRel,
+        checksums: checksumsRel,
+        files_count: 28
+      },
+      live_drift_patch: {
+        full_artifact_required: true,
+        partial_upload_safe: false,
+        files_count: 3,
+        pages: ['/case-studies.html', '/termini-commerciali.html', '/privacy.html']
+      }
+    }
+  }, null, 2) + '\\n');
 }
 `);
 
@@ -187,7 +257,7 @@ console.error('unexpected wrangler call: ' + args.join(' '));
 process.exit(93);
 `);
 
-  return { tmpDir, toolsDir, logPath };
+  return { tmpDir, toolsDir, logPath, packDir, zipRel, manifestRel, checksumsRel };
 }
 
 async function readToolLog(logPath) {
@@ -210,6 +280,11 @@ function runDeploy({ apiBaseUrl, toolsDir, logPath, env = {} }) {
     CLOUDFLARE_API_BASE_URL: apiBaseUrl,
     CLOUDFLARE_PAGES_PROJECT_NAME: PROJECT_NAME,
     CLOUDFLARE_CUSTOM_DOMAIN: DOMAIN,
+    CANTONI_DIRECT_DEPLOY_CONTRACT_PROJECT_ROOT: PROJECT_ROOT,
+    LAUNCH_OPERATOR_PACK_DIR: env.LAUNCH_OPERATOR_PACK_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/direct-deploy-contract-missing'),
+    CANTONI_DIRECT_DEPLOY_CONTRACT_ZIP_REL: env.CANTONI_DIRECT_DEPLOY_CONTRACT_ZIP_REL || 'sales-kit/generated/direct-deploy-contract-missing/candidate.zip',
+    CANTONI_DIRECT_DEPLOY_CONTRACT_MANIFEST_REL: env.CANTONI_DIRECT_DEPLOY_CONTRACT_MANIFEST_REL || 'sales-kit/generated/direct-deploy-contract-missing/candidate.manifest.json',
+    CANTONI_DIRECT_DEPLOY_CONTRACT_CHECKSUMS_REL: env.CANTONI_DIRECT_DEPLOY_CONTRACT_CHECKSUMS_REL || 'sales-kit/generated/direct-deploy-contract-missing/candidate.SHA256SUMS',
     ...env
   };
   for (const [key, value] of Object.entries(deployEnv)) {
@@ -315,7 +390,11 @@ async function main() {
         CLOUDFLARE_API_TOKEN: FAKE_TOKEN,
         CLOUDFLARE_ACCOUNT_ID: ACCOUNT_ID,
         CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL: 'deploy-cantoni-pages-direct',
-        CLOUDFLARE_PAGES_BRANCH: 'preview-contract'
+        CLOUDFLARE_PAGES_BRANCH: 'preview-contract',
+        LAUNCH_OPERATOR_PACK_DIR: fakeTools.packDir,
+        CANTONI_DIRECT_DEPLOY_CONTRACT_ZIP_REL: fakeTools.zipRel,
+        CANTONI_DIRECT_DEPLOY_CONTRACT_MANIFEST_REL: fakeTools.manifestRel,
+        CANTONI_DIRECT_DEPLOY_CONTRACT_CHECKSUMS_REL: fakeTools.checksumsRel
       }
     });
     assert(!success.timedOut, `direct deploy should not time out\nstdout=${success.stdout}\nstderr=${success.stderr}`);
@@ -325,6 +404,7 @@ async function main() {
     assert(!success.stderr.includes(FAKE_TOKEN), 'direct deploy stderr must not leak token');
     assert(success.stdout.includes('deploy_channel=cloudflare-pages-direct-token'), 'direct deploy should report deploy channel');
     assert(success.stdout.includes('step=git_deploy_state'), 'direct deploy should verify git state before Cloudflare API preflight');
+    assert(success.stdout.includes('step=cloudflare_deploy_candidate'), 'direct deploy should verify deploy candidate before Wrangler deploy');
 
     const apiPaths = fixture.requests.map((request) => request.path);
     assert(apiPaths.filter((item) => item === '/user/tokens/verify').length === 2, 'direct deploy should verify token before and after tests');
@@ -361,6 +441,7 @@ async function main() {
         'production_approval_guard',
         'git_deploy_state_guard',
         'pages_only_preflight',
+        'deploy_candidate_gate',
         'artifact_only_deploy_path',
         'preview_branch_deploy',
         'token_redaction'
@@ -368,6 +449,7 @@ async function main() {
     }, null, 2));
   } finally {
     await closeServer(fixture.server, fixture.sockets);
+    await fs.rm(fakeTools.packDir, { recursive: true, force: true });
     await fs.rm(fakeTools.tmpDir, { recursive: true, force: true });
   }
 }
