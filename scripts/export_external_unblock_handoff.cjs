@@ -96,6 +96,30 @@ function recordRows(records) {
   ];
 }
 
+function liveDriftRows(liveSiteContract) {
+  const patch = liveSiteContract?.deploy_patch || {};
+  const missingByPage = patch.missing_required_by_page || {};
+  const pages = Array.isArray(patch.pages) ? patch.pages : Object.keys(missingByPage);
+
+  if (!pages.length) {
+    return [
+      '| Live page | Artifact file | Missing live snippet |',
+      '| --- | --- | --- |',
+      '| n/a | n/a | No live-site drift patch recorded. |'
+    ];
+  }
+
+  return [
+    '| Live page | Artifact file | Missing live snippet |',
+    '| --- | --- | --- |',
+    ...pages.map((page, index) => {
+      const artifactFile = Array.isArray(patch.artifact_files) ? patch.artifact_files[index] : '';
+      const missing = Array.isArray(missingByPage[page]) ? missingByPage[page].join('; ') : '';
+      return `| \`${page}\` | \`${artifactFile || ''}\` | \`${missing.replace(/\|/g, '\\|')}\` |`;
+    })
+  ];
+}
+
 function failuresForGate(gate) {
   return Array.isArray(gate?.failures) ? gate.failures.map((failure) => ({
     id: failure.id || null,
@@ -339,6 +363,8 @@ function renderMarkdown(payload) {
   const dnsApi = payload.external_tasks.find((task) => task.id === 'cloudflare_dns_api_credentials');
   const deployTask = payload.external_tasks.find((task) => task.id === 'cloudflare_pages_deploy');
   const paymentBranding = payload.external_tasks.find((task) => task.id === 'payment_branding_review');
+  const liveContract = payload.live_site_contract || {};
+  const livePatch = liveContract.deploy_patch || {};
 
   return [
     '# Cantoni External Unblock Handoff',
@@ -371,6 +397,15 @@ function renderMarkdown(payload) {
     `- ZIP: \`${candidate.package.zip_path || 'unknown'}\``,
     `- ZIP SHA-256: \`${candidate.package.zip_sha256 || 'unknown'}\``,
     `- Manifest: \`${candidate.package.manifest || 'unknown'}\``,
+    '',
+    '## Live Site Contract Drift',
+    '',
+    `- Live contract ok: ${liveContract.ok ? 'yes' : 'no'}`,
+    `- Full artifact required: ${livePatch.full_artifact_required === true ? 'yes' : 'unknown'}`,
+    `- Partial upload safe: ${livePatch.partial_upload_safe === false ? 'no' : 'unknown'}`,
+    '- Do not upload only the drift files; deploy the verified full artifact or ZIP referenced above.',
+    '',
+    ...liveDriftRows(liveContract),
     '',
     '## Cloudflare Pages Auth',
     '',

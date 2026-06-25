@@ -146,6 +146,10 @@ controllo come gate `external_unblock_handoff`, cosi il report principale mostra
 anche se il dossier di sblocco esterno e pronto. Se il latest e stale durante
 una generazione di pack, il gate resta informativo; i blocker reali rimangono
 Cloudflare, DNS, live contract e outbound hold.
+Il dossier deve esporre anche `Live Site Contract Drift`: pagine live stale,
+snippet mancanti, file artifact corrispondenti e regola esplicita di non
+caricare solo i file di drift. Per chiudere il contratto live serve sempre il
+full artifact Cloudflare verificato.
 Il blocco Google Workspace Email DNS del dossier deve indicare il payload
 API-safe `cantoni-email-dns-handoff-latest.cloudflare-api-records.json`, il
 dry-run `npm run dns:cloudflare:plan`, l'apply separato

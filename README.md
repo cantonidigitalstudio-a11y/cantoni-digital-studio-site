@@ -135,6 +135,9 @@ candidate, record DNS Google Workspace, comandi post-unblock e regole
 no-secrets/no-outbound. `npm run test:external-unblock-handoff` verifica che il
 dossier punti al pack e allo ZIP correnti, preservi gli approval gate, tenga
 allineati gli alias latest e non assegni valori segreti.
+Il dossier deve esporre anche la sezione `Live Site Contract Drift`, con le
+pagine live stale e la regola di non caricare solo i file di drift: lo sblocco
+del contratto live richiede il full artifact Cloudflare verificato.
 Il blocco email-DNS del dossier deve includere anche l'alias
 `cantoni-email-dns-handoff-latest.cloudflare-api-records.json`, il dry-run
 `npm run dns:cloudflare:plan`, l'apply separato `npm run dns:cloudflare:apply`

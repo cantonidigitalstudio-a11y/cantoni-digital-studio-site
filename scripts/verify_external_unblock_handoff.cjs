@@ -244,6 +244,14 @@ async function main() {
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:launch-readiness')) {
     failures.push('Post-unblock checks must include launch readiness audit.');
   }
+  if (payload?.deploy_candidate?.would_fix_live_contract === true) {
+    const patch = payload?.live_site_contract?.deploy_patch;
+    if (patch?.full_artifact_required !== true) failures.push('Live-site drift patch must require the full artifact.');
+    if (patch?.partial_upload_safe !== false) failures.push('Live-site drift patch must mark partial uploads unsafe.');
+    for (const page of ['/case-studies.html', '/termini-commerciali.html', '/privacy.html']) {
+      if (!patch?.pages?.includes(page)) failures.push(`Live-site drift patch must include ${page}.`);
+    }
+  }
   if (payload?.safety?.secrets_in_repo_allowed !== false) failures.push('Safety block must forbid secrets in repo.');
   if (payload?.safety?.outbound_pause_must_remain !== true) failures.push('Safety block must preserve outbound pause.');
 
@@ -269,6 +277,11 @@ async function main() {
       'CANTONI_DNS_APPROVAL=apply-cantoni-email-dns',
       'cloudflare_lookup_required',
       'google._domainkey',
+      'Live Site Contract Drift',
+      'Do not upload only the drift files',
+      '/case-studies.html',
+      '/termini-commerciali.html',
+      '/privacy.html',
       'npm run test:social-public',
       'npm run test:lead-endpoint',
       'npm run test:outreach-readiness'
