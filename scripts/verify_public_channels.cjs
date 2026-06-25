@@ -11,6 +11,7 @@ const CHANNELS = [
     id: 'instagram',
     url: 'https://www.instagram.com/cantonidigitalstudio/',
     status: 'login-gated-ok',
+    allowMetadataProofOnLoadError: true,
     requiredWhenPublic: [
       'Cantoni Digital Studio',
       'cantonidigitalstudio',
@@ -76,6 +77,11 @@ function hasLoginGate(finalUrl, text) {
     /log in to tiktok|accedi a tiktok|continue with google|usa qr code/i.test(text);
 }
 
+function hasLoadError(text, title = '') {
+  return /non .{0,40}possibile caricare la pagina|si .{0,40}verificato un (?:errore|problema)|could(?: not|n't) load|something went wrong|try again|reload page|ricarica pagina/i
+    .test(`${title}\n${text}`);
+}
+
 async function snapshotPage(page, channel) {
   const response = await page.goto(channel.url, { waitUntil: 'domcontentloaded', timeout: 45000 });
   if (/consent\.(?:youtube|google)\.com/i.test(page.url())) {
@@ -138,6 +144,7 @@ async function waitForPublicProofText(page, requiredText, timeout) {
 function validatePublicProof(channel, result) {
   assert.ok(result.statusCode >= 200 && result.statusCode < 400, `${channel.id}: HTTP status ${result.statusCode}`);
   assert.equal(hasLoginGate(result.finalUrl, result.text), false, `${channel.id}: should be readable without mandatory login`);
+  assert.equal(hasLoadError(result.text, result.title), false, `${channel.id}: rendered a load/error page instead of readable public proof`);
 
   for (const snippet of channel.requiredText || []) {
     assert.ok(
@@ -164,6 +171,11 @@ function validateLoginGated(channel, result) {
     return 'login-gated';
   }
 
+  const loadError = hasLoadError(result.text, result.title);
+  if (loadError && channel.allowMetadataProofOnLoadError !== true) {
+    assert.equal(loadError, false, `${channel.id}: rendered a load/error page without an approved metadata-proof fallback`);
+  }
+
   for (const snippet of channel.requiredWhenPublic || []) {
     assert.ok(
       result.proofText.toLowerCase().includes(snippet.toLowerCase()),
@@ -178,7 +190,7 @@ function validateLoginGated(channel, result) {
       `${channel.id}: forbidden stale text "${snippet}"`
     );
   }
-  return 'public-proof';
+  return loadError ? 'metadata-proof-load-error' : 'public-proof';
 }
 
 async function main() {
@@ -205,6 +217,7 @@ async function main() {
           finalUrl: result.finalUrl,
           title: result.title,
           screenshot: result.screenshot,
+          loadError: hasLoadError(result.text, result.title),
           ok: true
         });
       } finally {
