@@ -14,8 +14,8 @@ const REQUIRED_POST_DEPLOY_CHECKS = [
 const FILE_PATTERNS = {
   launchHandoff: /^cantoni-launch-handoff-(?!latest\b).+\.json$/,
   operatorPack: /^cantoni-launch-operator-pack-(?!latest\b).+\.json$/,
-  emailDns: /^cantoni-email-dns-handoff-(?!.*\.cloudflare-api-records\.json$).+\.json$/,
-  emailDnsApi: /^cantoni-email-dns-handoff-.+\.cloudflare-api-records\.json$/,
+  emailDns: /^cantoni-email-dns-handoff-(?!latest\b)(?!.*\.cloudflare-api-records\.json$).+\.json$/,
+  emailDnsApi: /^cantoni-email-dns-handoff-(?!latest\b).+\.cloudflare-api-records\.json$/,
   liveDrift: /^cantoni-live-drift-(?!latest\b).+\.json$/
 };
 
@@ -481,6 +481,8 @@ async function main() {
       ['launch_handoff', launchHandoff.git],
       ['operator_pack', operatorPack.git],
       ['cloudflare_manual_upload', manualPackageManifest?.git],
+      ['email_dns', emailDns.git],
+      ['email_dns_api', emailDnsApi.git],
       ['live_drift', liveDrift.git]
     ]) {
       if (!git || typeof git !== 'object') {
@@ -502,6 +504,18 @@ async function main() {
     if (launchHandoff.git?.commit && liveDrift.git?.commit && launchHandoff.git.commit !== liveDrift.git.commit) {
       failures.push('live_drift: Git commit does not match launch handoff');
     }
+    if (launchHandoff.git?.commit && emailDns.git?.commit && launchHandoff.git.commit !== emailDns.git.commit) {
+      failures.push('email_dns: Git commit does not match launch handoff');
+    }
+    if (emailDns.git?.commit && emailDnsApi.git?.commit && emailDns.git.commit !== emailDnsApi.git.commit) {
+      failures.push('email_dns_api: Git commit does not match email DNS handoff');
+    }
+    if (emailDns.source_commit && emailDns.git?.commit && emailDns.source_commit !== emailDns.git.commit) {
+      failures.push('email_dns: source_commit must match Git provenance commit');
+    }
+    if (emailDnsApi.source_commit && emailDnsApi.git?.commit && emailDnsApi.source_commit !== emailDnsApi.git.commit) {
+      failures.push('email_dns_api: source_commit must match Git provenance commit');
+    }
     if (launchHandoff.git?.upstream && operatorPack.git?.upstream && launchHandoff.git.upstream !== operatorPack.git.upstream) {
       failures.push('operator_pack: Git upstream does not match launch handoff');
     }
@@ -510,6 +524,12 @@ async function main() {
     }
     if (String(normalizeRel(path.relative(PROJECT_ROOT, files.liveDrift))).includes('-latest.')) {
       failures.push('live_drift: verifier must inspect an immutable timestamped live drift report, not the latest alias');
+    }
+    if (String(normalizeRel(path.relative(PROJECT_ROOT, files.emailDns))).includes('-latest.')) {
+      failures.push('email_dns: verifier must inspect an immutable timestamped email DNS handoff, not the latest alias');
+    }
+    if (String(normalizeRel(path.relative(PROJECT_ROOT, files.emailDnsApi))).includes('-latest.')) {
+      failures.push('email_dns_api: verifier must inspect an immutable timestamped API payload, not the latest alias');
     }
     if (String(launchHandoff.latest_cloudflare_manual_package?.manifest || '').includes('-latest.')) {
       failures.push('launch_handoff: latest Cloudflare manual package manifest must be timestamped, not a latest alias');
@@ -699,6 +719,7 @@ async function main() {
     }
     const operatorMarkdown = await fs.readFile(files.operatorPack.replace(/\.json$/u, '.md'), 'utf8');
     const launchMarkdown = await fs.readFile(files.launchHandoff.replace(/\.json$/u, '.md'), 'utf8');
+    const emailMarkdown = await fs.readFile(files.emailDns.replace(/\.json$/u, '.md'), 'utf8');
     if (!operatorMarkdown.includes('## Verified Passing Gates') || !operatorMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('operator_pack: Markdown must expose verified passing readiness gates');
     }
@@ -806,6 +827,27 @@ async function main() {
 
     const apiRecords = emailDnsApi.records || [];
     const skippedRecords = emailDnsApi.skipped_records || [];
+    if (!emailDns.source_commit || !emailDns.source_short_commit) {
+      failures.push('email_dns: must expose source_commit and source_short_commit');
+    }
+    if (!emailDnsApi.source_commit || !emailDnsApi.source_short_commit) {
+      failures.push('email_dns_api: must expose source_commit and source_short_commit');
+    }
+    if (emailDns.cloudflare_api_payload?.source_commit && emailDns.git?.commit && emailDns.cloudflare_api_payload.source_commit !== emailDns.git.commit) {
+      failures.push('email_dns: cloudflare_api_payload source_commit must match handoff Git commit');
+    }
+    if (emailDns.cloudflare_api_payload?.git?.commit && emailDns.git?.commit && emailDns.cloudflare_api_payload.git.commit !== emailDns.git.commit) {
+      failures.push('email_dns: cloudflare_api_payload Git commit must match handoff Git commit');
+    }
+    if (emailDnsApi.source_handoff?.json !== normalizeRel(path.relative(PROJECT_ROOT, files.emailDns))) {
+      failures.push('email_dns_api: source_handoff.json must reference the timestamped email DNS handoff JSON');
+    }
+    if (emailDns.git?.commit && !emailMarkdown.includes(`Git full commit: ${emailDns.git.commit}`)) {
+      failures.push('email_dns: Markdown must expose full Git commit');
+    }
+    if (emailDns.git?.branch && !emailMarkdown.includes(`Git branch: ${emailDns.git.branch}`)) {
+      failures.push('email_dns: Markdown must expose Git branch');
+    }
     if (apiRecords.some((record) => record.id === 'google_dkim')) {
       failures.push('email_dns_api: google_dkim must not be included before Google Admin value exists');
     }

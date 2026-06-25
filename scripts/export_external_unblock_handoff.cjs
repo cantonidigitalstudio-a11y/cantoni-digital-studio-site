@@ -308,6 +308,10 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
           'Generate the Google DKIM TXT value in Google Admin before publishing google._domainkey.'
         ],
         dashboard_records: records,
+        handoff_generated_at: emailDnsHandoff?.generated_at || null,
+        source_commit: emailDnsHandoff?.source_commit || emailDnsHandoff?.git?.commit || null,
+        source_short_commit: emailDnsHandoff?.source_short_commit || emailDnsHandoff?.git?.short_commit || null,
+        git: emailDnsHandoff?.git || null,
         api_payload: emailDnsHandoff?.cloudflare_api_payload || null,
         api_payload_latest_alias: 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json',
         manual_value_records: records

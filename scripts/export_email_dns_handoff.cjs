@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { gitProvenance } = require('./lib/git_provenance.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.resolve(process.env.EMAIL_DNS_HANDOFF_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/email-dns-handoff'));
@@ -129,7 +130,18 @@ function renderObservedChecks(checks) {
   });
 }
 
-function renderMarkdown({ audit, records, generatedAt }) {
+function gitProvenanceLines(git) {
+  return [
+    `Git commit: ${git.short_commit || 'unknown'}`,
+    `Git full commit: ${git.commit || 'unknown'}`,
+    `Git branch: ${git.branch || 'unknown'}`,
+    `Git upstream: ${git.upstream || 'unknown'}`,
+    `Git remote: ${git.remote_name || 'unknown'} (${git.remote_url || 'unknown'})`,
+    `Git dirty: ${git.dirty ? 'yes' : 'no'} (${git.status_entries} status entries)`
+  ];
+}
+
+function renderMarkdown({ audit, records, generatedAt, git }) {
   return [
     '# Cantoni Email DNS Handoff',
     '',
@@ -137,6 +149,10 @@ function renderMarkdown({ audit, records, generatedAt }) {
     `Domain: ${audit.domain}`,
     `Audit ok: ${audit.ok === true ? 'yes' : 'no'}`,
     `Sender profile: ${audit.sender_profile || 'unknown'}`,
+    '',
+    '## Git Provenance',
+    '',
+    ...gitProvenanceLines(git),
     '',
     '## Preconditions',
     '',
@@ -188,6 +204,7 @@ async function main() {
   if (auditRun.error) throw new Error(auditRun.error);
 
   const generatedAt = new Date().toISOString();
+  const git = gitProvenance(PROJECT_ROOT);
   const audit = auditRun.parsed;
   const records = (audit.recommended_records || []).map(dashboardRecord);
   const apiRecords = (audit.recommended_records || [])
@@ -204,15 +221,26 @@ async function main() {
   const apiPayload = {
     ok: true,
     generated_at: generatedAt,
+    git,
+    source_commit: git.commit,
+    source_short_commit: git.short_commit,
     domain: audit.domain,
     zone_id_required: true,
     apply_rule: 'Apply only after Google Workspace mailboxes or aliases exist and after explicit DNS approval.',
+    source_handoff: {
+      json: relativeToRoot(JSON_PATH),
+      markdown: relativeToRoot(MARKDOWN_PATH),
+      generated_at: generatedAt
+    },
     records: apiRecords,
     skipped_records: skippedApiRecords
   };
   const payload = {
     ok: audit.ok === true,
     generated_at: generatedAt,
+    git,
+    source_commit: git.commit,
+    source_short_commit: git.short_commit,
     domain: audit.domain,
     sender_profile: audit.sender_profile,
     checked_at: audit.checked_at,
@@ -220,6 +248,10 @@ async function main() {
     cloudflare_api_payload: {
       path: relativeToRoot(API_PAYLOAD_PATH),
       records_count: apiRecords.length,
+      generated_at: generatedAt,
+      git,
+      source_commit: git.commit,
+      source_short_commit: git.short_commit,
       skipped_records: skippedApiRecords
     },
     checks: audit.checks || [],
@@ -229,7 +261,7 @@ async function main() {
   const jsonSource = JSON.stringify(payload, null, 2) + '\n';
   const apiPayloadSource = JSON.stringify(apiPayload, null, 2) + '\n';
   const csvSource = renderCsv(records);
-  const markdownSource = renderMarkdown({ audit, records, generatedAt });
+  const markdownSource = renderMarkdown({ audit, records, generatedAt, git });
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   await Promise.all([
@@ -246,6 +278,8 @@ async function main() {
   console.log(JSON.stringify({
     ok: true,
     email_dns_ok: payload.ok,
+    source_commit: git.commit,
+    source_short_commit: git.short_commit,
     records_count: records.length,
     manual_value_records: records.filter((record) => record.manual_value_required).map((record) => record.id),
     markdown: MARKDOWN_PATH,

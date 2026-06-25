@@ -336,6 +336,18 @@ async function main() {
   if (!String(emailDns?.api_payload?.path || '').includes('sales-kit/generated/email-dns-handoff/')) {
     failures.push('Email DNS task must reference the generated email DNS API-safe payload path.');
   }
+  if (!emailDns?.source_commit || !emailDns?.source_short_commit) {
+    failures.push('Email DNS task must expose source_commit and source_short_commit.');
+  }
+  if (!emailDns?.git?.commit) {
+    failures.push('Email DNS task must expose handoff Git provenance.');
+  }
+  if (emailDns?.source_commit && payload?.source_commit && emailDns.source_commit !== payload.source_commit) {
+    failures.push('Email DNS task source_commit must match the source operator pack commit.');
+  }
+  if (emailDns?.api_payload?.source_commit && emailDns?.source_commit && emailDns.api_payload.source_commit !== emailDns.source_commit) {
+    failures.push('Email DNS API payload source_commit must match the email DNS handoff source_commit.');
+  }
   if (emailDns?.api_payload_latest_alias !== 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json') {
     failures.push('Email DNS task must reference the latest Cloudflare API-safe DNS payload alias.');
   }
