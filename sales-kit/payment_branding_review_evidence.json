@@ -26,7 +26,6 @@
       "amount_visible": "EUR 250.00",
       "observed_payment_methods_after_expanding": [
         "card",
-        "apple_pay",
         "mb_way",
         "klarna",
         "bancontact",
@@ -52,7 +51,6 @@
       "amount_visible": "EUR 250.00",
       "observed_payment_methods_after_expanding": [
         "card",
-        "apple_pay",
         "mb_way",
         "klarna",
         "bancontact",

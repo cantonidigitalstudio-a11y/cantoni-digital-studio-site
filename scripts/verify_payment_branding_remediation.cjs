@@ -46,6 +46,23 @@ function main() {
   if (evidence?.summary?.release_ready !== true && !remediation.includes('Se anche uno solo di questi punti manca, il flag resta.')) {
     failures.push('Payment branding remediation must preserve the hold when evidence is not release_ready=true.');
   }
+  if (evidence?.review_method?.expanded_additional_payment_methods !== true) {
+    failures.push('Payment branding evidence must prove additional payment methods were expanded.');
+  }
+  if (evidence?.review_method?.payment_submit_button_clicked !== false || evidence?.review_method?.payment_fields_filled !== false) {
+    failures.push('Payment branding evidence must prove no payment submit click and no payment field entry.');
+  }
+  for (const link of evidence?.public_payment_links || []) {
+    const methods = Array.isArray(link.observed_payment_methods_after_expanding)
+      ? link.observed_payment_methods_after_expanding
+      : [];
+    if (!methods.includes('amazon_pay') || !methods.includes('eps')) {
+      failures.push(`Payment branding evidence for ${link.id || 'unknown'} must preserve expanded Amazon Pay and EPS observations.`);
+    }
+    if (methods.includes('paypal') !== (link.paypal_selectable === true)) {
+      failures.push(`Payment branding evidence for ${link.id || 'unknown'} has inconsistent PayPal method/selectable state.`);
+    }
+  }
   for (const required of [
     'Stato corrente 2026-06-25',
     'blocked_paypal_not_visible',

@@ -42,6 +42,32 @@ function validatePaymentBrandingEvidence(evidence) {
       reason: `${PAYMENT_BRANDING_EVIDENCE_RELATIVE_PATH} must include checked_at.`
     });
   }
+  if (!evidence.review_surface || typeof evidence.review_surface !== 'string' || !evidence.review_surface.includes('Stripe Checkout public Payment Links')) {
+    failures.push({
+      id: 'payment_branding_review_surface',
+      reason: `${PAYMENT_BRANDING_EVIDENCE_RELATIVE_PATH} must identify the real Stripe Checkout Payment Links review surface.`
+    });
+  }
+  const reviewMethod = evidence.review_method || {};
+  if (reviewMethod.expanded_additional_payment_methods !== true) {
+    failures.push({
+      id: 'payment_branding_review_method_expanded',
+      reason: `${PAYMENT_BRANDING_EVIDENCE_RELATIVE_PATH} must prove additional payment methods were expanded during review.`
+    });
+  }
+  if (reviewMethod.payment_submit_button_clicked !== false || reviewMethod.payment_fields_filled !== false) {
+    failures.push({
+      id: 'payment_branding_review_method_no_submit',
+      reason: `${PAYMENT_BRANDING_EVIDENCE_RELATIVE_PATH} must prove no payment fields were filled and the submit button was not clicked.`
+    });
+  }
+  const reviewerBoundary = evidence.reviewer_boundary || {};
+  if (reviewerBoundary.no_payment_data_entered !== true || reviewerBoundary.no_login_attempted !== true || reviewerBoundary.final_payment_submitted !== false) {
+    failures.push({
+      id: 'payment_branding_reviewer_boundary',
+      reason: `${PAYMENT_BRANDING_EVIDENCE_RELATIVE_PATH} must preserve no-login, no-payment-data and no-final-submit boundaries.`
+    });
+  }
 
   const links = Array.isArray(evidence.public_payment_links) ? evidence.public_payment_links : [];
   if (links.length !== 2) {
@@ -70,6 +96,27 @@ function validatePaymentBrandingEvidence(evidence) {
       failures.push({
         id: 'payment_branding_merchant_not_verified',
         reason: `Payment branding evidence for ${id} must verify Stripe Checkout merchant Cantoni Digital Studio.`
+      });
+    }
+    const observedMethods = Array.isArray(link.observed_payment_methods_after_expanding)
+      ? link.observed_payment_methods_after_expanding
+      : [];
+    if (!observedMethods.length) {
+      failures.push({
+        id: 'payment_branding_observed_methods_missing',
+        reason: `Payment branding evidence for ${id} must list observed payment methods after expanding additional methods.`
+      });
+    }
+    if (link.paypal_selectable === true && !observedMethods.includes('paypal')) {
+      failures.push({
+        id: 'payment_branding_paypal_observed_methods_mismatch',
+        reason: `Payment branding evidence for ${id} marks PayPal selectable but does not include paypal in observed methods.`
+      });
+    }
+    if (link.paypal_selectable !== true && observedMethods.includes('paypal')) {
+      failures.push({
+        id: 'payment_branding_paypal_observed_methods_mismatch',
+        reason: `Payment branding evidence for ${id} lists paypal but does not mark PayPal selectable.`
       });
     }
     if (link.paypal_selectable !== true) {
