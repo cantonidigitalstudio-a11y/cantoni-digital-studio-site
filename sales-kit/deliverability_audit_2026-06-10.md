@@ -51,6 +51,22 @@ Non inviare piu di 10-20 cold email al giorno da `cantonidigitalstudio@gmail.com
 3. non esiste una base dominio email autenticata;
 4. non c'e evidenza che i batch precedenti arrivino in inbox e generino risposte.
 
+## Gate locale
+
+Usare il gate DNS prima di aumentare volume o passare a una casella su dominio:
+
+```bash
+npm run audit:email-dns
+```
+
+Durante sviluppo locale, il tool puo essere verificato senza bloccare la suite finche i record non esistono:
+
+```bash
+npm run test:email-dns-audit
+```
+
+`audit:email-dns` deve restare rosso finche mancano MX, SPF, DMARC e DKIM coerenti con il provider scelto.
+
 ## Prossimo passo consigliato
 
 1. Completare login Gmail Cantoni nel Browser destro.
