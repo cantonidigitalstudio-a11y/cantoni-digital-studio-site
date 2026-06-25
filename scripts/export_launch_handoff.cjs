@@ -68,13 +68,29 @@ async function findLatestManualPackage() {
     const zipPath = manifest.zip?.path
       ? path.resolve(PROJECT_ROOT, manifest.zip.path)
       : null;
+    const checksumsPath = manifestPath.replace(/\.manifest\.json$/u, '.SHA256SUMS');
+    const readmePath = manifestPath.replace(/\.manifest\.json$/u, '.README.txt');
+    const contractCoverage = manifest.contract_coverage || null;
 
     return {
       manifest: relativeToRoot(manifestPath),
       zip: zipPath ? relativeToRoot(zipPath) : null,
       checksum: manifest.zip?.sha256 || null,
+      checksums: relativeToRoot(checksumsPath),
+      readme: relativeToRoot(readmePath),
       zip_bytes: manifest.zip?.bytes || null,
       files_count: manifest.files_count || null,
+      files_total_bytes: manifest.files_total_bytes || null,
+      contract_coverage: contractCoverage
+        ? {
+            type: contractCoverage.type || null,
+            source: contractCoverage.source || null,
+            full_artifact_required: contractCoverage.full_artifact_required === true,
+            partial_upload_safe: contractCoverage.partial_upload_safe === true,
+            production_branch: contractCoverage.production_branch || null,
+            pages_count: Array.isArray(contractCoverage.pages) ? contractCoverage.pages.length : 0
+          }
+        : null,
       generated_at: manifest.generated_at || null
     };
   } catch (error) {
@@ -210,8 +226,13 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     ? [
         `- ZIP: \`${latestPackage.zip}\``,
         `- Manifest: \`${latestPackage.manifest}\``,
+        `- Checksums: \`${latestPackage.checksums}\``,
+        `- Manual package README: \`${latestPackage.readme}\``,
         `- SHA-256: \`${latestPackage.checksum}\``,
         `- Files: ${latestPackage.files_count || 'unknown'}`,
+        `- Full artifact required: ${latestPackage.contract_coverage?.full_artifact_required === true ? 'yes' : 'unknown'}`,
+        `- Partial upload safe: ${latestPackage.contract_coverage?.partial_upload_safe === false ? 'no' : 'unknown'}`,
+        `- Contract coverage source: \`${latestPackage.contract_coverage?.source || 'unknown'}\``,
         `- Generated: ${latestPackage.generated_at || 'unknown'}`
       ]
     : [
@@ -248,6 +269,7 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     'Rules:',
     '- Do not upload the repository root.',
     '- Upload only the generated Cloudflare Pages artifact ZIP/folder.',
+    '- Read the manual package README before upload; it contains `Production live-site contract coverage in this ZIP` and `Do not upload only these files`.',
     '- Do not deploy production without explicit approval.',
     '- Use only Cantoni Digital Studio account/session for Cloudflare operations.',
     '',

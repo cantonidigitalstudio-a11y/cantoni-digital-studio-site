@@ -457,7 +457,29 @@ async function main() {
     if (String(launchHandoff.latest_cloudflare_manual_package?.manifest || '').includes('-latest.')) {
       failures.push('launch_handoff: latest Cloudflare manual package manifest must be timestamped, not a latest alias');
     }
+    const launchManualPackage = launchHandoff.latest_cloudflare_manual_package || {};
     const cloudflareDeployCandidate = operatorPack.cloudflare_deploy_candidate || {};
+    if (launchManualPackage.zip !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path) {
+      failures.push('launch_handoff: Cloudflare manual package ZIP must match operator pack package');
+    }
+    if (launchManualPackage.manifest !== manualPackageManifestPath) {
+      failures.push('launch_handoff: Cloudflare manual package manifest must match operator pack package');
+    }
+    if (launchManualPackage.readme !== operatorPack.steps?.cloudflare_manual_upload?.output?.readme) {
+      failures.push('launch_handoff: Cloudflare manual package README must match operator pack package');
+    }
+    if (launchManualPackage.checksums !== operatorPack.steps?.cloudflare_manual_upload?.output?.checksums) {
+      failures.push('launch_handoff: Cloudflare manual package checksums must match operator pack package');
+    }
+    if (launchManualPackage.checksum !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.sha256) {
+      failures.push('launch_handoff: Cloudflare manual package ZIP SHA-256 must match operator pack package');
+    }
+    if (launchManualPackage.contract_coverage?.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
+      failures.push('launch_handoff: Cloudflare manual package must expose live-site contract coverage');
+    }
+    if (launchManualPackage.contract_coverage?.full_artifact_required !== true || launchManualPackage.contract_coverage?.partial_upload_safe !== false) {
+      failures.push('launch_handoff: Cloudflare manual package must preserve full-artifact contract coverage rules');
+    }
     if (String(normalizeRel(path.relative(PROJECT_ROOT, files.operatorPack))).includes('-latest.')) {
       failures.push('operator_pack: verifier must inspect an immutable timestamped operator pack, not the latest alias');
     }
@@ -612,6 +634,17 @@ async function main() {
         failures.push(`launch_handoff: Markdown must require ${requiredPostDeployCheck} after deploy`);
       }
     }
+    for (const requiredLaunchPackageText of [
+      'Manual package README',
+      'Production live-site contract coverage in this ZIP',
+      'Do not upload only these files',
+      'Full artifact required: yes',
+      'Partial upload safe: no'
+    ]) {
+      if (!launchMarkdown.includes(requiredLaunchPackageText)) {
+        failures.push(`launch_handoff: Markdown must expose Cloudflare manual package safety text: ${requiredLaunchPackageText}`);
+      }
+    }
 
     const cloudflareAuth = launchHandoff.cloudflare_auth || {};
     const cloudflareAuthOk = cloudflareAuth.ok === true;
@@ -762,6 +795,10 @@ async function main() {
     await requireReferencedFile(manualPackageManifestPath, 'operator_pack.cloudflare_manifest', failures);
     await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.checksums, 'operator_pack.cloudflare_checksums', failures);
     await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.readme, 'operator_pack.cloudflare_readme', failures);
+    await requireReferencedFile(launchManualPackage.zip, 'launch_handoff.cloudflare_zip', failures);
+    await requireReferencedFile(launchManualPackage.manifest, 'launch_handoff.cloudflare_manifest', failures);
+    await requireReferencedFile(launchManualPackage.checksums, 'launch_handoff.cloudflare_checksums', failures);
+    await requireReferencedFile(launchManualPackage.readme, 'launch_handoff.cloudflare_readme', failures);
     await requireReferencedFile(stepOutput.cloudflare_api_json, 'operator_pack.email_dns_api_json', failures);
     await requireReferencedFile(operatorPack.steps?.launch_handoff?.output?.json, 'operator_pack.launch_handoff_json', failures);
     await requireReferencedFile(operatorPack.steps?.live_drift?.output?.json, 'operator_pack.live_drift_json', failures);
