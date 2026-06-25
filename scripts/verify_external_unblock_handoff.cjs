@@ -533,8 +533,11 @@ async function main() {
     ok: failures.length === 0,
     handoff: handoffPath ? relativeToRoot(handoffPath) : null,
     source_operator_pack: payload?.source_operator_pack || null,
+    source_commit: payload?.source_commit || null,
+    source_short_commit: payload?.source_short_commit || null,
     status: payload?.status || null,
     deploy_candidate_status: payload?.deploy_candidate?.status || null,
+    deploy_candidate_package: payload?.deploy_candidate?.package || null,
     checked_tasks: REQUIRED_TASKS,
     failures
   };

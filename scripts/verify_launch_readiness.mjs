@@ -81,8 +81,11 @@ function externalUnblockHandoffGate(run) {
     details: (parsed) => ({
       handoff: parsed?.handoff || null,
       source_operator_pack: parsed?.source_operator_pack || null,
+      source_commit: parsed?.source_commit || null,
+      source_short_commit: parsed?.source_short_commit || null,
       status: parsed?.status || null,
       deploy_candidate_status: parsed?.deploy_candidate_status || null,
+      deploy_candidate_package: parsed?.deploy_candidate_package || null,
       checked_tasks: parsed?.checked_tasks || []
     })
   });
