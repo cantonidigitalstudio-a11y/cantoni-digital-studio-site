@@ -19,7 +19,30 @@ function parseJsonp(body, callbackName) {
   return JSON.parse(body.slice(prefix.length, -2));
 }
 
-async function requestJsonp(endpoint, params) {
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableProbeError(error) {
+  return /endpoint HTTP (?:404|408|429|5\d\d)\b|fetch failed|network|timeout/i.test(error?.message || String(error));
+}
+
+async function requestJsonp(endpoint, params, options = {}) {
+  const attempts = options.attempts || 1;
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await requestJsonpOnce(endpoint, params);
+    } catch (error) {
+      lastError = error;
+      if (attempt >= attempts || !isRetryableProbeError(error)) break;
+      await sleep(500 * attempt);
+    }
+  }
+  throw lastError;
+}
+
+async function requestJsonpOnce(endpoint, params) {
   const callback = `__cdsEndpointProbe_${Date.now()}`;
   const search = new URLSearchParams({ ...params, callback });
   const url = `${endpoint}${endpoint.includes('?') ? '&' : '?'}${search.toString()}`;
@@ -37,7 +60,7 @@ async function main() {
   const endpoint = config.leadCaptureEndpoint || '';
   assert.match(endpoint, /^https:\/\/script\.google\.com\/macros\/s\//, 'leadCaptureEndpoint should be a Google Apps Script HTTPS endpoint');
 
-  const health = await requestJsonp(endpoint, { action: 'health' });
+  const health = await requestJsonp(endpoint, { action: 'health' }, { attempts: 3 });
   assert.equal(health.ok, true, 'health probe should return ok=true');
   assert.equal(health.service, 'cantoni-digital-studio-leads', 'health probe should identify Cantoni lead service');
 
