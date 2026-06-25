@@ -508,21 +508,59 @@ async function main() {
       failures.push('launch_handoff: latest Cloudflare manual package manifest must be timestamped, not a latest alias');
     }
     const launchManualPackage = launchHandoff.latest_cloudflare_manual_package || {};
+    const manualUploadOutput = operatorPack.steps?.cloudflare_manual_upload?.output || {};
+    const manualUploadZip = manualUploadOutput.zip || {};
     const cloudflareDeployCandidate = operatorPack.cloudflare_deploy_candidate || {};
-    if (launchManualPackage.zip !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path) {
+    if (launchManualPackage.zip !== manualUploadZip.path) {
       failures.push('launch_handoff: Cloudflare manual package ZIP must match operator pack package');
     }
     if (launchManualPackage.manifest !== manualPackageManifestPath) {
       failures.push('launch_handoff: Cloudflare manual package manifest must match operator pack package');
     }
-    if (launchManualPackage.readme !== operatorPack.steps?.cloudflare_manual_upload?.output?.readme) {
+    if (launchManualPackage.readme !== manualUploadOutput.readme) {
       failures.push('launch_handoff: Cloudflare manual package README must match operator pack package');
     }
-    if (launchManualPackage.checksums !== operatorPack.steps?.cloudflare_manual_upload?.output?.checksums) {
+    if (launchManualPackage.checksums !== manualUploadOutput.checksums) {
       failures.push('launch_handoff: Cloudflare manual package checksums must match operator pack package');
     }
-    if (launchManualPackage.checksum !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.sha256) {
+    if (launchManualPackage.checksum !== manualUploadZip.sha256) {
       failures.push('launch_handoff: Cloudflare manual package ZIP SHA-256 must match operator pack package');
+    }
+    if (!Number.isInteger(launchManualPackage.zip_bytes) || launchManualPackage.zip_bytes <= 0) {
+      failures.push('launch_handoff: Cloudflare manual package must expose positive ZIP byte size');
+    } else {
+      if (launchManualPackage.zip_bytes !== manualUploadZip.bytes) {
+        failures.push('launch_handoff: Cloudflare manual package ZIP byte size must match operator pack package');
+      }
+      if (launchManualPackage.zip_bytes !== cloudflareDeployCandidate.package?.zip_bytes) {
+        failures.push('launch_handoff: Cloudflare manual package ZIP byte size must match deploy candidate package');
+      }
+      if (manualPackageManifest?.zip?.bytes !== launchManualPackage.zip_bytes) {
+        failures.push('launch_handoff: Cloudflare manual package ZIP byte size must match manifest');
+      }
+      const launchManualZipPath = launchManualPackage.zip
+        ? path.join(PROJECT_ROOT, launchManualPackage.zip)
+        : null;
+      if (!launchManualZipPath || !await pathExists(launchManualZipPath)) {
+        failures.push('launch_handoff: Cloudflare manual package ZIP must exist');
+      } else {
+        const launchManualZipStats = await fs.stat(launchManualZipPath);
+        if (launchManualZipStats.size !== launchManualPackage.zip_bytes) {
+          failures.push('launch_handoff: Cloudflare manual package ZIP byte size must match actual ZIP');
+        }
+      }
+    }
+    if (launchManualPackage.files_count !== manualUploadOutput.files_count) {
+      failures.push('launch_handoff: Cloudflare manual package file count must match operator pack package');
+    }
+    if (launchManualPackage.files_total_bytes !== manualUploadOutput.files_total_bytes) {
+      failures.push('launch_handoff: Cloudflare manual package total file bytes must match operator pack package');
+    }
+    if (launchManualPackage.files_count !== cloudflareDeployCandidate.package?.files_count) {
+      failures.push('launch_handoff: Cloudflare manual package file count must match deploy candidate package');
+    }
+    if (launchManualPackage.files_total_bytes !== cloudflareDeployCandidate.package?.files_total_bytes) {
+      failures.push('launch_handoff: Cloudflare manual package total file bytes must match deploy candidate package');
     }
     if (launchManualPackage.contract_coverage?.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
       failures.push('launch_handoff: Cloudflare manual package must expose live-site contract coverage');
