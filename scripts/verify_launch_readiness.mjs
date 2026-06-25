@@ -6,6 +6,16 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = path.resolve(path.dirname(__filename), '..');
 const allowBlocked = process.argv.includes('--allow-blocked') || process.argv.includes('--allow-missing');
+const OUTBOUND_PAUSE_REQUIRED_SNIPPETS = [
+  'npm run audit:post-unblock-launch',
+  'npm run audit:email-dns',
+  'npm run test:social-public',
+  'npm run test:lead-endpoint',
+  'exact outbound batch',
+  'cantonidigitalstudio@gmail.com',
+  'scripts/day1_send_background.sh',
+  'OUTBOUND_FORCE_RUN=1'
+];
 
 function runJson(command, args) {
   const run = spawnSync(command, args, {
@@ -170,6 +180,9 @@ const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
 const externalUnblockHandoffRun = runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs']);
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
+const outboundPauseMissingReleaseConditions = outboundPauseMessage === null
+  ? []
+  : OUTBOUND_PAUSE_REQUIRED_SNIPPETS.filter((snippet) => !outboundPauseMessage.includes(snippet));
 
 const gates = [
   gateFromRun({
@@ -266,13 +279,21 @@ const gates = [
     ok: outboundPauseMessage === null,
     severity: outboundPauseMessage === null ? 'pass' : 'hold',
     file: 'sales-kit/outbound_pause.flag',
-    failures: outboundPauseMessage === null ? [] : [{
-      id: 'outbound_pause_flag_present',
-      reason: 'Commercial outbound is intentionally paused until domain/email and send approval gates are cleared.'
-    }],
+    failures: outboundPauseMessage === null ? [] : [
+      {
+        id: 'outbound_pause_flag_present',
+        reason: 'Commercial outbound is intentionally paused until domain/email and send approval gates are cleared.'
+      },
+      ...outboundPauseMissingReleaseConditions.map((snippet) => ({
+        id: 'missing_release_condition',
+        reason: `sales-kit/outbound_pause.flag is missing required release condition: ${snippet}`
+      }))
+    ],
     details: {
       present: outboundPauseMessage !== null,
-      message: outboundPauseMessage ? outboundPauseMessage.trim() : null
+      message: outboundPauseMessage ? outboundPauseMessage.trim() : null,
+      required_release_conditions: OUTBOUND_PAUSE_REQUIRED_SNIPPETS,
+      missing_release_conditions: outboundPauseMissingReleaseConditions
     }
   }
 ];
