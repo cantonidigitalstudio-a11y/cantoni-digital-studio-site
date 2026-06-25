@@ -193,6 +193,7 @@ async function writeTextArtifacts(manifest, zipStats) {
     `Domain: ${DOMAIN_NAME}`,
     `Generated: ${manifest.generated_at}`,
     `Git commit: ${manifest.git?.short_commit || 'unknown'}`,
+    `Git full commit: ${manifest.git?.commit || 'unknown'}`,
     `Git branch: ${manifest.git?.branch || 'unknown'}`,
     `Git upstream: ${manifest.git?.upstream || 'unknown'}`,
     `Git dirty: ${manifest.git?.dirty ? 'yes' : 'no'}`,

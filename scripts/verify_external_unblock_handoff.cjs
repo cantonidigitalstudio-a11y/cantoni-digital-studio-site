@@ -270,6 +270,7 @@ async function main() {
     try {
       const readme = await fs.readFile(readmePath, 'utf8');
       for (const requiredReadmeText of [
+        `Git full commit: ${payload.source_commit}`,
         'Production live-site contract coverage in this ZIP',
         'Full artifact required: yes',
         'Partial upload safe: no',

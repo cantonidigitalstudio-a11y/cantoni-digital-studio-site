@@ -385,6 +385,11 @@ function verifyManualUploadContractCoverage(manualPackageManifest, manualPackage
   } else if (!manualPackageReadme.includes(`ZIP bytes: ${zip.bytes}`)) {
     failures.push('cloudflare_manual_upload: README must expose the manifest ZIP byte size');
   }
+  if (!manualPackageManifest?.git?.commit) {
+    failures.push('cloudflare_manual_upload: manifest must expose full Git commit');
+  } else if (!manualPackageReadme.includes(`Git full commit: ${manualPackageManifest.git.commit}`)) {
+    failures.push('cloudflare_manual_upload: README must expose the manifest full Git commit');
+  }
   for (const snippet of requiredReadmeSnippets) {
     if (!manualPackageReadme.includes(snippet)) {
       failures.push(`cloudflare_manual_upload: README must include "${snippet}"`);
