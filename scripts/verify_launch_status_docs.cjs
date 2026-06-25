@@ -13,6 +13,7 @@ function main() {
   const historicalHeader = historicalStatus.split('\n').slice(0, 12).join('\n');
   const readme = read('README.md');
   const cloudflareRunbook = read('CLOUDFLARE_DEPLOY_RUNBOOK.md');
+  const outboundPause = read('sales-kit/outbound_pause.flag');
 
   for (const required of [
     'snapshot storico',
@@ -107,13 +108,28 @@ function main() {
   if (!cloudflareRunbook.includes('preview-cantoni-site') || !cloudflareRunbook.includes('CLOUDFLARE_PAGES_BRANCH=main') || !cloudflareRunbook.includes('live_site_contract')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document preview-vs-production branch behavior for live contract closure');
   }
+  for (const required of [
+    'npm run audit:post-unblock-launch',
+    'npm run audit:email-dns',
+    'npm run test:social-public',
+    'npm run test:lead-endpoint',
+    'exact outbound batch',
+    'cantonidigitalstudio@gmail.com',
+    'scripts/day1_send_background.sh',
+    'OUTBOUND_FORCE_RUN=1'
+  ]) {
+    if (!outboundPause.includes(required)) {
+      failures.push(`sales-kit/outbound_pause.flag: must include outbound release condition "${required}"`);
+    }
+  }
 
   const report = {
     ok: failures.length === 0,
     checked: [
       'sales-kit/cascade_status_2026-05-16.md',
       'README.md',
-      'CLOUDFLARE_DEPLOY_RUNBOOK.md'
+      'CLOUDFLARE_DEPLOY_RUNBOOK.md',
+      'sales-kit/outbound_pause.flag'
     ],
     failures
   };

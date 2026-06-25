@@ -1,10 +1,22 @@
 #!/usr/bin/env node
 
 const { spawnSync } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const allowBlocked = process.argv.includes('--allow-blocked') || process.argv.includes('--allow-missing');
+const OUTBOUND_PAUSE_PATH = path.join(PROJECT_ROOT, 'sales-kit/outbound_pause.flag');
+const OUTBOUND_PAUSE_REQUIRED_SNIPPETS = [
+  'npm run audit:post-unblock-launch',
+  'npm run audit:email-dns',
+  'npm run test:social-public',
+  'npm run test:lead-endpoint',
+  'exact outbound batch',
+  'cantonidigitalstudio@gmail.com',
+  'scripts/day1_send_background.sh',
+  'OUTBOUND_FORCE_RUN=1'
+];
 
 function runJson(command, args) {
   const run = spawnSync(command, args, {
@@ -65,6 +77,50 @@ function stepFromRun({ id, label, category, run, ok, details, blockerWhenFailed 
     command_status: run.status,
     failures: stepOk ? [] : failuresFromRun(id, run, `${label} did not report an acceptable post-unblock state.`),
     details: details(run.parsed, run)
+  };
+}
+
+function outboundPauseContractStep() {
+  let source = null;
+  try {
+    source = fs.readFileSync(OUTBOUND_PAUSE_PATH, 'utf8');
+  } catch (error) {
+    if (!error || error.code !== 'ENOENT') {
+      return {
+        id: 'outbound_pause_contract',
+        label: 'Outbound pause release contract',
+        category: 'outbound',
+        ok: false,
+        severity: 'blocker',
+        command: `read ${path.relative(PROJECT_ROOT, OUTBOUND_PAUSE_PATH)}`,
+        command_status: null,
+        failures: [failure('read_error', error.message || String(error))],
+        details: { present: false, required_snippets: OUTBOUND_PAUSE_REQUIRED_SNIPPETS }
+      };
+    }
+  }
+
+  const missing = source === null
+    ? OUTBOUND_PAUSE_REQUIRED_SNIPPETS
+    : OUTBOUND_PAUSE_REQUIRED_SNIPPETS.filter((snippet) => !source.includes(snippet));
+  const ok = source !== null && missing.length === 0;
+  return {
+    id: 'outbound_pause_contract',
+    label: 'Outbound pause release contract',
+    category: 'outbound',
+    ok,
+    severity: ok ? 'pass' : 'blocker',
+    command: `read ${path.relative(PROJECT_ROOT, OUTBOUND_PAUSE_PATH)}`,
+    command_status: source === null ? 1 : 0,
+    failures: ok ? [] : [
+      ...(source === null ? [failure('outbound_pause_missing', 'sales-kit/outbound_pause.flag must remain until launch, email DNS, social/public channels, lead endpoint, exact batch approval and sender approval are all cleared.')] : []),
+      ...missing.map((snippet) => failure('missing_release_condition', `sales-kit/outbound_pause.flag is missing required release condition: ${snippet}`))
+    ],
+    details: {
+      present: source !== null,
+      required_snippets: OUTBOUND_PAUSE_REQUIRED_SNIPPETS,
+      missing
+    }
   };
 }
 
@@ -193,7 +249,8 @@ const steps = [
       checked_tasks: parsed?.checked_tasks || []
     }),
     blockerWhenFailed: false
-  })
+  }),
+  outboundPauseContractStep()
 ];
 
 const blockers = steps.filter((step) => step.severity === 'blocker' && !step.ok);
