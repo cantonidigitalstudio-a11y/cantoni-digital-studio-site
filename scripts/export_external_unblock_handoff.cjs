@@ -9,7 +9,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OPERATOR_PACK_DIR = path.resolve(process.env.LAUNCH_OPERATOR_PACK_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/launch-operator-pack'));
 const OUTPUT_DIR = path.resolve(process.env.EXTERNAL_UNBLOCK_HANDOFF_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/external-unblock-handoff'));
 const VERSION = process.env.EXTERNAL_UNBLOCK_HANDOFF_VERSION || new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
-const OPERATOR_PACK_PATTERN = /^cantoni-launch-operator-pack-.+\.json$/u;
+const OPERATOR_PACK_PATTERN = /^cantoni-launch-operator-pack-(?!latest\b).+\.json$/u;
 
 if (!/^[A-Za-z0-9._-]+$/.test(VERSION)) {
   throw new Error('EXTERNAL_UNBLOCK_HANDOFF_VERSION may contain only letters, numbers, dots, underscores and dashes.');

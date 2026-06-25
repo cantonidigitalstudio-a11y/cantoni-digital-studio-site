@@ -8,7 +8,7 @@ const { gitProvenance } = require('./lib/git_provenance.cjs');
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OPERATOR_PACK_DIR = path.resolve(process.env.LAUNCH_OPERATOR_PACK_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/launch-operator-pack'));
 const REQUIRE_EXECUTION_READY = process.argv.includes('--require-execution-ready');
-const PACK_PATTERN = /^cantoni-launch-operator-pack-.+\.json$/u;
+const PACK_PATTERN = /^cantoni-launch-operator-pack-(?!latest\b).+\.json$/u;
 
 function normalizeRel(value) {
   return String(value || '').split(path.sep).join('/');

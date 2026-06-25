@@ -41,6 +41,9 @@ function main() {
   if (!readme.includes('cantoni-external-unblock-handoff-latest')) {
     failures.push('README.md: must document the stable latest external unblock handoff aliases');
   }
+  if (!readme.includes('cantoni-launch-operator-pack-latest')) {
+    failures.push('README.md: must document the stable latest launch operator pack aliases');
+  }
   if (!readme.includes('cantoni-email-dns-handoff-latest')) {
     failures.push('README.md: must document the stable latest email DNS handoff aliases');
   }
@@ -70,6 +73,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('cantoni-external-unblock-handoff-latest.md/json')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest external unblock handoff aliases');
+  }
+  if (!cloudflareRunbook.includes('cantoni-launch-operator-pack-latest.md/json')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest launch operator pack aliases');
   }
   if (!cloudflareRunbook.includes('cantoni-email-dns-handoff-latest')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest email DNS handoff aliases');

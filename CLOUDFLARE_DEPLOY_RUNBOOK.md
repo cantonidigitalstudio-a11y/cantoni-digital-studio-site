@@ -147,6 +147,12 @@ anche se il dossier di sblocco esterno e pronto. Se il latest e stale durante
 una generazione di pack, il gate resta informativo; i blocker reali rimangono
 Cloudflare, DNS, live contract e outbound hold.
 
+`npm run export:launch-operator-pack` scrive anche
+`cantoni-launch-operator-pack-latest.md/json` sotto
+`sales-kit/generated/launch-operator-pack/`. Gli alias servono per revisione
+umana rapida; i verifier e il dossier external-unblock selezionano il pack
+timestampato piu recente come sorgente immutabile.
+
 `npm run export:email-dns-handoff` scrive anche
 `cantoni-email-dns-handoff-latest.*` sotto
 `sales-kit/generated/email-dns-handoff/`. `npm run dns:cloudflare:plan` usa di

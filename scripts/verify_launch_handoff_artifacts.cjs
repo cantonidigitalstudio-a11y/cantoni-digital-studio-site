@@ -6,11 +6,24 @@ const GENERATED_ROOT = path.join(PROJECT_ROOT, 'sales-kit/generated');
 
 const FILE_PATTERNS = {
   launchHandoff: /^cantoni-launch-handoff-.+\.json$/,
-  operatorPack: /^cantoni-launch-operator-pack-.+\.json$/,
+  operatorPack: /^cantoni-launch-operator-pack-(?!latest\b).+\.json$/,
   emailDns: /^cantoni-email-dns-handoff-(?!.*\.cloudflare-api-records\.json$).+\.json$/,
   emailDnsApi: /^cantoni-email-dns-handoff-.+\.cloudflare-api-records\.json$/,
   liveDrift: /^cantoni-live-drift-.+\.json$/
 };
+
+const OPERATOR_PACK_LATEST_ALIASES = [
+  {
+    label: 'operator_pack_latest_json',
+    alias: 'cantoni-launch-operator-pack-latest.json',
+    timestampedPattern: /^cantoni-launch-operator-pack-(?!latest\b).+\.json$/
+  },
+  {
+    label: 'operator_pack_latest_markdown',
+    alias: 'cantoni-launch-operator-pack-latest.md',
+    timestampedPattern: /^cantoni-launch-operator-pack-(?!latest\b).+\.md$/
+  }
+];
 
 const EMAIL_DNS_LATEST_ALIASES = [
   {
@@ -163,6 +176,35 @@ async function verifyCloudflareUploadLatestAliases(failures) {
   }
 }
 
+async function verifyOperatorPackLatestAliases(failures) {
+  const operatorPackDir = path.join(GENERATED_ROOT, 'launch-operator-pack');
+
+  for (const item of OPERATOR_PACK_LATEST_ALIASES) {
+    const aliasPath = path.join(operatorPackDir, item.alias);
+    const timestampedPath = await latestFile('launch-operator-pack', item.timestampedPattern).catch((error) => {
+      failures.push(`${item.label}: unable to find latest timestamped artifact (${error.message})`);
+      return null;
+    });
+
+    if (!await pathExists(aliasPath)) {
+      failures.push(`${item.label}: missing stable latest alias ${item.alias}`);
+      continue;
+    }
+    if (!timestampedPath) {
+      failures.push(`${item.label}: missing timestamped source artifact`);
+      continue;
+    }
+
+    const [aliasSource, timestampedSource] = await Promise.all([
+      fs.readFile(aliasPath, 'utf8'),
+      fs.readFile(timestampedPath, 'utf8')
+    ]);
+    if (aliasSource !== timestampedSource) {
+      failures.push(`${item.label}: latest alias does not match latest timestamped artifact`);
+    }
+  }
+}
+
 function requireRelativePath(file, label, failures) {
   if (!file || typeof file !== 'string') {
     failures.push(`${label}: missing path`);
@@ -182,6 +224,7 @@ async function requireReferencedFile(relPath, label, failures) {
 
 async function main() {
   const failures = [];
+  await verifyOperatorPackLatestAliases(failures);
   await verifyEmailDnsLatestAliases(failures);
   await verifyCloudflareUploadLatestAliases(failures);
 
@@ -235,6 +278,9 @@ async function main() {
       failures.push('operator_pack: Git upstream does not match launch handoff');
     }
     const cloudflareDeployCandidate = operatorPack.cloudflare_deploy_candidate || {};
+    if (String(normalizeRel(path.relative(PROJECT_ROOT, files.operatorPack))).includes('-latest.')) {
+      failures.push('operator_pack: verifier must inspect an immutable timestamped operator pack, not the latest alias');
+    }
     if (cloudflareDeployCandidate.type !== 'cloudflare_pages_deploy_candidate_v1') {
       failures.push('operator_pack: missing Cloudflare deploy candidate payload');
     }

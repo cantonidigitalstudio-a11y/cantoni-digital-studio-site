@@ -112,7 +112,10 @@ dry-run `dns:cloudflare:plan`, cosi l'operatore vede se i record DNS sono
 applicabili, bloccati o in attesa di lookup Cloudflare. Include anche la sezione
 `Live Drift Deploy Patch`, che trasforma i failure del live-site contract in una
 checklist verificabile per chi ha accesso Cloudflare. Il report resta sotto
-`sales-kit/generated/launch-operator-pack/` ed e ignorato da git.
+`sales-kit/generated/launch-operator-pack/` ed e ignorato da git. Scrive anche
+gli alias `cantoni-launch-operator-pack-latest.*` per revisione rapida; i
+dossier di sblocco e i deploy candidate continuano a referenziare il pack
+timestampato.
 
 Quando il codice e pronto ma mancano accessi esterni, usa `npm run
 export:external-unblock-handoff`. Il dossier resta sotto

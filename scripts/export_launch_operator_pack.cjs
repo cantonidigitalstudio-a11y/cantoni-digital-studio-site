@@ -14,6 +14,8 @@ if (!/^[A-Za-z0-9._-]+$/.test(VERSION)) {
 const BASE_NAME = `cantoni-launch-operator-pack-${VERSION}`;
 const MARKDOWN_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.md`);
 const JSON_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.json`);
+const LATEST_MARKDOWN_PATH = path.join(OUTPUT_DIR, 'cantoni-launch-operator-pack-latest.md');
+const LATEST_JSON_PATH = path.join(OUTPUT_DIR, 'cantoni-launch-operator-pack-latest.json');
 
 function normalizeRel(value) {
   return String(value || '').split(path.sep).join('/');
@@ -457,9 +459,16 @@ async function main() {
     git: payload.git
   });
 
+  const jsonSource = JSON.stringify(payload, null, 2) + '\n';
+  const markdownSource = renderMarkdown(payload);
+
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
-  await fs.writeFile(JSON_PATH, JSON.stringify(payload, null, 2) + '\n');
-  await fs.writeFile(MARKDOWN_PATH, renderMarkdown(payload));
+  await Promise.all([
+    fs.writeFile(JSON_PATH, jsonSource),
+    fs.writeFile(MARKDOWN_PATH, markdownSource),
+    fs.writeFile(LATEST_JSON_PATH, jsonSource),
+    fs.writeFile(LATEST_MARKDOWN_PATH, markdownSource)
+  ]);
 
   console.log(JSON.stringify({
     ok: true,
