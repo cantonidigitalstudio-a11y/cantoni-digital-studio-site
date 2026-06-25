@@ -83,22 +83,26 @@ nel browser reale, controllare che Stripe Checkout mostri
 `Cantoni Digital Studio`, che PayPal sia selezionabile, e fermarsi senza premere
 pagamento finale.
 
-Stato 2026-05-05: PayPal verificato visualmente su entrambi i Payment Link dopo
-aggiunta dei domini affidabili Stripe `cantonidigitalstudio.com` e
-`buy.stripe.com`.
+Stato corrente 2026-06-25:
+`sales-kit/payment_branding_review_evidence.json` registra
+`blocked_paypal_not_visible` e `release_ready=false`. La verifica del 2026-05-05 e superata: non dimostra lo stato attuale dei Payment Link e non puo sbloccare il gate PayPal/branding.
 
-## Debito PayPal / branding
+## Gate PayPal / branding
 
-- Decisione temporanea 2026-05-05: PayPal puo essere collegato usando il conto
-  business gia esistente legato a EC8/EC8 Platform, pur sapendo che il conto e
-  condiviso con altre attivita.
-- Rischio accettato: nel passaggio PayPal o nelle comunicazioni PayPal potrebbe
-  comparire il nome business/account storico invece di `Cantoni Digital Studio`.
-- TODO: migrare a un PayPal Business dedicato o rinominare/verificare il conto
-  in modo coerente con `Cantoni Digital Studio`.
-- Prima del go-live definitivo, aprire i Payment Link e verificare che Stripe
-  Checkout mostri `Cantoni Digital Studio`; se PayPal mostra un brand non
-  Cantoni, segnalarlo come rischio commerciale residuo.
+- Decisione corrente 2026-06-25: nessuna eccezione EC8 e valida per la release.
+  PayPal deve risultare selezionabile e non deve esporre EC8, EC8 Platform o
+  altri brand/account non correlati.
+- Se PayPal risulta collegato a un account storico o non coerente, il gate resta
+  bloccato finche Stripe/PayPal non mostrano solo branding coerente con
+  `Cantoni Digital Studio`.
+- `sales-kit/payment_branding_review.flag` resta presente finche
+  `npm run audit:payment-branding` non e verde dopo verifica reale dei Payment
+  Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile e nessun
+  riferimento EC8 o altro brand non correlato nel flusso PayPal.
+- Evidenza corrente: `sales-kit/payment_branding_review_evidence.json`; il flag
+  non va rimosso finche l'evidenza non ha `release_ready=true`.
+- Remediation: `sales-kit/payment_branding_remediation.md`, verificato da
+  `npm run test:payment-branding-remediation`.
 
 ## Controlli dopo il go-live
 

@@ -18,6 +18,7 @@ function main() {
   const historicalStatus = read('sales-kit/cascade_status_2026-05-16.md');
   const historicalHeader = historicalStatus.split('\n').slice(0, 12).join('\n');
   const readme = read('README.md');
+  const deployRunbook = read('DEPLOY_RUNBOOK.md');
   const cloudflareRunbook = read('CLOUDFLARE_DEPLOY_RUNBOOK.md');
   const paymentBrandingRemediation = read('sales-kit/payment_branding_remediation.md');
   const outboundPause = read('sales-kit/outbound_pause.flag');
@@ -105,6 +106,31 @@ function main() {
   }
   if (!readme.includes('preview-cantoni-site') || !readme.includes('CLOUDFLARE_PAGES_BRANCH=main') || !readme.includes('live_site_contract')) {
     failures.push('README.md: must document preview-vs-production branch behavior for live contract closure');
+  }
+  for (const required of [
+    'Stato corrente 2026-06-25',
+    'blocked_paypal_not_visible',
+    'release_ready=false',
+    'La verifica del 2026-05-05 e superata',
+    'nessuna eccezione EC8',
+    'PayPal deve risultare selezionabile e non deve esporre EC8, EC8 Platform o',
+    'npm run audit:payment-branding',
+    'sales-kit/payment_branding_review.flag',
+    'sales-kit/payment_branding_review_evidence.json',
+    'npm run test:payment-branding-remediation'
+  ]) {
+    if (!deployRunbook.includes(required)) {
+      failures.push(`DEPLOY_RUNBOOK.md: must include current payment branding boundary "${required}"`);
+    }
+  }
+  for (const forbidden of [
+    'Decisione temporanea 2026-05-05',
+    'Rischio accettato: nel passaggio PayPal',
+    'se PayPal mostra un brand non Cantoni, segnalarlo come rischio commerciale residuo'
+  ]) {
+    if (deployRunbook.includes(forbidden)) {
+      failures.push(`DEPLOY_RUNBOOK.md: must not keep stale payment branding exception text "${forbidden}"`);
+    }
   }
   if (!cloudflareRunbook.includes('Stato verificato 2026-06-25')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must carry the current verified Cloudflare blocker date');
@@ -203,6 +229,7 @@ function main() {
     checked: [
       'sales-kit/cascade_status_2026-05-16.md',
       'README.md',
+      'DEPLOY_RUNBOOK.md',
       'CLOUDFLARE_DEPLOY_RUNBOOK.md',
       'sales-kit/payment_branding_remediation.md',
       'sales-kit/outbound_pause.flag',
