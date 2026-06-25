@@ -79,9 +79,20 @@ async function readOptional(file) {
 const cloudflareRun = runJson(process.execPath, ['scripts/verify_cloudflare_deploy_auth.mjs', '--allow-missing']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
+const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
 
 const gates = [
+  gateFromRun({
+    id: 'live_site_contract',
+    label: 'Production live-site contract',
+    category: 'site',
+    run: liveSiteRun,
+    details: (parsed) => ({
+      base_url: parsed?.base_url || null,
+      checked: parsed?.checked || 0
+    })
+  }),
   gateFromRun({
     id: 'deploy_channel_policy',
     label: 'Deploy channel policy',
