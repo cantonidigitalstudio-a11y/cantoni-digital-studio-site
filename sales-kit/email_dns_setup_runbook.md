@@ -24,6 +24,37 @@ review: il valore DKIM resta manuale finche non viene generato in Google Admin.
 Lo stesso comando genera anche un JSON API-safe per Cloudflare che esclude i
 record con valore manuale non ancora disponibile.
 
+Per trasformare quel JSON in un piano Cloudflare senza modificare DNS:
+
+```bash
+npm run dns:cloudflare:plan
+```
+
+Il comando usa l'ultimo payload generato. Senza credenziali non contatta
+Cloudflare e segnala che serve il lookup live. Con `CLOUDFLARE_API_TOKEN` e
+`CLOUDFLARE_ZONE_ID` disponibili, legge i record esistenti e produce azioni
+`create`, `update`, `noop` o `blocked`.
+
+L'applicazione reale e separata e richiede consenso esplicito nel processo:
+
+```bash
+CLOUDFLARE_API_TOKEN=... \
+CLOUDFLARE_ZONE_ID=... \
+CANTONI_DNS_APPROVAL=apply-cantoni-email-dns \
+npm run dns:cloudflare:apply
+```
+
+Per sicurezza, lo script non sovrascrive automaticamente record SPF, DMARC o MX
+gia presenti ma divergenti. Dopo review, si puo consentire una singola
+sostituzione esplicita con:
+
+```bash
+CANTONI_DNS_ALLOW_EXISTING_REPLACE=yes
+```
+
+Non usare mai questa opzione per DKIM: il record `google._domainkey` resta
+manuale finche Google Admin non fornisce il valore reale.
+
 ## Profilo scelto
 
 Profilo operativo: Google Workspace manuale a basso volume.
