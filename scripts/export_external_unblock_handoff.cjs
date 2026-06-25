@@ -375,6 +375,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
         status: 'pending_external_changes',
         required_commands_after_external_changes: [
           'npm run audit:post-unblock-launch',
+          'node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready',
           'npm run test:live-site',
           'npm run test:social-public',
           'npm run test:lead-endpoint',
@@ -534,6 +535,7 @@ function renderMarkdown(payload) {
     '',
     '- `npm run test:live-site`',
     '- `npm run audit:post-unblock-launch`',
+    '- `node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`',
     '- `npm run test:social-public`',
     '- `npm run test:lead-endpoint`',
     '- `npm run test:outreach-readiness`',

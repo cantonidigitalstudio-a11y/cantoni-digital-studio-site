@@ -407,6 +407,9 @@ async function main() {
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:post-unblock-launch')) {
     failures.push('Post-unblock checks must include the consolidated post-unblock launch audit.');
   }
+  if (!postChecks?.required_commands_after_external_changes?.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
+    failures.push('Post-unblock checks must include deploy candidate execution-readiness verification.');
+  }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run test:social-public')) {
     failures.push('Post-unblock checks must include public social channel verification.');
   }
