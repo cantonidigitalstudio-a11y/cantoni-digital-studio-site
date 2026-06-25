@@ -35,6 +35,9 @@ function main() {
   if (!readme.includes('contract_drift_patch') || !readme.includes('Live Drift Deploy Patch')) {
     failures.push('README.md: must document the live drift patch manifest and operator-pack section');
   }
+  if (!readme.includes('export:external-unblock-handoff') || !readme.includes('test:external-unblock-handoff')) {
+    failures.push('README.md: must document the external unblock handoff export and verifier');
+  }
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
@@ -46,6 +49,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('npm run audit:git-deploy-state') || !cloudflareRunbook.includes('upstream `cantoni`')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document the Git deploy state gate');
+  }
+  if (!cloudflareRunbook.includes('npm run export:external-unblock-handoff') || !cloudflareRunbook.includes('sales-kit/generated/external-unblock-handoff/')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document the external unblock handoff path');
   }
 
   const report = {

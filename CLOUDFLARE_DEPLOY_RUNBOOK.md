@@ -115,6 +115,21 @@ snippet mancanti. Quell'elenco e evidenza del drift, non autorizzazione a
 caricare solo quei file: per Cloudflare Pages usare sempre lo ZIP/artifact
 completo referenziato nel pack.
 
+Per consegnare a chi ha accesso Cloudflare/Google Workspace un dossier focalizzato
+solo sullo sblocco esterno, usare:
+
+```bash
+cd "<repo-root>"
+npm run export:external-unblock-handoff
+npm run test:external-unblock-handoff
+```
+
+Il dossier viene scritto in `sales-kit/generated/external-unblock-handoff/`.
+Deve indicare l'ultimo operator pack, il deploy candidate verificato, permessi
+minimi Cloudflare, record DNS Google Workspace, approval gate e controlli
+post-unblock. Il verifier blocca se il dossier contiene assegnazioni di valori
+Cloudflare, perde gli approval token o non punta allo ZIP corrente.
+
 ## Deploy preview
 ```bash
 cd "<repo-root>"

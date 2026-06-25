@@ -97,6 +97,15 @@ applicabili, bloccati o in attesa di lookup Cloudflare. Include anche la sezione
 checklist verificabile per chi ha accesso Cloudflare. Il report resta sotto
 `sales-kit/generated/launch-operator-pack/` ed e ignorato da git.
 
+Quando il codice e pronto ma mancano accessi esterni, usa `npm run
+export:external-unblock-handoff`. Il dossier resta sotto
+`sales-kit/generated/external-unblock-handoff/` ed e ignorato da git. Parte
+dall'ultimo launch operator pack e raccoglie, in un solo artifact verificabile,
+token/permessi Cloudflare richiesti, approval gate, ZIP deploy candidate, record
+DNS Google Workspace, comandi post-unblock e regole no-secrets/no-outbound.
+`npm run test:external-unblock-handoff` verifica che il dossier punti al pack e
+allo ZIP correnti, preservi gli approval gate e non assegni valori segreti.
+
 ## Regole operative
 
 - Non salvare password, token, OTP, cookie o dati di recupero nel repo.
