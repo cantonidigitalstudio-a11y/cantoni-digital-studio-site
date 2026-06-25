@@ -1,5 +1,13 @@
 # Cantoni Digital Studio - Cascade Status 2026-05-16
 
+> Nota stato corrente 2026-06-25: questo documento e uno snapshot storico.
+> Non usarlo come prova di go-live o produzione corrente. La fonte autorevole
+> adesso e `npm run audit:launch-readiness`, insieme al launch operator pack
+> piu recente in `sales-kit/generated/launch-operator-pack/`.
+> Se l'audit segnala `live_site_contract`, `cloudflare_pages_deploy_auth`,
+> `cloudflare_dns_api_credentials` o `cantoni_email_dns`, il go-live non e
+> completo anche se questa nota storica registra un deploy precedente.
+
 ## Obiettivo
 
 Stabilizzare il controllo operativo via dispositivi e tenere la cascata commerciale pronta, con invii solo quando il singolo lead supera audit, lingua, valuta, branding e gate qualità.

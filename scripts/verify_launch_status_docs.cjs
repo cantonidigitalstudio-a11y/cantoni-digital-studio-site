@@ -1,0 +1,53 @@
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.resolve(__dirname, '..');
+
+function read(file) {
+  return fs.readFileSync(path.join(ROOT, file), 'utf8');
+}
+
+function main() {
+  const failures = [];
+  const historicalStatus = read('sales-kit/cascade_status_2026-05-16.md');
+  const historicalHeader = historicalStatus.split('\n').slice(0, 12).join('\n');
+  const readme = read('README.md');
+  const cloudflareRunbook = read('CLOUDFLARE_DEPLOY_RUNBOOK.md');
+
+  for (const required of [
+    'snapshot storico',
+    'npm run audit:launch-readiness',
+    'launch operator pack',
+    'go-live non e',
+    'live_site_contract',
+    'cloudflare_pages_deploy_auth',
+    'cloudflare_dns_api_credentials',
+    'cantoni_email_dns'
+  ]) {
+    if (!historicalHeader.includes(required)) {
+      failures.push(`sales-kit/cascade_status_2026-05-16.md: historical header must include "${required}"`);
+    }
+  }
+
+  if (!readme.includes('`npm run audit:launch-readiness` ricostruisce anche `.cloudflare-pages`')) {
+    failures.push('README.md: launch readiness must be documented as the current deploy gate');
+  }
+  if (!cloudflareRunbook.includes('Stato verificato 2026-06-25')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must carry the current verified Cloudflare blocker date');
+  }
+
+  const report = {
+    ok: failures.length === 0,
+    checked: [
+      'sales-kit/cascade_status_2026-05-16.md',
+      'README.md',
+      'CLOUDFLARE_DEPLOY_RUNBOOK.md'
+    ],
+    failures
+  };
+
+  console.log(JSON.stringify(report, null, 2));
+  if (failures.length) process.exit(1);
+}
+
+main();
