@@ -19,6 +19,15 @@ const REQUIRED_TASKS = [
   'payment_branding_review',
   'post_unblock_checks'
 ];
+const LEAK_RULES = [
+  { id: 'absolute_volumes_path', pattern: /\/Volumes\// },
+  { id: 'absolute_users_path', pattern: /\/Users\// },
+  { id: 'bearer_token', pattern: /Bearer\s+[A-Za-z0-9._~+/-]+=*/i },
+  { id: 'api_key_assignment', pattern: /api[-_ ]?key\s*[:=]\s*[A-Za-z0-9._~+/-]{16,}/i },
+  { id: 'password_assignment', pattern: /password\s*[:=]\s*[^,\n}]{8,}/i },
+  { id: 'otp_assignment', pattern: /\botp\s*[:=]\s*[^,\n}]{4,}/i },
+  { id: 'passkey_assignment', pattern: /passkey\s*[:=]\s*[^,\n}]{8,}/i }
+];
 
 function normalizeRel(value) {
   return String(value || '').split(path.sep).join('/');
@@ -70,6 +79,12 @@ async function sha256File(filePath) {
 
 async function readJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, 'utf8'));
+}
+
+function scanLeaks(source, label, failures) {
+  for (const rule of LEAK_RULES) {
+    if (rule.pattern.test(source)) failures.push(`${label}: ${rule.id}`);
+  }
 }
 
 function taskById(payload, id) {
@@ -414,6 +429,7 @@ async function main() {
     const currentCommit = payload?.git?.current?.commit;
     const operatorShortCommit = payload?.git?.operator_pack?.short_commit;
     const combined = `${JSON.stringify(payload || {})}\n${markdown}`;
+    scanLeaks(combined, 'External unblock handoff', failures);
     if (/CLOUDFLARE_(?:API_TOKEN|ACCOUNT_ID|ZONE_ID)\s*=/u.test(combined)) {
       failures.push('External unblock handoff must not assign Cloudflare secret/environment values.');
     }
@@ -499,6 +515,12 @@ async function main() {
       }
       if (latestMarkdown !== null && timestampedMarkdown !== null && latestMarkdown !== timestampedMarkdown) {
         failures.push('External unblock latest Markdown alias does not match latest timestamped Markdown.');
+      }
+      if (timestampedJson !== null) {
+        scanLeaks(timestampedJson, 'External unblock timestamped JSON', failures);
+      }
+      if (timestampedMarkdown !== null) {
+        scanLeaks(timestampedMarkdown, 'External unblock timestamped Markdown', failures);
       }
     }
   }
