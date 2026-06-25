@@ -127,7 +127,25 @@ async function main() {
     if (launchHandoff.git?.upstream && operatorPack.git?.upstream && launchHandoff.git.upstream !== operatorPack.git.upstream) {
       failures.push('operator_pack: Git upstream does not match launch handoff');
     }
-
+    const cloudflareDeployCandidate = operatorPack.cloudflare_deploy_candidate || {};
+    if (cloudflareDeployCandidate.type !== 'cloudflare_pages_deploy_candidate_v1') {
+      failures.push('operator_pack: missing Cloudflare deploy candidate payload');
+    }
+    if (cloudflareDeployCandidate.deployment_approval_required !== true || cloudflareDeployCandidate.deploy_allowed_without_approval !== false) {
+      failures.push('operator_pack: Cloudflare deploy candidate must require explicit approval');
+    }
+    if (cloudflareDeployCandidate.package?.zip_path !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path) {
+      failures.push('operator_pack: Cloudflare deploy candidate ZIP path does not match manual upload package');
+    }
+    if (cloudflareDeployCandidate.package?.zip_sha256 !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.sha256) {
+      failures.push('operator_pack: Cloudflare deploy candidate ZIP SHA-256 does not match manual upload package');
+    }
+    if (cloudflareDeployCandidate.package?.manifest !== manualPackageManifestPath) {
+      failures.push('operator_pack: Cloudflare deploy candidate manifest does not match manual upload package');
+    }
+    if (cloudflareDeployCandidate.git?.commit && operatorPack.git?.commit && cloudflareDeployCandidate.git.commit !== operatorPack.git.commit) {
+      failures.push('operator_pack: Cloudflare deploy candidate Git commit does not match operator pack');
+    }
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
@@ -142,6 +160,24 @@ async function main() {
       failures.push('operator_pack: missing git_deploy_state readiness gate');
     } else if (!gitDeployStateGate.details || typeof gitDeployStateGate.details.dirty !== 'boolean') {
       failures.push('operator_pack: git_deploy_state gate must include Git cleanliness details');
+    }
+    const expectedArtifactReady = artifactGate?.ok === true &&
+      artifactGate.details?.artifact_ok === true &&
+      artifactGate.details?.build_ok === true &&
+      Boolean(operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path) &&
+      Boolean(operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.sha256);
+    const expectedGitReady = gitDeployStateGate?.ok === true &&
+      operatorPack.git?.dirty === false &&
+      operatorPack.git?.ahead === 0 &&
+      operatorPack.git?.behind === 0;
+    if (cloudflareDeployCandidate.artifact_ready !== expectedArtifactReady) {
+      failures.push('operator_pack: Cloudflare deploy candidate artifact_ready does not match artifact gate/package evidence');
+    }
+    if (cloudflareDeployCandidate.git_ready !== expectedGitReady) {
+      failures.push('operator_pack: Cloudflare deploy candidate git_ready does not match Git deploy gate');
+    }
+    if (!expectedGitReady && !(cloudflareDeployCandidate.execution_blockers || []).includes('git_deploy_state')) {
+      failures.push('operator_pack: Cloudflare deploy candidate must explain Git deploy state blocker when Git is not ready');
     }
     const operatorMarkdown = await fs.readFile(files.operatorPack.replace(/\.json$/u, '.md'), 'utf8');
     const launchMarkdown = await fs.readFile(files.launchHandoff.replace(/\.json$/u, '.md'), 'utf8');
@@ -264,9 +300,29 @@ async function main() {
       if (!operatorMarkdown.includes('## Live Drift Deploy Patch') || !operatorMarkdown.includes('Full artifact required: yes')) {
         failures.push('operator_pack: Markdown must expose the live drift deploy patch and full-artifact rule');
       }
+      if (cloudflareDeployCandidate.would_fix_live_contract !== true) {
+        failures.push('operator_pack: Cloudflare deploy candidate must mark deploy-only live contract fix');
+      }
+      if (cloudflareDeployCandidate.live_drift_patch?.full_artifact_required !== true || cloudflareDeployCandidate.live_drift_patch?.partial_upload_safe !== false) {
+        failures.push('operator_pack: Cloudflare deploy candidate must preserve full-artifact deploy rule');
+      }
+      if (cloudflareDeployCandidate.live_drift_patch?.files_count !== driftPatchFiles.length) {
+        failures.push('operator_pack: Cloudflare deploy candidate drift file count does not match live drift report');
+      }
+      const candidatePatchPages = cloudflareDeployCandidate.live_drift_patch?.pages || [];
+      for (const item of driftPatchFiles) {
+        if (!candidatePatchPages.includes(item.page)) {
+          failures.push(`operator_pack: Cloudflare deploy candidate missing drift page ${item.page}`);
+        }
+      }
+      if (!operatorMarkdown.includes('## Cloudflare Deploy Candidate') || !operatorMarkdown.includes('Deploy allowed without approval: no')) {
+        failures.push('operator_pack: Markdown must expose the deploy candidate approval boundary');
+      }
     }
 
     const stepOutput = operatorPack.steps?.email_dns_handoff?.output || {};
+    await requireReferencedFile(cloudflareDeployCandidate.package?.zip_path, 'operator_pack.deploy_candidate_zip', failures);
+    await requireReferencedFile(cloudflareDeployCandidate.package?.manifest, 'operator_pack.deploy_candidate_manifest', failures);
     await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path, 'operator_pack.cloudflare_zip', failures);
     await requireReferencedFile(manualPackageManifestPath, 'operator_pack.cloudflare_manifest', failures);
     await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.checksums, 'operator_pack.cloudflare_checksums', failures);

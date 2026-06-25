@@ -215,6 +215,119 @@ function liveDriftPatchLines(liveDrift) {
   ];
 }
 
+function buildCloudflareDeployCandidate({ cloudflarePackage, liveDrift, readiness, git }) {
+  const gates = Array.isArray(readiness?.gates) ? readiness.gates : [];
+  const blockers = Array.isArray(readiness?.blockers) ? readiness.blockers : [];
+  const artifactGate = gates.find((gate) => gate.id === 'cloudflare_artifact_contract');
+  const gitGate = gates.find((gate) => gate.id === 'git_deploy_state');
+  const authBlocked = blockers.some((blocker) => blocker.id === 'cloudflare_pages_deploy_auth');
+  const liveSiteBlocked = blockers.some((blocker) => blocker.id === 'live_site_contract');
+  const dnsBlockers = blockers
+    .filter((blocker) => ['cloudflare_dns_api_credentials', 'cantoni_email_dns'].includes(blocker.id))
+    .map((blocker) => blocker.id);
+  const patch = liveDrift?.contract_drift_patch || {};
+  const patchFiles = Array.isArray(patch.files) ? patch.files : [];
+  const artifactReady = artifactGate?.ok === true &&
+    artifactGate.details?.build_ok === true &&
+    artifactGate.details?.artifact_ok === true &&
+    cloudflarePackage?.ok === true &&
+    Boolean(cloudflarePackage?.zip?.path) &&
+    Boolean(cloudflarePackage?.zip?.sha256);
+  const gitReady = gitGate?.ok === true &&
+    git?.dirty === false &&
+    git?.ahead === 0 &&
+    git?.behind === 0;
+  const driftReady = liveDrift?.deploy_only_drift === true &&
+    patch.full_artifact_required === true &&
+    patch.partial_upload_safe === false &&
+    patchFiles.length > 0;
+
+  return {
+    type: 'cloudflare_pages_deploy_candidate_v1',
+    artifact_ready: artifactReady,
+    git_ready: gitReady,
+    would_fix_live_contract: driftReady,
+    execution_ready: artifactReady && gitReady && driftReady && !authBlocked,
+    deployment_approval_required: true,
+    deploy_allowed_without_approval: false,
+    status: artifactReady && gitReady && driftReady
+      ? authBlocked
+        ? 'artifact_ready_execution_blocked'
+        : 'ready_for_explicit_deploy_approval'
+      : 'not_ready',
+    execution_blockers: [
+      ...(!artifactReady ? ['cloudflare_artifact_contract'] : []),
+      ...(!gitReady ? ['git_deploy_state'] : []),
+      ...(authBlocked ? ['cloudflare_pages_deploy_auth'] : []),
+      ...(!liveSiteBlocked && !driftReady ? ['live_site_contract_not_proven_deploy_only'] : [])
+    ],
+    non_site_blockers: dnsBlockers,
+    target: {
+      project_name: cloudflarePackage?.project_name || null,
+      domain_name: cloudflarePackage?.domain_name || null,
+      public_dir: '.cloudflare-pages',
+      upload_root: 'zip root contains the public artifact files directly'
+    },
+    git: {
+      commit: git?.commit || null,
+      short_commit: git?.short_commit || null,
+      branch: git?.branch || null,
+      upstream: git?.upstream || null,
+      remote_name: git?.remote_name || null,
+      ahead: git?.ahead ?? null,
+      behind: git?.behind ?? null,
+      dirty: git?.dirty === true
+    },
+    package: {
+      zip_path: cloudflarePackage?.zip?.path || null,
+      zip_sha256: cloudflarePackage?.zip?.sha256 || null,
+      zip_bytes: cloudflarePackage?.zip?.bytes ?? null,
+      manifest: cloudflarePackage?.manifest || null,
+      checksums: cloudflarePackage?.checksums || null,
+      readme: cloudflarePackage?.readme || null,
+      files_count: cloudflarePackage?.files_count ?? null,
+      files_total_bytes: cloudflarePackage?.files_total_bytes ?? null
+    },
+    live_drift_patch: {
+      full_artifact_required: patch.full_artifact_required === true,
+      partial_upload_safe: patch.partial_upload_safe === true,
+      files_count: patch.files_count ?? patchFiles.length,
+      pages: patchFiles.map((file) => file.page),
+      artifact_files: patchFiles.map((file) => file.artifact_file),
+      missing_required_by_page: Object.fromEntries(patchFiles.map((file) => [
+        file.page,
+        Array.isArray(file.live_missing_required) ? file.live_missing_required : []
+      ]))
+    },
+    allowed_commands_after_approval: [
+      'npm run deploy:cloudflare:direct',
+      'Cloudflare dashboard manual upload of the referenced ZIP only'
+    ],
+    required_post_deploy_checks: [
+      'npm run test:live-site',
+      'npm run audit:launch-readiness'
+    ]
+  };
+}
+
+function cloudflareDeployCandidateLines(candidate) {
+  if (!candidate) return ['- No Cloudflare deploy candidate payload was available.'];
+  return [
+    `- Status: \`${candidate.status || 'unknown'}\``,
+    `- Artifact ready: ${candidate.artifact_ready ? 'yes' : 'no'}`,
+    `- Git ready: ${candidate.git_ready ? 'yes' : 'no'}`,
+    `- Would fix live contract: ${candidate.would_fix_live_contract ? 'yes' : 'no'}`,
+    `- Execution ready: ${candidate.execution_ready ? 'yes' : 'no'}`,
+    `- Deploy allowed without approval: ${candidate.deploy_allowed_without_approval ? 'yes' : 'no'}`,
+    `- ZIP: \`${candidate.package?.zip_path || 'unknown'}\``,
+    `- ZIP SHA-256: \`${candidate.package?.zip_sha256 || 'unknown'}\``,
+    `- Manifest: \`${candidate.package?.manifest || 'unknown'}\``,
+    `- Drift pages: ${(candidate.live_drift_patch?.pages || []).map((page) => `\`${page}\``).join(', ') || 'none'}`,
+    `- Execution blockers: ${(candidate.execution_blockers || []).map((item) => `\`${item}\``).join(', ') || 'none'}`,
+    `- Non-site blockers: ${(candidate.non_site_blockers || []).map((item) => `\`${item}\``).join(', ') || 'none'}`
+  ];
+}
+
 function gitProvenanceLines(git) {
   if (!git) return ['- No Git provenance payload was available.'];
   return [
@@ -270,6 +383,10 @@ function renderMarkdown(payload) {
     `- Domain: ${cloudflarePackage.domain_name}`,
     `- Files: ${cloudflarePackage.files_count}`,
     `- ZIP SHA-256: \`${cloudflarePackage.zip?.sha256 || 'unknown'}\``,
+    '',
+    '## Cloudflare Deploy Candidate',
+    '',
+    ...cloudflareDeployCandidateLines(payload.cloudflare_deploy_candidate),
     '',
     '## Live Drift Deploy Patch',
     '',
@@ -327,6 +444,12 @@ async function main() {
       json: relativeToRoot(JSON_PATH)
     }
   };
+  payload.cloudflare_deploy_candidate = buildCloudflareDeployCandidate({
+    cloudflarePackage: steps.cloudflare_manual_upload.output,
+    liveDrift: steps.live_drift.output,
+    readiness: payload.readiness,
+    git: payload.git
+  });
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   await fs.writeFile(JSON_PATH, JSON.stringify(payload, null, 2) + '\n');
