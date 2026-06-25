@@ -69,6 +69,7 @@ async function main() {
   }
 
   const candidate = pack?.cloudflare_deploy_candidate || {};
+  const branchPolicy = candidate.deploy_branch_policy || {};
   if (candidate.type !== 'cloudflare_pages_deploy_candidate_v1') {
     failures.push('cloudflare_deploy_candidate.type must be cloudflare_pages_deploy_candidate_v1');
   }
@@ -77,6 +78,10 @@ async function main() {
   }
   if (candidate.artifact_ready !== true) failures.push('Cloudflare deploy candidate artifact_ready must be true.');
   if (candidate.would_fix_live_contract !== true) failures.push('Cloudflare deploy candidate must prove the full artifact should fix live contract drift.');
+  if (branchPolicy.default_direct_deploy_branch !== 'preview-cantoni-site') failures.push('Cloudflare deploy candidate must document preview-cantoni-site as the default direct deploy branch.');
+  if (branchPolicy.production_branch !== 'main') failures.push('Cloudflare deploy candidate must document main as the production branch.');
+  if (branchPolicy.preview_deploy_clears_live_site_contract !== false) failures.push('Cloudflare deploy candidate must state that preview deploys do not clear the production live-site contract.');
+  if (branchPolicy.live_site_contract_fix_requires_production_branch !== true) failures.push('Cloudflare deploy candidate must state that live-site contract fix requires the production branch.');
 
   if (pack?.git?.commit !== currentGit.commit) failures.push('Launch operator pack commit does not match current HEAD.');
   if (candidate.git?.commit !== currentGit.commit) failures.push('Cloudflare deploy candidate commit does not match current HEAD.');

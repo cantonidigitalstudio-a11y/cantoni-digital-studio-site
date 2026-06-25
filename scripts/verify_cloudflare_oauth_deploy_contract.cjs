@@ -118,6 +118,18 @@ if (joined === 'run test:full') {
         partial_upload_safe: false,
         files_count: 3,
         pages: ['/case-studies.html', '/termini-commerciali.html', '/privacy.html']
+      },
+      deploy_branch_policy: {
+        default_direct_deploy_branch: 'preview-cantoni-site',
+        production_branch: 'main',
+        preview_deploy_clears_live_site_contract: false,
+        live_site_contract_fix_requires_production_branch: true,
+        production_approval_required: true,
+        production_approval_environment: [
+          'CLOUDFLARE_PAGES_BRANCH=main',
+          'ALLOW_PRODUCTION_DEPLOY=yes',
+          'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production'
+        ]
       }
     }
   }, null, 2) + '\\n');

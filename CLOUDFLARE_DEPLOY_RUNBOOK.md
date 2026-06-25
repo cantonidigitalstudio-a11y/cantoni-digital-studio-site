@@ -202,6 +202,13 @@ export CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL="deploy-cantoni-pages-direct"
 npm run deploy:cloudflare:direct
 ```
 
+Questo deploy preview valida artifact, Pages auth e processo end-to-end, ma non
+chiude il `live_site_contract` su `https://cantonidigitalstudio.com`. Il live
+contract si chiude solo se il full artifact viene pubblicato sul branch
+production `main` con `CLOUDFLARE_PAGES_BRANCH=main`,
+`ALLOW_PRODUCTION_DEPLOY=yes` e
+`CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
+
 Regole del percorso diretto:
 - il token resta solo in ambiente live, mai nel repo;
 - lo stato Git deve essere pulito e allineato al remoto Cantoni prima di ogni
@@ -246,6 +253,8 @@ La produzione non parte da questo runbook senza approvazione separata. Se un
 deploy punta a `main`, gli script richiedono `ALLOW_PRODUCTION_DEPLOY=yes`; il
 percorso token diretto richiede anche
 `CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
+Solo questo percorso production puo chiudere il `live_site_contract`; una
+preview valida il pacchetto ma lascia invariato il sito pubblico di produzione.
 
 ## Gate pagamenti
 `npm run test:payments` apre i Payment Link Stripe senza inserire carte e senza transazioni. Il gate richiede merchant `Cantoni Digital Studio`, importo `EUR`, UI checkout funzionante, carta e Klarna. PayPal resta richiesto, ma puo essere nascosto da Stripe/PayPal in browser headless senza sessione buyer: in quel caso il test lo registra in `sessionDependentMisses` e la verifica va completata nel Browser Use/in-app browser.

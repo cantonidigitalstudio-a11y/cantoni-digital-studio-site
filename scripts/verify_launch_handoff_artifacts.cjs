@@ -403,6 +403,18 @@ async function main() {
     if (!cloudflareDeployCandidate.required_post_deploy_checks?.includes('npm run audit:post-unblock-launch')) {
       failures.push('operator_pack: Cloudflare deploy candidate must require the consolidated post-unblock audit after deploy');
     }
+    if (cloudflareDeployCandidate.deploy_branch_policy?.default_direct_deploy_branch !== 'preview-cantoni-site') {
+      failures.push('operator_pack: Cloudflare deploy candidate must document preview-cantoni-site as default direct branch');
+    }
+    if (cloudflareDeployCandidate.deploy_branch_policy?.production_branch !== 'main') {
+      failures.push('operator_pack: Cloudflare deploy candidate must document main as production branch');
+    }
+    if (cloudflareDeployCandidate.deploy_branch_policy?.preview_deploy_clears_live_site_contract !== false) {
+      failures.push('operator_pack: Cloudflare deploy candidate must state preview deploys do not clear production live contract');
+    }
+    if (cloudflareDeployCandidate.deploy_branch_policy?.live_site_contract_fix_requires_production_branch !== true) {
+      failures.push('operator_pack: Cloudflare deploy candidate must state live contract fix requires production branch');
+    }
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
@@ -454,6 +466,9 @@ async function main() {
     }
     if (!operatorMarkdown.includes('npm run audit:post-unblock-launch')) {
       failures.push('operator_pack: Markdown must require the consolidated post-unblock audit after deploy');
+    }
+    if (!operatorMarkdown.includes('preview-cantoni-site') || !operatorMarkdown.includes('CLOUDFLARE_PAGES_BRANCH=main')) {
+      failures.push('operator_pack: Markdown must document preview-vs-production branch behavior for live contract fix');
     }
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');

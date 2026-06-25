@@ -134,6 +134,8 @@ async function writeTextArtifacts(manifest, zipStats) {
     '',
     'Use this package only after explicit deploy approval.',
     'The ZIP contains only the generated Cloudflare Pages public artifact, not the repository root.',
+    'Preview branch preview-cantoni-site validates the artifact only; it does not clear the production live-site contract.',
+    'To clear the production live-site contract, deploy the full artifact to branch main with separate production approval.',
     '',
     'Required checks already run by this script before packaging:',
     '- npm run build:cloudflare',

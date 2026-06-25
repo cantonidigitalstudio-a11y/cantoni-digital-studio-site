@@ -16,6 +16,8 @@ const MARKDOWN_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.md`);
 const JSON_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.json`);
 const LATEST_MARKDOWN_PATH = path.join(OUTPUT_DIR, 'cantoni-launch-operator-pack-latest.md');
 const LATEST_JSON_PATH = path.join(OUTPUT_DIR, 'cantoni-launch-operator-pack-latest.json');
+const DEFAULT_DIRECT_DEPLOY_BRANCH = 'preview-cantoni-site';
+const PRODUCTION_DEPLOY_BRANCH = 'main';
 
 function normalizeRel(value) {
   return String(value || '').split(path.sep).join('/');
@@ -311,6 +313,18 @@ function buildCloudflareDeployCandidate({ cloudflarePackage, liveDrift, readines
       'npm run deploy:cloudflare:direct',
       'Cloudflare dashboard manual upload of the referenced ZIP only'
     ],
+    deploy_branch_policy: {
+      default_direct_deploy_branch: DEFAULT_DIRECT_DEPLOY_BRANCH,
+      production_branch: PRODUCTION_DEPLOY_BRANCH,
+      preview_deploy_clears_live_site_contract: false,
+      live_site_contract_fix_requires_production_branch: true,
+      production_approval_required: true,
+      production_approval_environment: [
+        'CLOUDFLARE_PAGES_BRANCH=main',
+        'ALLOW_PRODUCTION_DEPLOY=yes',
+        'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production'
+      ]
+    },
     required_post_deploy_checks: [
       'npm run test:live-site',
       'npm run audit:post-unblock-launch',
@@ -333,7 +347,10 @@ function cloudflareDeployCandidateLines(candidate) {
     `- Manifest: \`${candidate.package?.manifest || 'unknown'}\``,
     `- Drift pages: ${(candidate.live_drift_patch?.pages || []).map((page) => `\`${page}\``).join(', ') || 'none'}`,
     `- Execution blockers: ${(candidate.execution_blockers || []).map((item) => `\`${item}\``).join(', ') || 'none'}`,
-    `- Non-site blockers: ${(candidate.non_site_blockers || []).map((item) => `\`${item}\``).join(', ') || 'none'}`
+    `- Non-site blockers: ${(candidate.non_site_blockers || []).map((item) => `\`${item}\``).join(', ') || 'none'}`,
+    `- Default direct deploy branch: \`${candidate.deploy_branch_policy?.default_direct_deploy_branch || 'unknown'}\``,
+    `- Production live-contract branch: \`${candidate.deploy_branch_policy?.production_branch || 'unknown'}\``,
+    `- Preview clears live contract: ${candidate.deploy_branch_policy?.preview_deploy_clears_live_site_contract === true ? 'yes' : 'no'}`
   ];
 }
 
@@ -419,6 +436,7 @@ function renderMarkdown(payload) {
     '2. Run `npm run audit:git-deploy-state` and require clean, pushed Cantoni Git provenance before any deploy.',
     '3. Run `npm run audit:cloudflare-auth` for OAuth, or `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` for direct token deploy.',
     '4. Deploy only the verified `.cloudflare-pages` artifact or ZIP referenced in this pack, after explicit deploy approval; use `npm run deploy:cloudflare:direct` for the token path.',
+    '   Preview branch `preview-cantoni-site` validates the artifact but does not clear the production `live_site_contract`; clearing production requires `CLOUDFLARE_PAGES_BRANCH=main` plus the separate production approvals.',
     '5. Run `npm run dns:cloudflare:plan`; apply only if the plan is ready and explicit DNS approval is present.',
     '6. Run `npm run audit:email-dns` after DNS propagation.',
     '7. Generate and publish the Google DKIM value from Google Admin.',

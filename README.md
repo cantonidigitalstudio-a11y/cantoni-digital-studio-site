@@ -72,6 +72,11 @@ continua a bloccare la produzione senza approval separata. Prima di chiamare
 Wrangler, il percorso diretto verifica anche il `cloudflare_deploy_candidate`
 dell'ultimo operator pack: ZIP/manifest/checksum, Git pulito/allineato, artifact
 pronto e live drift risolvibile dal full artifact devono essere coerenti.
+Il branch diretto di default e `preview-cantoni-site`: serve a validare il
+pacchetto, ma non chiude il `live_site_contract` di produzione. Per chiudere il
+contratto live bisogna usare `CLOUDFLARE_PAGES_BRANCH=main` con
+`ALLOW_PRODUCTION_DEPLOY=yes` e
+`CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
 
 Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
 pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto

@@ -65,6 +65,9 @@ function main() {
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
+  if (!readme.includes('preview-cantoni-site') || !readme.includes('CLOUDFLARE_PAGES_BRANCH=main') || !readme.includes('live_site_contract')) {
+    failures.push('README.md: must document preview-vs-production branch behavior for live contract closure');
+  }
   if (!cloudflareRunbook.includes('Stato verificato 2026-06-25')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must carry the current verified Cloudflare blocker date');
   }
@@ -100,6 +103,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('npm run audit:post-unblock-launch') || !cloudflareRunbook.includes('npm run test:post-unblock-launch')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document strict and nonfatal post-unblock launch audits');
+  }
+  if (!cloudflareRunbook.includes('preview-cantoni-site') || !cloudflareRunbook.includes('CLOUDFLARE_PAGES_BRANCH=main') || !cloudflareRunbook.includes('live_site_contract')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document preview-vs-production branch behavior for live contract closure');
   }
 
   const report = {

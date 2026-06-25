@@ -188,6 +188,12 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
           'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct',
           'ALLOW_PRODUCTION_DEPLOY=yes plus CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production only for branch main'
         ],
+        branch_policy: candidate.deploy_branch_policy || {
+          default_direct_deploy_branch: 'preview-cantoni-site',
+          production_branch: 'main',
+          preview_deploy_clears_live_site_contract: false,
+          live_site_contract_fix_requires_production_branch: true
+        },
         verification_commands_before_mutation: [
           'npm run audit:git-deploy-state',
           'npm run audit:cloudflare-pages-api',
@@ -326,6 +332,8 @@ function renderMarkdown(payload) {
     `- Status: \`${deployTask.status}\``,
     '- Before mutation: `npm run audit:git-deploy-state`, `npm run audit:cloudflare-pages-api`, `npm run test:cloudflare-deploy-candidate`, `node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`.',
     '- Mutation command after approval only: `npm run deploy:cloudflare:direct`.',
+    '- Default direct branch `preview-cantoni-site` validates the artifact but does not clear the production `live_site_contract`.',
+    '- To clear the production live contract, set `CLOUDFLARE_PAGES_BRANCH=main` and use the separate production approvals.',
     '- Required approval token name/value: `CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`.',
     '- Production branch `main` additionally requires `ALLOW_PRODUCTION_DEPLOY=yes` and `CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.',
     '',

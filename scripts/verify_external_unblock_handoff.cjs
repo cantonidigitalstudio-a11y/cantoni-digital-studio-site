@@ -153,6 +153,10 @@ async function main() {
   if (!pagesAuth?.required_environment_names?.includes('CLOUDFLARE_ACCOUNT_ID')) failures.push('Pages auth task must name CLOUDFLARE_ACCOUNT_ID.');
   if (!deploy?.approval_tokens_required?.some((item) => item.includes('deploy-cantoni-pages-direct'))) failures.push('Deploy task must require direct deploy approval token.');
   if (!deploy?.approval_tokens_required?.some((item) => item.includes('deploy-cantoni-production'))) failures.push('Deploy task must preserve separate production approval.');
+  if (deploy?.branch_policy?.default_direct_deploy_branch !== 'preview-cantoni-site') failures.push('Deploy task must document preview-cantoni-site as the default direct branch.');
+  if (deploy?.branch_policy?.production_branch !== 'main') failures.push('Deploy task must document main as the production branch.');
+  if (deploy?.branch_policy?.preview_deploy_clears_live_site_contract !== false) failures.push('Deploy task must state that preview deploys do not clear the production live-site contract.');
+  if (deploy?.branch_policy?.live_site_contract_fix_requires_production_branch !== true) failures.push('Deploy task must state that live-site contract fix requires production branch.');
   if (!deploy?.verification_commands_before_mutation?.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
     failures.push('Deploy task must require execution-ready candidate verification before mutation.');
   }
