@@ -128,6 +128,16 @@ async function main() {
       failures.push('operator_pack: Git upstream does not match launch handoff');
     }
 
+    const readinessGates = operatorPack.readiness?.gates || [];
+    const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
+    if (!artifactGate) {
+      failures.push('operator_pack: missing cloudflare_artifact_contract readiness gate');
+    } else if (artifactGate.ok !== true) {
+      failures.push('operator_pack: cloudflare_artifact_contract readiness gate must pass before handoff');
+    } else if (artifactGate.details?.artifact_ok !== true || artifactGate.details?.build_ok !== true) {
+      failures.push('operator_pack: cloudflare_artifact_contract must include passing build and artifact details');
+    }
+
     const cloudflareAuth = launchHandoff.cloudflare_auth || {};
     const cloudflareAuthOk = cloudflareAuth.ok === true;
     if (!cloudflareAuthOk && cloudflareAuth.diagnostic_code !== 'pages_api_authentication_error_10000') {

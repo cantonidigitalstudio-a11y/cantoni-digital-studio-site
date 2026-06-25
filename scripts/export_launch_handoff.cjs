@@ -295,6 +295,7 @@ async function main() {
     readiness: {
       ok: readiness.ok === true,
       checked_at: readiness.checked_at,
+      gates: readiness.gates || [],
       blockers: readiness.blockers || [],
       holds: readiness.holds || []
     },

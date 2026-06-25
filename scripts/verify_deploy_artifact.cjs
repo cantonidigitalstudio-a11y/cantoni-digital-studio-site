@@ -7,6 +7,7 @@ const ARTIFACT_ROOT = path.resolve(
   process.env.SITE_ROOT ||
   path.join(PROJECT_ROOT, '.cloudflare-pages')
 );
+const jsonOutput = process.argv.includes('--json');
 
 const REQUIRED_FILES = new Set([
   '_headers',
@@ -65,6 +66,20 @@ function normalizeRel(value) {
 
 function fail(message) {
   throw new Error(message);
+}
+
+function writeReport(report) {
+  if (jsonOutput) {
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+
+  if (report.ok) {
+    console.log(`PASS deploy-artifact (${report.files_count} files checked in ${ARTIFACT_ROOT})`);
+  } else {
+    console.error(`FAIL deploy-artifact (${report.issues.length} issues)`);
+    for (const issue of report.issues) console.error(`- ${issue}`);
+  }
 }
 
 async function pathExists(filePath) {
@@ -214,17 +229,38 @@ async function main() {
   await checkSitemap(issues);
   await checkI18nReferences(issues);
 
-  if (issues.length) {
-    console.error(`FAIL deploy-artifact (${issues.length} issues)`);
-    for (const issue of issues) console.error(`- ${issue}`);
+  const report = {
+    ok: issues.length === 0,
+    artifact_root: normalizeRel(path.relative(PROJECT_ROOT, ARTIFACT_ROOT)) || '.',
+    files_count: files.length,
+    required_files_count: REQUIRED_FILES.size,
+    issues,
+    failures: issues.map((issue) => ({
+      id: 'artifact_contract',
+      reason: issue
+    }))
+  };
+
+  writeReport(report);
+
+  if (!report.ok) {
     process.exitCode = 1;
     return;
   }
-
-  console.log(`PASS deploy-artifact (${files.length} files checked in ${ARTIFACT_ROOT})`);
 }
 
 main().catch((error) => {
-  console.error(`FAIL deploy-artifact: ${error.message}`);
+  const report = {
+    ok: false,
+    artifact_root: normalizeRel(path.relative(PROJECT_ROOT, ARTIFACT_ROOT)) || '.',
+    files_count: 0,
+    required_files_count: REQUIRED_FILES.size,
+    issues: [error.message],
+    failures: [{
+      id: 'artifact_error',
+      reason: error.message
+    }]
+  };
+  writeReport(report);
   process.exitCode = 1;
 });

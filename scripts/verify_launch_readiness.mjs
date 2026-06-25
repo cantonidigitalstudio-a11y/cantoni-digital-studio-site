@@ -141,6 +141,7 @@ async function readOptional(file) {
 const cloudflareRun = runJson(process.execPath, ['scripts/verify_cloudflare_deploy_auth.mjs', '--allow-missing']);
 const cloudflarePagesApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--pages-only']);
 const cloudflareDnsApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--dns-only']);
+const artifactRun = runJson(process.execPath, ['scripts/verify_cloudflare_artifact_readiness.cjs']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
@@ -166,6 +167,21 @@ const gates = [
       primary_deploy_channel: parsed?.primary_deploy_channel || null,
       fallback_deploy_channel: parsed?.fallback_deploy_channel || null,
       checked: parsed?.checked || []
+    })
+  }),
+  gateFromRun({
+    id: 'cloudflare_artifact_contract',
+    label: 'Cloudflare Pages artifact contract',
+    category: 'deploy',
+    run: artifactRun,
+    details: (parsed) => ({
+      public_dir: parsed?.public_dir || null,
+      build_ok: parsed?.build?.ok === true,
+      build_status: parsed?.build?.status ?? null,
+      artifact_ok: parsed?.artifact?.ok === true,
+      artifact_status: parsed?.artifact?.status ?? null,
+      files_count: parsed?.artifact?.files_count ?? null,
+      required_files_count: parsed?.artifact?.required_files_count ?? null
     })
   }),
   cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun: cloudflarePagesApiRun }),

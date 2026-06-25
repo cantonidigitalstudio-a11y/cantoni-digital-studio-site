@@ -13,6 +13,7 @@
 - `_headers`
 - `scripts/build_cloudflare_public_dir.sh`
 - `scripts/verify_deploy_artifact.cjs`
+- `scripts/verify_cloudflare_artifact_readiness.cjs`
 - `scripts/verify_cloudflare_deploy_auth.mjs`
 - `scripts/deploy_cloudflare_pages.sh`
 - `scripts/deploy_cloudflare_pages_direct.sh`
@@ -61,11 +62,14 @@ Permessi minimi per token/API:
 cd "<repo-root>"
 npm run build:cloudflare
 npm run test:artifact
+npm run test:cloudflare-artifact-readiness
 SITE_ROOT=.cloudflare-pages npm run test:browser
 SITE_ROOT=.cloudflare-pages npm run test:payments
 ```
 
 L'artifact pubblicabile e solo `.cloudflare-pages`. Non pubblicare mai la root del repo.
+`npm run test:cloudflare-artifact-readiness` ricostruisce `.cloudflare-pages`
+e registra un gate JSON usato anche da `npm run audit:launch-readiness`.
 
 ## Pacchetto manuale verificato
 Se l'API Pages resta bloccata ma serve preparare un handoff manuale per
