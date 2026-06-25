@@ -114,6 +114,23 @@ async function main() {
       failures.push('operator_pack: Cloudflare diagnostic does not match launch handoff');
     }
 
+    const cloudflareApi = launchHandoff.cloudflare_api || {};
+    const operatorCloudflareApi = operatorPack.cloudflare_api || {};
+    if (typeof cloudflareApi.ok !== 'boolean') {
+      failures.push('launch_handoff: missing Cloudflare direct API diagnostic');
+    }
+    if ((operatorCloudflareApi.ok === true) !== (cloudflareApi.ok === true)) {
+      failures.push('operator_pack: Cloudflare direct API ok state does not match launch handoff');
+    }
+    for (const key of ['has_cloudflare_api_token', 'has_cloudflare_account_id', 'has_cloudflare_zone_id', 'token_verify_ok', 'pages_read_ok', 'dns_read_ok']) {
+      if ((operatorCloudflareApi[key] === true) !== (cloudflareApi[key] === true)) {
+        failures.push(`operator_pack: Cloudflare direct API ${key} state does not match launch handoff`);
+      }
+    }
+    if (cloudflareApi.ok !== true && (!Array.isArray(cloudflareApi.next_actions) || cloudflareApi.next_actions.length === 0)) {
+      failures.push('launch_handoff: missing Cloudflare direct API next_actions');
+    }
+
     const apiRecords = emailDnsApi.records || [];
     const skippedRecords = emailDnsApi.skipped_records || [];
     if (apiRecords.some((record) => record.id === 'google_dkim')) {

@@ -25,6 +25,7 @@ npm run test:browser
 npm run test:live-site
 npm run test:deploy-policy
 npm run test:email-dns-audit
+npm run test:cloudflare-api-audit
 npm run test:social
 npm run test:launch-readiness-audit
 git diff --check
@@ -33,6 +34,10 @@ git diff --check
 Per un deploy serio usa `npm run test:full`, poi `npm run audit:launch-readiness`.
 Il deploy parte solo se l'audit non segnala blocchi Cloudflare/DNS o hold
 operativi, dopo review del pacchetto e consenso esplicito.
+Per diagnosticare token/API Cloudflare senza mutazioni, usa
+`npm run audit:cloudflare-api`: verifica token attivo, lettura Pages e lettura
+DNS quando `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e
+`CLOUDFLARE_ZONE_ID` sono presenti.
 
 Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
 pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto

@@ -35,6 +35,15 @@ Cloudflare e segnala che serve il lookup live. Con `CLOUDFLARE_API_TOKEN` e
 `CLOUDFLARE_ZONE_ID` disponibili, legge i record esistenti e produce azioni
 `create`, `update`, `noop` o `blocked`.
 
+Prima di qualunque apply, eseguire anche:
+
+```bash
+npm run audit:cloudflare-api
+```
+
+Deve confermare token attivo e lettura DNS della zona Cantoni. Il check e
+read-only e non sostituisce l'approvazione esplicita dell'apply.
+
 L'applicazione reale e separata e richiede consenso esplicito nel processo:
 
 ```bash

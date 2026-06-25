@@ -116,6 +116,23 @@ function cloudflareAuthSummary(readiness) {
   };
 }
 
+function cloudflareApiSummary(readiness) {
+  const gate = (readiness.gates || []).find((item) => item.id === 'cloudflare_api_credentials');
+  const details = gate?.details || {};
+  return {
+    ok: gate?.ok === true,
+    project_name: details.project_name || null,
+    domain: details.domain || null,
+    has_cloudflare_api_token: details.has_cloudflare_api_token === true,
+    has_cloudflare_account_id: details.has_cloudflare_account_id === true,
+    has_cloudflare_zone_id: details.has_cloudflare_zone_id === true,
+    token_verify_ok: details.token_verify_ok === true,
+    pages_read_ok: details.pages_read_ok === true,
+    dns_read_ok: details.dns_read_ok === true,
+    next_actions: details.next_actions || []
+  };
+}
+
 function cloudflareDiagnosticLines(cloudflareAuth) {
   if (!cloudflareAuth || cloudflareAuth.ok) return ['- Cloudflare Pages auth: ok'];
   return [
@@ -131,7 +148,24 @@ function cloudflareDiagnosticLines(cloudflareAuth) {
   ];
 }
 
-function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth }) {
+function cloudflareApiDiagnosticLines(cloudflareApi) {
+  if (!cloudflareApi || cloudflareApi.ok) return ['- Cloudflare direct API credentials: ok'];
+  return [
+    `- Project: \`${cloudflareApi.project_name || 'unknown'}\``,
+    `- Domain: \`${cloudflareApi.domain || 'unknown'}\``,
+    `- CLOUDFLARE_API_TOKEN set: ${cloudflareApi.has_cloudflare_api_token ? 'yes' : 'no'}`,
+    `- CLOUDFLARE_ACCOUNT_ID set: ${cloudflareApi.has_cloudflare_account_id ? 'yes' : 'no'}`,
+    `- CLOUDFLARE_ZONE_ID set: ${cloudflareApi.has_cloudflare_zone_id ? 'yes' : 'no'}`,
+    `- Token verify: ${cloudflareApi.token_verify_ok ? 'ok' : 'not ok'}`,
+    `- Pages read: ${cloudflareApi.pages_read_ok ? 'ok' : 'not ok'}`,
+    `- DNS read: ${cloudflareApi.dns_read_ok ? 'ok' : 'not ok'}`,
+    '',
+    'Next API actions:',
+    ...((cloudflareApi.next_actions || []).map((action, index) => `${index + 1}. ${action}`))
+  ];
+}
+
+function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cloudflareApi }) {
   const blockers = readiness.blockers || [];
   const holds = readiness.holds || [];
   const packageLines = latestPackage
@@ -182,6 +216,10 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth }) 
     '',
     ...cloudflareDiagnosticLines(cloudflareAuth),
     '',
+    '## Cloudflare API Credential Diagnostic',
+    '',
+    ...cloudflareApiDiagnosticLines(cloudflareApi),
+    '',
     '## Email DNS Records',
     '',
     ...dnsRecordTable(emailDns.recommended_records),
@@ -207,6 +245,7 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth }) 
     'npm run export:live-drift',
     'npm run test:full',
     'npm run audit:cloudflare-auth',
+    'npm run audit:cloudflare-api',
     'npm run audit:email-dns',
     'npm run test:live-site',
     'npm run audit:launch-readiness',
@@ -223,6 +262,7 @@ async function main() {
   const emailDns = emailDnsRun.parsed;
   const latestPackage = await findLatestManualPackage();
   const cloudflareAuth = cloudflareAuthSummary(readiness);
+  const cloudflareApi = cloudflareApiSummary(readiness);
 
   const payload = {
     ok: readiness.ok === true,
@@ -234,6 +274,7 @@ async function main() {
       holds: readiness.holds || []
     },
     cloudflare_auth: cloudflareAuth,
+    cloudflare_api: cloudflareApi,
     latest_cloudflare_manual_package: latestPackage,
     email_dns: {
       ok: emailDns.ok === true,
@@ -249,7 +290,8 @@ async function main() {
     readiness: payload.readiness,
     emailDns: payload.email_dns,
     latestPackage,
-    cloudflareAuth
+    cloudflareAuth,
+    cloudflareApi
   }));
 
   console.log(JSON.stringify({

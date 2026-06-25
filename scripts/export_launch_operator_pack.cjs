@@ -128,6 +128,22 @@ function cloudflareDiagnosticLines(cloudflareAuth) {
   ];
 }
 
+function cloudflareApiDiagnosticLines(cloudflareApi) {
+  if (!cloudflareApi) return ['- No Cloudflare direct API diagnostic payload was available.'];
+  if (cloudflareApi.ok) return ['- Cloudflare direct API credentials: ok'];
+  return [
+    `- CLOUDFLARE_API_TOKEN set: ${cloudflareApi.has_cloudflare_api_token ? 'yes' : 'no'}`,
+    `- CLOUDFLARE_ACCOUNT_ID set: ${cloudflareApi.has_cloudflare_account_id ? 'yes' : 'no'}`,
+    `- CLOUDFLARE_ZONE_ID set: ${cloudflareApi.has_cloudflare_zone_id ? 'yes' : 'no'}`,
+    `- Token verify: ${cloudflareApi.token_verify_ok ? 'ok' : 'not ok'}`,
+    `- Pages read: ${cloudflareApi.pages_read_ok ? 'ok' : 'not ok'}`,
+    `- DNS read: ${cloudflareApi.dns_read_ok ? 'ok' : 'not ok'}`,
+    '',
+    'Next API actions:',
+    ...((cloudflareApi.next_actions || []).map((action, index) => `${index + 1}. ${action}`))
+  ];
+}
+
 function cloudflareDnsPlanLines(plan) {
   if (!plan) return ['- No Cloudflare DNS plan payload was available.'];
   const actions = Array.isArray(plan.actions) ? plan.actions : [];
@@ -191,6 +207,10 @@ function renderMarkdown(payload) {
     '',
     ...cloudflareDiagnosticLines(payload.cloudflare_auth),
     '',
+    '## Cloudflare API Credential Diagnostic',
+    '',
+    ...cloudflareApiDiagnosticLines(payload.cloudflare_api),
+    '',
     '## Cloudflare Email DNS Plan',
     '',
     ...cloudflareDnsPlanLines(payload.steps.email_dns_cloudflare_plan?.output),
@@ -226,6 +246,7 @@ async function main() {
     generated_at: new Date().toISOString(),
     readiness: launchHandoffJson?.readiness || null,
     cloudflare_auth: launchHandoffJson?.cloudflare_auth || null,
+    cloudflare_api: launchHandoffJson?.cloudflare_api || null,
     steps,
     operator_pack: {
       markdown: relativeToRoot(MARKDOWN_PATH),

@@ -23,6 +23,7 @@ Verifica:
 ```bash
 cd "<repo-root>"
 npm run audit:cloudflare-auth
+npm run audit:cloudflare-api
 ```
 
 Lo script usa il binario installato `wrangler` o `WRANGLER_BIN` se impostato. Non usa `npx` per evitare download impliciti in fase di deploy.
@@ -33,13 +34,16 @@ Stato verificato 2026-06-25:
 - Diagnosi attesa nel JSON: `diagnostic_code=pages_api_authentication_error_10000`.
 - Causa probabile: token/sessione Cloudflare scaduta, account Cloudflare non corretto o permessi Pages insufficienti.
 - Non tentare deploy finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`, oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
+- `npm run audit:cloudflare-api` e read-only: verifica `/user/tokens/verify`, lettura deployments Pages e lettura DNS quando sono impostati `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_ZONE_ID`.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
 
 Permessi minimi per token/API:
 
 - account corretto di Cantoni Digital Studio;
 - `CLOUDFLARE_ACCOUNT_ID` dell'account Cantoni quando si usa CI o token non interattivo;
+- `CLOUDFLARE_ZONE_ID` della zona `cantonidigitalstudio.com` per diagnosticare e applicare record DNS;
 - permesso Account > Cloudflare Pages > Edit per deploy diretto Pages;
+- permesso Zone > DNS > Edit per applicare record email DNS;
 - token salvato solo in ambiente sicuro, mai nel repo.
 
 ## Build artifact locale
