@@ -16,6 +16,9 @@ if [ "$DEPLOY_BRANCH" = "main" ] && [ "${ALLOW_PRODUCTION_DEPLOY:-}" != "yes" ];
   exit 1
 fi
 
+echo "step=cloudflare_auth_preflight"
+npm run audit:cloudflare-auth
+
 echo "step=tests"
 npm run test:full
 
@@ -26,7 +29,7 @@ echo "step=artifact_integrity"
 npm run test:artifact
 
 echo "step=whoami"
-"$WRANGLER_BIN" whoami
+npm run audit:cloudflare-auth
 
 echo "step=ensure_project"
 if ! "$WRANGLER_BIN" pages project list | grep -Fq "$PROJECT_NAME"; then

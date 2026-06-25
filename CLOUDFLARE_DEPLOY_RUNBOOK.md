@@ -13,6 +13,7 @@
 - `_headers`
 - `scripts/build_cloudflare_public_dir.sh`
 - `scripts/verify_deploy_artifact.cjs`
+- `scripts/verify_cloudflare_deploy_auth.mjs`
 - `scripts/deploy_cloudflare_pages.sh`
 
 ## Prerequisito unico
@@ -21,16 +22,16 @@ Serve una sessione Cloudflare valida per `wrangler`.
 Verifica:
 ```bash
 cd "<repo-root>"
-npx wrangler whoami
+npm run audit:cloudflare-auth
 ```
 
 Lo script usa il binario installato `wrangler` o `WRANGLER_BIN` se impostato. Non usa `npx` per evitare download impliciti in fase di deploy.
 
 Stato verificato 2026-06-25:
 
-- `npx wrangler whoami` fallisce prima del deploy con errore su recupero automatico degli account ID.
-- Causa probabile: token/sessione Cloudflare scaduta o permessi insufficienti.
-- Non tentare deploy finche `wrangler whoami` non torna verde oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
+- `npm run audit:cloudflare-auth` fallisce prima del deploy: `wrangler whoami` passa, ma `wrangler pages project list` fallisce con `Authentication error [code: 10000]`.
+- Causa probabile: token/sessione Cloudflare scaduta, account Cloudflare non corretto o permessi Pages insufficienti.
+- Non tentare deploy finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`, oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
 
 ## Build artifact locale
@@ -54,12 +55,13 @@ bash scripts/deploy_cloudflare_pages.sh
 ```
 
 ## Cosa fa lo script
-1. esegue `npm run test:full`
-2. genera `.cloudflare-pages`
-3. verifica l'artifact pubblico
-4. verifica `wrangler whoami`
-5. crea il progetto Pages se non esiste
-6. pubblica su branch preview, di default `preview-cantoni-site`
+1. verifica `npm run audit:cloudflare-auth`
+2. esegue `npm run test:full`
+3. genera `.cloudflare-pages`
+4. verifica l'artifact pubblico
+5. riverifica `npm run audit:cloudflare-auth`
+6. crea il progetto Pages se non esiste
+7. pubblica su branch preview, di default `preview-cantoni-site`
 
 ## Produzione
 La produzione non parte da questo runbook senza approvazione separata. Se un deploy punta a `main`, lo script richiede `ALLOW_PRODUCTION_DEPLOY=yes`.
