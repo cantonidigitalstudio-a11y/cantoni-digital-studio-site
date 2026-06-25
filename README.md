@@ -26,6 +26,7 @@ npm run test:live-site
 npm run test:deploy-policy
 npm run test:email-dns-audit
 npm run test:cloudflare-api-audit
+npm run test:cloudflare-api-contract
 npm run test:social
 npm run test:launch-readiness-audit
 git diff --check
@@ -38,6 +39,13 @@ Per diagnosticare token/API Cloudflare senza mutazioni, usa
 `npm run audit:cloudflare-api`: verifica token attivo, lettura Pages e lettura
 DNS quando `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e
 `CLOUDFLARE_ZONE_ID` sono presenti.
+
+Se OAuth Wrangler e bloccato ma e disponibile un token API Cantoni con permesso
+Account > Cloudflare Pages > Edit, il deploy Pages diretto passa da
+`npm run deploy:cloudflare:direct`. Lo script usa `--pages-only` per verificare
+solo token e Pages, richiede `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e
+`CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`, e
+continua a bloccare la produzione senza approval separata.
 
 Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
 pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto

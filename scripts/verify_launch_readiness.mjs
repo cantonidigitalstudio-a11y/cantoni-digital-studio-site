@@ -67,6 +67,68 @@ function gateFromRun({ id, label, category, run, details }) {
   };
 }
 
+function cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun }) {
+  const oauthGate = gateFromRun({
+    id: 'cloudflare_pages_deploy_auth',
+    label: 'Cloudflare Pages deploy authorization',
+    category: 'deploy',
+    run: cloudflareRun,
+    details: (parsed) => ({
+      project_name: parsed?.project_name || null,
+      project_listed: parsed?.project_listed === true,
+      has_cloudflare_account_id: parsed?.has_cloudflare_account_id === true,
+      diagnostic_code: parsed?.diagnostic_code || null,
+      next_actions: parsed?.next_actions || [],
+      whoami_status: parsed?.whoami?.status ?? null,
+      pages_project_list_status: parsed?.pages_project_list?.status ?? null
+    })
+  });
+  const apiParsed = cloudflareApiRun.parsed || {};
+  const directApiCommandOk = cloudflareApiRun.status === 0 && !cloudflareApiRun.error && !cloudflareApiRun.parse_error;
+  const directApiPagesOk = directApiCommandOk &&
+    apiParsed.checks?.token_verify?.ok === true &&
+    apiParsed.checks?.pages_project_deployments_read?.ok === true;
+
+  const details = {
+    ...oauthGate.details,
+    oauth_wrangler_ok: oauthGate.ok === true,
+    direct_api_pages_ok: directApiPagesOk,
+    direct_api_scope: apiParsed.scope || null,
+    direct_api_has_token: apiParsed.has_cloudflare_api_token === true,
+    direct_api_has_account_id: apiParsed.has_cloudflare_account_id === true
+  };
+
+  if (oauthGate.ok || directApiPagesOk) {
+    return {
+      ...oauthGate,
+      ok: true,
+      severity: 'pass',
+      failures: [],
+      details: {
+        ...details,
+        next_actions: oauthGate.ok
+          ? oauthGate.details.next_actions
+          : [
+              'Cloudflare Pages direct API read checks passed for the Cantoni account.',
+              'Use `npm run deploy:cloudflare:direct` only after explicit deploy approval.',
+              'Keep DNS changes separate until `npm run dns:cloudflare:plan` is ready and approved.'
+            ]
+      }
+    };
+  }
+
+  return {
+    ...oauthGate,
+    details: {
+      ...details,
+      next_actions: [
+        ...oauthGate.details.next_actions,
+        'Alternative direct token path: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID for the Cantoni account, then run `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`.'
+      ]
+    }
+  };
+}
+
 async function readOptional(file) {
   try {
     return await fs.readFile(path.join(rootDir, file), 'utf8');
@@ -105,21 +167,7 @@ const gates = [
       checked: parsed?.checked || []
     })
   }),
-  gateFromRun({
-    id: 'cloudflare_pages_deploy_auth',
-    label: 'Cloudflare Pages deploy authorization',
-    category: 'deploy',
-    run: cloudflareRun,
-    details: (parsed) => ({
-      project_name: parsed?.project_name || null,
-      project_listed: parsed?.project_listed === true,
-      has_cloudflare_account_id: parsed?.has_cloudflare_account_id === true,
-      diagnostic_code: parsed?.diagnostic_code || null,
-      next_actions: parsed?.next_actions || [],
-      whoami_status: parsed?.whoami?.status ?? null,
-      pages_project_list_status: parsed?.pages_project_list?.status ?? null
-    })
-  }),
+  cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun }),
   gateFromRun({
     id: 'cloudflare_api_credentials',
     label: 'Cloudflare direct API credentials',

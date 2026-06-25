@@ -80,6 +80,7 @@
     "test:full": "npm test && npm run test:payments && npm run test:browser && npm run test:deploy-policy && npm run test:email-dns-audit && npm run test:cloudflare-api-audit && npm run test:cloudflare-api-contract && npm run test:cloudflare-email-dns-plan && npm run test:social && npm run test:lead-batch && npm run test:starter-queue && npm run test:branded-outreach && npm run test:outreach-micro && npm run test:outreach-deliverability && npm run build:cloudflare && npm run test:artifact && npm run test:browser:artifact && npm run test:payments:artifact && npm run export:launch-operator-pack && npm run test:launch-handoff-artifacts && git diff --check",
     "test:full:with-vip": "npm run test:full && npm run test:vip",
     "deploy:cloudflare": "bash scripts/deploy_cloudflare_pages.sh",
+    "deploy:cloudflare:direct": "bash scripts/deploy_cloudflare_pages_direct.sh",
     "test:i18n": "node scripts/check_i18n.cjs",
     "test:integrity": "node scripts/verify_site_integrity.cjs",
     "test:smoke": "node scripts/smoke_site.cjs"

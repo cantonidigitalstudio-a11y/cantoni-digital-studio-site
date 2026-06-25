@@ -15,25 +15,30 @@
 - `scripts/verify_deploy_artifact.cjs`
 - `scripts/verify_cloudflare_deploy_auth.mjs`
 - `scripts/deploy_cloudflare_pages.sh`
+- `scripts/deploy_cloudflare_pages_direct.sh`
 
-## Prerequisito unico
-Serve una sessione Cloudflare valida per `wrangler`.
+## Prerequisiti Cloudflare
+Serve una sessione Cloudflare valida per `wrangler` oppure un token API Cantoni
+per deploy diretto non interattivo.
 
 Verifica:
 ```bash
 cd "<repo-root>"
 npm run audit:cloudflare-auth
 npm run audit:cloudflare-api
+node scripts/verify_cloudflare_api_credentials.mjs --pages-only
 ```
 
-Lo script usa il binario installato `wrangler` o `WRANGLER_BIN` se impostato. Non usa `npx` per evitare download impliciti in fase di deploy.
+Gli script usano il binario installato `wrangler` o `WRANGLER_BIN` se impostato.
+Non usano `npx` per evitare download impliciti in fase di deploy.
 
 Stato verificato 2026-06-25:
 
 - `npm run audit:cloudflare-auth` fallisce prima del deploy: `wrangler whoami` passa, ma `wrangler pages project list --json` fallisce con `Authentication error [code: 10000]`.
 - Diagnosi attesa nel JSON: `diagnostic_code=pages_api_authentication_error_10000`.
 - Causa probabile: token/sessione Cloudflare scaduta, account Cloudflare non corretto o permessi Pages insufficienti.
-- Non tentare deploy finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`, oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
+- Non tentare deploy OAuth finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`.
+- Se OAuth resta bloccato, usare il percorso token diretto solo quando `node scripts/verify_cloudflare_api_credentials.mjs --pages-only` passa con token e account Cantoni.
 - `npm run audit:cloudflare-api` e read-only: verifica `/user/tokens/verify`, lettura deployments Pages e lettura DNS quando sono impostati `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_ZONE_ID`.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
 
@@ -102,7 +107,32 @@ export CLOUDFLARE_PAGES_BRANCH="preview-cantoni-site"
 bash scripts/deploy_cloudflare_pages.sh
 ```
 
-## Cosa fa lo script
+## Deploy preview con token diretto
+Usare questo percorso quando OAuth Wrangler non e affidabile ma sono disponibili
+`CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` dell'account Cantoni.
+
+```bash
+cd "<repo-root>"
+export CLOUDFLARE_API_TOKEN="<token-live-only>"
+export CLOUDFLARE_ACCOUNT_ID="<account-id-cantoni>"
+export CLOUDFLARE_PAGES_PROJECT_NAME="cantonidigitalstudio"
+export CLOUDFLARE_CUSTOM_DOMAIN="cantonidigitalstudio.com"
+export CLOUDFLARE_PAGES_BRANCH="preview-cantoni-site"
+export CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL="deploy-cantoni-pages-direct"
+npm run deploy:cloudflare:direct
+```
+
+Regole del percorso diretto:
+- il token resta solo in ambiente live, mai nel repo;
+- l'approval richiesta e esattamente
+  `CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct`;
+- `--pages-only` verifica token attivo e lettura deployments Pages senza
+  richiedere `CLOUDFLARE_ZONE_ID`;
+- lo script pubblica solo `.cloudflare-pages`;
+- produzione su branch `main` richiede anche `ALLOW_PRODUCTION_DEPLOY=yes` e
+  `CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
+
+## Cosa fa lo script OAuth
 1. verifica `npm run audit:cloudflare-auth`
 2. esegue `npm run test:full`
 3. genera `.cloudflare-pages`
@@ -111,8 +141,19 @@ bash scripts/deploy_cloudflare_pages.sh
 6. crea il progetto Pages se non esiste
 7. pubblica su branch preview, di default `preview-cantoni-site`
 
+## Cosa fa lo script token diretto
+1. verifica `node scripts/verify_cloudflare_api_credentials.mjs --pages-only`
+2. esegue `npm run test:full`
+3. genera `.cloudflare-pages`
+4. verifica artifact, browser smoke e Payment Link sull'artifact
+5. riverifica `--pages-only`
+6. pubblica con `wrangler pages deploy .cloudflare-pages --project-name ... --branch ...`
+
 ## Produzione
-La produzione non parte da questo runbook senza approvazione separata. Se un deploy punta a `main`, lo script richiede `ALLOW_PRODUCTION_DEPLOY=yes`.
+La produzione non parte da questo runbook senza approvazione separata. Se un
+deploy punta a `main`, gli script richiedono `ALLOW_PRODUCTION_DEPLOY=yes`; il
+percorso token diretto richiede anche
+`CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`.
 
 ## Gate pagamenti
 `npm run test:payments` apre i Payment Link Stripe senza inserire carte e senza transazioni. Il gate richiede merchant `Cantoni Digital Studio`, importo `EUR`, UI checkout funzionante, carta e Klarna. PayPal resta richiesto, ma puo essere nascosto da Stripe/PayPal in browser headless senza sessione buyer: in quel caso il test lo registra in `sessionDependentMisses` e la verifica va completata nel Browser Use/in-app browser.

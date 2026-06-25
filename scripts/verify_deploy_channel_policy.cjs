@@ -53,9 +53,32 @@ const checks = [
     required: [
       'Cloudflare Pages',
       'npm run audit:cloudflare-auth',
-      'scripts/verify_cloudflare_deploy_auth.mjs'
+      'scripts/verify_cloudflare_deploy_auth.mjs',
+      'npm run deploy:cloudflare:direct',
+      'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct'
     ],
     forbidden: []
+  },
+  {
+    file: 'scripts/deploy_cloudflare_pages_direct.sh',
+    required: [
+      'CLOUDFLARE_API_TOKEN',
+      'CLOUDFLARE_ACCOUNT_ID',
+      'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL',
+      'deploy-cantoni-pages-direct',
+      'node scripts/verify_cloudflare_api_credentials.mjs --pages-only',
+      'ALLOW_PRODUCTION_DEPLOY',
+      'CANTONI_PRODUCTION_DEPLOY_APPROVAL',
+      'deploy-cantoni-production',
+      'npm run test:full',
+      'bash "$ROOT_DIR/scripts/build_cloudflare_public_dir.sh"',
+      'pages deploy "$PUBLIC_DIR"',
+      '--project-name "$PROJECT_NAME"',
+      '--branch "$DEPLOY_BRANCH"'
+    ],
+    forbidden: [
+      'npx'
+    ]
   }
 ];
 

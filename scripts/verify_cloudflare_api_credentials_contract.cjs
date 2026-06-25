@@ -113,7 +113,7 @@ function closeServer(server, sockets) {
   });
 }
 
-function runAudit(baseUrl) {
+function runAudit(baseUrl, options = {}) {
   const env = {
     ...process.env,
     CLOUDFLARE_API_BASE_URL: baseUrl,
@@ -123,9 +123,13 @@ function runAudit(baseUrl) {
     CLOUDFLARE_PAGES_PROJECT_NAME: PROJECT_NAME,
     CLOUDFLARE_CUSTOM_DOMAIN: DOMAIN
   };
+  for (const [key, value] of Object.entries(options.env || {})) {
+    if (value === null) delete env[key];
+    else env[key] = value;
+  }
 
   return new Promise((resolve) => {
-    const child = spawn(process.execPath, [SCRIPT_PATH], {
+    const child = spawn(process.execPath, [SCRIPT_PATH, ...(options.args || [])], {
       cwd: PROJECT_ROOT,
       env,
       shell: false,
@@ -170,6 +174,7 @@ async function main() {
 
     const parsed = JSON.parse(result.stdout);
     assert(parsed.ok === true, 'audit should return ok=true against fixture server');
+    assert(parsed.scope === 'pages_and_dns', 'default audit should use pages_and_dns scope');
     assert(parsed.has_cloudflare_api_token === true, 'token presence should be true');
     assert(parsed.has_cloudflare_account_id === true, 'account id presence should be true');
     assert(parsed.has_cloudflare_zone_id === true, 'zone id presence should be true');
@@ -191,6 +196,33 @@ async function main() {
     assert(dnsRequest?.query.name === DOMAIN, 'DNS records check should scope by Cantoni domain');
     assert(dnsRequest?.query.per_page === '1', 'DNS records check should request one record page');
 
+    requests.length = 0;
+    const pagesOnlyResult = await runAudit(baseUrl, {
+      args: ['--pages-only'],
+      env: { CLOUDFLARE_ZONE_ID: null }
+    });
+    assert(!pagesOnlyResult.timedOut, `pages-only audit should not time out\nstdout=${pagesOnlyResult.stdout}\nstderr=${pagesOnlyResult.stderr}`);
+    assert(!pagesOnlyResult.error, `pages-only audit should not error: ${pagesOnlyResult.error?.message || pagesOnlyResult.error}`);
+    assert(pagesOnlyResult.status === 0, `pages-only audit should pass without zone id, got ${pagesOnlyResult.status}\nstdout=${pagesOnlyResult.stdout}\nstderr=${pagesOnlyResult.stderr}`);
+    assert(!pagesOnlyResult.stdout.includes(FAKE_TOKEN), 'pages-only audit stdout must not leak CLOUDFLARE_API_TOKEN');
+    assert(!pagesOnlyResult.stderr.includes(FAKE_TOKEN), 'pages-only audit stderr must not leak CLOUDFLARE_API_TOKEN');
+
+    const pagesOnlyParsed = JSON.parse(pagesOnlyResult.stdout);
+    assert(pagesOnlyParsed.ok === true, 'pages-only audit should return ok=true without zone id');
+    assert(pagesOnlyParsed.scope === 'pages_only', 'pages-only audit should report pages_only scope');
+    assert(pagesOnlyParsed.has_cloudflare_zone_id === false, 'pages-only audit should not require zone id presence');
+    assert(pagesOnlyParsed.checks.token_verify.ok === true, 'pages-only token verify check should pass');
+    assert(pagesOnlyParsed.checks.pages_project_deployments_read.ok === true, 'pages-only Pages read check should pass');
+    assert(pagesOnlyParsed.checks.dns_records_read.ok === true, 'pages-only DNS check should be non-blocking');
+    assert(pagesOnlyParsed.checks.dns_records_read.skipped === true, 'pages-only DNS check should be skipped');
+
+    const pagesOnlyRequestPaths = requests.map((request) => request.path).sort();
+    assert(pagesOnlyRequestPaths.includes('/user/tokens/verify'), 'pages-only token verify endpoint should be called');
+    assert(pagesOnlyRequestPaths.includes(`/accounts/${ACCOUNT_ID}/pages/projects/${PROJECT_NAME}/deployments`), 'pages-only Pages deployments endpoint should be called');
+    assert(!pagesOnlyRequestPaths.some((requestPath) => requestPath.startsWith('/zones/')), 'pages-only audit must not call DNS records endpoints');
+    const pagesOnlyPagesRequest = requests.find((request) => request.path === `/accounts/${ACCOUNT_ID}/pages/projects/${PROJECT_NAME}/deployments`);
+    assert(pagesOnlyPagesRequest?.query.per_page === '1', 'pages-only Pages deployments check should request one deployment');
+
     console.log(JSON.stringify({
       ok: true,
       checked: [
@@ -199,7 +231,8 @@ async function main() {
         'dns_records_read_success',
         'token_redaction',
         'endpoint_contract',
-        'query_contract'
+        'query_contract',
+        'pages_only_contract'
       ]
     }, null, 2));
   } finally {

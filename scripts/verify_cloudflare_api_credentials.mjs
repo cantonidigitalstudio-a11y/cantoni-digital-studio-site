@@ -1,4 +1,5 @@
 const allowMissing = process.argv.includes('--allow-missing');
+const pagesOnly = process.argv.includes('--pages-only');
 
 const apiBaseUrl = (process.env.CLOUDFLARE_API_BASE_URL || 'https://api.cloudflare.com/client/v4').replace(/\/+$/u, '');
 const token = process.env.CLOUDFLARE_API_TOKEN || '';
@@ -78,9 +79,9 @@ function redactIdentifier(value) {
   return `${text.slice(0, 4)}...${text.slice(-4)}`;
 }
 
-function skipped(reason) {
+function skipped(reason, ok = false) {
   return {
-    ok: false,
+    ok,
     skipped: true,
     reason
   };
@@ -90,8 +91,12 @@ function nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }) {
   const actions = [];
   if (!token) {
     actions.push('Create or provide a Cloudflare API token for the Cantoni account; keep it in environment only, never in the repo.');
-    actions.push('Use Account > Cloudflare Pages > Edit for deploy access and Zone > DNS > Edit for DNS apply.');
-    actions.push('Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_ZONE_ID for the Cantoni account before re-running this audit.');
+    actions.push(pagesOnly
+      ? 'Use Account > Cloudflare Pages > Edit for direct Pages deploy access.'
+      : 'Use Account > Cloudflare Pages > Edit for deploy access and Zone > DNS > Edit for DNS apply.');
+    actions.push(pagesOnly
+      ? 'Set CLOUDFLARE_ACCOUNT_ID for the Cantoni account before re-running this Pages-only audit.'
+      : 'Set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_ZONE_ID for the Cantoni account before re-running this audit.');
     return actions;
   }
   if (!tokenVerify.ok) {
@@ -102,13 +107,17 @@ function nextActionsFor({ tokenVerify, pagesAccess, dnsAccess }) {
   } else if (!pagesAccess.ok) {
     actions.push('Grant the token Cloudflare Pages access on the Cantoni account, then verify the Pages project can be read.');
   }
-  if (!zoneId) {
-    actions.push('Set CLOUDFLARE_ZONE_ID for cantonidigitalstudio.com to verify DNS access.');
-  } else if (!dnsAccess.ok) {
-    actions.push('Grant the token DNS access on the cantonidigitalstudio.com zone before planning or applying email DNS records.');
+  if (!pagesOnly) {
+    if (!zoneId) {
+      actions.push('Set CLOUDFLARE_ZONE_ID for cantonidigitalstudio.com to verify DNS access.');
+    } else if (!dnsAccess.ok) {
+      actions.push('Grant the token DNS access on the cantonidigitalstudio.com zone before planning or applying email DNS records.');
+    }
   }
   if (!actions.length) {
-    actions.push('Direct Cloudflare API read checks passed; run the Wrangler auth audit and deploy/DNS dry-runs before any mutation.');
+    actions.push(pagesOnly
+      ? 'Cloudflare Pages direct API read checks passed; run full tests and the approved direct deploy script before any Pages mutation.'
+      : 'Direct Cloudflare API read checks passed; run the Wrangler auth audit and deploy/DNS dry-runs before any mutation.');
   }
   return actions;
 }
@@ -122,7 +131,9 @@ async function main() {
     ? await cloudflareGet(`/accounts/${encodeURIComponent(accountId)}/pages/projects/${encodeURIComponent(projectName)}/deployments`, { per_page: 1 })
     : skipped(token ? 'CLOUDFLARE_ACCOUNT_ID is not set' : 'CLOUDFLARE_API_TOKEN is not set');
 
-  const dnsAccess = token && zoneId
+  const dnsAccess = pagesOnly
+    ? skipped('DNS check skipped by --pages-only', true)
+    : token && zoneId
     ? await cloudflareGet(`/zones/${encodeURIComponent(zoneId)}/dns_records`, { name: domain, per_page: 1 })
     : skipped(token ? 'CLOUDFLARE_ZONE_ID is not set' : 'CLOUDFLARE_API_TOKEN is not set');
 
@@ -139,7 +150,7 @@ async function main() {
       reason: pagesAccess.reason || 'Cloudflare API token cannot read the Cantoni Pages project deployments endpoint.'
     });
   }
-  if (!dnsAccess.ok) {
+  if (!pagesOnly && !dnsAccess.ok) {
     failures.push({
       id: 'cloudflare_dns_api_read',
       reason: dnsAccess.reason || 'Cloudflare API token cannot read DNS records for the Cantoni zone.'
@@ -149,6 +160,7 @@ async function main() {
   const result = {
     ok: failures.length === 0,
     allow_missing: allowMissing,
+    scope: pagesOnly ? 'pages_only' : 'pages_and_dns',
     checked_at: new Date().toISOString(),
     api_base_url: apiBaseUrl,
     project_name: projectName,
