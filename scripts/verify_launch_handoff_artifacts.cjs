@@ -35,6 +35,29 @@ const EMAIL_DNS_LATEST_ALIASES = [
   }
 ];
 
+const CLOUDFLARE_UPLOAD_LATEST_ALIASES = [
+  {
+    label: 'cloudflare_upload_latest_zip',
+    alias: 'cantoni-cloudflare-pages-manual-upload-latest.zip',
+    timestampedPattern: /^cantoni-cloudflare-pages-manual-upload-(?!latest\b).+\.zip$/
+  },
+  {
+    label: 'cloudflare_upload_latest_manifest',
+    alias: 'cantoni-cloudflare-pages-manual-upload-latest.manifest.json',
+    timestampedPattern: /^cantoni-cloudflare-pages-manual-upload-(?!latest\b).+\.manifest\.json$/
+  },
+  {
+    label: 'cloudflare_upload_latest_checksums',
+    alias: 'cantoni-cloudflare-pages-manual-upload-latest.SHA256SUMS',
+    timestampedPattern: /^cantoni-cloudflare-pages-manual-upload-(?!latest\b).+\.SHA256SUMS$/
+  },
+  {
+    label: 'cloudflare_upload_latest_readme',
+    alias: 'cantoni-cloudflare-pages-manual-upload-latest.README.txt',
+    timestampedPattern: /^cantoni-cloudflare-pages-manual-upload-(?!latest\b).+\.README\.txt$/
+  }
+];
+
 const LEAK_RULES = [
   { id: 'absolute_volumes_path', pattern: /\/Volumes\// },
   { id: 'absolute_users_path', pattern: /\/Users\// },
@@ -111,6 +134,35 @@ async function verifyEmailDnsLatestAliases(failures) {
   }
 }
 
+async function verifyCloudflareUploadLatestAliases(failures) {
+  const uploadDir = path.join(GENERATED_ROOT, 'cloudflare-manual-upload');
+
+  for (const item of CLOUDFLARE_UPLOAD_LATEST_ALIASES) {
+    const aliasPath = path.join(uploadDir, item.alias);
+    const timestampedPath = await latestFile('cloudflare-manual-upload', item.timestampedPattern).catch((error) => {
+      failures.push(`${item.label}: unable to find latest timestamped artifact (${error.message})`);
+      return null;
+    });
+
+    if (!await pathExists(aliasPath)) {
+      failures.push(`${item.label}: missing stable latest alias ${item.alias}`);
+      continue;
+    }
+    if (!timestampedPath) {
+      failures.push(`${item.label}: missing timestamped source artifact`);
+      continue;
+    }
+
+    const [aliasSource, timestampedSource] = await Promise.all([
+      fs.readFile(aliasPath),
+      fs.readFile(timestampedPath)
+    ]);
+    if (!aliasSource.equals(timestampedSource)) {
+      failures.push(`${item.label}: latest alias does not match latest timestamped artifact`);
+    }
+  }
+}
+
 function requireRelativePath(file, label, failures) {
   if (!file || typeof file !== 'string') {
     failures.push(`${label}: missing path`);
@@ -131,6 +183,7 @@ async function requireReferencedFile(relPath, label, failures) {
 async function main() {
   const failures = [];
   await verifyEmailDnsLatestAliases(failures);
+  await verifyCloudflareUploadLatestAliases(failures);
 
   const files = {
     launchHandoff: await latestFile('launch-handoff', FILE_PATTERNS.launchHandoff),
@@ -191,11 +244,17 @@ async function main() {
     if (cloudflareDeployCandidate.package?.zip_path !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path) {
       failures.push('operator_pack: Cloudflare deploy candidate ZIP path does not match manual upload package');
     }
+    if (String(cloudflareDeployCandidate.package?.zip_path || '').includes('-latest.')) {
+      failures.push('operator_pack: Cloudflare deploy candidate must reference an immutable timestamped ZIP, not a latest alias');
+    }
     if (cloudflareDeployCandidate.package?.zip_sha256 !== operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.sha256) {
       failures.push('operator_pack: Cloudflare deploy candidate ZIP SHA-256 does not match manual upload package');
     }
     if (cloudflareDeployCandidate.package?.manifest !== manualPackageManifestPath) {
       failures.push('operator_pack: Cloudflare deploy candidate manifest does not match manual upload package');
+    }
+    if (String(manualPackageManifestPath || '').includes('-latest.')) {
+      failures.push('operator_pack: Cloudflare manual upload manifest must be timestamped, not a latest alias');
     }
     if (cloudflareDeployCandidate.git?.commit && operatorPack.git?.commit && cloudflareDeployCandidate.git.commit !== operatorPack.git.commit) {
       failures.push('operator_pack: Cloudflare deploy candidate Git commit does not match operator pack');
@@ -386,6 +445,13 @@ async function main() {
     }
 
     const stepOutput = operatorPack.steps?.email_dns_handoff?.output || {};
+    const uploadStepOutput = operatorPack.steps?.cloudflare_manual_upload?.output || {};
+    if (uploadStepOutput.latest?.zip_path !== 'sales-kit/generated/cloudflare-manual-upload/cantoni-cloudflare-pages-manual-upload-latest.zip') {
+      failures.push('operator_pack: Cloudflare manual upload output must expose the latest ZIP alias');
+    }
+    if (uploadStepOutput.latest?.manifest !== 'sales-kit/generated/cloudflare-manual-upload/cantoni-cloudflare-pages-manual-upload-latest.manifest.json') {
+      failures.push('operator_pack: Cloudflare manual upload output must expose the latest manifest alias');
+    }
     if (stepOutput.latest?.cloudflare_api_json !== 'sales-kit/generated/email-dns-handoff/cantoni-email-dns-handoff-latest.cloudflare-api-records.json') {
       failures.push('operator_pack: email DNS handoff output must expose the latest API payload alias');
     }

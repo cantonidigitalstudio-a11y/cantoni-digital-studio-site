@@ -20,6 +20,11 @@ const ZIP_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.zip`);
 const MANIFEST_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.manifest.json`);
 const CHECKSUMS_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.SHA256SUMS`);
 const README_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.README.txt`);
+const LATEST_BASE_NAME = 'cantoni-cloudflare-pages-manual-upload-latest';
+const LATEST_ZIP_PATH = path.join(OUTPUT_DIR, `${LATEST_BASE_NAME}.zip`);
+const LATEST_MANIFEST_PATH = path.join(OUTPUT_DIR, `${LATEST_BASE_NAME}.manifest.json`);
+const LATEST_CHECKSUMS_PATH = path.join(OUTPUT_DIR, `${LATEST_BASE_NAME}.SHA256SUMS`);
+const LATEST_README_PATH = path.join(OUTPUT_DIR, `${LATEST_BASE_NAME}.README.txt`);
 
 function normalizeRel(value) {
   return value.split(path.sep).join('/');
@@ -121,6 +126,12 @@ async function writeTextArtifacts(manifest, zipStats) {
     'Upload artifact:',
     `- ${zipRelativeName}`,
     '',
+    'Stable local aliases:',
+    `- ${path.basename(LATEST_ZIP_PATH)} mirrors this timestamped ZIP for handoff convenience.`,
+    `- ${path.basename(LATEST_MANIFEST_PATH)} mirrors this timestamped manifest.`,
+    `- ${path.basename(LATEST_CHECKSUMS_PATH)} mirrors this timestamped checksum file.`,
+    `- ${path.basename(LATEST_README_PATH)} mirrors this timestamped README.`,
+    '',
     'Use this package only after explicit deploy approval.',
     'The ZIP contains only the generated Cloudflare Pages public artifact, not the repository root.',
     '',
@@ -137,9 +148,20 @@ async function writeTextArtifacts(manifest, zipStats) {
     'If Cloudflare dashboard drag-and-drop is not available for this Pages project, use the unzipped .cloudflare-pages folder with Wrangler after Cloudflare auth is fixed.'
   ].join('\n') + '\n';
 
-  await fs.writeFile(MANIFEST_PATH, JSON.stringify({ ...manifest, zip: { ...zipStats, path: zipRelativePath } }, null, 2) + '\n');
-  await fs.writeFile(CHECKSUMS_PATH, checksums);
-  await fs.writeFile(README_PATH, readme);
+  const manifestSource = JSON.stringify({ ...manifest, zip: { ...zipStats, path: zipRelativePath } }, null, 2) + '\n';
+
+  await Promise.all([
+    fs.writeFile(MANIFEST_PATH, manifestSource),
+    fs.writeFile(CHECKSUMS_PATH, checksums),
+    fs.writeFile(README_PATH, readme),
+    fs.writeFile(LATEST_MANIFEST_PATH, manifestSource),
+    fs.writeFile(LATEST_CHECKSUMS_PATH, checksums),
+    fs.writeFile(LATEST_README_PATH, readme)
+  ]);
+}
+
+async function writeZipAlias() {
+  await fs.copyFile(ZIP_PATH, LATEST_ZIP_PATH);
 }
 
 async function main() {
@@ -166,6 +188,7 @@ async function main() {
     bytes: zipStats.bytes,
     sha256: zipStats.sha256
   });
+  await writeZipAlias();
 
   console.log(JSON.stringify({
     ok: true,
@@ -182,7 +205,13 @@ async function main() {
     },
     manifest: MANIFEST_PATH,
     checksums: CHECKSUMS_PATH,
-    readme: README_PATH
+    readme: README_PATH,
+    latest: {
+      zip_path: LATEST_ZIP_PATH,
+      manifest: LATEST_MANIFEST_PATH,
+      checksums: LATEST_CHECKSUMS_PATH,
+      readme: LATEST_README_PATH
+    }
   }, null, 2));
 }
 

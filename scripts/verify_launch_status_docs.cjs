@@ -44,6 +44,9 @@ function main() {
   if (!readme.includes('cantoni-email-dns-handoff-latest')) {
     failures.push('README.md: must document the stable latest email DNS handoff aliases');
   }
+  if (!readme.includes('cantoni-cloudflare-pages-manual-upload-latest')) {
+    failures.push('README.md: must document the stable latest Cloudflare manual upload aliases');
+  }
   if (!readme.includes('external_unblock_handoff')) {
     failures.push('README.md: must document the external unblock handoff readiness gate');
   }
@@ -70,6 +73,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('cantoni-email-dns-handoff-latest')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest email DNS handoff aliases');
+  }
+  if (!cloudflareRunbook.includes('cantoni-cloudflare-pages-manual-upload-latest')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest Cloudflare manual upload aliases');
   }
   if (!cloudflareRunbook.includes('external_unblock_handoff')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document the external unblock handoff readiness gate');

@@ -76,6 +76,10 @@ pronto e live drift risolvibile dal full artifact devono essere coerenti.
 Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
 pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto
 resta sotto `sales-kit/generated/cloudflare-manual-upload/` ed e ignorato da git.
+L'export scrive anche alias locali
+`cantoni-cloudflare-pages-manual-upload-latest.*` per trovare rapidamente
+l'ultimo pacchetto; il deploy candidate continua comunque a puntare ai file
+timestampati e verificati.
 
 Per produrre un riepilogo operativo dei blocker correnti, usa
 `npm run export:launch-handoff`. Il report resta sotto

@@ -93,6 +93,12 @@ Il comando:
 3. crea uno ZIP in `sales-kit/generated/cloudflare-manual-upload/`;
 4. scrive manifest JSON, checksum SHA-256 e README operativo accanto allo ZIP.
 
+Lo stesso export scrive alias locali
+`cantoni-cloudflare-pages-manual-upload-latest.*` per ZIP, manifest, checksum e
+README. Sono scorciatoie per handoff umano e devono restare identiche
+all'ultimo artifact timestampato; il deploy candidate e i dossier di sblocco
+continuano a usare path timestampati per mantenere prova immutabile del file.
+
 Lo ZIP contiene i file pubblici direttamente alla root. Non contiene la root del
 repo, sorgenti, script, dati privati o `sales-kit` oltre a `sales-kit/fx_rates.json`.
 
