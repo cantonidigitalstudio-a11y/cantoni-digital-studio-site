@@ -4,6 +4,7 @@ const fs = require('fs/promises');
 const path = require('path');
 const crypto = require('crypto');
 const { gitProvenance } = require('./lib/git_provenance.cjs');
+const { HTML_PAGES } = require('./lib/live_site_contract.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OPERATOR_PACK_DIR = path.resolve(process.env.LAUNCH_OPERATOR_PACK_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/launch-operator-pack'));
@@ -19,6 +20,11 @@ function relativeToRoot(filePath) {
   const resolved = path.resolve(filePath);
   if (!resolved.startsWith(PROJECT_ROOT + path.sep)) return filePath;
   return normalizeRel(path.relative(PROJECT_ROOT, resolved));
+}
+
+function artifactFileForContractPage(pagePath) {
+  if (pagePath === '/') return 'index.html';
+  return String(pagePath || '').replace(/^\/+/, '');
 }
 
 async function latestOperatorPackPath() {
@@ -117,17 +123,65 @@ async function main() {
   }
   if (manifestPath && await pathExists(manifestPath)) {
     const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+    const coverage = manifest.contract_coverage || {};
     if (manifest.git?.commit !== currentGit.commit) failures.push('Cloudflare manual upload manifest commit does not match current HEAD.');
     if (manifest.zip?.sha256 !== candidate.package?.zip_sha256) failures.push('Cloudflare manual upload manifest ZIP SHA-256 does not match deploy candidate.');
     if (manifest.zip?.bytes !== candidate.package?.zip_bytes) failures.push('Cloudflare manual upload manifest ZIP byte size does not match deploy candidate.');
-    if (manifest.contract_coverage?.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
+    if (coverage.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
       failures.push('Cloudflare manual upload manifest must expose live-site contract coverage.');
     }
-    if (manifest.contract_coverage?.full_artifact_required !== true || manifest.contract_coverage?.partial_upload_safe !== false) {
+    if (coverage.full_artifact_required !== true || coverage.partial_upload_safe !== false) {
       failures.push('Cloudflare manual upload manifest contract coverage must require full artifact deployment.');
     }
-    if (manifest.contract_coverage?.production_branch !== 'main') {
+    if (coverage.production_branch !== 'main') {
       failures.push('Cloudflare manual upload manifest contract coverage must require production branch main.');
+    }
+    if (!Array.isArray(coverage.pages)) {
+      failures.push('Cloudflare manual upload manifest contract coverage must include page-level coverage.');
+    } else {
+      const coverageByPage = new Map(coverage.pages.map((page) => [page.page, page]));
+      if (coverage.pages.length !== HTML_PAGES.length) {
+        failures.push(`Cloudflare manual upload manifest contract coverage must include exactly ${HTML_PAGES.length} pages.`);
+      }
+      for (const expectedPage of HTML_PAGES) {
+        const coveragePage = coverageByPage.get(expectedPage.path);
+        if (!coveragePage) {
+          failures.push(`Cloudflare manual upload manifest contract coverage missing page ${expectedPage.path}.`);
+          continue;
+        }
+
+        const expectedArtifactFile = artifactFileForContractPage(expectedPage.path);
+        if (coveragePage.artifact_file !== expectedArtifactFile) {
+          failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} artifact file must be ${expectedArtifactFile}.`);
+        }
+        if ((coveragePage.canonical || null) !== (expectedPage.canonical || null)) {
+          failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} canonical does not match live-site contract.`);
+        }
+        if (coveragePage.title !== expectedPage.title) {
+          failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} title marker does not match live-site contract.`);
+        }
+        if (coveragePage.artifact_file_present !== true) {
+          failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} artifact file is not marked present.`);
+        }
+        if (coveragePage.artifact_satisfies_required !== true) {
+          failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} does not satisfy required snippets.`);
+        }
+        if (Array.isArray(coveragePage.missing_required_snippets) && coveragePage.missing_required_snippets.length > 0) {
+          failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} has missing required snippets: ${coveragePage.missing_required_snippets.join(', ')}`);
+        }
+
+        const requiredSnippets = Array.isArray(coveragePage.required_snippets) ? coveragePage.required_snippets : [];
+        for (const requiredSnippet of expectedPage.required || []) {
+          if (!requiredSnippets.includes(requiredSnippet)) {
+            failures.push(`Cloudflare manual upload manifest page ${expectedPage.path} missing required snippet coverage for ${requiredSnippet}.`);
+          }
+        }
+      }
+      for (const coveragePage of coverage.pages) {
+        if (!HTML_PAGES.some((page) => page.path === coveragePage.page)) {
+          failures.push(`Cloudflare manual upload manifest contract coverage includes unexpected page ${coveragePage.page || 'unknown'}.`);
+        }
+      }
     }
   }
   if (checksumsPath && await pathExists(checksumsPath)) {
