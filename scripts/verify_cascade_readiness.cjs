@@ -15,6 +15,8 @@ const REQUIRED_TEXT = [
       'https://www.tiktok.com/@cantonidigitalstudio',
       'cantonidigitalstudio@gmail.com',
       '+39 347 196 1113',
+      'not standalone public proof if login is required',
+      'non prova autonoma se compare login obbligatorio',
       'visibilità anche nelle risposte delle intelligenze artificiali'
     ]
   },
@@ -24,6 +26,7 @@ const REQUIRED_TEXT = [
       'siti, e-commerce, web app, app mobile, automazioni AI',
       'Scrivere per persone normali',
       'TikTok: `https://www.tiktok.com/@cantonidigitalstudio`',
+      'non come prova autonoma se il visitatore vede login obbligatorio',
       'YouTube: `https://www.youtube.com/@cantonidigitalstudio`',
       'Gestione continuativa',
       'visibilita nelle risposte delle intelligenze artificiali'

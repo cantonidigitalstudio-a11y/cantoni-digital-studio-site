@@ -41,6 +41,7 @@ function labelsFor(language = 'it') {
       portfolioValue: 'Lavori pubblici',
       facebookValue: 'Pagina ufficiale',
       tiktokLabel: 'TikTok',
+      tiktokProofNote: 'canale ufficiale; non prova autonoma se compare login obbligatorio',
       emailLabel: 'Email',
       phoneLabel: 'Telefono/WhatsApp',
       publicRefs: 'Riferimenti pubblici',
@@ -70,6 +71,7 @@ function labelsFor(language = 'it') {
       portfolioValue: 'Public work',
       facebookValue: 'Official page',
       tiktokLabel: 'TikTok',
+      tiktokProofNote: 'official channel; not standalone public proof if login is required',
       emailLabel: 'Email',
       phoneLabel: 'Phone/WhatsApp',
       publicRefs: 'Public references',
@@ -99,6 +101,7 @@ function labelsFor(language = 'it') {
       portfolioValue: 'Travaux publics',
       facebookValue: 'Page officielle',
       tiktokLabel: 'TikTok',
+      tiktokProofNote: 'canal officiel; pas une preuve publique autonome si la connexion est requise',
       emailLabel: 'Email',
       phoneLabel: 'Téléphone/WhatsApp',
       publicRefs: 'Références publiques',
@@ -128,6 +131,7 @@ function labelsFor(language = 'it') {
       portfolioValue: 'Trabajos públicos',
       facebookValue: 'Página oficial',
       tiktokLabel: 'TikTok',
+      tiktokProofNote: 'canal oficial; no prueba pública autónoma si requiere login',
       emailLabel: 'Email',
       phoneLabel: 'Teléfono/WhatsApp',
       publicRefs: 'Referencias públicas',
@@ -157,6 +161,7 @@ function labelsFor(language = 'it') {
       portfolioValue: 'Trabalhos públicos',
       facebookValue: 'Página oficial',
       tiktokLabel: 'TikTok',
+      tiktokProofNote: 'canal oficial; não prova pública autônoma se exigir login',
       emailLabel: 'Email',
       phoneLabel: 'Telefone/WhatsApp',
       publicRefs: 'Referências públicas',
@@ -186,6 +191,7 @@ function labelsFor(language = 'it') {
       portfolioValue: '公開実績',
       facebookValue: '公式ページ',
       tiktokLabel: 'TikTok',
+      tiktokProofNote: '公式チャンネル。ログインが必要な場合は単独の公開証拠にしない',
       emailLabel: 'メール',
       phoneLabel: '電話/WhatsApp',
       publicRefs: '公開リンク',
@@ -235,6 +241,10 @@ function escapeHtml(value = '') {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function tiktokReferenceValue(labels) {
+  return `${TIKTOK_HANDLE} (${labels.tiktokProofNote})`;
 }
 
 function tidyOutput(value) {
@@ -438,7 +448,7 @@ function renderContactTiles(language = 'it') {
           icon: ICONS.tiktok,
           alt: 'Logo TikTok ufficiale',
           label: labels.tiktokLabel,
-          value: TIKTOK_HANDLE
+          value: tiktokReferenceValue(labels)
         })}
       </tr>
       <tr>
@@ -489,7 +499,7 @@ function renderCredibilityBlock(language = 'it') {
                 ${labels.appProofLabel}: <a href="${LINKS.ec8}" style="color:#13254a;font-weight:700;text-decoration:none;">EC8 Platform</a> · <a href="${LINKS.appStore}" style="color:#13254a;font-weight:700;text-decoration:none;">${labels.appStoreLabel}</a> · <a href="${LINKS.playStore}" style="color:#13254a;font-weight:700;text-decoration:none;">${labels.playStoreLabel}</a><br>
           Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">${labels.facebookValue}</a><br>
           Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
-          ${labels.tiktokLabel}: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">${TIKTOK_HANDLE}</a><br>
+          ${labels.tiktokLabel}: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">${TIKTOK_HANDLE}</a> (${labels.tiktokProofNote})<br>
           YouTube: <a href="${LINKS.youtube}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
           ${labels.emailLabel}: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
                 ${labels.phoneLabel}: <a href="${LINKS.whatsapp}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_PHONE_DISPLAY}</a>
@@ -516,7 +526,7 @@ function renderReferenceFooter(language = 'it') {
           ${labels.appProofLabel}: <a href="${LINKS.ec8}" style="color:#13254a;font-weight:700;text-decoration:none;">EC8 Platform</a> · <a href="${LINKS.appStore}" style="color:#13254a;font-weight:700;text-decoration:none;">${labels.appStoreLabel}</a> · <a href="${LINKS.playStore}" style="color:#13254a;font-weight:700;text-decoration:none;">${labels.playStoreLabel}</a><br>
           Facebook: <a href="${LINKS.facebook}" style="color:#13254a;font-weight:700;text-decoration:none;">${labels.facebookValue} Cantoni Digital Studio</a><br>
           Instagram: <a href="${LINKS.instagram}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
-          ${labels.tiktokLabel}: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">${TIKTOK_HANDLE}</a><br>
+          ${labels.tiktokLabel}: <a href="${LINKS.tiktok}" style="color:#13254a;font-weight:700;text-decoration:none;">${TIKTOK_HANDLE}</a> (${labels.tiktokProofNote})<br>
           YouTube: <a href="${LINKS.youtube}" style="color:#13254a;font-weight:700;text-decoration:none;">@cantonidigitalstudio</a><br>
           ${labels.portfolioLabel}: <a href="${LINKS.cases}" style="color:#13254a;font-weight:700;text-decoration:none;">cantonidigitalstudio.com/case-studies.html</a><br>
           ${labels.emailLabel}: <a href="mailto:${BRAND_EMAIL}" style="color:#13254a;font-weight:700;text-decoration:none;">${BRAND_EMAIL}</a><br>
@@ -723,7 +733,7 @@ ${labels.publicRefs}:
 - ${labels.appProofLabel}: EC8 Platform (${LINKS.ec8}) · ${labels.appStoreLabel}: ${LINKS.appStore} · ${labels.playStoreLabel}: ${LINKS.playStore}
 - Facebook: ${LINKS.facebook}
 - Instagram: ${LINKS.instagram}
-- ${labels.tiktokLabel}: ${LINKS.tiktok}
+- ${labels.tiktokLabel}: ${LINKS.tiktok} (${labels.tiktokProofNote})
 - YouTube: ${LINKS.youtube}
 - ${labels.phoneLabel}: ${BRAND_PHONE_DISPLAY}
 - ${labels.sitePill}: ${LINKS.site}

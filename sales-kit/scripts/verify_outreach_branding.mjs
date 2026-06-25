@@ -32,6 +32,14 @@ const REQUIRED_VISIBLE_REFERENCE_GROUPS = [
     'AI回答'
   ]
 ];
+const REQUIRED_TIKTOK_PROOF_BOUNDARY = [
+  'non prova autonoma se compare login obbligatorio',
+  'not standalone public proof if login is required',
+  'pas une preuve publique autonome',
+  'no prueba pública autónoma',
+  'não prova pública autônoma',
+  '単独の公開証拠にしない'
+];
 const REQUIRED_ICON_ALTS = [
   'Logo sito Cantoni Digital Studio',
   'Portfolio lavori Cantoni Digital Studio',
@@ -95,6 +103,11 @@ async function verifyHtmlFile(filePath) {
   REQUIRED_VISIBLE_REFERENCE_GROUPS.forEach((group) => {
     assert(group.some((reference) => html.includes(reference)), `missing_visible_reference:${group[0]}`, failures);
   });
+  assert(
+    REQUIRED_TIKTOK_PROOF_BOUNDARY.some((reference) => html.includes(reference)),
+    'missing_tiktok_proof_boundary',
+    failures
+  );
   for (const alt of REQUIRED_ICON_ALTS) {
     assert(html.includes(`alt="${alt}"`), `missing_reference_icon:${alt}`, failures);
   }
@@ -141,6 +154,13 @@ async function verifyQueueFile(filePath) {
         failures
       );
     });
+    assert(
+      REQUIRED_TIKTOK_PROOF_BOUNDARY.some((reference) =>
+        `${item.html_body || ''}\n${item.text_body || ''}`.includes(reference)
+      ),
+      `${prefix}:missing_tiktok_proof_boundary`,
+      failures
+    );
     for (const alt of REQUIRED_ICON_ALTS) {
       assert((item.html_body || '').includes(`alt="${alt}"`), `${prefix}:missing_reference_icon:${alt}`, failures);
     }
