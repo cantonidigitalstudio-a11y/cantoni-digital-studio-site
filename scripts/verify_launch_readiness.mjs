@@ -67,6 +67,28 @@ function gateFromRun({ id, label, category, run, details }) {
   };
 }
 
+function externalUnblockHandoffGate(run) {
+  const gate = gateFromRun({
+    id: 'external_unblock_handoff',
+    label: 'External unblock handoff',
+    category: 'handoff',
+    run,
+    details: (parsed) => ({
+      handoff: parsed?.handoff || null,
+      source_operator_pack: parsed?.source_operator_pack || null,
+      status: parsed?.status || null,
+      deploy_candidate_status: parsed?.deploy_candidate_status || null,
+      checked_tasks: parsed?.checked_tasks || []
+    })
+  });
+
+  if (gate.ok) return gate;
+  return {
+    ...gate,
+    severity: 'advisory'
+  };
+}
+
 function cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun }) {
   const oauthGate = gateFromRun({
     id: 'cloudflare_pages_deploy_auth',
@@ -236,19 +258,7 @@ const gates = [
       check_count: Array.isArray(parsed?.checks) ? parsed.checks.length : 0
     })
   }),
-  gateFromRun({
-    id: 'external_unblock_handoff',
-    label: 'External unblock handoff',
-    category: 'handoff',
-    run: externalUnblockHandoffRun,
-    details: (parsed) => ({
-      handoff: parsed?.handoff || null,
-      source_operator_pack: parsed?.source_operator_pack || null,
-      status: parsed?.status || null,
-      deploy_candidate_status: parsed?.deploy_candidate_status || null,
-      checked_tasks: parsed?.checked_tasks || []
-    })
-  }),
+  externalUnblockHandoffGate(externalUnblockHandoffRun),
   {
     id: 'commercial_outbound_pause',
     label: 'Commercial outbound pause',

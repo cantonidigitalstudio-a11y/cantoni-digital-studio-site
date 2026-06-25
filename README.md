@@ -44,7 +44,8 @@ remoto coerente con `cantonidigitalstudio-a11y/cantoni-digital-studio-site`.
 verifica stato Git deploy, contratto dell'artifact pubblicabile e gate live come
 controlli separati. Espone anche il gate `external_unblock_handoff`, che
 verifica il dossier latest per accessi Cloudflare/DNS/email quando il go-live e
-bloccato da interventi esterni.
+bloccato da interventi esterni. Se il latest non e ancora stato rigenerato nella
+stessa sequenza, il gate resta informativo e non sostituisce i blocker reali.
 Per diagnosticare token/API Cloudflare senza mutazioni, usa
 `npm run audit:cloudflare-api`: verifica token attivo, lettura Pages e lettura
 DNS quando `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e

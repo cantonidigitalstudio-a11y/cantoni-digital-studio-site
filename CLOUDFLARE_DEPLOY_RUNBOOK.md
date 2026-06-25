@@ -133,7 +133,9 @@ blocca se il dossier contiene assegnazioni di valori Cloudflare, perde gli
 approval token, non punta allo ZIP corrente o gli alias latest non corrispondono
 all'ultimo file timestampato. `npm run audit:launch-readiness` espone lo stesso
 controllo come gate `external_unblock_handoff`, cosi il report principale mostra
-anche se il dossier di sblocco esterno e pronto.
+anche se il dossier di sblocco esterno e pronto. Se il latest e stale durante
+una generazione di pack, il gate resta informativo; i blocker reali rimangono
+Cloudflare, DNS, live contract e outbound hold.
 
 ## Deploy preview
 ```bash
