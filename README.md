@@ -153,6 +153,9 @@ e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
 L'evidenza strutturata resta in
 `sales-kit/payment_branding_review_evidence.json`; l'audit non diventa verde se
 il flag viene rimosso senza `release_ready=true`.
+Il remediation path Stripe/PayPal e in
+`sales-kit/payment_branding_remediation.md` ed e verificato da
+`npm run test:payment-branding-remediation`.
 
 ## Regole operative
 

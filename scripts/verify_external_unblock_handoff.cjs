@@ -179,6 +179,7 @@ async function main() {
   if (dkim && dkim.manual_value_required !== true) failures.push('Google DKIM record must stay manual-value-required.');
   if (paymentBranding?.flag !== 'sales-kit/payment_branding_review.flag') failures.push('Payment branding task must reference sales-kit/payment_branding_review.flag.');
   if (paymentBranding?.evidence !== 'sales-kit/payment_branding_review_evidence.json') failures.push('Payment branding task must reference sales-kit/payment_branding_review_evidence.json.');
+  if (paymentBranding?.remediation !== 'sales-kit/payment_branding_remediation.md') failures.push('Payment branding task must reference sales-kit/payment_branding_remediation.md.');
   if (!paymentBranding?.verification_commands?.includes('npm run audit:payment-branding')) {
     failures.push('Payment branding task must require npm run audit:payment-branding.');
   }
@@ -228,6 +229,7 @@ async function main() {
       'No passwords, tokens, OTPs, cookies or recovery data belong in this repo.',
       'sales-kit/payment_branding_review.flag',
       'sales-kit/payment_branding_review_evidence.json',
+      'sales-kit/payment_branding_remediation.md',
       'sales-kit/outbound_pause.flag',
       'npm run test:social-public',
       'npm run test:lead-endpoint',

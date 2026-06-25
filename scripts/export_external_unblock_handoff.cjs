@@ -255,6 +255,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
         destination: 'Stripe Checkout and PayPal wallet branding for Cantoni Digital Studio',
         flag: 'sales-kit/payment_branding_review.flag',
         evidence: 'sales-kit/payment_branding_review_evidence.json',
+        remediation: 'sales-kit/payment_branding_remediation.md',
         evidence_status: paymentBrandingEvidence?.status || null,
         evidence_summary: paymentBrandingEvidence?.summary || null,
         required_review: [
@@ -384,6 +385,7 @@ function renderMarkdown(payload) {
     `- Status: \`${paymentBranding.status}\``,
     '- Required flag: `sales-kit/payment_branding_review.flag` remains until review is complete.',
     `- Evidence: \`${paymentBranding.evidence}\` (${paymentBranding.evidence_status || 'not recorded'}; release_ready=${paymentBranding.evidence_summary?.release_ready === true ? 'true' : 'false'})`,
+    `- Remediation: \`${paymentBranding.remediation}\``,
     '- Verify with `npm run audit:payment-branding` and `npm run test:payments`.',
     '- Confirm Stripe Checkout and PayPal show Cantoni Digital Studio only; stop before final payment submission.',
     '',

@@ -19,6 +19,7 @@ function main() {
   const historicalHeader = historicalStatus.split('\n').slice(0, 12).join('\n');
   const readme = read('README.md');
   const cloudflareRunbook = read('CLOUDFLARE_DEPLOY_RUNBOOK.md');
+  const paymentBrandingRemediation = read('sales-kit/payment_branding_remediation.md');
   const outboundPause = read('sales-kit/outbound_pause.flag');
   const paymentBranding = read('sales-kit/payment_branding_review.flag');
 
@@ -85,6 +86,9 @@ function main() {
   if (!readme.includes('sales-kit/payment_branding_review_evidence.json') || !readme.includes('release_ready=true')) {
     failures.push('README.md: must document payment branding evidence and release_ready gate');
   }
+  if (!readme.includes('sales-kit/payment_branding_remediation.md') || !readme.includes('npm run test:payment-branding-remediation')) {
+    failures.push('README.md: must document payment branding remediation verifier');
+  }
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
@@ -142,6 +146,9 @@ function main() {
   if (!cloudflareRunbook.includes('sales-kit/payment_branding_review_evidence.json') || !cloudflareRunbook.includes('release_ready=true')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding evidence and release_ready gate');
   }
+  if (!cloudflareRunbook.includes('sales-kit/payment_branding_remediation.md') || !cloudflareRunbook.includes('npm run test:payment-branding-remediation')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding remediation verifier');
+  }
   if (!cloudflareRunbook.includes('preview-cantoni-site') || !cloudflareRunbook.includes('CLOUDFLARE_PAGES_BRANCH=main') || !cloudflareRunbook.includes('live_site_contract')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document preview-vs-production branch behavior for live contract closure');
   }
@@ -155,6 +162,19 @@ function main() {
       failures.push(`sales-kit/payment_branding_review.flag: must include payment branding release condition "${required}"`);
     }
   }
+  for (const required of [
+    'https://docs.stripe.com/payments/paypal',
+    'https://docs.stripe.com/payments/paypal/activate',
+    'https://docs.stripe.com/payment-links',
+    'https://docs.stripe.com/payments/checkout/payment-methods',
+    'cantonidigitalstudio@gmail.com',
+    'sales-kit/payment_branding_review_evidence.json',
+    'release_ready=true'
+  ]) {
+    if (!paymentBrandingRemediation.includes(required)) {
+      failures.push(`sales-kit/payment_branding_remediation.md: must include "${required}"`);
+    }
+  }
 
   const report = {
     ok: failures.length === 0,
@@ -162,6 +182,7 @@ function main() {
       'sales-kit/cascade_status_2026-05-16.md',
       'README.md',
       'CLOUDFLARE_DEPLOY_RUNBOOK.md',
+      'sales-kit/payment_branding_remediation.md',
       'sales-kit/outbound_pause.flag',
       'sales-kit/payment_branding_review.flag'
     ],

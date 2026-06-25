@@ -273,6 +273,7 @@ Se PayPal non compare nemmeno nel browser reale, il codice del sito non può cor
 - Rischio accettato: PayPal puo mostrare o usare riferimenti del conto storico nelle schermate PayPal, nelle ricevute o nelle comunicazioni, anche se Stripe Checkout deve continuare a identificare il merchant come `Cantoni Digital Studio`.
 - Gate strutturato: `sales-kit/payment_branding_review.flag` resta presente finche `npm run audit:payment-branding` non e verde dopo verifica reale dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
 - Evidenza: `sales-kit/payment_branding_review_evidence.json` registra l'ultima verifica Browser reale; il flag non va rimosso finche l'evidenza non ha `release_ready=true`.
+- Remediation Stripe/PayPal: `sales-kit/payment_branding_remediation.md`, verificato da `npm run test:payment-branding-remediation`.
 - Il test pagamenti blocca altri brand non correlati nel checkout Stripe, ma non blocca EC8/EC8 Platform finche questa eccezione temporanea resta approvata.
 
 ## Controlli dopo il go-live
