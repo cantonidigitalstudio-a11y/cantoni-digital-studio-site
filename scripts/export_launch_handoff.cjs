@@ -89,6 +89,18 @@ function failureLines(items) {
   });
 }
 
+function passingGateLines(gates) {
+  const passing = (Array.isArray(gates) ? gates : []).filter((gate) => gate.ok === true);
+  if (!passing.length) return ['- none'];
+  return passing.map((gate) => {
+    const details = gate.details || {};
+    const suffix = gate.id === 'cloudflare_artifact_contract'
+      ? ` (${details.files_count ?? 'unknown'}/${details.required_files_count ?? 'unknown'} files)`
+      : '';
+    return `- ${gate.id}: ${gate.label || 'Gate passed'}${suffix}`;
+  });
+}
+
 function dnsRecordTable(records) {
   if (!Array.isArray(records) || !records.length) return ['No DNS recommendation payload was available.'];
   return [
@@ -211,6 +223,10 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     '## Current Holds',
     '',
     ...failureLines(holds),
+    '',
+    '## Verified Passing Gates',
+    '',
+    ...passingGateLines(readiness.gates),
     '',
     '## Git Provenance',
     '',

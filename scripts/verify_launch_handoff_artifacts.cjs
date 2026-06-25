@@ -137,6 +137,14 @@ async function main() {
     } else if (artifactGate.details?.artifact_ok !== true || artifactGate.details?.build_ok !== true) {
       failures.push('operator_pack: cloudflare_artifact_contract must include passing build and artifact details');
     }
+    const operatorMarkdown = await fs.readFile(files.operatorPack.replace(/\.json$/u, '.md'), 'utf8');
+    const launchMarkdown = await fs.readFile(files.launchHandoff.replace(/\.json$/u, '.md'), 'utf8');
+    if (!operatorMarkdown.includes('## Verified Passing Gates') || !operatorMarkdown.includes('cloudflare_artifact_contract')) {
+      failures.push('operator_pack: Markdown must expose verified passing readiness gates');
+    }
+    if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
+      failures.push('launch_handoff: Markdown must expose verified passing readiness gates');
+    }
 
     const cloudflareAuth = launchHandoff.cloudflare_auth || {};
     const cloudflareAuthOk = cloudflareAuth.ok === true;
