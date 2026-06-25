@@ -129,6 +129,7 @@ const runs = {
   cloudflareDnsApi: runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--dns-only']),
   emailDns: runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']),
   publicChannels: runJson(process.execPath, ['scripts/verify_public_channels.cjs']),
+  leadEndpoint: runJson(process.execPath, ['scripts/verify_lead_capture_endpoint.cjs']),
   paymentBranding: runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']),
   launchReadiness: runJson(process.execPath, ['scripts/verify_launch_readiness.mjs', '--allow-blocked']),
   externalHandoff: runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs'])
@@ -239,6 +240,18 @@ const steps = [
             ok: result.ok === true
           }))
         : []
+    })
+  }),
+  stepFromRun({
+    id: 'lead_capture_endpoint',
+    label: 'Lead capture endpoint',
+    category: 'leads',
+    run: runs.leadEndpoint,
+    ok: (parsed) => parsed?.ok === true,
+    details: (parsed) => ({
+      endpointHost: parsed?.endpointHost || null,
+      health: parsed?.health || null,
+      liveLeadProbe: parsed?.liveLeadProbe || null
     })
   }),
   stepFromRun({

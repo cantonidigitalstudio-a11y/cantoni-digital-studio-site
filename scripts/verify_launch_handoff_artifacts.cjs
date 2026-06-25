@@ -426,6 +426,7 @@ async function main() {
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
     const publicSocialGate = readinessGates.find((gate) => gate.id === 'public_social_channels');
+    const leadEndpointGate = readinessGates.find((gate) => gate.id === 'lead_capture_endpoint');
     const paymentBrandingGate = readinessGates.find((gate) => gate.id === 'payment_branding_review');
     const externalUnblockHandoffGate = readinessGates.find((gate) => gate.id === 'external_unblock_handoff');
     const paymentBrandingFlagPresent = await pathExists(path.join(PROJECT_ROOT, 'sales-kit/payment_branding_review.flag'));
@@ -447,6 +448,13 @@ async function main() {
       failures.push('operator_pack: public_social_channels readiness gate must pass before handoff');
     } else if (!Array.isArray(publicSocialGate.details?.results) || publicSocialGate.details.results.length < 5) {
       failures.push('operator_pack: public_social_channels gate must expose checked channel details');
+    }
+    if (!leadEndpointGate) {
+      failures.push('operator_pack: missing lead_capture_endpoint readiness gate');
+    } else if (leadEndpointGate.ok !== true) {
+      failures.push('operator_pack: lead_capture_endpoint readiness gate must pass before handoff');
+    } else if (leadEndpointGate.details?.endpointHost !== 'script.google.com' || leadEndpointGate.details?.health?.service !== 'cantoni-digital-studio-leads') {
+      failures.push('operator_pack: lead_capture_endpoint gate must expose Cantoni Apps Script health details');
     }
     if (paymentBrandingFlagPresent) {
       if (!paymentBrandingGate) {
@@ -490,6 +498,9 @@ async function main() {
     if (!operatorMarkdown.includes('public_social_channels')) {
       failures.push('operator_pack: Markdown must expose public social channel verification');
     }
+    if (!operatorMarkdown.includes('lead_capture_endpoint')) {
+      failures.push('operator_pack: Markdown must expose lead capture endpoint verification');
+    }
     if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
       failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');
     }
@@ -509,6 +520,9 @@ async function main() {
     }
     if (!launchMarkdown.includes('public_social_channels')) {
       failures.push('launch_handoff: Markdown must expose public social channel verification');
+    }
+    if (!launchMarkdown.includes('lead_capture_endpoint')) {
+      failures.push('launch_handoff: Markdown must expose lead capture endpoint verification');
     }
     if (paymentBrandingFlagPresent && (!launchMarkdown.includes('payment_branding_review') || !launchMarkdown.includes('sales-kit/payment_branding_review.flag'))) {
       failures.push('launch_handoff: Markdown must expose payment branding hold while flag exists');

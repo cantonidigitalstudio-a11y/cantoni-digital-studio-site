@@ -197,6 +197,7 @@ const artifactRun = runJson(process.execPath, ['scripts/verify_cloudflare_artifa
 const paymentBrandingRun = runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
 const publicChannelsRun = runJson(process.execPath, ['scripts/verify_public_channels.cjs']);
+const leadEndpointRun = runJson(process.execPath, ['scripts/verify_lead_capture_endpoint.cjs']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_state.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
@@ -312,6 +313,17 @@ const gates = [
             ok: result.ok === true
           }))
         : []
+    })
+  }),
+  gateFromRun({
+    id: 'lead_capture_endpoint',
+    label: 'Lead capture endpoint',
+    category: 'leads',
+    run: leadEndpointRun,
+    details: (parsed) => ({
+      endpointHost: parsed?.endpointHost || null,
+      health: parsed?.health || null,
+      liveLeadProbe: parsed?.liveLeadProbe || null
     })
   }),
   paymentBrandingGate(paymentBrandingRun),

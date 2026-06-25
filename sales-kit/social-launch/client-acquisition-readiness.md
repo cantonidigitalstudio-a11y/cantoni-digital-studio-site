@@ -29,14 +29,15 @@ Fonte: `npm run test:social-public`.
 1. Verificare il sito live/preview con `npm run test:full`.
 2. Verificare asset e copy social con `npm run test:social`.
 3. Verificare canali pubblici e pagina identita con `npm run test:social-public`.
-4. Pubblicare almeno 3 contenuti credibili su Instagram, dopo review finale di asset e caption.
-5. Usare Facebook e YouTube come prove pubbliche; non usare TikTok come prova autonoma finché non passa QA pubblica senza login.
-6. Aggiungere TikTok al sito come prova pubblica solo dopo QA senza login.
-7. Creare lista lead pulita: nessun lead già contattato, dominio reale verificato.
-8. Fare audit live del sito cliente prima di qualunque email.
-9. Mandare prima email senza prezzi e senza preventivo completo.
-10. Preparare preventivo solo se il lead risponde o è top tier.
-11. Tracciare ogni lead in `sales-kit/lead_pipeline.csv`.
+4. Verificare endpoint lead Apps Script con `npm run test:lead-endpoint`.
+5. Pubblicare almeno 3 contenuti credibili su Instagram, dopo review finale di asset e caption.
+6. Usare Facebook e YouTube come prove pubbliche; non usare TikTok come prova autonoma finché non passa QA pubblica senza login.
+7. Aggiungere TikTok al sito come prova pubblica solo dopo QA senza login.
+8. Creare lista lead pulita: nessun lead già contattato, dominio reale verificato.
+9. Fare audit live del sito cliente prima di qualunque email.
+10. Mandare prima email senza prezzi e senza preventivo completo.
+11. Preparare preventivo solo se il lead risponde o è top tier.
+12. Tracciare ogni lead in `sales-kit/lead_pipeline.csv`.
 
 ## Primo batch contenuti
 

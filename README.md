@@ -138,7 +138,8 @@ allineati gli alias latest e non assegni valori segreti.
 Quando Cloudflare Pages/DNS e Google Workspace sono stati sbloccati, usa
 `npm run audit:post-unblock-launch` come controllo unico di chiusura tecnica:
 verifica Git, live site, accesso Pages, DNS API, email DNS, canali social
-pubblici, payment branding, readiness senza rilascio outbound e handoff. Prima dello sblocco,
+pubblici, endpoint lead, payment branding, readiness senza rilascio outbound e
+handoff. Prima dello sblocco,
 `npm run test:post-unblock-launch` mostra gli stessi blocker senza fallire il
 comando.
 `npm run audit:payment-branding` controlla il flag
