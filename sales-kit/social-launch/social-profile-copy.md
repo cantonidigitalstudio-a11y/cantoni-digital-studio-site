@@ -4,7 +4,7 @@ Use only the official account `cantonidigitalstudio@gmail.com`.
 
 ## Instagram
 
-Status: official handle exists. Browser QA on 2026-05-14 confirms the profile shows the studio bio, the clickable website link is `cantonidigitalstudio.com`, `zumu.be/ecantoni` no longer appears, and the profile avatar has been replaced with the centered generated asset below. Current automated QA on 2026-06-25 treats Instagram as `metadata-proof-load-error`: metadata confirms `Cantoni Digital Studio (@cantonidigitalstudio)`, but the logged-out visible page can render a load error. Do not use Instagram as standalone public proof until `npm run test:social-public` reports public proof without load error. Evidence: authenticated `/tmp/instagram-cantoni-avatar-persistent-final.png`; public logged-out `/tmp/instagram-cantoni-public-final-clean.png`.
+Status: official handle exists. Browser QA on 2026-05-14 confirms the profile shows the studio bio, the clickable website link is `cantonidigitalstudio.com`, `zumu.be/ecantoni` no longer appears, and the profile avatar has been replaced with the centered generated asset below. Current source of truth is `npm run test:social-public`: Instagram can be used as standalone public proof only when the current run reports `public-proof` with `loadError=false`. If the current run reports `metadata-proof-load-error`, metadata still confirms `Cantoni Digital Studio (@cantonidigitalstudio)` and the official link, but the logged-out visible page rendered a load error, so use it as official metadata proof only. Evidence: authenticated `/tmp/instagram-cantoni-avatar-persistent-final.png`; public logged-out `/tmp/instagram-cantoni-public-final-clean.png`.
 
 Profile avatar asset:
 `sales-kit/social-launch/output/instagram-avatar-cantoni.png`
@@ -81,7 +81,7 @@ First content format:
 
 ## Publication Rule
 
-Facebook is accepted as a standalone proof link after the 2026-05-13 logged-out Browser QA. Instagram is official metadata proof only while current QA reports `metadata-proof-load-error`. Do not use TikTok as a standalone proof link in proposals until the public profile opens without login and contains:
+Facebook is accepted as a standalone proof link after the 2026-05-13 logged-out Browser QA. Instagram is standalone proof only when the current public verifier reports `public-proof` with no load error; while current QA reports `metadata-proof-load-error`, it is official metadata proof only. Do not use TikTok as a standalone proof link in proposals until the public profile opens without login and contains:
 - correct logo/avatar
 - brand name
 - website link where the platform allows it

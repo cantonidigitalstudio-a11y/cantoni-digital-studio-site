@@ -18,7 +18,7 @@ Partire con proposte internazionali solo quando il brand pubblico è coerente, i
 
 Fonte: `npm run test:social-public`.
 
-- Instagram: passa come canale ufficiale con `metadata-proof-load-error`: i metadati confermano `@cantonidigitalstudio`, bio e link `cantonidigitalstudio.com`, ma la pagina logged-out attuale mostra errore di caricamento e non va usata come prova pubblica autonoma. Il verifier blocca la ricomparsa di `zumu.be/ecantoni`.
+- Instagram: usare `npm run test:social-public` come fonte corrente. Passa come `public-proof` solo quando il profilo logged-out rende senza errore di caricamento e `loadError=false`; passa come `metadata-proof-load-error` quando i metadati confermano `@cantonidigitalstudio`, bio e link `cantonidigitalstudio.com`, ma la pagina visibile mostra un load/error page. Usarlo come prova pubblica autonoma solo nel primo caso. Il verifier blocca la ricomparsa di `zumu.be/ecantoni`.
 - Facebook: passa come prova pubblica con pagina Cantoni Digital Studio, categoria, email e sito.
 - TikTok: resta configurato come `@cantonidigitalstudio`, ma e ancora trattato come `login-gated-ok`; non usarlo come prova autonoma.
 - YouTube: passa come prova pubblica su `https://www.youtube.com/@cantonidigitalstudio`.
@@ -32,7 +32,7 @@ Fonte: `npm run test:social-public`.
 4. Verificare endpoint lead Apps Script con `npm run test:lead-endpoint`.
 5. Verificare readiness commerciale completa con `npm run test:outreach-readiness` prima di qualunque invio reale.
 6. Pubblicare almeno 3 contenuti credibili su Instagram, dopo review finale di asset e caption.
-7. Usare Facebook e YouTube come prove pubbliche; trattare Instagram come prova metadata-only finche il browser logged-out mostra `metadata-proof-load-error`; non usare TikTok come prova autonoma finché non passa QA pubblica senza login.
+7. Usare Facebook e YouTube come prove pubbliche; usare Instagram come prova autonoma solo quando il verifier corrente riporta `public-proof` con `loadError=false`, altrimenti trattarlo come metadata-only se riporta `metadata-proof-load-error`; non usare TikTok come prova autonoma finché non passa QA pubblica senza login.
 8. Aggiungere TikTok al sito come prova pubblica solo dopo QA senza login.
 9. Creare lista lead pulita: nessun lead già contattato, dominio reale verificato.
 10. Fare audit live del sito cliente prima di qualunque email.

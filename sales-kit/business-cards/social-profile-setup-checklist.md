@@ -6,7 +6,7 @@ The current business-card print file includes full-color Facebook, Instagram and
 
 `npm run test:social-public` is the current source of truth before launch, print, or outbound use.
 
-- Instagram `https://www.instagram.com/cantonidigitalstudio/`: currently passes as `metadata-proof-load-error`; metadata confirms `Cantoni Digital Studio (@cantonidigitalstudio)`, the bio and `cantonidigitalstudio.com`, and the stale `zumu.be/ecantoni` link is forbidden by the verifier. The visible logged-out page still renders a load error, so do not use Instagram as standalone public proof.
+- Instagram `https://www.instagram.com/cantonidigitalstudio/`: treat `npm run test:social-public` as the current source of truth. It may pass as `public-proof` when the logged-out profile renders without a load error, or as `metadata-proof-load-error` when metadata confirms `Cantoni Digital Studio (@cantonidigitalstudio)`, the bio and `cantonidigitalstudio.com` but the visible page renders a load error. The stale `zumu.be/ecantoni` link is forbidden by the verifier. Use Instagram as standalone public proof only when the current run reports `public-proof` with `loadError=false`.
 - Facebook `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`: passes as public proof with studio name, category, email and website.
 - TikTok `https://www.tiktok.com/@cantonidigitalstudio`: remains an official configured handle, but logged-out access is accepted only as `login-gated-ok`; do not use it as standalone public proof.
 - YouTube `https://www.youtube.com/@cantonidigitalstudio`: passes as public proof.

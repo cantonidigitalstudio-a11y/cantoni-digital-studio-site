@@ -262,6 +262,8 @@ function main() {
         'Resolved Instagram Task - 2026-05-14',
         'This is no longer required to accept the current Instagram official profile/link boundary',
         'metadata-proof-load-error',
+        'public-proof',
+        'loadError=false',
         'Use this procedure only if a future public QA run shows the Instagram profile regressed'
       ]) {
         if (!contents.includes(required)) {
@@ -291,21 +293,29 @@ function main() {
   for (const [file, contents, requiredSnippets] of [
     ['sales-kit/business-cards/social-profile-setup-checklist.md', socialProfileChecklist, [
       'metadata-proof-load-error',
+      'public-proof',
+      'loadError=false',
       'load error',
       'standalone public proof'
     ]],
     ['sales-kit/social-launch/launch-runbook.md', socialLaunchRunbook, [
       'metadata-proof-load-error',
-      'not a standalone public proof channel',
+      'public-proof',
+      'loadError=false',
+      'official metadata proof only',
       'load/error page'
     ]],
     ['sales-kit/social-launch/social-profile-copy.md', read('sales-kit/social-launch/social-profile-copy.md'), [
       'metadata-proof-load-error',
+      'public-proof',
+      'loadError=false',
       'standalone public proof',
       'load error'
     ]],
     ['sales-kit/social-launch/client-acquisition-readiness.md', socialClientAcquisition, [
       'metadata-proof-load-error',
+      'public-proof',
+      'loadError=false',
       'errore di caricamento',
       'prova pubblica autonoma'
     ]]
