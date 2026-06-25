@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 const crypto = require('crypto');
 const { spawnSync } = require('child_process');
+const { gitProvenance } = require('./lib/git_provenance.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.resolve(process.env.CLOUDFLARE_PAGES_OUTPUT_DIR || path.join(PROJECT_ROOT, '.cloudflare-pages'));
@@ -87,6 +88,7 @@ async function buildManifest() {
     ok: true,
     package_type: 'cloudflare_pages_manual_upload_v1',
     generated_at: new Date().toISOString(),
+    git: gitProvenance(PROJECT_ROOT),
     project_name: PROJECT_NAME,
     domain_name: DOMAIN_NAME,
     public_dir: '.cloudflare-pages',
@@ -111,6 +113,10 @@ async function writeTextArtifacts(manifest, zipStats) {
     `Project: ${PROJECT_NAME}`,
     `Domain: ${DOMAIN_NAME}`,
     `Generated: ${manifest.generated_at}`,
+    `Git commit: ${manifest.git?.short_commit || 'unknown'}`,
+    `Git branch: ${manifest.git?.branch || 'unknown'}`,
+    `Git upstream: ${manifest.git?.upstream || 'unknown'}`,
+    `Git dirty: ${manifest.git?.dirty ? 'yes' : 'no'}`,
     '',
     'Upload artifact:',
     `- ${zipRelativeName}`,
@@ -168,6 +174,7 @@ async function main() {
     domain_name: DOMAIN_NAME,
     files_count: manifest.files_count,
     files_total_bytes: manifest.files_total_bytes,
+    git: manifest.git,
     zip: {
       path: ZIP_PATH,
       bytes: zipStats.bytes,

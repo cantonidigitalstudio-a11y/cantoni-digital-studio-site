@@ -98,6 +98,35 @@ async function main() {
       readJson(files.emailDnsApi),
       readJson(files.liveDrift)
     ]);
+    const manualPackageManifestPath = operatorPack.steps?.cloudflare_manual_upload?.output?.manifest;
+    const manualPackageManifest = manualPackageManifestPath
+      ? await readJson(path.join(PROJECT_ROOT, manualPackageManifestPath))
+      : null;
+
+    for (const [label, git] of [
+      ['launch_handoff', launchHandoff.git],
+      ['operator_pack', operatorPack.git],
+      ['cloudflare_manual_upload', manualPackageManifest?.git]
+    ]) {
+      if (!git || typeof git !== 'object') {
+        failures.push(`${label}: missing Git provenance`);
+        continue;
+      }
+      for (const field of ['commit', 'short_commit', 'branch', 'upstream', 'remote_name', 'remote_url']) {
+        if (!git[field]) failures.push(`${label}: missing Git provenance field ${field}`);
+      }
+      if (typeof git.dirty !== 'boolean') failures.push(`${label}: Git provenance dirty must be boolean`);
+      if (!Number.isInteger(git.status_entries)) failures.push(`${label}: Git provenance status_entries must be an integer`);
+    }
+    if (launchHandoff.git?.commit && operatorPack.git?.commit && launchHandoff.git.commit !== operatorPack.git.commit) {
+      failures.push('operator_pack: Git commit does not match launch handoff');
+    }
+    if (launchHandoff.git?.commit && manualPackageManifest?.git?.commit && launchHandoff.git.commit !== manualPackageManifest.git.commit) {
+      failures.push('cloudflare_manual_upload: Git commit does not match launch handoff');
+    }
+    if (launchHandoff.git?.upstream && operatorPack.git?.upstream && launchHandoff.git.upstream !== operatorPack.git.upstream) {
+      failures.push('operator_pack: Git upstream does not match launch handoff');
+    }
 
     const cloudflareAuth = launchHandoff.cloudflare_auth || {};
     const cloudflareAuthOk = cloudflareAuth.ok === true;
@@ -184,6 +213,10 @@ async function main() {
     }
 
     const stepOutput = operatorPack.steps?.email_dns_handoff?.output || {};
+    await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path, 'operator_pack.cloudflare_zip', failures);
+    await requireReferencedFile(manualPackageManifestPath, 'operator_pack.cloudflare_manifest', failures);
+    await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.checksums, 'operator_pack.cloudflare_checksums', failures);
+    await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.readme, 'operator_pack.cloudflare_readme', failures);
     await requireReferencedFile(stepOutput.cloudflare_api_json, 'operator_pack.email_dns_api_json', failures);
     await requireReferencedFile(operatorPack.steps?.launch_handoff?.output?.json, 'operator_pack.launch_handoff_json', failures);
     await requireReferencedFile(operatorPack.steps?.live_drift?.output?.json, 'operator_pack.live_drift_json', failures);

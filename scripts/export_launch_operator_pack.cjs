@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { gitProvenance } = require('./lib/git_provenance.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.resolve(process.env.LAUNCH_OPERATOR_PACK_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/launch-operator-pack'));
@@ -168,6 +169,18 @@ function cloudflareDnsPlanLines(plan) {
   ];
 }
 
+function gitProvenanceLines(git) {
+  if (!git) return ['- No Git provenance payload was available.'];
+  return [
+    `- Commit: \`${git.short_commit || 'unknown'}\``,
+    `- Branch: \`${git.branch || 'unknown'}\``,
+    `- Upstream: \`${git.upstream || 'unknown'}\``,
+    `- Remote: \`${git.remote_url || 'unknown'}\``,
+    `- Ahead/behind: ${git.ahead ?? 'unknown'}/${git.behind ?? 'unknown'}`,
+    `- Dirty worktree at generation: ${git.dirty ? 'yes' : 'no'}`
+  ];
+}
+
 function renderMarkdown(payload) {
   const readiness = payload.readiness || {};
   const liveDrift = payload.steps.live_drift.output;
@@ -192,6 +205,10 @@ function renderMarkdown(payload) {
     '## Current Holds',
     '',
     ...failureLines(readiness.holds),
+    '',
+    '## Git Provenance',
+    '',
+    ...gitProvenanceLines(payload.git),
     '',
     '## Artifact Index',
     '',
@@ -245,6 +262,7 @@ async function main() {
   const payload = {
     ok: true,
     generated_at: new Date().toISOString(),
+    git: gitProvenance(PROJECT_ROOT),
     readiness: launchHandoffJson?.readiness || null,
     cloudflare_auth: launchHandoffJson?.cloudflare_auth || null,
     cloudflare_api: launchHandoffJson?.cloudflare_api || null,

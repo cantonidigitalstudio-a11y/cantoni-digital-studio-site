@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { gitProvenance } = require('./lib/git_provenance.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.resolve(process.env.LAUNCH_HANDOFF_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/launch-handoff'));
@@ -169,7 +170,19 @@ function cloudflareApiDiagnosticLines(cloudflareApi) {
   ];
 }
 
-function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cloudflareApi }) {
+function gitProvenanceLines(git) {
+  if (!git) return ['- No Git provenance payload was available.'];
+  return [
+    `- Commit: \`${git.short_commit || 'unknown'}\``,
+    `- Branch: \`${git.branch || 'unknown'}\``,
+    `- Upstream: \`${git.upstream || 'unknown'}\``,
+    `- Remote: \`${git.remote_url || 'unknown'}\``,
+    `- Ahead/behind: ${git.ahead ?? 'unknown'}/${git.behind ?? 'unknown'}`,
+    `- Dirty worktree at generation: ${git.dirty ? 'yes' : 'no'}`
+  ];
+}
+
+function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cloudflareApi, git }) {
   const blockers = readiness.blockers || [];
   const holds = readiness.holds || [];
   const packageLines = latestPackage
@@ -198,6 +211,10 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     '## Current Holds',
     '',
     ...failureLines(holds),
+    '',
+    '## Git Provenance',
+    '',
+    ...gitProvenanceLines(git),
     '',
     '## Cloudflare Package',
     '',
@@ -274,6 +291,7 @@ async function main() {
   const payload = {
     ok: readiness.ok === true,
     generated_at: new Date().toISOString(),
+    git: gitProvenance(PROJECT_ROOT),
     readiness: {
       ok: readiness.ok === true,
       checked_at: readiness.checked_at,
@@ -298,7 +316,8 @@ async function main() {
     emailDns: payload.email_dns,
     latestPackage,
     cloudflareAuth,
-    cloudflareApi
+    cloudflareApi,
+    git: payload.git
   }));
 
   console.log(JSON.stringify({
