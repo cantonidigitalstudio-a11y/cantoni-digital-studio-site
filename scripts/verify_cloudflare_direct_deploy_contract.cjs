@@ -134,7 +134,8 @@ const allowed = new Set([
   'run test:full',
   'run test:artifact',
   'run test:browser',
-  'run test:payments'
+  'run test:payments',
+  'run audit:cloudflare-deploy-candidate'
 ]);
 if (!allowed.has(args.join(' '))) {
   console.error('unexpected npm call: ' + args.join(' '));
@@ -441,6 +442,7 @@ async function main() {
     const npmCalls = log.filter((entry) => entry.tool === 'npm').map((entry) => entry.args.join(' '));
     assert(npmCalls.includes('run test:full'), 'direct deploy should run full test suite before deploy');
     assert(npmCalls.includes('run test:artifact'), 'direct deploy should verify artifact integrity');
+    assert(npmCalls.includes('run audit:cloudflare-deploy-candidate'), 'direct deploy should verify deploy candidate before Wrangler deploy');
     assert(log.some((entry) => entry.tool === 'bash' && entry.args[0].endsWith('/scripts/build_cloudflare_public_dir.sh')), 'direct deploy should build Cloudflare public dir');
     const browserCall = log.find((entry) => entry.tool === 'npm' && entry.args.join(' ') === 'run test:browser');
     const paymentsCall = log.find((entry) => entry.tool === 'npm' && entry.args.join(' ') === 'run test:payments');
