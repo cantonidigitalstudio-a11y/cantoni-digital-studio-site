@@ -107,10 +107,19 @@ async function main() {
   } else if (!candidate.package?.zip_sha256) {
     failures.push('Cloudflare deploy candidate ZIP SHA-256 is missing.');
   }
+  if (!Number.isInteger(candidate.package?.zip_bytes) || candidate.package.zip_bytes <= 0) {
+    failures.push('Cloudflare deploy candidate ZIP byte size is missing.');
+  } else if (zipPath && await pathExists(zipPath)) {
+    const actualZipStats = await fs.stat(zipPath);
+    if (actualZipStats.size !== candidate.package.zip_bytes) {
+      failures.push('Cloudflare deploy candidate ZIP byte size does not match the referenced ZIP.');
+    }
+  }
   if (manifestPath && await pathExists(manifestPath)) {
     const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
     if (manifest.git?.commit !== currentGit.commit) failures.push('Cloudflare manual upload manifest commit does not match current HEAD.');
     if (manifest.zip?.sha256 !== candidate.package?.zip_sha256) failures.push('Cloudflare manual upload manifest ZIP SHA-256 does not match deploy candidate.');
+    if (manifest.zip?.bytes !== candidate.package?.zip_bytes) failures.push('Cloudflare manual upload manifest ZIP byte size does not match deploy candidate.');
     if (manifest.contract_coverage?.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
       failures.push('Cloudflare manual upload manifest must expose live-site contract coverage.');
     }
@@ -173,6 +182,7 @@ async function main() {
     package: {
       zip_path: candidate.package?.zip_path || null,
       zip_sha256: candidate.package?.zip_sha256 || null,
+      zip_bytes: candidate.package?.zip_bytes ?? null,
       manifest: candidate.package?.manifest || null,
       checksums: candidate.package?.checksums || null,
       readme: candidate.package?.readme || null

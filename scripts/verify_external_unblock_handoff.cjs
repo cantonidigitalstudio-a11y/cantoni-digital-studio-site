@@ -205,6 +205,12 @@ async function main() {
       if (payload.deploy_candidate.zip_sha256_verified && payload.deploy_candidate.zip_sha256_verified !== actualHash) {
         failures.push('Deploy candidate verified ZIP SHA-256 does not match actual ZIP.');
       }
+      const actualStats = await fs.stat(zipPath);
+      if (!Number.isInteger(payload.deploy_candidate.package.zip_bytes) || payload.deploy_candidate.package.zip_bytes <= 0) {
+        failures.push('Deploy candidate ZIP byte size is missing from handoff payload.');
+      } else if (actualStats.size !== payload.deploy_candidate.package.zip_bytes) {
+        failures.push('Deploy candidate ZIP byte size does not match actual ZIP.');
+      }
     } catch (error) {
       failures.push(`Unable to read deploy candidate ZIP: ${error.message}`);
     }
@@ -218,6 +224,9 @@ async function main() {
       }
       if (manifest.contract_coverage?.full_artifact_required !== true || manifest.contract_coverage?.partial_upload_safe !== false) {
         failures.push('Deploy candidate manifest contract coverage must require full artifact deployment.');
+      }
+      if (manifest.zip?.bytes !== payload.deploy_candidate.package.zip_bytes) {
+        failures.push('Deploy candidate manifest ZIP byte size does not match handoff payload.');
       }
     } catch (error) {
       failures.push(`Unable to read deploy candidate manifest: ${error.message}`);
