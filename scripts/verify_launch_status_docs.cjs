@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  OUTBOUND_PAUSE_REQUIRED_SNIPPETS
+} = require('./lib/outbound_pause_contract.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -108,16 +111,7 @@ function main() {
   if (!cloudflareRunbook.includes('preview-cantoni-site') || !cloudflareRunbook.includes('CLOUDFLARE_PAGES_BRANCH=main') || !cloudflareRunbook.includes('live_site_contract')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document preview-vs-production branch behavior for live contract closure');
   }
-  for (const required of [
-    'npm run audit:post-unblock-launch',
-    'npm run audit:email-dns',
-    'npm run test:social-public',
-    'npm run test:lead-endpoint',
-    'exact outbound batch',
-    'cantonidigitalstudio@gmail.com',
-    'scripts/day1_send_background.sh',
-    'OUTBOUND_FORCE_RUN=1'
-  ]) {
+  for (const required of OUTBOUND_PAUSE_REQUIRED_SNIPPETS) {
     if (!outboundPause.includes(required)) {
       failures.push(`sales-kit/outbound_pause.flag: must include outbound release condition "${required}"`);
     }

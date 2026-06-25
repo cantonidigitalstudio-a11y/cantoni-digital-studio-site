@@ -3,20 +3,15 @@
 const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const {
+  OUTBOUND_PAUSE_RELATIVE_PATH,
+  OUTBOUND_PAUSE_REQUIRED_SNIPPETS,
+  missingOutboundPauseReleaseConditions
+} = require('./lib/outbound_pause_contract.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const allowBlocked = process.argv.includes('--allow-blocked') || process.argv.includes('--allow-missing');
-const OUTBOUND_PAUSE_PATH = path.join(PROJECT_ROOT, 'sales-kit/outbound_pause.flag');
-const OUTBOUND_PAUSE_REQUIRED_SNIPPETS = [
-  'npm run audit:post-unblock-launch',
-  'npm run audit:email-dns',
-  'npm run test:social-public',
-  'npm run test:lead-endpoint',
-  'exact outbound batch',
-  'cantonidigitalstudio@gmail.com',
-  'scripts/day1_send_background.sh',
-  'OUTBOUND_FORCE_RUN=1'
-];
+const OUTBOUND_PAUSE_PATH = path.join(PROJECT_ROOT, OUTBOUND_PAUSE_RELATIVE_PATH);
 
 function runJson(command, args) {
   const run = spawnSync(command, args, {
@@ -100,9 +95,7 @@ function outboundPauseContractStep() {
     }
   }
 
-  const missing = source === null
-    ? OUTBOUND_PAUSE_REQUIRED_SNIPPETS
-    : OUTBOUND_PAUSE_REQUIRED_SNIPPETS.filter((snippet) => !source.includes(snippet));
+  const missing = missingOutboundPauseReleaseConditions(source);
   const ok = source !== null && missing.length === 0;
   return {
     id: 'outbound_pause_contract',

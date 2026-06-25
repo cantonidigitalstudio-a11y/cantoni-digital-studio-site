@@ -2,20 +2,15 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import outboundPauseContract from './lib/outbound_pause_contract.cjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = path.resolve(path.dirname(__filename), '..');
 const allowBlocked = process.argv.includes('--allow-blocked') || process.argv.includes('--allow-missing');
-const OUTBOUND_PAUSE_REQUIRED_SNIPPETS = [
-  'npm run audit:post-unblock-launch',
-  'npm run audit:email-dns',
-  'npm run test:social-public',
-  'npm run test:lead-endpoint',
-  'exact outbound batch',
-  'cantonidigitalstudio@gmail.com',
-  'scripts/day1_send_background.sh',
-  'OUTBOUND_FORCE_RUN=1'
-];
+const {
+  OUTBOUND_PAUSE_REQUIRED_SNIPPETS,
+  missingOutboundPauseReleaseConditions
+} = outboundPauseContract;
 
 function runJson(command, args) {
   const run = spawnSync(command, args, {
@@ -182,7 +177,7 @@ const externalUnblockHandoffRun = runJson(process.execPath, ['scripts/verify_ext
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
 const outboundPauseMissingReleaseConditions = outboundPauseMessage === null
   ? []
-  : OUTBOUND_PAUSE_REQUIRED_SNIPPETS.filter((snippet) => !outboundPauseMessage.includes(snippet));
+  : missingOutboundPauseReleaseConditions(outboundPauseMessage);
 
 const gates = [
   gateFromRun({
