@@ -124,6 +124,16 @@ snippet mancanti. Quell'elenco e evidenza del drift, non autorizzazione a
 caricare solo quei file: per Cloudflare Pages usare sempre lo ZIP/artifact
 completo referenziato nel pack.
 
+Il pacchetto manuale Cloudflare include anche un `.README.txt` e un manifesto
+con `Production live-site contract coverage in this ZIP`: la tabella deriva da
+`scripts/lib/live_site_contract.cjs`, elenca pagine/snippet coperti
+dall'artifact, ripete `CLOUDFLARE_PAGES_BRANCH=main`,
+`ALLOW_PRODUCTION_DEPLOY=yes` e
+`CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`, e avvisa
+`Do not upload only these files`. Anche se il README viaggia senza operator
+pack, l'operatore deve pubblicare il full artifact sul branch `main`, non una
+selezione di file.
+
 Per consegnare a chi ha accesso Cloudflare/Google Workspace un dossier focalizzato
 solo sullo sblocco esterno, usare:
 

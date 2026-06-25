@@ -53,6 +53,11 @@ function main() {
   if (!readme.includes('Live Site Contract Drift') || !readme.includes('non caricare solo i file di drift')) {
     failures.push('README.md: must document live drift in external unblock handoff');
   }
+  if (!readme.includes('Production live-site contract coverage in this ZIP') ||
+    !readme.includes('Do not upload only these files') ||
+    !readme.includes('CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production')) {
+    failures.push('README.md: must document manual Cloudflare ZIP README contract coverage and production deploy guards');
+  }
   if (!readme.includes('cantoni-email-dns-handoff-latest.cloudflare-api-records.json') || !readme.includes('npm run dns:cloudflare:apply') || !readme.includes('CANTONI_DNS_APPROVAL=apply-cantoni-email-dns')) {
     failures.push('README.md: must document DNS apply boundary in external unblock handoff');
   }
@@ -118,6 +123,11 @@ function main() {
   }
   if (!cloudflareRunbook.includes('Live Site Contract Drift') || !cloudflareRunbook.includes('non\ncaricare solo i file di drift')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document live drift in external unblock handoff');
+  }
+  if (!cloudflareRunbook.includes('Production live-site contract coverage in this ZIP') ||
+    !cloudflareRunbook.includes('Do not upload only these files') ||
+    !cloudflareRunbook.includes('CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document manual Cloudflare ZIP README contract coverage and production deploy guards');
   }
   if (!cloudflareRunbook.includes('cantoni-email-dns-handoff-latest.cloudflare-api-records.json') || !cloudflareRunbook.includes('npm run dns:cloudflare:apply') || !cloudflareRunbook.includes('cloudflare_lookup_required')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document DNS apply boundary in external unblock handoff');

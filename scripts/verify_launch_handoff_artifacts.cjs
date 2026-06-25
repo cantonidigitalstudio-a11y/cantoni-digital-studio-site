@@ -1,5 +1,6 @@
 const fs = require('fs/promises');
 const path = require('path');
+const { HTML_PAGES } = require('./lib/live_site_contract.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const GENERATED_ROOT = path.join(PROJECT_ROOT, 'sales-kit/generated');
@@ -114,6 +115,11 @@ const LEAK_RULES = [
 
 function normalizeRel(value) {
   return value.split(path.sep).join('/');
+}
+
+function artifactFileForContractPage(pagePath) {
+  if (pagePath === '/') return 'index.html';
+  return String(pagePath || '').replace(/^\/+/, '');
 }
 
 async function pathExists(filePath) {
@@ -311,6 +317,75 @@ async function requireReferencedFile(relPath, label, failures) {
   }
 }
 
+function verifyManualUploadContractCoverage(manualPackageManifest, manualPackageReadme, failures) {
+  const coverage = manualPackageManifest?.contract_coverage || {};
+  const coveragePages = Array.isArray(coverage.pages) ? coverage.pages : [];
+  const requiredReadmeSnippets = [
+    'Production live-site contract coverage in this ZIP',
+    'Full artifact required: yes',
+    'Partial upload safe: no',
+    'Production branch required: main',
+    'CLOUDFLARE_PAGES_BRANCH=main',
+    'ALLOW_PRODUCTION_DEPLOY=yes',
+    'CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production',
+    'Do not upload only these files',
+    'complete ZIP/root artifact',
+    'production branch main'
+  ];
+
+  if (coverage.type !== 'cloudflare_pages_live_site_contract_coverage_v1') {
+    failures.push('cloudflare_manual_upload: manifest must expose live-site contract coverage');
+  }
+  if (coverage.source !== 'scripts/lib/live_site_contract.cjs') {
+    failures.push('cloudflare_manual_upload: contract coverage source must be the shared live-site contract');
+  }
+  if (coverage.full_artifact_required !== true || coverage.partial_upload_safe !== false) {
+    failures.push('cloudflare_manual_upload: contract coverage must require full artifact deployment');
+  }
+  if (coverage.production_branch !== 'main') {
+    failures.push('cloudflare_manual_upload: contract coverage must require production branch main');
+  }
+  if (coverage.cli_approval_guard?.CLOUDFLARE_PAGES_BRANCH !== 'main' ||
+    coverage.cli_approval_guard?.ALLOW_PRODUCTION_DEPLOY !== 'yes' ||
+    coverage.cli_approval_guard?.CANTONI_PRODUCTION_DEPLOY_APPROVAL !== 'deploy-cantoni-production') {
+    failures.push('cloudflare_manual_upload: contract coverage must preserve production deploy approval guards');
+  }
+  for (const snippet of requiredReadmeSnippets) {
+    if (!manualPackageReadme.includes(snippet)) {
+      failures.push(`cloudflare_manual_upload: README must include "${snippet}"`);
+    }
+  }
+
+  for (const page of HTML_PAGES) {
+    const artifactFile = artifactFileForContractPage(page.path);
+    const coveragePage = coveragePages.find((item) => item.page === page.path);
+    if (!coveragePage) {
+      failures.push(`cloudflare_manual_upload: contract coverage missing ${page.path}`);
+      continue;
+    }
+    if (coveragePage.artifact_file !== artifactFile) {
+      failures.push(`cloudflare_manual_upload: ${page.path} must map to ${artifactFile}`);
+    }
+    if (coveragePage.artifact_file_present !== true || coveragePage.artifact_satisfies_required !== true) {
+      failures.push(`cloudflare_manual_upload: ${page.path} must be satisfied by the packaged artifact`);
+    }
+    if (Array.isArray(coveragePage.missing_required_snippets) && coveragePage.missing_required_snippets.length) {
+      failures.push(`cloudflare_manual_upload: ${page.path} must not have missing required snippets`);
+    }
+    if (!manualPackageReadme.includes(page.path) || !manualPackageReadme.includes(artifactFile)) {
+      failures.push(`cloudflare_manual_upload: README must list contract page ${page.path} and artifact ${artifactFile}`);
+    }
+    for (const requiredSnippet of page.required || []) {
+      if (!Array.isArray(coveragePage.required_snippets) || !coveragePage.required_snippets.includes(requiredSnippet)) {
+        failures.push(`cloudflare_manual_upload: ${page.path} coverage must include required snippet ${requiredSnippet}`);
+      }
+      if (!manualPackageReadme.includes(requiredSnippet)) {
+        failures.push(`cloudflare_manual_upload: README must expose required snippet ${requiredSnippet}`);
+      }
+    }
+  }
+}
+
 async function main() {
   const failures = [];
   await verifyLaunchHandoffLatestAliases(failures);
@@ -340,9 +415,14 @@ async function main() {
       readJson(files.liveDrift)
     ]);
     const manualPackageManifestPath = operatorPack.steps?.cloudflare_manual_upload?.output?.manifest;
+    const manualPackageReadmePath = operatorPack.steps?.cloudflare_manual_upload?.output?.readme;
     const manualPackageManifest = manualPackageManifestPath
       ? await readJson(path.join(PROJECT_ROOT, manualPackageManifestPath))
       : null;
+    const manualPackageReadme = manualPackageReadmePath
+      ? await fs.readFile(path.join(PROJECT_ROOT, manualPackageReadmePath), 'utf8')
+      : '';
+    verifyManualUploadContractCoverage(manualPackageManifest, manualPackageReadme, failures);
 
     for (const [label, git] of [
       ['launch_handoff', launchHandoff.git],

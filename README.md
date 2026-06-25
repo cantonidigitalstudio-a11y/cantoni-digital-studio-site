@@ -125,6 +125,16 @@ gli alias `cantoni-launch-operator-pack-latest.*` per revisione rapida; i
 dossier di sblocco e i deploy candidate continuano a referenziare il pack
 timestampato.
 
+Lo ZIP manuale Cloudflare genera anche un `.README.txt` e un manifesto con
+`Production live-site contract coverage in this ZIP`: la tabella deriva da
+`scripts/lib/live_site_contract.cjs`, elenca pagine/snippet coperti
+dall'artifact, ripete `CLOUDFLARE_PAGES_BRANCH=main`,
+`ALLOW_PRODUCTION_DEPLOY=yes` e
+`CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production`, e avvisa
+`Do not upload only these files`. Se il README viene consegnato separato
+dall'operator pack, resta comunque chiaro che serve il full artifact sul branch
+`main`, non un caricamento parziale.
+
 Quando il codice e pronto ma mancano accessi esterni, usa `npm run
 export:external-unblock-handoff`. Il dossier resta sotto
 `sales-kit/generated/external-unblock-handoff/` ed e ignorato da git. Scrive sia

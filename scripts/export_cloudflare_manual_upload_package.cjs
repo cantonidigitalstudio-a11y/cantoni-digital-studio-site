@@ -3,6 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { spawnSync } = require('child_process');
 const { gitProvenance } = require('./lib/git_provenance.cjs');
+const { HTML_PAGES } = require('./lib/live_site_contract.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.resolve(process.env.CLOUDFLARE_PAGES_OUTPUT_DIR || path.join(PROJECT_ROOT, '.cloudflare-pages'));
@@ -28,6 +29,20 @@ const LATEST_README_PATH = path.join(OUTPUT_DIR, `${LATEST_BASE_NAME}.README.txt
 
 function normalizeRel(value) {
   return value.split(path.sep).join('/');
+}
+
+function artifactFileForContractPage(pagePath) {
+  if (pagePath === '/') return 'index.html';
+  return String(pagePath || '').replace(/^\/+/, '');
+}
+
+function sanitizeTableCell(value) {
+  return String(value || '').replace(/\|/g, '\\|');
+}
+
+function formatSnippetList(snippets) {
+  if (!Array.isArray(snippets) || snippets.length === 0) return 'none';
+  return snippets.map((snippet) => `\`${sanitizeTableCell(snippet)}\``).join('<br>');
 }
 
 function runStep(label, command, args, options = {}) {
@@ -76,6 +91,60 @@ async function assertPublicDirReady() {
   }
 }
 
+async function buildContractCoverage() {
+  const pages = [];
+
+  for (const page of HTML_PAGES) {
+    const artifactFile = artifactFileForContractPage(page.path);
+    const requiredSnippets = Array.isArray(page.required) ? page.required : [];
+    let source = '';
+    let artifactFilePresent = true;
+
+    try {
+      source = await fs.readFile(path.join(PUBLIC_DIR, artifactFile), 'utf8');
+    } catch {
+      artifactFilePresent = false;
+    }
+
+    const missingRequiredSnippets = artifactFilePresent
+      ? requiredSnippets.filter((snippet) => !source.includes(snippet))
+      : requiredSnippets;
+
+    pages.push({
+      page: page.path,
+      artifact_file: artifactFile,
+      canonical: page.canonical,
+      title: page.title,
+      required_snippets: requiredSnippets,
+      missing_required_snippets: missingRequiredSnippets,
+      artifact_file_present: artifactFilePresent,
+      artifact_satisfies_required: artifactFilePresent && missingRequiredSnippets.length === 0
+    });
+  }
+
+  const coverage = {
+    type: 'cloudflare_pages_live_site_contract_coverage_v1',
+    source: 'scripts/lib/live_site_contract.cjs',
+    production_branch: 'main',
+    full_artifact_required: true,
+    partial_upload_safe: false,
+    upload_root: 'zip root contains the public artifact files directly; do not upload the repository root',
+    cli_approval_guard: {
+      CLOUDFLARE_PAGES_BRANCH: 'main',
+      ALLOW_PRODUCTION_DEPLOY: 'yes',
+      CANTONI_PRODUCTION_DEPLOY_APPROVAL: 'deploy-cantoni-production'
+    },
+    pages
+  };
+
+  const failingPages = pages.filter((page) => page.artifact_satisfies_required !== true);
+  if (failingPages.length) {
+    throw new Error(`Cloudflare artifact does not satisfy live-site contract coverage: ${failingPages.map((page) => page.page).join(', ')}`);
+  }
+
+  return coverage;
+}
+
 async function buildManifest() {
   const files = [];
   let totalBytes = 0;
@@ -89,6 +158,8 @@ async function buildManifest() {
     });
   }
 
+  const contractCoverage = await buildContractCoverage();
+
   return {
     ok: true,
     package_type: 'cloudflare_pages_manual_upload_v1',
@@ -98,6 +169,7 @@ async function buildManifest() {
     domain_name: DOMAIN_NAME,
     public_dir: '.cloudflare-pages',
     upload_root: 'zip root contains the public artifact files directly; do not upload the repository root',
+    contract_coverage: contractCoverage,
     files_count: files.length,
     files_total_bytes: totalBytes,
     files
@@ -107,6 +179,8 @@ async function buildManifest() {
 async function writeTextArtifacts(manifest, zipStats) {
   const zipRelativeName = path.basename(ZIP_PATH);
   const zipRelativePath = normalizeRel(path.relative(PROJECT_ROOT, ZIP_PATH));
+  const contractCoverage = manifest.contract_coverage || {};
+  const contractRows = Array.isArray(contractCoverage.pages) ? contractCoverage.pages : [];
   const checksums = [
     `${zipStats.sha256}  ${zipRelativeName}`,
     ...manifest.files.map((file) => `${file.sha256}  .cloudflare-pages/${file.path}`)
@@ -136,6 +210,19 @@ async function writeTextArtifacts(manifest, zipStats) {
     'The ZIP contains only the generated Cloudflare Pages public artifact, not the repository root.',
     'Preview branch preview-cantoni-site validates the artifact only; it does not clear the production live-site contract.',
     'To clear the production live-site contract, deploy the full artifact to branch main with separate production approval.',
+    '',
+    'Production live-site contract coverage in this ZIP:',
+    `- Source: ${contractCoverage.source || 'unknown'}`,
+    `- Full artifact required: ${contractCoverage.full_artifact_required === true ? 'yes' : 'no'}`,
+    `- Partial upload safe: ${contractCoverage.partial_upload_safe === false ? 'no' : 'unknown'}`,
+    `- Production branch required: ${contractCoverage.production_branch || 'unknown'}`,
+    '- CLI approval guard: CLOUDFLARE_PAGES_BRANCH=main ALLOW_PRODUCTION_DEPLOY=yes CANTONI_PRODUCTION_DEPLOY_APPROVAL=deploy-cantoni-production',
+    '- Do not upload only these files; this table is coverage evidence, not a partial-deploy instruction.',
+    '- The dashboard or CLI upload must publish the complete ZIP/root artifact to the production branch main.',
+    '',
+    '| Page | Artifact file | Required snippets covered |',
+    '| --- | --- | --- |',
+    ...contractRows.map((page) => `| \`${sanitizeTableCell(page.page)}\` | \`${sanitizeTableCell(page.artifact_file)}\` | ${formatSnippetList(page.required_snippets)} |`),
     '',
     'Required checks already run by this script before packaging:',
     '- npm run build:cloudflare',
