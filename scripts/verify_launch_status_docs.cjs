@@ -23,6 +23,8 @@ function main() {
   const paymentBrandingRemediation = read('sales-kit/payment_branding_remediation.md');
   const socialProfileChecklist = read('sales-kit/business-cards/social-profile-setup-checklist.md');
   const socialLaunchRunbook = read('sales-kit/social-launch/launch-runbook.md');
+  const socialClientAcquisition = read('sales-kit/social-launch/client-acquisition-readiness.md');
+  const ipadWirelessFallback = read('sales-kit/ipad-wireless-fallback-runbook.md');
   const outboundPause = read('sales-kit/outbound_pause.flag');
   const paymentBranding = read('sales-kit/payment_branding_review.flag');
 
@@ -227,24 +229,42 @@ function main() {
   }
   for (const [file, contents] of [
     ['sales-kit/business-cards/social-profile-setup-checklist.md', socialProfileChecklist],
-    ['sales-kit/social-launch/launch-runbook.md', socialLaunchRunbook]
+    ['sales-kit/social-launch/launch-runbook.md', socialLaunchRunbook],
+    ['sales-kit/social-launch/client-acquisition-readiness.md', socialClientAcquisition],
+    ['sales-kit/ipad-wireless-fallback-runbook.md', ipadWirelessFallback]
   ]) {
     for (const required of [
       '2026-05-14',
       'cantonidigitalstudio.com',
-      'zumu.be/ecantoni',
-      'Historical note superseded by the 2026-05-14 QA'
+      'zumu.be/ecantoni'
     ]) {
       if (!contents.includes(required)) {
         failures.push(`${file}: must document resolved Instagram profile link status "${required}"`);
       }
+    }
+    if (file === 'sales-kit/ipad-wireless-fallback-runbook.md') {
+      for (const required of [
+        'Resolved Instagram Task - 2026-05-14',
+        'This is no longer required to accept the current Instagram public proof',
+        'Use this procedure only if a future public QA run shows the Instagram profile regressed'
+      ]) {
+        if (!contents.includes(required)) {
+          failures.push(`${file}: must document iPad fallback as future-only after resolved Instagram QA "${required}"`);
+        }
+      }
+    } else if (!contents.includes('Historical note superseded by the 2026-05-14 QA') &&
+      !contents.includes('Il task Instagram link/avatar non dipende più da questo fallback')) {
+      failures.push(`${file}: must mark pre-2026-05-14 Instagram link blocker as superseded/resolved`);
     }
     for (const forbidden of [
       'Website link issue remains',
       'clickable link is still `zumu.be/ecantoni`',
       'clickable profile website link is still `zumu.be/ecantoni`',
       'Profile avatar must be replaced with the centered generated asset before using Instagram as primary proof',
-      'Required fix: change the Instagram app profile link'
+      'Required fix: change the Instagram app profile link',
+      'before full automated mobile control can change the Instagram link and avatar',
+      'Do not mark the Instagram link fix as complete until one of these is true',
+      '## First Mobile-Only Task'
     ]) {
       if (contents.includes(forbidden)) {
         failures.push(`${file}: must not present superseded Instagram profile blocker as current status "${forbidden}"`);
@@ -262,6 +282,8 @@ function main() {
       'sales-kit/payment_branding_remediation.md',
       'sales-kit/business-cards/social-profile-setup-checklist.md',
       'sales-kit/social-launch/launch-runbook.md',
+      'sales-kit/social-launch/client-acquisition-readiness.md',
+      'sales-kit/ipad-wireless-fallback-runbook.md',
       'sales-kit/outbound_pause.flag',
       'sales-kit/payment_branding_review.flag'
     ],

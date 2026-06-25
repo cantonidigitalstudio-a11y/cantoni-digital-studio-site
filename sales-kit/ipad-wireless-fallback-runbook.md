@@ -1,6 +1,6 @@
 # iPad Wireless Fallback Runbook
 
-Purpose: use the iPad as a fallback operational screen for mobile-only flows, especially Instagram profile link edits that desktop web blocks.
+Purpose: use the iPad as a fallback operational screen for future mobile-only flows. The original Instagram profile link/avatar task that required this fallback was completed on 2026-05-14 and must not be treated as an open blocker unless public QA regresses.
 
 ## Current Device State - 2026-05-13
 
@@ -14,7 +14,7 @@ Purpose: use the iPad as a fallback operational screen for mobile-only flows, es
 - Network discovery: `idevice_id -n` lists `00008103-001E45811133001E`.
 - Display command: `xcrun devicectl device info displays` succeeds over wireless.
 
-## Current Blocker
+## Current Automation Boundary
 
 The wireless fallback is ready and Instagram is now installed on the iPad as `com.burbn.instagram`.
 
@@ -28,13 +28,17 @@ iOS currently refuses to launch it until the developer certificate is trusted on
 
 `Settings` -> `General` -> `VPN & Device Management` -> Developer App -> trust the Apple Development certificate.
 
-After that trust step, rerun the WDA launch and continue with the Instagram mobile-only profile link edit.
+After that trust step, rerun the WDA launch before using the iPad for future mobile-only profile/account automation. This is no longer required to accept the current Instagram public proof.
 
-Do not mark the Instagram link fix as complete until one of these is true:
+## Resolved Instagram Task - 2026-05-14
 
-1. Instagram is installed on this iPad and the link is changed inside the Instagram app.
-2. The same change is completed from an iPhone or another device where the Instagram app is already installed.
-3. A later Instagram web/mobile-web flow proves it can edit the clickable profile link, and Browser QA confirms the final public link.
+The Instagram profile link and avatar are complete unless a later public QA run proves regression:
+
+1. Browser QA confirms the clickable profile link is `cantonidigitalstudio.com`.
+2. Browser QA confirms `zumu.be/ecantoni` no longer appears in the profile.
+3. Browser QA confirms the centered official avatar is visible.
+
+Evidence referenced by the social runbooks: `/tmp/instagram-cantoni-avatar-persistent-final.png` and `/tmp/instagram-cantoni-public-final-clean.png`.
 
 ## Verification Commands
 
@@ -54,16 +58,16 @@ Success criteria:
 - display inspection works over wireless.
 - app inventory lists both `com.burbn.instagram` and `com.cantonidigitalstudio.WebDriverAgentRunner.xctrunner`.
 
-## First Mobile-Only Task
+## Future Mobile-Only Regression Procedure
 
-Fix Instagram profile link:
+Use this procedure only if a future public QA run shows the Instagram profile regressed to the old link or wrong avatar:
 
-1. Install Instagram on the iPad, or use the already logged-in iPhone.
+1. Trust the installed WebDriverAgent developer certificate on the iPad, or use an already trusted/logged-in iPhone.
 2. Open Instagram app.
 3. Go to `@cantonidigitalstudio`.
 4. Edit profile.
 5. Links.
-6. Remove `zumu.be/ecantoni`.
-7. Add `https://cantonidigitalstudio.com`.
+6. Remove any stale `zumu.be/ecantoni` profile link if it reappears.
+7. Add or confirm `https://cantonidigitalstudio.com`.
 8. Save.
 9. Re-run Browser QA from the Mac and confirm the clickable profile link resolves to the studio domain.

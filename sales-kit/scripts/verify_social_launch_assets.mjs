@@ -127,7 +127,10 @@ async function run() {
     'Instagram is now installed on the iPad as `com.burbn.instagram`',
     '`com.cantonidigitalstudio.WebDriverAgentRunner.xctrunner`',
     'trust the Apple Development certificate',
-    'xcrun devicectl device info displays'
+    'xcrun devicectl device info displays',
+    'Resolved Instagram Task - 2026-05-14',
+    'This is no longer required to accept the current Instagram public proof',
+    'Use this procedure only if a future public QA run shows the Instagram profile regressed'
   ]);
 
   console.log(JSON.stringify({
