@@ -4,6 +4,7 @@ const fs = require('fs/promises');
 const path = require('path');
 const crypto = require('crypto');
 const { gitProvenance } = require('./lib/git_provenance.cjs');
+const { pushLeakFailures } = require('./lib/artifact_leak_scan.cjs');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.resolve(process.env.EXTERNAL_UNBLOCK_HANDOFF_DIR || path.join(PROJECT_ROOT, 'sales-kit/generated/external-unblock-handoff'));
@@ -18,15 +19,6 @@ const REQUIRED_TASKS = [
   'google_workspace_email_dns',
   'payment_branding_review',
   'post_unblock_checks'
-];
-const LEAK_RULES = [
-  { id: 'absolute_volumes_path', pattern: /\/Volumes\// },
-  { id: 'absolute_users_path', pattern: /\/Users\// },
-  { id: 'bearer_token', pattern: /Bearer\s+[A-Za-z0-9._~+/-]+=*/i },
-  { id: 'api_key_assignment', pattern: /api[-_ ]?key\s*[:=]\s*[A-Za-z0-9._~+/-]{16,}/i },
-  { id: 'password_assignment', pattern: /password\s*[:=]\s*[^,\n}]{8,}/i },
-  { id: 'otp_assignment', pattern: /\botp\s*[:=]\s*[^,\n}]{4,}/i },
-  { id: 'passkey_assignment', pattern: /passkey\s*[:=]\s*[^,\n}]{8,}/i }
 ];
 
 function normalizeRel(value) {
@@ -82,9 +74,7 @@ async function readJson(filePath) {
 }
 
 function scanLeaks(source, label, failures) {
-  for (const rule of LEAK_RULES) {
-    if (rule.pattern.test(source)) failures.push(`${label}: ${rule.id}`);
-  }
+  pushLeakFailures(source, label, failures);
 }
 
 function taskById(payload, id) {
