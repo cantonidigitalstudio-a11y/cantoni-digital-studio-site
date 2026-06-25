@@ -111,6 +111,42 @@ function passingGateLines(gates) {
   });
 }
 
+function paymentBrandingBoundary(readiness) {
+  const gate = (Array.isArray(readiness?.gates) ? readiness.gates : [])
+    .find((item) => item.id === 'payment_branding_review');
+  return {
+    source: 'sales-kit/payment_branding_review_evidence.json',
+    flag: 'sales-kit/payment_branding_review.flag',
+    evidence_status: gate?.details?.evidence?.status || null,
+    evidence_summary: gate?.details?.evidence?.summary || null,
+    stale_paypal_verification_superseded: true,
+    no_ec8_exception: true,
+    no_unrelated_brand_exception: true,
+    release_ready_required: true,
+    final_payment_submission_allowed: false,
+    required_review: [
+      'Stripe Checkout merchant shows Cantoni Digital Studio on both public Payment Links.',
+      'PayPal is selectable in a real browser session.',
+      'PayPal does not expose EC8, EC8 Platform, or another unrelated brand/account.',
+      'No EC8/EC8 Platform exception is valid for release.',
+      'The reviewer stops before submitting the final payment step.'
+    ]
+  };
+}
+
+function paymentBrandingBoundaryLines(boundary) {
+  if (!boundary) return ['- No payment branding boundary payload was available.'];
+  return [
+    `- Source: \`${boundary.source}\``,
+    `- Flag: \`${boundary.flag}\``,
+    `- Evidence status: \`${boundary.evidence_status || 'not recorded'}\``,
+    `- Release ready: ${boundary.evidence_summary?.release_ready === true ? 'yes' : 'no'}`,
+    `- No EC8/EC8 Platform exception valid for release: ${boundary.no_ec8_exception === true ? 'yes' : 'no'}`,
+    `- Final payment submission allowed during review: ${boundary.final_payment_submission_allowed === true ? 'yes' : 'no'}`,
+    '- Current boundary: the old PayPal visual check is superseded by the latest evidence; no EC8/EC8 Platform exception is valid for release.'
+  ];
+}
+
 function artifactRows(payload) {
   const packageStep = payload.steps.cloudflare_manual_upload.output;
   const emailStep = payload.steps.email_dns_handoff.output;
@@ -391,6 +427,10 @@ function renderMarkdown(payload) {
     '',
     ...failureLines(readiness.holds),
     '',
+    '## Payment Branding Boundary',
+    '',
+    ...paymentBrandingBoundaryLines(payload.payment_branding_boundary),
+    '',
     '## Verified Passing Gates',
     '',
     ...passingGateLines(readiness.gates),
@@ -465,6 +505,7 @@ async function main() {
     readiness: launchHandoffJson?.readiness || null,
     cloudflare_auth: launchHandoffJson?.cloudflare_auth || null,
     cloudflare_api: launchHandoffJson?.cloudflare_api || null,
+    payment_branding_boundary: paymentBrandingBoundary(launchHandoffJson?.readiness),
     steps,
     operator_pack: {
       markdown: relativeToRoot(MARKDOWN_PATH),

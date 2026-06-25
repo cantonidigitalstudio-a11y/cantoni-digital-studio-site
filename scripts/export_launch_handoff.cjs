@@ -219,7 +219,43 @@ function gitProvenanceLines(git) {
   ];
 }
 
-function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cloudflareApi, git }) {
+function paymentBrandingBoundary(readiness) {
+  const gate = (Array.isArray(readiness?.gates) ? readiness.gates : [])
+    .find((item) => item.id === 'payment_branding_review');
+  return {
+    source: 'sales-kit/payment_branding_review_evidence.json',
+    flag: 'sales-kit/payment_branding_review.flag',
+    evidence_status: gate?.details?.evidence?.status || null,
+    evidence_summary: gate?.details?.evidence?.summary || null,
+    stale_paypal_verification_superseded: true,
+    no_ec8_exception: true,
+    no_unrelated_brand_exception: true,
+    release_ready_required: true,
+    final_payment_submission_allowed: false,
+    required_review: [
+      'Stripe Checkout merchant shows Cantoni Digital Studio on both public Payment Links.',
+      'PayPal is selectable in a real browser session.',
+      'PayPal does not expose EC8, EC8 Platform, or another unrelated brand/account.',
+      'No EC8/EC8 Platform exception is valid for release.',
+      'The reviewer stops before submitting the final payment step.'
+    ]
+  };
+}
+
+function paymentBrandingBoundaryLines(boundary) {
+  if (!boundary) return ['- No payment branding boundary payload was available.'];
+  return [
+    `- Source: \`${boundary.source}\``,
+    `- Flag: \`${boundary.flag}\``,
+    `- Evidence status: \`${boundary.evidence_status || 'not recorded'}\``,
+    `- Release ready: ${boundary.evidence_summary?.release_ready === true ? 'yes' : 'no'}`,
+    `- No EC8/EC8 Platform exception valid for release: ${boundary.no_ec8_exception === true ? 'yes' : 'no'}`,
+    `- Final payment submission allowed during review: ${boundary.final_payment_submission_allowed === true ? 'yes' : 'no'}`,
+    '- Current boundary: the old PayPal visual check is superseded by the latest evidence; no EC8/EC8 Platform exception is valid for release.'
+  ];
+}
+
+function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cloudflareApi, git, paymentBoundary }) {
   const blockers = readiness.blockers || [];
   const holds = readiness.holds || [];
   const packageLines = latestPackage
@@ -253,6 +289,10 @@ function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth, cl
     '## Current Holds',
     '',
     ...failureLines(holds),
+    '',
+    '## Payment Branding Boundary',
+    '',
+    ...paymentBrandingBoundaryLines(paymentBoundary),
     '',
     '## Verified Passing Gates',
     '',
@@ -350,6 +390,7 @@ async function main() {
     cloudflare_auth: cloudflareAuth,
     cloudflare_api: cloudflareApi,
     latest_cloudflare_manual_package: latestPackage,
+    payment_branding_boundary: paymentBrandingBoundary(readiness),
     email_dns: {
       ok: emailDns.ok === true,
       checked_at: emailDns.checked_at,
@@ -365,7 +406,8 @@ async function main() {
     latestPackage,
     cloudflareAuth,
     cloudflareApi,
-    git: payload.git
+    git: payload.git,
+    paymentBoundary: payload.payment_branding_boundary
   });
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });

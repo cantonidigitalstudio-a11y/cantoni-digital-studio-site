@@ -122,6 +122,40 @@ function artifactFileForContractPage(pagePath) {
   return String(pagePath || '').replace(/^\/+/, '');
 }
 
+function validatePaymentBrandingBoundary({ boundary, label, failures }) {
+  if (!boundary || typeof boundary !== 'object' || Array.isArray(boundary)) {
+    failures.push(`${label}: missing payment branding boundary payload`);
+    return;
+  }
+  if (boundary.source !== 'sales-kit/payment_branding_review_evidence.json') {
+    failures.push(`${label}: payment branding boundary must point to structured evidence`);
+  }
+  if (boundary.flag !== 'sales-kit/payment_branding_review.flag') {
+    failures.push(`${label}: payment branding boundary must point to review flag`);
+  }
+  if (boundary.stale_paypal_verification_superseded !== true) {
+    failures.push(`${label}: payment branding boundary must mark stale PayPal visual checks as superseded`);
+  }
+  if (boundary.no_ec8_exception !== true || boundary.no_unrelated_brand_exception !== true) {
+    failures.push(`${label}: payment branding boundary must disallow EC8 and unrelated-brand exceptions`);
+  }
+  if (boundary.release_ready_required !== true || boundary.final_payment_submission_allowed !== false) {
+    failures.push(`${label}: payment branding boundary must require release_ready and forbid final payment submission`);
+  }
+  const reviewText = JSON.stringify(boundary.required_review || []);
+  for (const required of [
+    'Stripe Checkout merchant shows Cantoni Digital Studio',
+    'PayPal is selectable in a real browser session',
+    'PayPal does not expose EC8',
+    'No EC8/EC8 Platform exception is valid for release',
+    'The reviewer stops before submitting the final payment step'
+  ]) {
+    if (!reviewText.includes(required)) {
+      failures.push(`${label}: payment branding boundary missing review text: ${required}`);
+    }
+  }
+}
+
 async function pathExists(filePath) {
   try {
     await fs.access(filePath);
@@ -566,6 +600,16 @@ async function main() {
       } else if (paymentBrandingGate.details?.flag?.present !== true) {
         failures.push('operator_pack: payment_branding_review gate must expose the review flag');
       }
+      validatePaymentBrandingBoundary({
+        boundary: operatorPack.payment_branding_boundary,
+        label: 'operator_pack',
+        failures
+      });
+      validatePaymentBrandingBoundary({
+        boundary: launchHandoff.payment_branding_boundary,
+        label: 'launch_handoff',
+        failures
+      });
     }
     if (!externalUnblockHandoffGate) {
       failures.push('operator_pack: missing external_unblock_handoff readiness gate');
@@ -609,6 +653,9 @@ async function main() {
     if (paymentBrandingFlagPresent && (!operatorMarkdown.includes('payment_branding_review') || !operatorMarkdown.includes('sales-kit/payment_branding_review.flag'))) {
       failures.push('operator_pack: Markdown must expose payment branding hold while flag exists');
     }
+    if (paymentBrandingFlagPresent && (!operatorMarkdown.includes('## Payment Branding Boundary') || !operatorMarkdown.includes('No EC8/EC8 Platform exception valid for release: yes'))) {
+      failures.push('operator_pack: Markdown must expose current payment branding boundary and EC8 exception rejection');
+    }
     for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
       if (!operatorMarkdown.includes(requiredPostDeployCheck)) {
         failures.push(`operator_pack: Markdown must require ${requiredPostDeployCheck} after deploy`);
@@ -628,6 +675,9 @@ async function main() {
     }
     if (paymentBrandingFlagPresent && (!launchMarkdown.includes('payment_branding_review') || !launchMarkdown.includes('sales-kit/payment_branding_review.flag'))) {
       failures.push('launch_handoff: Markdown must expose payment branding hold while flag exists');
+    }
+    if (paymentBrandingFlagPresent && (!launchMarkdown.includes('## Payment Branding Boundary') || !launchMarkdown.includes('No EC8/EC8 Platform exception valid for release: yes'))) {
+      failures.push('launch_handoff: Markdown must expose current payment branding boundary and EC8 exception rejection');
     }
     for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
       if (!launchMarkdown.includes(requiredPostDeployCheck)) {
