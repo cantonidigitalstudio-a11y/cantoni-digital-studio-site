@@ -55,6 +55,11 @@ CANTONI_DNS_ALLOW_EXISTING_REPLACE=yes
 Non usare mai questa opzione per DKIM: il record `google._domainkey` resta
 manuale finche Google Admin non fornisce il valore reale.
 
+Il piano e incluso anche in `npm run export:launch-operator-pack`, cosi il
+pacchetto di lancio contiene sia i file record sia lo stato applicabile del
+dry-run Cloudflare. Se il pack mostra `source=no_credentials`, non e un via
+libera: serve ripetere il piano con token e zone id del solo account Cantoni.
+
 ## Profilo scelto
 
 Profilo operativo: Google Workspace manuale a basso volume.

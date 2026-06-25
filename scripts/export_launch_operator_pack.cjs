@@ -25,9 +25,9 @@ function relativeToRoot(filePath) {
   return normalizeRel(path.relative(PROJECT_ROOT, resolved));
 }
 
-function runJsonStep(id, label, scriptPath) {
+function runJsonStep(id, label, scriptPath, args = [], options = {}) {
   console.error(`step=${id}`);
-  const result = spawnSync(process.execPath, [scriptPath], {
+  const result = spawnSync(process.execPath, [scriptPath, ...args], {
     cwd: PROJECT_ROOT,
     encoding: 'utf8',
     shell: false
@@ -43,14 +43,15 @@ function runJsonStep(id, label, scriptPath) {
     throw new Error(`${label} did not return JSON: ${error.message}`);
   }
 
-  if (result.error || result.status !== 0) {
-    throw new Error(`${label} failed: ${result.error?.message || `${scriptPath} exited with ${result.status}`}`);
+  if (result.error || (result.status !== 0 && options.allowFailure !== true)) {
+    throw new Error(`${label} failed: ${result.error?.message || `${[scriptPath, ...args].join(' ')} exited with ${result.status}`}`);
   }
 
   return {
     id,
     label,
-    command: `node ${scriptPath}`,
+    command: `node ${[scriptPath, ...args].join(' ')}`,
+    command_status: result.status,
     ok: parsed?.ok === true,
     output: parsed
   };
@@ -100,6 +101,7 @@ function artifactRows(payload) {
     ['Email DNS handoff', emailStep.markdown],
     ['Email DNS CSV', emailStep.csv],
     ['Email DNS API JSON', emailStep.cloudflare_api_json],
+    ['Email DNS Cloudflare plan', 'embedded in operator pack JSON'],
     ['Live drift report', driftStep.markdown],
     ['Launch handoff', handoffStep.markdown],
     ['Operator pack JSON', payload.operator_pack.json],
@@ -123,6 +125,29 @@ function cloudflareDiagnosticLines(cloudflareAuth) {
     '',
     'Next auth actions:',
     ...((cloudflareAuth.next_actions || []).map((action, index) => `${index + 1}. ${action}`))
+  ];
+}
+
+function cloudflareDnsPlanLines(plan) {
+  if (!plan) return ['- No Cloudflare DNS plan payload was available.'];
+  const actions = Array.isArray(plan.actions) ? plan.actions : [];
+  const counts = actions.reduce((acc, action) => {
+    acc[action.action] = (acc[action.action] || 0) + 1;
+    return acc;
+  }, {});
+
+  return [
+    `- Source: \`${plan.source || 'unknown'}\``,
+    `- Ready to apply: ${plan.ready_to_apply ? 'yes' : 'no'}`,
+    `- Records in API-safe payload: ${plan.records_count ?? 'unknown'}`,
+    `- Changes required: ${plan.changes_required ?? 'unknown'}`,
+    `- Token present: ${plan.cloudflare?.token_present ? 'yes' : 'no'}`,
+    `- Zone ID present: ${plan.cloudflare?.zone_id_present ? 'yes' : 'no'}`,
+    `- Actions: ${Object.entries(counts).map(([key, value]) => `${key}=${value}`).join(', ') || 'none'}`,
+    '',
+    'DNS plan rule:',
+    '- Apply only with `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ZONE_ID`, and `CANTONI_DNS_APPROVAL=apply-cantoni-email-dns`.',
+    '- `google_dkim` stays excluded until Google Admin provides the real DKIM TXT value.'
   ];
 }
 
@@ -166,15 +191,20 @@ function renderMarkdown(payload) {
     '',
     ...cloudflareDiagnosticLines(payload.cloudflare_auth),
     '',
+    '## Cloudflare Email DNS Plan',
+    '',
+    ...cloudflareDnsPlanLines(payload.steps.email_dns_cloudflare_plan?.output),
+    '',
     '## Required Sequence',
     '',
     '1. Fix Cloudflare auth for the Cantoni Digital Studio account only.',
     '2. Run `npm run audit:cloudflare-auth` and require it to pass.',
     '3. Deploy only the verified `.cloudflare-pages` artifact or ZIP referenced in this pack, after explicit deploy approval.',
-    '4. Add Google Workspace DNS records from the email DNS handoff; generate the DKIM value in Google Admin.',
+    '4. Run `npm run dns:cloudflare:plan`; apply only if the plan is ready and explicit DNS approval is present.',
     '5. Run `npm run audit:email-dns` after DNS propagation.',
-    '6. Run `npm run test:live-site` and `npm run audit:launch-readiness` after deploy.',
-    '7. Keep outbound paused until all gates are green and the exact send batch is approved.',
+    '6. Generate and publish the Google DKIM value from Google Admin.',
+    '7. Run `npm run test:live-site` and `npm run audit:launch-readiness` after deploy.',
+    '8. Keep outbound paused until all gates are green and the exact send batch is approved.',
     ''
   ].join('\n');
 }
@@ -183,6 +213,7 @@ async function main() {
   const rawSteps = [
     runJsonStep('cloudflare_manual_upload', 'Cloudflare manual upload package', 'scripts/export_cloudflare_manual_upload_package.cjs'),
     runJsonStep('email_dns_handoff', 'Email DNS handoff', 'scripts/export_email_dns_handoff.cjs'),
+    runJsonStep('email_dns_cloudflare_plan', 'Email DNS Cloudflare plan', 'scripts/sync_cloudflare_email_dns.cjs', ['--dry-run'], { allowFailure: true }),
     runJsonStep('live_drift', 'Live drift report', 'scripts/export_live_drift_report.cjs'),
     runJsonStep('launch_handoff', 'Launch handoff', 'scripts/export_launch_handoff.cjs')
   ];
@@ -212,6 +243,7 @@ async function main() {
     blocker_count: payload.readiness?.blockers?.length || 0,
     hold_count: payload.readiness?.holds?.length || 0,
     deploy_only_drift: steps.live_drift.output.deploy_only_drift === true,
+    dns_plan_ready: steps.email_dns_cloudflare_plan.output.ready_to_apply === true,
     cloudflare_zip: steps.cloudflare_manual_upload.output.zip?.path || null,
     markdown: payload.operator_pack.markdown,
     json: payload.operator_pack.json

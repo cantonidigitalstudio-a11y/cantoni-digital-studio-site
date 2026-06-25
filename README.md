@@ -56,7 +56,9 @@ deploy, usa `npm run export:live-drift`. Il report resta sotto
 `sales-kit/generated/live-drift/` ed e ignorato da git.
 
 Per preparare un indice unico di deploy/DNS/drift/launch handoff generati nella
-stessa run, usa `npm run export:launch-operator-pack`. Il report resta sotto
+stessa run, usa `npm run export:launch-operator-pack`. Il pack include anche il
+dry-run `dns:cloudflare:plan`, cosi l'operatore vede se i record DNS sono
+applicabili, bloccati o in attesa di lookup Cloudflare. Il report resta sotto
 `sales-kit/generated/launch-operator-pack/` ed e ignorato da git.
 
 ## Regole operative

@@ -129,6 +129,36 @@ async function main() {
       failures.push('email_dns: API records_count does not match API payload');
     }
 
+    const dnsPlanStep = operatorPack.steps?.email_dns_cloudflare_plan || {};
+    const dnsPlan = dnsPlanStep.output || {};
+    const dnsPlanActions = Array.isArray(dnsPlan.actions) ? dnsPlan.actions : [];
+    if (!dnsPlanStep.command || !dnsPlanStep.command.includes('scripts/sync_cloudflare_email_dns.cjs --dry-run')) {
+      failures.push('operator_pack: missing Cloudflare email DNS plan command');
+    }
+    if (dnsPlan.mode !== 'dry_run') {
+      failures.push('operator_pack: Cloudflare email DNS plan must be dry_run');
+    }
+    if (!Array.isArray(dnsPlan.skipped_records) || !dnsPlan.skipped_records.some((record) => record.id === 'google_dkim' && record.reason === 'manual_value_required')) {
+      failures.push('operator_pack: Cloudflare DNS plan must keep google_dkim skipped as manual');
+    }
+    if (JSON.stringify(dnsPlanActions).includes('google_dkim') || JSON.stringify(dnsPlanActions).includes('google._domainkey')) {
+      failures.push('operator_pack: Cloudflare DNS plan must not include DKIM in apply actions');
+    }
+    if (dnsPlan.source === 'no_credentials') {
+      if (dnsPlan.ready_to_apply !== false) {
+        failures.push('operator_pack: no-credentials DNS plan must not be ready to apply');
+      }
+      if (!dnsPlanActions.length || !dnsPlanActions.every((action) => action.action === 'cloudflare_lookup_required')) {
+        failures.push('operator_pack: no-credentials DNS plan must require Cloudflare lookup for all records');
+      }
+    } else if (dnsPlan.source === 'cloudflare_api') {
+      if (dnsPlan.cloudflare?.token_present !== true || dnsPlan.cloudflare?.zone_id_present !== true) {
+        failures.push('operator_pack: Cloudflare DNS API source must report token and zone id presence only');
+      }
+    } else if (dnsPlan.source !== 'fixture') {
+      failures.push('operator_pack: unsupported Cloudflare DNS plan source');
+    }
+
     if (liveDrift.artifact_contract_ok !== true) {
       failures.push('live_drift: artifact must be contract-ready');
     }
