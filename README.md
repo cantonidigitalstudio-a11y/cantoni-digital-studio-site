@@ -169,7 +169,11 @@ dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile
 e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
 L'evidenza strutturata resta in
 `sales-kit/payment_branding_review_evidence.json`; l'audit non diventa verde se
-il flag viene rimosso senza `release_ready=true`.
+il flag viene rimosso senza `release_ready=true`. L'evidenza deve registrare
+`review_method.expanded_additional_payment_methods=true`, nessun campo
+pagamento compilato, nessun click sul submit finale e i metodi osservati dopo
+espansione; l'ultima verifica reale ha visto `card`, `mb_way`, `klarna`,
+`bancontact`, `amazon_pay` ed `eps`, ma non `paypal`.
 Il remediation path Stripe/PayPal e in
 `sales-kit/payment_branding_remediation.md` ed e verificato da
 `npm run test:payment-branding-remediation`.

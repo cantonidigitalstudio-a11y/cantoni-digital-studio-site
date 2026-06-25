@@ -102,6 +102,9 @@ function main() {
   if (!readme.includes('sales-kit/payment_branding_review_evidence.json') || !readme.includes('release_ready=true')) {
     failures.push('README.md: must document payment branding evidence and release_ready gate');
   }
+  if (!readme.includes('review_method.expanded_additional_payment_methods=true') || !readme.includes('amazon_pay') || !readme.includes('nessun click sul submit finale')) {
+    failures.push('README.md: must document expanded-method payment branding evidence requirements');
+  }
   if (!readme.includes('sales-kit/payment_branding_remediation.md') || !readme.includes('npm run test:payment-branding-remediation')) {
     failures.push('README.md: must document payment branding remediation verifier');
   }
@@ -121,7 +124,10 @@ function main() {
     'npm run audit:payment-branding',
     'sales-kit/payment_branding_review.flag',
     'sales-kit/payment_branding_review_evidence.json',
-    'npm run test:payment-branding-remediation'
+    'npm run test:payment-branding-remediation',
+    'review_method.expanded_additional_payment_methods=true',
+    'amazon_pay',
+    'nessun click sul submit finale'
   ]) {
     if (!deployRunbook.includes(required)) {
       failures.push(`DEPLOY_RUNBOOK.md: must include current payment branding boundary "${required}"`);
@@ -197,6 +203,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('sales-kit/payment_branding_review_evidence.json') || !cloudflareRunbook.includes('release_ready=true')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding evidence and release_ready gate');
+  }
+  if (!cloudflareRunbook.includes('review_method.expanded_additional_payment_methods=true') || !cloudflareRunbook.includes('amazon_pay') || !cloudflareRunbook.includes('nessun click sul submit finale')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document expanded-method payment branding evidence requirements');
   }
   if (!cloudflareRunbook.includes('sales-kit/payment_branding_remediation.md') || !cloudflareRunbook.includes('npm run test:payment-branding-remediation')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding remediation verifier');

@@ -86,6 +86,11 @@ pagamento finale.
 Stato corrente 2026-06-25:
 `sales-kit/payment_branding_review_evidence.json` registra
 `blocked_paypal_not_visible` e `release_ready=false`. La verifica del 2026-05-05 e superata: non dimostra lo stato attuale dei Payment Link e non puo sbloccare il gate PayPal/branding.
+L'evidenza valida deve includere `review_method.expanded_additional_payment_methods=true`,
+nessun campo pagamento compilato, nessun click sul submit finale e la lista dei
+metodi osservati dopo espansione. L'ultima verifica Browser reale ha visto
+`card`, `mb_way`, `klarna`, `bancontact`, `amazon_pay` ed `eps`, ma non
+`paypal`.
 
 ## Gate PayPal / branding
 
