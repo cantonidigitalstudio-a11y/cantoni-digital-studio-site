@@ -113,6 +113,8 @@ const gates = [
       project_name: parsed?.project_name || null,
       project_listed: parsed?.project_listed === true,
       has_cloudflare_account_id: parsed?.has_cloudflare_account_id === true,
+      diagnostic_code: parsed?.diagnostic_code || null,
+      next_actions: parsed?.next_actions || [],
       whoami_status: parsed?.whoami?.status ?? null,
       pages_project_list_status: parsed?.pages_project_list?.status ?? null
     })

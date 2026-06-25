@@ -101,7 +101,37 @@ function dnsRecordTable(records) {
   ];
 }
 
-function renderMarkdown({ readiness, emailDns, latestPackage }) {
+function cloudflareAuthSummary(readiness) {
+  const gate = (readiness.gates || []).find((item) => item.id === 'cloudflare_pages_deploy_auth');
+  const details = gate?.details || {};
+  return {
+    ok: gate?.ok === true,
+    diagnostic_code: details.diagnostic_code || null,
+    next_actions: details.next_actions || [],
+    project_name: details.project_name || null,
+    project_listed: details.project_listed === true,
+    has_cloudflare_account_id: details.has_cloudflare_account_id === true,
+    whoami_status: details.whoami_status ?? null,
+    pages_project_list_status: details.pages_project_list_status ?? null
+  };
+}
+
+function cloudflareDiagnosticLines(cloudflareAuth) {
+  if (!cloudflareAuth || cloudflareAuth.ok) return ['- Cloudflare Pages auth: ok'];
+  return [
+    `- Diagnostic: \`${cloudflareAuth.diagnostic_code || 'unknown'}\``,
+    `- Project: \`${cloudflareAuth.project_name || 'unknown'}\``,
+    `- Project listed: ${cloudflareAuth.project_listed ? 'yes' : 'no'}`,
+    `- CLOUDFLARE_ACCOUNT_ID set: ${cloudflareAuth.has_cloudflare_account_id ? 'yes' : 'no'}`,
+    `- whoami status: ${cloudflareAuth.whoami_status ?? 'unknown'}`,
+    `- pages project list status: ${cloudflareAuth.pages_project_list_status ?? 'unknown'}`,
+    '',
+    'Next auth actions:',
+    ...((cloudflareAuth.next_actions || []).map((action, index) => `${index + 1}. ${action}`))
+  ];
+}
+
+function renderMarkdown({ readiness, emailDns, latestPackage, cloudflareAuth }) {
   const blockers = readiness.blockers || [];
   const holds = readiness.holds || [];
   const packageLines = latestPackage
@@ -148,6 +178,10 @@ function renderMarkdown({ readiness, emailDns, latestPackage }) {
     '4. If using dashboard handoff, use the verified ZIP above only when the Pages project supports that upload path.',
     '5. After any upload/deploy, run `npm run test:live-site` and `npm run audit:launch-readiness`.',
     '',
+    '## Cloudflare Auth Diagnostic',
+    '',
+    ...cloudflareDiagnosticLines(cloudflareAuth),
+    '',
     '## Email DNS Records',
     '',
     ...dnsRecordTable(emailDns.recommended_records),
@@ -188,6 +222,7 @@ async function main() {
   const readiness = readinessRun.parsed;
   const emailDns = emailDnsRun.parsed;
   const latestPackage = await findLatestManualPackage();
+  const cloudflareAuth = cloudflareAuthSummary(readiness);
 
   const payload = {
     ok: readiness.ok === true,
@@ -198,6 +233,7 @@ async function main() {
       blockers: readiness.blockers || [],
       holds: readiness.holds || []
     },
+    cloudflare_auth: cloudflareAuth,
     latest_cloudflare_manual_package: latestPackage,
     email_dns: {
       ok: emailDns.ok === true,
@@ -212,7 +248,8 @@ async function main() {
   await fs.writeFile(MARKDOWN_PATH, renderMarkdown({
     readiness: payload.readiness,
     emailDns: payload.email_dns,
-    latestPackage
+    latestPackage,
+    cloudflareAuth
   }));
 
   console.log(JSON.stringify({

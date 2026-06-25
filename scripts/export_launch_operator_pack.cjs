@@ -113,6 +113,19 @@ function artifactRows(payload) {
   ];
 }
 
+function cloudflareDiagnosticLines(cloudflareAuth) {
+  if (!cloudflareAuth) return ['- No Cloudflare auth diagnostic payload was available.'];
+  if (cloudflareAuth.ok) return ['- Cloudflare Pages auth: ok'];
+  return [
+    `- Diagnostic: \`${cloudflareAuth.diagnostic_code || 'unknown'}\``,
+    `- Project listed: ${cloudflareAuth.project_listed ? 'yes' : 'no'}`,
+    `- CLOUDFLARE_ACCOUNT_ID set: ${cloudflareAuth.has_cloudflare_account_id ? 'yes' : 'no'}`,
+    '',
+    'Next auth actions:',
+    ...((cloudflareAuth.next_actions || []).map((action, index) => `${index + 1}. ${action}`))
+  ];
+}
+
 function renderMarkdown(payload) {
   const readiness = payload.readiness || {};
   const liveDrift = payload.steps.live_drift.output;
@@ -149,6 +162,10 @@ function renderMarkdown(payload) {
     `- Files: ${cloudflarePackage.files_count}`,
     `- ZIP SHA-256: \`${cloudflarePackage.zip?.sha256 || 'unknown'}\``,
     '',
+    '## Cloudflare Auth Diagnostic',
+    '',
+    ...cloudflareDiagnosticLines(payload.cloudflare_auth),
+    '',
     '## Required Sequence',
     '',
     '1. Fix Cloudflare auth for the Cantoni Digital Studio account only.',
@@ -177,6 +194,7 @@ async function main() {
     ok: true,
     generated_at: new Date().toISOString(),
     readiness: launchHandoffJson?.readiness || null,
+    cloudflare_auth: launchHandoffJson?.cloudflare_auth || null,
     steps,
     operator_pack: {
       markdown: relativeToRoot(MARKDOWN_PATH),

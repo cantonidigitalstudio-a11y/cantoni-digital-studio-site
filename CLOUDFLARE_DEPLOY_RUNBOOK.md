@@ -29,7 +29,8 @@ Lo script usa il binario installato `wrangler` o `WRANGLER_BIN` se impostato. No
 
 Stato verificato 2026-06-25:
 
-- `npm run audit:cloudflare-auth` fallisce prima del deploy: `wrangler whoami` passa, ma `wrangler pages project list` fallisce con `Authentication error [code: 10000]`.
+- `npm run audit:cloudflare-auth` fallisce prima del deploy: `wrangler whoami` passa, ma `wrangler pages project list --json` fallisce con `Authentication error [code: 10000]`.
+- Diagnosi attesa nel JSON: `diagnostic_code=pages_api_authentication_error_10000`.
 - Causa probabile: token/sessione Cloudflare scaduta, account Cloudflare non corretto o permessi Pages insufficienti.
 - Non tentare deploy finche `npm run audit:cloudflare-auth` non torna verde su `whoami` e su `pages project list`, oppure finche non viene impostato un `CLOUDFLARE_ACCOUNT_ID` verificato per l'account Cantoni.
 - Non usare sessioni Cloudflare di Excellentia, Mr Collins, Diogomez, EC8 o personali per questo sito.
