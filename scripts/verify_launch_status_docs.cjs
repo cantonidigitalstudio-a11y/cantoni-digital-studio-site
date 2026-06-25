@@ -286,6 +286,24 @@ function main() {
       }
     }
   }
+  for (const [file, contents, requiredSnippets] of [
+    ['sales-kit/business-cards/social-profile-setup-checklist.md', socialProfileChecklist, [
+      'metadata-proof-load-error',
+      'load error',
+      'standalone public proof'
+    ]],
+    ['sales-kit/social-launch/client-acquisition-readiness.md', socialClientAcquisition, [
+      'metadata-proof-load-error',
+      'errore di caricamento',
+      'prova pubblica autonoma'
+    ]]
+  ]) {
+    for (const required of requiredSnippets) {
+      if (!contents.includes(required)) {
+        failures.push(`${file}: must document current Instagram metadata-only/load-error social proof boundary "${required}"`);
+      }
+    }
+  }
 
   const report = {
     ok: failures.length === 0,

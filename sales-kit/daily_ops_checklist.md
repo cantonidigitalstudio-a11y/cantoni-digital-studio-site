@@ -20,7 +20,7 @@
 - [ ] `npm run test:outreach-readiness` verde.
 - [ ] `npm run test:global-outreach` verde: batch globale da 50 con `ready_to_contact=0` e nessun problema di personalizzazione.
 - [ ] `npm run test:global-followup-d3` verde: coda D3 pronta, `reply_to` corretto e nessun importo pubblico.
-- [ ] `npm run test:social-public` verde: Facebook pubblico; Instagram e TikTok accettati come canali ufficiali anche se il browser non autenticato mostra login-gate, purche quando pubblici contengano brand corretto e nessun link vecchio.
+- [ ] `npm run test:social-public` verde: Facebook e YouTube pubblici; Instagram accettato solo come `metadata-proof-load-error` quando i metadati confermano brand/link ma il browser logged-out mostra errore; TikTok accettato come `login-gated-ok`; nessun link vecchio.
 - [ ] `npm run build:cloudflare && npm run test:artifact` verdi prima di qualsiasi deploy.
 - [ ] Nessun item queue contiene testo generico, placeholder, importi pubblici o link social deboli come prova primaria.
 - [ ] Risposte classificate in `REPLIED`, `QUOTE_IN_PROGRESS`, `QUOTE_SENT`, `CLOSED_WON` o `CLOSED_LOST`.

@@ -665,6 +665,15 @@ async function main() {
       failures.push('operator_pack: public_social_channels readiness gate must pass before handoff');
     } else if (!Array.isArray(publicSocialGate.details?.results) || publicSocialGate.details.results.length < 5) {
       failures.push('operator_pack: public_social_channels gate must expose checked channel details');
+    } else {
+      for (const result of publicSocialGate.details.results) {
+        if (typeof result.loadError !== 'boolean') {
+          failures.push(`operator_pack: public_social_channels result ${result.id || 'unknown'} must expose boolean loadError`);
+        }
+        if (result.observed === 'metadata-proof-load-error' && result.loadError !== true) {
+          failures.push(`operator_pack: public_social_channels result ${result.id || 'unknown'} metadata-proof-load-error must set loadError=true`);
+        }
+      }
     }
     if (!leadEndpointGate) {
       failures.push('operator_pack: missing lead_capture_endpoint readiness gate');

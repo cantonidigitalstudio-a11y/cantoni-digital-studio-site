@@ -238,6 +238,7 @@ const steps = [
             finalUrl: result.finalUrl || null,
             title: result.title || null,
             file: result.file || null,
+            loadError: result.loadError === true,
             ok: result.ok === true
           }))
         : []
