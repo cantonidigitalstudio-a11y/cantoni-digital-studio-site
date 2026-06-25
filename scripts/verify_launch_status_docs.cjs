@@ -3,6 +3,9 @@ const path = require('path');
 const {
   OUTBOUND_PAUSE_REQUIRED_SNIPPETS
 } = require('./lib/outbound_pause_contract.cjs');
+const {
+  PAYMENT_BRANDING_REQUIRED_SNIPPETS
+} = require('./lib/payment_branding_contract.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -17,6 +20,7 @@ function main() {
   const readme = read('README.md');
   const cloudflareRunbook = read('CLOUDFLARE_DEPLOY_RUNBOOK.md');
   const outboundPause = read('sales-kit/outbound_pause.flag');
+  const paymentBranding = read('sales-kit/payment_branding_review.flag');
 
   for (const required of [
     'snapshot storico',
@@ -66,6 +70,9 @@ function main() {
   if (!readme.includes('npm run audit:post-unblock-launch') || !readme.includes('npm run test:post-unblock-launch')) {
     failures.push('README.md: must document strict and nonfatal post-unblock launch audits');
   }
+  if (!readme.includes('npm run audit:payment-branding') || !readme.includes('sales-kit/payment_branding_review.flag')) {
+    failures.push('README.md: must document payment branding audit and review flag');
+  }
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
@@ -108,12 +115,20 @@ function main() {
   if (!cloudflareRunbook.includes('npm run audit:post-unblock-launch') || !cloudflareRunbook.includes('npm run test:post-unblock-launch')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document strict and nonfatal post-unblock launch audits');
   }
+  if (!cloudflareRunbook.includes('npm run audit:payment-branding') || !cloudflareRunbook.includes('sales-kit/payment_branding_review.flag')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding audit and review flag');
+  }
   if (!cloudflareRunbook.includes('preview-cantoni-site') || !cloudflareRunbook.includes('CLOUDFLARE_PAGES_BRANCH=main') || !cloudflareRunbook.includes('live_site_contract')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document preview-vs-production branch behavior for live contract closure');
   }
   for (const required of OUTBOUND_PAUSE_REQUIRED_SNIPPETS) {
     if (!outboundPause.includes(required)) {
       failures.push(`sales-kit/outbound_pause.flag: must include outbound release condition "${required}"`);
+    }
+  }
+  for (const required of PAYMENT_BRANDING_REQUIRED_SNIPPETS) {
+    if (!paymentBranding.includes(required)) {
+      failures.push(`sales-kit/payment_branding_review.flag: must include payment branding release condition "${required}"`);
     }
   }
 
@@ -123,7 +138,8 @@ function main() {
       'sales-kit/cascade_status_2026-05-16.md',
       'README.md',
       'CLOUDFLARE_DEPLOY_RUNBOOK.md',
-      'sales-kit/outbound_pause.flag'
+      'sales-kit/outbound_pause.flag',
+      'sales-kit/payment_branding_review.flag'
     ],
     failures
   };

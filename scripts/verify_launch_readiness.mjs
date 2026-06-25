@@ -45,8 +45,8 @@ function runJson(command, args) {
 
 function summarizeFailures(failures) {
   return (Array.isArray(failures) ? failures : []).map((failure) => ({
-    id: failure.id || 'unknown',
-    reason: failure.reason || 'No reason provided.'
+    id: typeof failure === 'string' ? 'failure' : failure.id || 'unknown',
+    reason: typeof failure === 'string' ? failure : failure.reason || 'No reason provided.'
   }));
 }
 
@@ -91,6 +91,31 @@ function externalUnblockHandoffGate(run) {
   return {
     ...gate,
     severity: 'advisory'
+  };
+}
+
+function paymentBrandingGate(run) {
+  const commandOk = run.status === 0 && !run.error && !run.parse_error;
+  const ok = commandOk && run.parsed?.ok === true;
+  const expectedHold = commandOk && run.parsed?.ok === false;
+  const parsedFailures = summarizeFailures(run.parsed?.failures);
+
+  return {
+    id: 'payment_branding_review',
+    label: 'Payment branding review',
+    category: 'payments',
+    ok,
+    severity: ok ? 'pass' : expectedHold ? 'hold' : 'blocker',
+    command: run.command,
+    command_status: run.status,
+    failures: ok ? [] : parsedFailures.length ? parsedFailures : [{
+      id: run.parse_error ? 'parse_error' : run.error ? 'command_error' : 'payment_branding_review_pending',
+      reason: run.parse_error || run.error || run.stderr || 'PayPal/Stripe brand review is still pending before final go-live.'
+    }],
+    details: {
+      flag: run.parsed?.flag || null,
+      next_actions: run.parsed?.next_actions || []
+    }
   };
 }
 
@@ -169,6 +194,7 @@ const cloudflareRun = runJson(process.execPath, ['scripts/verify_cloudflare_depl
 const cloudflarePagesApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--pages-only']);
 const cloudflareDnsApiRun = runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--dns-only']);
 const artifactRun = runJson(process.execPath, ['scripts/verify_cloudflare_artifact_readiness.cjs']);
+const paymentBrandingRun = runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_state.cjs']);
@@ -266,6 +292,7 @@ const gates = [
       check_count: Array.isArray(parsed?.checks) ? parsed.checks.length : 0
     })
   }),
+  paymentBrandingGate(paymentBrandingRun),
   externalUnblockHandoffGate(externalUnblockHandoffRun),
   {
     id: 'commercial_outbound_pause',

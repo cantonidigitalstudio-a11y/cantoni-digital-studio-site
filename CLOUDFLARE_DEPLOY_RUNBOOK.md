@@ -170,7 +170,9 @@ corrispondono all'ultimo artifact timestampato.
 
 Dopo che accessi Cloudflare/DNS e Google Workspace sono stati applicati, usare
 `npm run audit:post-unblock-launch`: fallisce finche live site, Pages access,
-DNS API, email DNS e readiness senza outbound non sono tutti chiudibili.
+DNS API, email DNS, payment branding e readiness senza outbound non sono tutti chiudibili.
+`npm run audit:payment-branding` controlla `sales-kit/payment_branding_review.flag`;
+il flag va rimosso solo dopo verifica reale Stripe/PayPal senza brand mismatch.
 `npm run test:post-unblock-launch` usa la stessa matrice ma resta non-fatale per
 leggere i blocker durante lo sblocco.
 
@@ -266,10 +268,10 @@ Stato 2026-05-05: PayPal verificato visualmente su entrambi i Payment Link dopo 
 
 Se PayPal non compare nemmeno nel browser reale, il codice del sito non può correggerlo da solo: PayPal va attivato/configurato nelle impostazioni metodi di pagamento del Dashboard Stripe e deve risultare compatibile con importo, valuta e paese del checkout.
 
-## Debito PayPal / branding
+## Gate PayPal / branding
 - Decisione temporanea 2026-05-05: PayPal puo essere collegato al conto business gia esistente legato a EC8/EC8 Platform per sbloccare la disponibilita del metodo PayPal.
 - Rischio accettato: PayPal puo mostrare o usare riferimenti del conto storico nelle schermate PayPal, nelle ricevute o nelle comunicazioni, anche se Stripe Checkout deve continuare a identificare il merchant come `Cantoni Digital Studio`.
-- TODO: creare un PayPal Business dedicato a `Cantoni Digital Studio` oppure completare rinomina/verifica del conto esistente prima del go-live definitivo senza rischio di brand mismatch.
+- Gate strutturato: `sales-kit/payment_branding_review.flag` resta presente finche `npm run audit:payment-branding` non e verde dopo verifica reale dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
 - Il test pagamenti blocca altri brand non correlati nel checkout Stripe, ma non blocca EC8/EC8 Platform finche questa eccezione temporanea resta approvata.
 
 ## Controlli dopo il go-live

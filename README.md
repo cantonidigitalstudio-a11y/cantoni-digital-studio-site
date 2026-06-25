@@ -137,10 +137,14 @@ dossier punti al pack e allo ZIP correnti, preservi gli approval gate, tenga
 allineati gli alias latest e non assegni valori segreti.
 Quando Cloudflare Pages/DNS e Google Workspace sono stati sbloccati, usa
 `npm run audit:post-unblock-launch` come controllo unico di chiusura tecnica:
-verifica Git, live site, accesso Pages, DNS API, email DNS, readiness senza
-rilascio outbound e handoff. Prima dello sblocco,
+verifica Git, live site, accesso Pages, DNS API, email DNS, payment branding,
+readiness senza rilascio outbound e handoff. Prima dello sblocco,
 `npm run test:post-unblock-launch` mostra gli stessi blocker senza fallire il
 comando.
+`npm run audit:payment-branding` controlla il flag
+`sales-kit/payment_branding_review.flag`: va rimosso solo dopo verifica reale
+dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile
+e nessun riferimento EC8 o altro brand non correlato nel flusso PayPal.
 
 ## Regole operative
 

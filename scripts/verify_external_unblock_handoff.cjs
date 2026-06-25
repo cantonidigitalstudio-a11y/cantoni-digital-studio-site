@@ -16,6 +16,7 @@ const REQUIRED_TASKS = [
   'cloudflare_pages_deploy',
   'cloudflare_dns_api_credentials',
   'google_workspace_email_dns',
+  'payment_branding_review',
   'post_unblock_checks'
 ];
 
@@ -147,6 +148,7 @@ async function main() {
   const deploy = taskById(payload || {}, 'cloudflare_pages_deploy');
   const dnsApi = taskById(payload || {}, 'cloudflare_dns_api_credentials');
   const emailDns = taskById(payload || {}, 'google_workspace_email_dns');
+  const paymentBranding = taskById(payload || {}, 'payment_branding_review');
   const postChecks = taskById(payload || {}, 'post_unblock_checks');
 
   if (!pagesAuth?.required_environment_names?.includes('CLOUDFLARE_API_TOKEN')) failures.push('Pages auth task must name CLOUDFLARE_API_TOKEN.');
@@ -175,8 +177,25 @@ async function main() {
   }
   const dkim = dashboardRecords.find((record) => record.id === 'google_dkim');
   if (dkim && dkim.manual_value_required !== true) failures.push('Google DKIM record must stay manual-value-required.');
+  if (paymentBranding?.flag !== 'sales-kit/payment_branding_review.flag') failures.push('Payment branding task must reference sales-kit/payment_branding_review.flag.');
+  if (!paymentBranding?.verification_commands?.includes('npm run audit:payment-branding')) {
+    failures.push('Payment branding task must require npm run audit:payment-branding.');
+  }
+  if (!paymentBranding?.verification_commands?.includes('npm run test:payments')) {
+    failures.push('Payment branding task must require npm run test:payments.');
+  }
+  const paymentReviewText = JSON.stringify(paymentBranding?.required_review || []);
+  if (!paymentReviewText.includes('Stripe Checkout merchant shows Cantoni Digital Studio')) {
+    failures.push('Payment branding task must require Stripe Checkout merchant review.');
+  }
+  if (!paymentReviewText.includes('PayPal does not expose EC8')) {
+    failures.push('Payment branding task must require PayPal unrelated-brand review.');
+  }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:post-unblock-launch')) {
     failures.push('Post-unblock checks must include the consolidated post-unblock launch audit.');
+  }
+  if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:payment-branding')) {
+    failures.push('Post-unblock checks must include payment branding audit.');
   }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:launch-readiness')) {
     failures.push('Post-unblock checks must include launch readiness audit.');
@@ -197,6 +216,7 @@ async function main() {
     for (const requiredText of [
       'This file is a handoff, not deploy/DNS approval.',
       'No passwords, tokens, OTPs, cookies or recovery data belong in this repo.',
+      'sales-kit/payment_branding_review.flag',
       'sales-kit/outbound_pause.flag'
     ]) {
       if (!markdown.includes(requiredText)) failures.push(`External unblock markdown missing required safety text: ${requiredText}`);

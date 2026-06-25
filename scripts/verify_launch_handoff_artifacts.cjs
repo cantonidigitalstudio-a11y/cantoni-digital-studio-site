@@ -425,7 +425,9 @@ async function main() {
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
+    const paymentBrandingGate = readinessGates.find((gate) => gate.id === 'payment_branding_review');
     const externalUnblockHandoffGate = readinessGates.find((gate) => gate.id === 'external_unblock_handoff');
+    const paymentBrandingFlagPresent = await pathExists(path.join(PROJECT_ROOT, 'sales-kit/payment_branding_review.flag'));
     if (!artifactGate) {
       failures.push('operator_pack: missing cloudflare_artifact_contract readiness gate');
     } else if (artifactGate.ok !== true) {
@@ -437,6 +439,15 @@ async function main() {
       failures.push('operator_pack: missing git_deploy_state readiness gate');
     } else if (!gitDeployStateGate.details || typeof gitDeployStateGate.details.dirty !== 'boolean') {
       failures.push('operator_pack: git_deploy_state gate must include Git cleanliness details');
+    }
+    if (paymentBrandingFlagPresent) {
+      if (!paymentBrandingGate) {
+        failures.push('operator_pack: missing payment_branding_review readiness gate while payment branding flag exists');
+      } else if (paymentBrandingGate.severity !== 'hold') {
+        failures.push('operator_pack: payment_branding_review gate must be a hold while payment branding flag exists');
+      } else if (paymentBrandingGate.details?.flag?.present !== true) {
+        failures.push('operator_pack: payment_branding_review gate must expose the review flag');
+      }
     }
     if (!externalUnblockHandoffGate) {
       failures.push('operator_pack: missing external_unblock_handoff readiness gate');
@@ -471,6 +482,9 @@ async function main() {
     if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
       failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');
     }
+    if (paymentBrandingFlagPresent && (!operatorMarkdown.includes('payment_branding_review') || !operatorMarkdown.includes('sales-kit/payment_branding_review.flag'))) {
+      failures.push('operator_pack: Markdown must expose payment branding hold while flag exists');
+    }
     for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
       if (!operatorMarkdown.includes(requiredPostDeployCheck)) {
         failures.push(`operator_pack: Markdown must require ${requiredPostDeployCheck} after deploy`);
@@ -481,6 +495,9 @@ async function main() {
     }
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');
+    }
+    if (paymentBrandingFlagPresent && (!launchMarkdown.includes('payment_branding_review') || !launchMarkdown.includes('sales-kit/payment_branding_review.flag'))) {
+      failures.push('launch_handoff: Markdown must expose payment branding hold while flag exists');
     }
     for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
       if (!launchMarkdown.includes(requiredPostDeployCheck)) {

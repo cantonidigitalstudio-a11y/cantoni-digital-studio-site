@@ -110,6 +110,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
   const pagesAuthGate = gateById(readiness, 'cloudflare_pages_deploy_auth');
   const dnsApiGate = gateById(readiness, 'cloudflare_dns_api_credentials');
   const emailDnsGate = gateById(readiness, 'cantoni_email_dns');
+  const paymentBrandingGate = gateById(readiness, 'payment_branding_review');
   const liveSiteGate = gateById(readiness, 'live_site_contract');
   const records = dashboardRecords(emailDnsHandoff);
   const zipPath = resolveRepoPath(candidate.package?.zip_path);
@@ -249,12 +250,30 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
         failures: failuresForGate(emailDnsGate)
       },
       {
+        id: 'payment_branding_review',
+        status: paymentBrandingGate?.ok === true ? 'ok' : 'blocked',
+        destination: 'Stripe Checkout and PayPal wallet branding for Cantoni Digital Studio',
+        flag: 'sales-kit/payment_branding_review.flag',
+        required_review: [
+          'Stripe Checkout merchant shows Cantoni Digital Studio on both public Payment Links.',
+          'PayPal is selectable in a real browser session.',
+          'PayPal does not expose EC8, EC8 Platform, or another unrelated brand/account.',
+          'The reviewer stops before submitting the final payment step.'
+        ],
+        verification_commands: [
+          'npm run audit:payment-branding',
+          'npm run test:payments'
+        ],
+        failures: failuresForGate(paymentBrandingGate)
+      },
+      {
         id: 'post_unblock_checks',
         status: 'pending_external_changes',
         required_commands_after_external_changes: [
           'npm run audit:post-unblock-launch',
           'npm run test:live-site',
           'npm run audit:email-dns',
+          'npm run audit:payment-branding',
           'npm run audit:cloudflare-pages-api',
           'npm run audit:cloudflare-dns-api',
           'npm run audit:launch-readiness'
@@ -286,6 +305,7 @@ function renderMarkdown(payload) {
   const pagesAuth = payload.external_tasks.find((task) => task.id === 'cloudflare_pages_auth');
   const dnsApi = payload.external_tasks.find((task) => task.id === 'cloudflare_dns_api_credentials');
   const deployTask = payload.external_tasks.find((task) => task.id === 'cloudflare_pages_deploy');
+  const paymentBranding = payload.external_tasks.find((task) => task.id === 'payment_branding_review');
 
   return [
     '# Cantoni External Unblock Handoff',
@@ -353,11 +373,19 @@ function renderMarkdown(payload) {
     '',
     ...recordRows(emailTask.dashboard_records),
     '',
+    '## Payment Branding Review',
+    '',
+    `- Status: \`${paymentBranding.status}\``,
+    '- Required flag: `sales-kit/payment_branding_review.flag` remains until review is complete.',
+    '- Verify with `npm run audit:payment-branding` and `npm run test:payments`.',
+    '- Confirm Stripe Checkout and PayPal show Cantoni Digital Studio only; stop before final payment submission.',
+    '',
     '## Post-Unblock Checks',
     '',
     '- `npm run test:live-site`',
     '- `npm run audit:post-unblock-launch`',
     '- `npm run audit:email-dns`',
+    '- `npm run audit:payment-branding`',
     '- `npm run audit:cloudflare-pages-api`',
     '- `npm run audit:cloudflare-dns-api`',
     '- `npm run audit:launch-readiness`',
@@ -365,6 +393,7 @@ function renderMarkdown(payload) {
     '## Safety',
     '',
     '- No passwords, tokens, OTPs, cookies or recovery data belong in this repo.',
+    '- Keep `sales-kit/payment_branding_review.flag` until Stripe Checkout and PayPal branding are verified.',
     '- Keep `sales-kit/outbound_pause.flag` until all launch, email DNS, batch approval and sender checks pass.',
     '- This file is a handoff, not deploy/DNS approval.',
     ''

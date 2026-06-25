@@ -51,7 +51,11 @@ function failure(id, reason) {
 function failuresFromRun(stepId, run, fallbackReason) {
   const parsedFailures = Array.isArray(run.parsed?.failures) ? run.parsed.failures : [];
   if (parsedFailures.length) {
-    return parsedFailures.map((item) => failure(item.id || stepId, item.reason || fallbackReason));
+    return parsedFailures.map((item) => (
+      typeof item === 'string'
+        ? failure(stepId, item)
+        : failure(item.id || stepId, item.reason || fallbackReason)
+    ));
   }
   if (run.parse_error) return [failure('parse_error', run.parse_error)];
   if (run.error) return [failure('command_error', run.error)];
@@ -124,6 +128,7 @@ const runs = {
   cloudflarePagesApi: runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--pages-only']),
   cloudflareDnsApi: runJson(process.execPath, ['scripts/verify_cloudflare_api_credentials.mjs', '--allow-missing', '--dns-only']),
   emailDns: runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']),
+  paymentBranding: runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']),
   launchReadiness: runJson(process.execPath, ['scripts/verify_launch_readiness.mjs', '--allow-blocked']),
   externalHandoff: runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs'])
 };
@@ -214,6 +219,17 @@ const steps = [
     })
   }),
   stepFromRun({
+    id: 'payment_branding_review',
+    label: 'Payment branding review',
+    category: 'payments',
+    run: runs.paymentBranding,
+    ok: (parsed) => parsed?.ok === true,
+    details: (parsed) => ({
+      flag: parsed?.flag || null,
+      next_actions: parsed?.next_actions || []
+    })
+  }),
+  stepFromRun({
     id: 'launch_readiness_without_outbound',
     label: 'Launch readiness without outbound release',
     category: 'launch',
@@ -268,6 +284,7 @@ const report = {
   })),
   required_follow_up_when_ok: [
     'Keep sales-kit/outbound_pause.flag until email DNS, exact batch review and sender-account approval are all explicitly cleared.',
+    'Keep sales-kit/payment_branding_review.flag until Stripe Checkout and PayPal branding are verified in a real browser session.',
     'Run npm run test:social-public and npm run test:lead-endpoint before starting any public outbound or campaign work.',
     'Do not store Cloudflare, Google, OTP, cookie or recovery values in repository files.'
   ]

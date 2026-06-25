@@ -1,0 +1,11 @@
+Cantoni payment branding review is intentionally pending.
+
+Do not remove this file before final go-live until all of these are true:
+- `npm run audit:payment-branding` has no blockers.
+- `npm run test:payments` returns ok=true for the current public Stripe Payment Links.
+- Stripe Checkout merchant shows Cantoni Digital Studio.
+- PayPal is selectable in a real browser session for both public Payment Links.
+- no EC8 or unrelated brand/account text appears in PayPal.
+- do not submit the final payment step during verification.
+
+This flag does not block local artifact generation, lead research, draft work, or no-payment checkout QA.
