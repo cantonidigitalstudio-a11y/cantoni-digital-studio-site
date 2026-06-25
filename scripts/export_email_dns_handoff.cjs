@@ -14,6 +14,15 @@ const BASE_NAME = `cantoni-email-dns-handoff-${VERSION}`;
 const MARKDOWN_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.md`);
 const JSON_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.json`);
 const CSV_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.cloudflare-records.csv`);
+const API_PAYLOAD_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.cloudflare-api-records.json`);
+
+function normalizeRel(value) {
+  return String(value || '').split(path.sep).join('/');
+}
+
+function relativeToRoot(filePath) {
+  return normalizeRel(path.relative(PROJECT_ROOT, filePath));
+}
 
 function runJson(command, args) {
   const result = spawnSync(command, args, {
@@ -50,6 +59,34 @@ function dashboardRecord(record) {
     required: record.required === true,
     manual_value_required: record.manual_value_required === true,
     note: record.note || ''
+  };
+}
+
+function absoluteDnsName(name, domain) {
+  if (name === '@') return domain;
+  if (String(name || '').endsWith(`.${domain}`)) return name;
+  return `${name}.${domain}`;
+}
+
+function cloudflareApiRecord(record, domain) {
+  if (record.manual_value_required) return null;
+  const payload = {
+    type: record.type,
+    name: absoluteDnsName(record.name, domain),
+    content: record.value,
+    ttl: 1,
+    proxied: record.cloudflare_proxy === true,
+    comment: record.note || undefined
+  };
+
+  if (record.priority !== undefined) {
+    payload.priority = record.priority;
+  }
+
+  return {
+    id: record.id,
+    endpoint: 'POST /zones/{zone_id}/dns_records',
+    payload
   };
 }
 
@@ -109,6 +146,11 @@ function renderMarkdown({ audit, records }) {
     '',
     ...renderRecordTable(records),
     '',
+    '## Cloudflare API Payload',
+    '',
+    `A JSON payload for non-manual records is written to \`${path.basename(API_PAYLOAD_PATH)}\`.`,
+    'It intentionally excludes `google_dkim` until the real Google Admin value is available.',
+    '',
     '## Current Observed State',
     '',
     ...renderObservedChecks(audit.checks),
@@ -143,6 +185,26 @@ async function main() {
 
   const audit = auditRun.parsed;
   const records = (audit.recommended_records || []).map(dashboardRecord);
+  const apiRecords = (audit.recommended_records || [])
+    .map((record) => cloudflareApiRecord(record, audit.domain))
+    .filter(Boolean);
+  const skippedApiRecords = (audit.recommended_records || [])
+    .filter((record) => record.manual_value_required)
+    .map((record) => ({
+      id: record.id,
+      type: record.type,
+      name: record.name,
+      reason: 'manual_value_required'
+    }));
+  const apiPayload = {
+    ok: true,
+    generated_at: new Date().toISOString(),
+    domain: audit.domain,
+    zone_id_required: true,
+    apply_rule: 'Apply only after Google Workspace mailboxes or aliases exist and after explicit DNS approval.',
+    records: apiRecords,
+    skipped_records: skippedApiRecords
+  };
   const payload = {
     ok: audit.ok === true,
     generated_at: new Date().toISOString(),
@@ -150,6 +212,11 @@ async function main() {
     sender_profile: audit.sender_profile,
     checked_at: audit.checked_at,
     cloudflare_dashboard_records: records,
+    cloudflare_api_payload: {
+      path: relativeToRoot(API_PAYLOAD_PATH),
+      records_count: apiRecords.length,
+      skipped_records: skippedApiRecords
+    },
     checks: audit.checks || [],
     failures: audit.failures || [],
     references: audit.references || []
@@ -157,6 +224,7 @@ async function main() {
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   await fs.writeFile(JSON_PATH, JSON.stringify(payload, null, 2) + '\n');
+  await fs.writeFile(API_PAYLOAD_PATH, JSON.stringify(apiPayload, null, 2) + '\n');
   await fs.writeFile(CSV_PATH, renderCsv(records));
   await fs.writeFile(MARKDOWN_PATH, renderMarkdown({ audit, records }));
 
@@ -167,7 +235,8 @@ async function main() {
     manual_value_records: records.filter((record) => record.manual_value_required).map((record) => record.id),
     markdown: MARKDOWN_PATH,
     json: JSON_PATH,
-    csv: CSV_PATH
+    csv: CSV_PATH,
+    cloudflare_api_json: API_PAYLOAD_PATH
   }, null, 2));
 }
 

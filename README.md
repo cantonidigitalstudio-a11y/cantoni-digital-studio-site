@@ -44,7 +44,8 @@ Per produrre un riepilogo operativo dei blocker correnti, usa
 
 Per preparare i record DNS email in formato handoff/CSV per Cloudflare, usa
 `npm run export:email-dns-handoff`. Il report resta sotto
-`sales-kit/generated/email-dns-handoff/` ed e ignorato da git.
+`sales-kit/generated/email-dns-handoff/` ed e ignorato da git. Genera anche un
+payload JSON API-safe che esclude i record con valore manuale, come DKIM.
 
 Per dimostrare se il live e solo indietro rispetto all'artifact pronto al
 deploy, usa `npm run export:live-drift`. Il report resta sotto

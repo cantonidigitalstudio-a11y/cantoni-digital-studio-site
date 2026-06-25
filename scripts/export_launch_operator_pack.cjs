@@ -63,7 +63,7 @@ async function readJsonArtifact(filePath) {
 
 function normalizeStepOutput(step) {
   const output = { ...(step.output || {}) };
-  for (const key of ['markdown', 'json', 'csv', 'manifest', 'checksums', 'readme']) {
+  for (const key of ['markdown', 'json', 'csv', 'cloudflare_api_json', 'manifest', 'checksums', 'readme']) {
     if (output[key]) output[key] = relativeToRoot(output[key]);
   }
   if (output.zip?.path) {
@@ -99,6 +99,7 @@ function artifactRows(payload) {
     ['Cloudflare README', packageStep.readme],
     ['Email DNS handoff', emailStep.markdown],
     ['Email DNS CSV', emailStep.csv],
+    ['Email DNS API JSON', emailStep.cloudflare_api_json],
     ['Live drift report', driftStep.markdown],
     ['Launch handoff', handoffStep.markdown],
     ['Operator pack JSON', payload.operator_pack.json],
