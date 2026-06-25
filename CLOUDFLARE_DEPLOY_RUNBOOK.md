@@ -26,6 +26,7 @@ Verifica:
 cd "<repo-root>"
 npm run audit:cloudflare-auth
 npm run audit:cloudflare-api
+npm run test:cloudflare-direct-deploy-contract
 node scripts/verify_cloudflare_api_credentials.mjs --pages-only
 ```
 

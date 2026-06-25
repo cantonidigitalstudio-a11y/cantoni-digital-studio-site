@@ -55,6 +55,7 @@ const checks = [
       'npm run audit:cloudflare-auth',
       'scripts/verify_cloudflare_deploy_auth.mjs',
       'npm run deploy:cloudflare:direct',
+      'npm run test:cloudflare-direct-deploy-contract',
       'CANTONI_CLOUDFLARE_DIRECT_DEPLOY_APPROVAL=deploy-cantoni-pages-direct'
     ],
     forbidden: []

@@ -27,6 +27,7 @@ npm run test:deploy-policy
 npm run test:email-dns-audit
 npm run test:cloudflare-api-audit
 npm run test:cloudflare-api-contract
+npm run test:cloudflare-direct-deploy-contract
 npm run test:social
 npm run test:launch-readiness-audit
 git diff --check
