@@ -1,20 +1,14 @@
 const assert = require('assert/strict');
+const { CONTRACT_BASE_URL, HTML_PAGES } = require('./lib/live_site_contract.cjs');
 
 const BASE_URL = (process.env.LIVE_SITE_BASE_URL || 'https://cantonidigitalstudio.com').replace(/\/+$/, '');
 const WWW_URL = process.env.LIVE_SITE_WWW_URL || 'https://www.cantonidigitalstudio.com';
 const TIMEOUT_MS = Number(process.env.LIVE_SITE_TIMEOUT_MS || 12000);
 
-const HTML_PAGES = [
-  { path: '/', canonical: `${BASE_URL}/`, title: 'Cantoni Digital Studio', required: ['cantonidigitalstudio@gmail.com', 'https://wa.me/393471961113'] },
-  { path: '/studio.html', canonical: `${BASE_URL}/studio.html`, title: 'Cantoni Digital Studio', required: ['privacy.html', 'termini-commerciali.html'] },
-  { path: '/servizi.html', canonical: `${BASE_URL}/servizi.html`, title: 'Cantoni Digital Studio', required: ['privacy.html', 'termini-commerciali.html'] },
-  { path: '/case-studies.html', canonical: `${BASE_URL}/case-studies.html`, title: 'Cantoni Digital Studio', required: ['https://excellentiavip.com', 'https://mrcollinstravel.com', 'https://ec8platform.com'] },
-  { path: '/preventivo.html', canonical: `${BASE_URL}/preventivo.html`, title: 'Cantoni Digital Studio', required: ['name="privacyAccepted"', 'https://buy.stripe.com/'] },
-  { path: '/identita-operativa.html', canonical: `${BASE_URL}/identita-operativa.html`, title: 'Cantoni Digital Studio', required: ['https://github.com/cantonidigitalstudio-a11y', 'https://www.instagram.com/cantonidigitalstudio/'] },
-  { path: '/termini-commerciali.html', canonical: `${BASE_URL}/termini-commerciali.html`, title: 'Cantoni Digital Studio', required: ['privacy.html', 'cantonidigitalstudio@gmail.com'] },
-  { path: '/privacy.html', canonical: `${BASE_URL}/privacy.html`, title: 'Cantoni Digital Studio', required: ['termini-commerciali.html', 'cantonidigitalstudio@gmail.com'] },
-  { path: '/pagamento-confermato.html', canonical: null, title: 'Cantoni Digital Studio', noindex: true, required: ['Pagamento confermato'] }
-];
+const htmlPages = HTML_PAGES.map((page) => ({
+  ...page,
+  canonical: page.canonical ? page.canonical.replace(CONTRACT_BASE_URL, BASE_URL) : null
+}));
 
 const SECURITY_HEADERS = [
   { name: 'content-security-policy', includes: ["default-src 'self'", "frame-ancestors 'none'"] },
@@ -119,7 +113,7 @@ async function auditSitemap() {
   const response = await fetchWithTimeout(url);
   const xml = await response.text();
   assert.equal(response.status, 200, `${url}: expected HTTP 200`);
-  for (const page of HTML_PAGES.filter((item) => item.canonical)) {
+  for (const page of htmlPages.filter((item) => item.canonical)) {
     assert.ok(xml.includes(`<loc>${page.canonical}</loc>`), `${url}: missing ${page.canonical}`);
   }
   assert.equal(/example\.|localhost|127\.0\.0\.1|\/Volumes\/|\/Users\//i.test(xml), false, `${url}: contains non-production reference`);
@@ -159,7 +153,7 @@ async function main() {
     }
   }
 
-  for (const page of HTML_PAGES) {
+  for (const page of htmlPages) {
     await collect(`html:${page.path}`, () => auditHtmlPage(page));
   }
 

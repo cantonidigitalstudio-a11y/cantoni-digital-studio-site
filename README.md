@@ -46,6 +46,10 @@ Per preparare i record DNS email in formato handoff/CSV per Cloudflare, usa
 `npm run export:email-dns-handoff`. Il report resta sotto
 `sales-kit/generated/email-dns-handoff/` ed e ignorato da git.
 
+Per dimostrare se il live e solo indietro rispetto all'artifact pronto al
+deploy, usa `npm run export:live-drift`. Il report resta sotto
+`sales-kit/generated/live-drift/` ed e ignorato da git.
+
 ## Regole operative
 
 - Non salvare password, token, OTP, cookie o dati di recupero nel repo.
