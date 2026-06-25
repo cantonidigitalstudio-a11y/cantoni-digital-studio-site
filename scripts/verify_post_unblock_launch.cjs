@@ -132,6 +132,7 @@ const runs = {
   leadEndpoint: runJson(process.execPath, ['scripts/verify_lead_capture_endpoint.cjs']),
   paymentBranding: runJson(process.execPath, ['scripts/verify_payment_branding_readiness.cjs', '--allow-blocked']),
   launchReadiness: runJson(process.execPath, ['scripts/verify_launch_readiness.mjs', '--allow-blocked']),
+  cloudflareDeployCandidate: runJson(process.execPath, ['scripts/verify_cloudflare_deploy_candidate.cjs', '--require-execution-ready']),
   externalHandoff: runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs'])
 };
 
@@ -264,6 +265,24 @@ const steps = [
       flag: parsed?.flag || null,
       evidence: parsed?.evidence || null,
       next_actions: parsed?.next_actions || []
+    })
+  }),
+  stepFromRun({
+    id: 'cloudflare_deploy_candidate_execution',
+    label: 'Cloudflare deploy candidate execution readiness',
+    category: 'deploy',
+    run: runs.cloudflareDeployCandidate,
+    ok: (parsed) => parsed?.ok === true,
+    details: (parsed) => ({
+      operator_pack: parsed?.operator_pack || null,
+      candidate_status: parsed?.candidate_status || null,
+      artifact_ready: parsed?.artifact_ready === true,
+      git_ready: parsed?.git_ready === true,
+      would_fix_live_contract: parsed?.would_fix_live_contract === true,
+      execution_ready: parsed?.execution_ready === true,
+      execution_blockers: parsed?.execution_blockers || [],
+      non_site_blockers: parsed?.non_site_blockers || [],
+      package: parsed?.package || null
     })
   }),
   stepFromRun({
