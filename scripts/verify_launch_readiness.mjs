@@ -205,7 +205,6 @@ const leadEndpointRun = runJson(process.execPath, ['scripts/verify_lead_capture_
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_state.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
-const cloudflareDeployCandidateRun = runJson(process.execPath, ['scripts/verify_cloudflare_deploy_candidate.cjs']);
 const externalUnblockHandoffRun = runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs']);
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
 const outboundPauseMissingReleaseConditions = outboundPauseMessage === null
@@ -264,23 +263,6 @@ const gates = [
       artifact_status: parsed?.artifact?.status ?? null,
       files_count: parsed?.artifact?.files_count ?? null,
       required_files_count: parsed?.artifact?.required_files_count ?? null
-    })
-  }),
-  gateFromRun({
-    id: 'cloudflare_deploy_candidate',
-    label: 'Cloudflare deploy candidate',
-    category: 'deploy',
-    run: cloudflareDeployCandidateRun,
-    details: (parsed) => ({
-      operator_pack: parsed?.operator_pack || null,
-      candidate_status: parsed?.candidate_status || null,
-      artifact_ready: parsed?.artifact_ready === true,
-      git_ready: parsed?.git_ready === true,
-      would_fix_live_contract: parsed?.would_fix_live_contract === true,
-      execution_ready: parsed?.execution_ready === true,
-      execution_blockers: parsed?.execution_blockers || [],
-      non_site_blockers: parsed?.non_site_blockers || [],
-      package: parsed?.package || null
     })
   }),
   cloudflareDeployAuthGate({ cloudflareRun, cloudflareApiRun: cloudflarePagesApiRun }),
