@@ -2,7 +2,7 @@
 
 ## Current State
 
-- Instagram handle exists and opens publicly: `https://www.instagram.com/cantonidigitalstudio/`. QA on 2026-05-14 confirmed name, bio, category, 3 posts, visible follower count, clickable website link `cantonidigitalstudio.com`, no old `zumu.be/ecantoni` link, and the centered official profile avatar from `sales-kit/social-launch/output/instagram-avatar-cantoni.png`.
+- Instagram handle exists: `https://www.instagram.com/cantonidigitalstudio/`. QA on 2026-05-14 confirmed name, bio, category, 3 posts, visible follower count, clickable website link `cantonidigitalstudio.com`, no old `zumu.be/ecantoni` link, and the centered official profile avatar from `sales-kit/social-launch/output/instagram-avatar-cantoni.png`. Current automated QA on 2026-06-25 treats Instagram as `metadata-proof-load-error`: metadata confirms the official profile, but the logged-out visible page can render a load error, so Instagram is not a standalone public proof channel.
 - Facebook Page exists at `https://www.facebook.com/profile.php?id=61589398630376` / `https://www.facebook.com/people/Cantoni-Digital-Studio/61589398630376/`. Browser QA on 2026-05-13 confirmed the public page opens without account access, shows `Cantoni Digital Studio`, `Web designer`, the about copy, phone, email, website, Instagram and TikTok references. No private address is published.
 - TikTok profile exists and is configured at `https://www.tiktok.com/@cantonidigitalstudio`. Authenticated Google OAuth QA on 2026-05-14 confirmed handle, logo, name `Cantoni Digital Studio` and bio `Siti, e-commerce, web app e app. Automazioni AI e crescita digitale.`. Logged-out QA still redirects to mandatory login, so TikTok is not a standalone public proof channel yet.
 - iPad wireless fallback is enabled and verified on 2026-05-13: Developer Mode is active, `idevice_id -n` lists the iPad, CoreDevice reports the device as paired/available, display inspection works without USB, and Instagram is installed as `com.burbn.instagram`. The WebDriverAgent runner is installed, but iOS still requires trust of the Apple Development certificate before future automated mobile-only account flows. The Instagram link/avatar task no longer depends on this fallback because the 2026-05-14 QA below confirms it is resolved.
@@ -15,7 +15,7 @@
 
 ## Browser QA - 2026-05-13
 
-- Instagram authenticated QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. Historical note superseded by the 2026-05-14 QA above: the clickable link still used `zumu.be/ecantoni` at this point and Instagram web blocked link edits; the profile link and centered avatar were both fixed on 2026-05-14 before Instagram was accepted as public proof.
+- Instagram authenticated QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. Historical note superseded by the 2026-05-14 QA above: the clickable link still used `zumu.be/ecantoni` at this point and Instagram web blocked link edits; the profile link and centered avatar were both fixed on 2026-05-14 before Instagram was accepted as official profile/link proof. It is not standalone public proof while current QA reports `metadata-proof-load-error`.
 - Facebook logged-out QA: the public page opens and exposes the studio name, category, about copy, `347 196 1113`, `cantonidigitalstudio@gmail.com`, `cantonidigitalstudio.com`, Instagram and TikTok references. This is now acceptable as a public proof channel.
 - TikTok logged-out QA: `https://www.tiktok.com/@cantonidigitalstudio` redirects to mandatory login (`/login?redirect_url=...&enter_method=mandatory`). Keep TikTok out of public site proof links until this changes or until first content/public visibility is verified.
 
@@ -67,5 +67,6 @@ For each social URL:
 - open logged out or incognito-equivalent
 - confirm title/handle matches Cantoni Digital Studio
 - confirm website link is visible or reachable
-- confirm no login wall for basic public profile
+- for standalone proof, confirm no login wall and no visible load/error page for the basic public profile
+- if the verifier reports `metadata-proof-load-error`, treat the channel as official metadata proof only, not as standalone public proof
 - take screenshot evidence before adding link to website

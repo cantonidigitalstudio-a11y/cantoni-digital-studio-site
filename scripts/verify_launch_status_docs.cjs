@@ -260,7 +260,8 @@ function main() {
     if (file === 'sales-kit/ipad-wireless-fallback-runbook.md') {
       for (const required of [
         'Resolved Instagram Task - 2026-05-14',
-        'This is no longer required to accept the current Instagram public proof',
+        'This is no longer required to accept the current Instagram official profile/link boundary',
+        'metadata-proof-load-error',
         'Use this procedure only if a future public QA run shows the Instagram profile regressed'
       ]) {
         if (!contents.includes(required)) {
@@ -276,6 +277,7 @@ function main() {
       'clickable link is still `zumu.be/ecantoni`',
       'clickable profile website link is still `zumu.be/ecantoni`',
       'Profile avatar must be replaced with the centered generated asset before using Instagram as primary proof',
+      'before Instagram was accepted as public proof',
       'Required fix: change the Instagram app profile link',
       'before full automated mobile control can change the Instagram link and avatar',
       'Do not mark the Instagram link fix as complete until one of these is true',
@@ -291,6 +293,16 @@ function main() {
       'metadata-proof-load-error',
       'load error',
       'standalone public proof'
+    ]],
+    ['sales-kit/social-launch/launch-runbook.md', socialLaunchRunbook, [
+      'metadata-proof-load-error',
+      'not a standalone public proof channel',
+      'load/error page'
+    ]],
+    ['sales-kit/social-launch/social-profile-copy.md', read('sales-kit/social-launch/social-profile-copy.md'), [
+      'metadata-proof-load-error',
+      'standalone public proof',
+      'load error'
     ]],
     ['sales-kit/social-launch/client-acquisition-readiness.md', socialClientAcquisition, [
       'metadata-proof-load-error',
