@@ -15,7 +15,7 @@
 
 ## Browser QA - 2026-05-13
 
-- Instagram authenticated QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. Website link issue remains: the clickable link is still `zumu.be/ecantoni`, and Instagram web blocks editing it. Profile avatar must be replaced with the centered generated asset before using Instagram as primary proof.
+- Instagram authenticated QA: profile opens as `cantonidigitalstudio`, visible brand name `Cantoni Digital Studio`, category `Agenzia di marketing`, bio `Siti, e-commerce, web app e app / Automazioni AI e crescita digitale / cantonidigitalstudio.com`, 3 posts and visible follower data. Historical note superseded by the 2026-05-14 QA above: the clickable link still used `zumu.be/ecantoni` at this point and Instagram web blocked link edits; the profile link and centered avatar were both fixed on 2026-05-14 before Instagram was accepted as public proof.
 - Facebook logged-out QA: the public page opens and exposes the studio name, category, about copy, `347 196 1113`, `cantonidigitalstudio@gmail.com`, `cantonidigitalstudio.com`, Instagram and TikTok references. This is now acceptable as a public proof channel.
 - TikTok logged-out QA: `https://www.tiktok.com/@cantonidigitalstudio` redirects to mandatory login (`/login?redirect_url=...&enter_method=mandatory`). Keep TikTok out of public site proof links until this changes or until first content/public visibility is verified.
 

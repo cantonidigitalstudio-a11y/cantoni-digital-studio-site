@@ -21,6 +21,8 @@ function main() {
   const deployRunbook = read('DEPLOY_RUNBOOK.md');
   const cloudflareRunbook = read('CLOUDFLARE_DEPLOY_RUNBOOK.md');
   const paymentBrandingRemediation = read('sales-kit/payment_branding_remediation.md');
+  const socialProfileChecklist = read('sales-kit/business-cards/social-profile-setup-checklist.md');
+  const socialLaunchRunbook = read('sales-kit/social-launch/launch-runbook.md');
   const outboundPause = read('sales-kit/outbound_pause.flag');
   const paymentBranding = read('sales-kit/payment_branding_review.flag');
 
@@ -223,6 +225,32 @@ function main() {
       failures.push(`sales-kit/payment_branding_remediation.md: must include "${required}"`);
     }
   }
+  for (const [file, contents] of [
+    ['sales-kit/business-cards/social-profile-setup-checklist.md', socialProfileChecklist],
+    ['sales-kit/social-launch/launch-runbook.md', socialLaunchRunbook]
+  ]) {
+    for (const required of [
+      '2026-05-14',
+      'cantonidigitalstudio.com',
+      'zumu.be/ecantoni',
+      'Historical note superseded by the 2026-05-14 QA'
+    ]) {
+      if (!contents.includes(required)) {
+        failures.push(`${file}: must document resolved Instagram profile link status "${required}"`);
+      }
+    }
+    for (const forbidden of [
+      'Website link issue remains',
+      'clickable link is still `zumu.be/ecantoni`',
+      'clickable profile website link is still `zumu.be/ecantoni`',
+      'Profile avatar must be replaced with the centered generated asset before using Instagram as primary proof',
+      'Required fix: change the Instagram app profile link'
+    ]) {
+      if (contents.includes(forbidden)) {
+        failures.push(`${file}: must not present superseded Instagram profile blocker as current status "${forbidden}"`);
+      }
+    }
+  }
 
   const report = {
     ok: failures.length === 0,
@@ -232,6 +260,8 @@ function main() {
       'DEPLOY_RUNBOOK.md',
       'CLOUDFLARE_DEPLOY_RUNBOOK.md',
       'sales-kit/payment_branding_remediation.md',
+      'sales-kit/business-cards/social-profile-setup-checklist.md',
+      'sales-kit/social-launch/launch-runbook.md',
       'sales-kit/outbound_pause.flag',
       'sales-kit/payment_branding_review.flag'
     ],
