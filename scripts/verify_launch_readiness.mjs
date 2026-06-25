@@ -78,9 +78,21 @@ async function readOptional(file) {
 
 const cloudflareRun = runJson(process.execPath, ['scripts/verify_cloudflare_deploy_auth.mjs', '--allow-missing']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
+const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
 
 const gates = [
+  gateFromRun({
+    id: 'deploy_channel_policy',
+    label: 'Deploy channel policy',
+    category: 'deploy',
+    run: deployPolicyRun,
+    details: (parsed) => ({
+      primary_deploy_channel: parsed?.primary_deploy_channel || null,
+      fallback_deploy_channel: parsed?.fallback_deploy_channel || null,
+      checked: parsed?.checked || []
+    })
+  }),
   gateFromRun({
     id: 'cloudflare_pages_deploy_auth',
     label: 'Cloudflare Pages deploy authorization',

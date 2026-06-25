@@ -22,6 +22,7 @@ Usa questi comandi prima di considerare un pacchetto pronto:
 npm test
 npm run test:payments
 npm run test:browser
+npm run test:deploy-policy
 npm run test:social
 npm run test:launch-readiness-audit
 git diff --check
