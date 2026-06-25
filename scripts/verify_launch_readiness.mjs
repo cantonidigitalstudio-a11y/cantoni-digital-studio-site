@@ -144,6 +144,7 @@ const cloudflareDnsApiRun = runJson(process.execPath, ['scripts/verify_cloudflar
 const artifactRun = runJson(process.execPath, ['scripts/verify_cloudflare_artifact_readiness.cjs']);
 const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni_email_dns.mjs', '--allow-missing']);
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
+const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_state.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
 
@@ -167,6 +168,23 @@ const gates = [
       primary_deploy_channel: parsed?.primary_deploy_channel || null,
       fallback_deploy_channel: parsed?.fallback_deploy_channel || null,
       checked: parsed?.checked || []
+    })
+  }),
+  gateFromRun({
+    id: 'git_deploy_state',
+    label: 'Git deploy state',
+    category: 'deploy',
+    run: gitDeployStateRun,
+    details: (parsed) => ({
+      commit: parsed?.git?.short_commit || null,
+      branch: parsed?.git?.branch || null,
+      upstream: parsed?.git?.upstream || null,
+      remote_name: parsed?.git?.remote_name || null,
+      remote_url: parsed?.git?.remote_url || null,
+      ahead: parsed?.git?.ahead ?? null,
+      behind: parsed?.git?.behind ?? null,
+      dirty: parsed?.git?.dirty === true,
+      status_entries: parsed?.git?.status_entries ?? null
     })
   }),
   gateFromRun({

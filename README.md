@@ -41,7 +41,8 @@ Prima di qualsiasi deploy diretto, `npm run audit:git-deploy-state` deve
 passare: upstream sul remoto `cantoni`, commit pushato, worktree pulita e URL
 remoto coerente con `cantonidigitalstudio-a11y/cantoni-digital-studio-site`.
 `npm run audit:launch-readiness` ricostruisce anche `.cloudflare-pages` e
-verifica il contratto dell'artifact pubblicabile come gate separato dal live.
+verifica stato Git deploy, contratto dell'artifact pubblicabile e gate live come
+controlli separati.
 Per diagnosticare token/API Cloudflare senza mutazioni, usa
 `npm run audit:cloudflare-api`: verifica token attivo, lettura Pages e lettura
 DNS quando `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` e

@@ -35,11 +35,17 @@ function main() {
   if (!readme.includes('contract_drift_patch') || !readme.includes('Live Drift Deploy Patch')) {
     failures.push('README.md: must document the live drift patch manifest and operator-pack section');
   }
+  if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
+    failures.push('README.md: must document Git deploy state as part of launch readiness');
+  }
   if (!cloudflareRunbook.includes('Stato verificato 2026-06-25')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must carry the current verified Cloudflare blocker date');
   }
   if (!/Live\s+Drift\s+Deploy\s+Patch/u.test(cloudflareRunbook) || !/caricare\s+solo\s+quei\s+file/u.test(cloudflareRunbook)) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document that the drift patch is evidence, not a partial upload instruction');
+  }
+  if (!cloudflareRunbook.includes('npm run audit:git-deploy-state') || !cloudflareRunbook.includes('upstream `cantoni`')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document the Git deploy state gate');
   }
 
   const report = {

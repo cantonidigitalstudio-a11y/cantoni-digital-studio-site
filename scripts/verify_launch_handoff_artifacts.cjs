@@ -130,12 +130,18 @@ async function main() {
 
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
+    const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
     if (!artifactGate) {
       failures.push('operator_pack: missing cloudflare_artifact_contract readiness gate');
     } else if (artifactGate.ok !== true) {
       failures.push('operator_pack: cloudflare_artifact_contract readiness gate must pass before handoff');
     } else if (artifactGate.details?.artifact_ok !== true || artifactGate.details?.build_ok !== true) {
       failures.push('operator_pack: cloudflare_artifact_contract must include passing build and artifact details');
+    }
+    if (!gitDeployStateGate) {
+      failures.push('operator_pack: missing git_deploy_state readiness gate');
+    } else if (!gitDeployStateGate.details || typeof gitDeployStateGate.details.dirty !== 'boolean') {
+      failures.push('operator_pack: git_deploy_state gate must include Git cleanliness details');
     }
     const operatorMarkdown = await fs.readFile(files.operatorPack.replace(/\.json$/u, '.md'), 'utf8');
     const launchMarkdown = await fs.readFile(files.launchHandoff.replace(/\.json$/u, '.md'), 'utf8');
