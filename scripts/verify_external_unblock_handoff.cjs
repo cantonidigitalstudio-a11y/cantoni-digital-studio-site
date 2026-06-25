@@ -263,6 +263,21 @@ async function main() {
   if (!paymentReviewText.includes('PayPal does not expose EC8')) {
     failures.push('Payment branding task must require PayPal unrelated-brand review.');
   }
+  if (!paymentReviewText.includes('No EC8/EC8 Platform exception is valid for release')) {
+    failures.push('Payment branding task must explicitly reject EC8/EC8 Platform release exceptions.');
+  }
+  if (paymentBranding?.current_boundary?.source !== 'sales-kit/payment_branding_review_evidence.json') {
+    failures.push('Payment branding current boundary must point to structured evidence.');
+  }
+  if (paymentBranding?.current_boundary?.stale_paypal_verification_superseded !== true) {
+    failures.push('Payment branding current boundary must mark stale PayPal visual checks as superseded.');
+  }
+  if (paymentBranding?.current_boundary?.no_ec8_exception !== true || paymentBranding?.current_boundary?.no_unrelated_brand_exception !== true) {
+    failures.push('Payment branding current boundary must disallow EC8 and unrelated-brand exceptions.');
+  }
+  if (paymentBranding?.current_boundary?.release_ready_required !== true || paymentBranding?.current_boundary?.final_payment_submission_allowed !== false) {
+    failures.push('Payment branding current boundary must require release_ready and forbid final payment submission.');
+  }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:post-unblock-launch')) {
     failures.push('Post-unblock checks must include the consolidated post-unblock launch audit.');
   }

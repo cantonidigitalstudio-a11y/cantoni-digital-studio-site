@@ -311,10 +311,19 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
         remediation: 'sales-kit/payment_branding_remediation.md',
         evidence_status: paymentBrandingEvidence?.status || null,
         evidence_summary: paymentBrandingEvidence?.summary || null,
+        current_boundary: {
+          source: 'sales-kit/payment_branding_review_evidence.json',
+          stale_paypal_verification_superseded: true,
+          no_ec8_exception: true,
+          no_unrelated_brand_exception: true,
+          release_ready_required: true,
+          final_payment_submission_allowed: false
+        },
         required_review: [
           'Stripe Checkout merchant shows Cantoni Digital Studio on both public Payment Links.',
           'PayPal is selectable in a real browser session.',
           'PayPal does not expose EC8, EC8 Platform, or another unrelated brand/account.',
+          'No EC8/EC8 Platform exception is valid for release.',
           'The reviewer stops before submitting the final payment step.'
         ],
         verification_commands: [
@@ -464,6 +473,7 @@ function renderMarkdown(payload) {
     `- Remediation: \`${paymentBranding.remediation}\``,
     '- Verify with `npm run audit:payment-branding` and `npm run test:payments`.',
     '- Confirm Stripe Checkout and PayPal show Cantoni Digital Studio only; stop before final payment submission.',
+    '- Current boundary: the old PayPal visual check is superseded by the latest evidence; no EC8/EC8 Platform exception is valid for release.',
     '',
     '## Post-Unblock Checks',
     '',
