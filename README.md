@@ -156,7 +156,10 @@ Quando Cloudflare Pages/DNS e Google Workspace sono stati sbloccati, usa
 `npm run audit:post-unblock-launch` come controllo unico di chiusura tecnica:
 verifica Git, live site, accesso Pages, DNS API, email DNS, canali social
 pubblici, endpoint lead, payment branding, readiness senza rilascio outbound e
-handoff. Prima dello sblocco,
+handoff. Nella stessa chiusura va eseguito anche
+`node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`,
+cosi il candidato deploy non resta solo artifact-ready ma diventa realmente
+eseguibile dopo lo sblocco Cloudflare Pages. Prima dello sblocco,
 `npm run test:post-unblock-launch` mostra gli stessi blocker senza fallire il
 comando.
 La pausa commerciale `sales-kit/outbound_pause.flag` resta comunque separata:

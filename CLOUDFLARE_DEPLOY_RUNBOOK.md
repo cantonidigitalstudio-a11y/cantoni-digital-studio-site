@@ -191,6 +191,9 @@ corrispondono all'ultimo artifact timestampato.
 Dopo che accessi Cloudflare/DNS e Google Workspace sono stati applicati, usare
 `npm run audit:post-unblock-launch`: fallisce finche live site, Pages access,
 DNS API, email DNS, payment branding e readiness senza outbound non sono tutti chiudibili.
+Nella stessa finestra post-sblocco eseguire anche
+`node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready`,
+che deve passare prima di considerare il candidato deploy realmente eseguibile.
 `npm run audit:payment-branding` controlla `sales-kit/payment_branding_review.flag`;
 il flag va rimosso solo dopo verifica reale Stripe/PayPal senza brand mismatch.
 `npm run test:post-unblock-launch` usa la stessa matrice ma resta non-fatale per
