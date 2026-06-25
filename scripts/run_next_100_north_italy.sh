@@ -46,6 +46,14 @@ count_total() {
   "
 }
 
+if [ -f "$PAUSE_FLAG" ] && [ "${OUTBOUND_FORCE_RUN:-0}" != "1" ]; then
+  echo "status=paused"
+  echo "reason=outbound_pause_flag_present"
+  echo "pause_flag=$PAUSE_FLAG"
+  cat "$PAUSE_FLAG"
+  exit 3
+fi
+
 ensure_cdp() {
   if curl -fsS "$CDP_HEALTH_URL" >/dev/null 2>&1; then
     return 0
@@ -73,14 +81,6 @@ target_total="$((initial_total + TARGET_NEW))"
 echo "initial_total=$initial_total"
 echo "target_total=$target_total"
 echo "per_batch=$PER_BATCH"
-
-if [ -f "$PAUSE_FLAG" ] && [ "${OUTBOUND_FORCE_RUN:-0}" != "1" ]; then
-  echo "status=paused"
-  echo "reason=outbound_pause_flag_present"
-  echo "pause_flag=$PAUSE_FLAG"
-  cat "$PAUSE_FLAG"
-  exit 3
-fi
 
 if [ "$REPLY_SCAN_ENABLED" = "1" ]; then
   echo "reply_scan_start"

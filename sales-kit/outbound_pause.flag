@@ -1,0 +1,9 @@
+Cantoni commercial outbound is intentionally paused.
+
+Do not remove this file or run outbound with OUTBOUND_FORCE_RUN=1 until all of these are true:
+- `npm run audit:email-dns` returns ok=true for cantonidigitalstudio.com.
+- The exact outbound batch has been reviewed and approved in chat.
+- The visible sender/account is verified as cantonidigitalstudio@gmail.com.
+- Any real send uses the explicit approval token required by scripts/day1_send_background.sh.
+
+This flag does not block local lead research, draft generation, QA, or no-send review artifacts.

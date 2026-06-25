@@ -60,6 +60,8 @@
     "test:email-dns-audit": "node sales-kit/scripts/verify_cantoni_email_dns.mjs --allow-missing",
     "audit:cloudflare-auth": "node scripts/verify_cloudflare_deploy_auth.mjs",
     "test:cloudflare-auth-audit": "node scripts/verify_cloudflare_deploy_auth.mjs --allow-missing",
+    "audit:launch-readiness": "node scripts/verify_launch_readiness.mjs",
+    "test:launch-readiness-audit": "node scripts/verify_launch_readiness.mjs --allow-blocked",
     "test:market-readiness": "npm run test:full && npm run test:social-public && npm run test:lead-endpoint",
     "test:full": "npm test && npm run test:payments && npm run test:browser && npm run test:social && npm run test:lead-batch && npm run test:starter-queue && npm run test:branded-outreach && npm run test:outreach-micro && npm run test:outreach-deliverability && npm run build:cloudflare && npm run test:artifact && npm run test:browser:artifact && npm run test:payments:artifact && git diff --check",
     "test:full:with-vip": "npm run test:full && npm run test:vip",

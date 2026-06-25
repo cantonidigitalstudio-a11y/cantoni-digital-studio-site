@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const queueDir = path.join(rootDir, 'queue');
 const queueFile = process.env.OUTREACH_QUEUE_FILE || path.join(queueDir, 'outreach_queue.json');
+const pauseFlagFile = path.join(rootDir, 'outbound_pause.flag');
 const stateFile = process.env.OUTREACH_STATE_FILE
   ? path.resolve(process.env.OUTREACH_STATE_FILE)
   : path.join(queueDir, 'background_worker_state.json');
@@ -61,6 +62,20 @@ async function readJson(file, fallback) {
 async function writeJson(file, data) {
   await fs.mkdir(path.dirname(file), { recursive: true });
   await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
+}
+
+async function assertOutboundNotPaused() {
+  if (!SEND_ENABLED || process.env.OUTBOUND_FORCE_RUN === '1') return;
+  try {
+    const message = await fs.readFile(pauseFlagFile, 'utf8');
+    const error = new Error(`OUTBOUND_PAUSED\n${message.trim()}`);
+    error.code = 'OUTBOUND_PAUSED';
+    error.exitCode = 3;
+    throw error;
+  } catch (error) {
+    if (error && error.code === 'ENOENT') return;
+    throw error;
+  }
 }
 
 async function acquireLock() {
@@ -390,6 +405,7 @@ function nextActionDate(item) {
 }
 
 async function run() {
+  await assertOutboundNotPaused();
   await acquireLock();
   try {
     await assertHealth();
@@ -471,8 +487,8 @@ async function run() {
 }
 
 run().catch(async (err) => {
-  console.error('ERROR_CODE=BACKGROUND_WORKER_ERROR');
+  console.error(`ERROR_CODE=${err.code || 'BACKGROUND_WORKER_ERROR'}`);
   console.error(String(err.message || err));
   await releaseLock();
-  process.exit(1);
+  process.exit(Number(err.exitCode) || 1);
 });

@@ -4,6 +4,14 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
+PAUSE_FLAG="$ROOT_DIR/sales-kit/outbound_pause.flag"
+if [[ -f "$PAUSE_FLAG" && "${OUTBOUND_FORCE_RUN:-0}" != "1" ]]; then
+  echo "Refusing outreach send: outbound pause flag is present." >&2
+  echo "pause_flag=$PAUSE_FLAG" >&2
+  cat "$PAUSE_FLAG" >&2
+  exit 3
+fi
+
 source "$ROOT_DIR/sales-kit/queue/outreach_worker.env"
 export OUTREACH_APPS_SCRIPT_SECRET OUTREACH_APPS_SCRIPT_ENDPOINT
 

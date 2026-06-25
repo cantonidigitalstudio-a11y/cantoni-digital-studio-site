@@ -23,11 +23,13 @@ npm test
 npm run test:payments
 npm run test:browser
 npm run test:social
+npm run test:launch-readiness-audit
 git diff --check
 ```
 
-Per un deploy serio usa `npm run test:full`, poi deploy solo dopo review del
-pacchetto e consenso esplicito.
+Per un deploy serio usa `npm run test:full`, poi `npm run audit:launch-readiness`.
+Il deploy parte solo se l'audit non segnala blocchi Cloudflare/DNS o hold
+operativi, dopo review del pacchetto e consenso esplicito.
 
 ## Regole operative
 
