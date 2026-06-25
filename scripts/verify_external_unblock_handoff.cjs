@@ -313,6 +313,9 @@ async function main() {
       failures.push(`Unable to read handoff markdown: ${error.message}`);
       return '';
     });
+    const currentShortCommit = payload?.git?.current?.short_commit;
+    const currentCommit = payload?.git?.current?.commit;
+    const operatorShortCommit = payload?.git?.operator_pack?.short_commit;
     const combined = `${JSON.stringify(payload || {})}\n${markdown}`;
     if (/CLOUDFLARE_(?:API_TOKEN|ACCOUNT_ID|ZONE_ID)\s*=/u.test(combined)) {
       failures.push('External unblock handoff must not assign Cloudflare secret/environment values.');
@@ -338,9 +341,28 @@ async function main() {
       '/privacy.html',
       'npm run test:social-public',
       'npm run test:lead-endpoint',
-      'npm run test:outreach-readiness'
+      'npm run test:outreach-readiness',
+      'Git Provenance',
+      'Current commit:',
+      'Current upstream:',
+      'Operator pack commit:',
+      'If any commit, branch, upstream, ZIP checksum or operator pack reference differs from this handoff',
+      'Current Holds',
+      'payment_branding_review',
+      'commercial_outbound_pause'
     ]) {
       if (!markdown.includes(requiredText)) failures.push(`External unblock markdown missing required safety text: ${requiredText}`);
+    }
+    for (const requiredDynamicText of [
+      currentShortCommit,
+      currentCommit,
+      operatorShortCommit,
+      payload?.git?.current?.branch,
+      payload?.git?.current?.upstream
+    ].filter(Boolean)) {
+      if (!markdown.includes(requiredDynamicText)) {
+        failures.push(`External unblock markdown missing Git provenance value: ${requiredDynamicText}`);
+      }
     }
 
     const timestampedPath = await latestTimestampedHandoffPath().catch((error) => {

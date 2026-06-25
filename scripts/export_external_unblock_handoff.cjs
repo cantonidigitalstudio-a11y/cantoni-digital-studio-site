@@ -370,6 +370,8 @@ async function enrichArtifactHashes(payload) {
 
 function renderMarkdown(payload) {
   const candidate = payload.deploy_candidate;
+  const currentGit = payload.git?.current || {};
+  const operatorGit = payload.git?.operator_pack || {};
   const emailTask = payload.external_tasks.find((task) => task.id === 'google_workspace_email_dns');
   const pagesAuth = payload.external_tasks.find((task) => task.id === 'cloudflare_pages_auth');
   const dnsApi = payload.external_tasks.find((task) => task.id === 'cloudflare_dns_api_credentials');
@@ -385,6 +387,15 @@ function renderMarkdown(payload) {
     `Status: \`${payload.status}\``,
     `Source operator pack: \`${payload.source_operator_pack}\``,
     '',
+    '## Git Provenance',
+    '',
+    `- Current commit: \`${currentGit.short_commit || currentGit.commit || 'unknown'}\` (${currentGit.commit || 'full SHA unavailable'})`,
+    `- Current branch: \`${currentGit.branch || 'unknown'}\``,
+    `- Current upstream: \`${currentGit.upstream || 'unknown'}\``,
+    `- Worktree dirty: ${currentGit.dirty === true ? 'yes' : 'no'}`,
+    `- Operator pack commit: \`${operatorGit.short_commit || operatorGit.commit || 'unknown'}\` (${operatorGit.commit || 'full SHA unavailable'})`,
+    '- If any commit, branch, upstream, ZIP checksum or operator pack reference differs from this handoff, regenerate the handoff before deploying or changing DNS.',
+    '',
     '## Boundary',
     '',
     `- Brand/account: ${payload.account_boundary.brand}`,
@@ -397,6 +408,10 @@ function renderMarkdown(payload) {
     '## Current Blockers',
     '',
     ...(payload.current_blockers.length ? payload.current_blockers.map((id) => `- \`${id}\``) : ['- none']),
+    '',
+    '## Current Holds',
+    '',
+    ...(payload.current_hold_ids.length ? payload.current_hold_ids.map((id) => `- \`${id}\``) : ['- none']),
     '',
     '## Deploy Candidate',
     '',
@@ -524,6 +539,13 @@ async function main() {
     ok: true,
     status: payload.status,
     blockers: payload.current_blockers,
+    holds: payload.current_hold_ids,
+    git: {
+      commit: payload.git.current.short_commit,
+      branch: payload.git.current.branch,
+      upstream: payload.git.current.upstream,
+      dirty: payload.git.current.dirty
+    },
     handoff: {
       json: relativeToRoot(JSON_PATH),
       markdown: relativeToRoot(MARKDOWN_PATH),
