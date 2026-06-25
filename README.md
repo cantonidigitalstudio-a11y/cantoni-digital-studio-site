@@ -117,6 +117,12 @@ candidate, record DNS Google Workspace, comandi post-unblock e regole
 no-secrets/no-outbound. `npm run test:external-unblock-handoff` verifica che il
 dossier punti al pack e allo ZIP correnti, preservi gli approval gate, tenga
 allineati gli alias latest e non assegni valori segreti.
+Quando Cloudflare Pages/DNS e Google Workspace sono stati sbloccati, usa
+`npm run audit:post-unblock-launch` come controllo unico di chiusura tecnica:
+verifica Git, live site, accesso Pages, DNS API, email DNS, readiness senza
+rilascio outbound e handoff. Prima dello sblocco,
+`npm run test:post-unblock-launch` mostra gli stessi blocker senza fallire il
+comando.
 
 ## Regole operative
 

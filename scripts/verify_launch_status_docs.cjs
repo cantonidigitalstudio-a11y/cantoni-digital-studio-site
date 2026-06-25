@@ -44,6 +44,9 @@ function main() {
   if (!readme.includes('external_unblock_handoff')) {
     failures.push('README.md: must document the external unblock handoff readiness gate');
   }
+  if (!readme.includes('npm run audit:post-unblock-launch') || !readme.includes('npm run test:post-unblock-launch')) {
+    failures.push('README.md: must document strict and nonfatal post-unblock launch audits');
+  }
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
@@ -64,6 +67,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('external_unblock_handoff')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document the external unblock handoff readiness gate');
+  }
+  if (!cloudflareRunbook.includes('npm run audit:post-unblock-launch') || !cloudflareRunbook.includes('npm run test:post-unblock-launch')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document strict and nonfatal post-unblock launch audits');
   }
 
   const report = {

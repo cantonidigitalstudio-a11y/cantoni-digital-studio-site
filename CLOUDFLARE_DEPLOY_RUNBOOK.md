@@ -125,6 +125,7 @@ solo sullo sblocco esterno, usare:
 cd "<repo-root>"
 npm run export:external-unblock-handoff
 npm run test:external-unblock-handoff
+npm run test:post-unblock-launch
 ```
 
 Il dossier viene scritto in `sales-kit/generated/external-unblock-handoff/`.
@@ -139,6 +140,12 @@ controllo come gate `external_unblock_handoff`, cosi il report principale mostra
 anche se il dossier di sblocco esterno e pronto. Se il latest e stale durante
 una generazione di pack, il gate resta informativo; i blocker reali rimangono
 Cloudflare, DNS, live contract e outbound hold.
+
+Dopo che accessi Cloudflare/DNS e Google Workspace sono stati applicati, usare
+`npm run audit:post-unblock-launch`: fallisce finche live site, Pages access,
+DNS API, email DNS e readiness senza outbound non sono tutti chiudibili.
+`npm run test:post-unblock-launch` usa la stessa matrice ma resta non-fatale per
+leggere i blocker durante lo sblocco.
 
 ## Deploy preview
 ```bash

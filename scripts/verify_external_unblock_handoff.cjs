@@ -156,6 +156,9 @@ async function main() {
   if (!deploy?.verification_commands_before_mutation?.includes('node scripts/verify_cloudflare_deploy_candidate.cjs --require-execution-ready')) {
     failures.push('Deploy task must require execution-ready candidate verification before mutation.');
   }
+  if (!deploy?.post_deploy_commands?.includes('npm run audit:post-unblock-launch')) {
+    failures.push('Deploy task must require the post-unblock launch audit after deployment.');
+  }
   if (deploy?.allowed_mutation_command_after_approval !== 'npm run deploy:cloudflare:direct') failures.push('Deploy task must use the direct Cloudflare deploy command.');
   if (!dnsApi?.required_environment_names?.includes('CLOUDFLARE_ZONE_ID')) failures.push('DNS API task must name CLOUDFLARE_ZONE_ID.');
   if (!dnsApi?.approval_tokens_required?.includes('CANTONI_DNS_APPROVAL=apply-cantoni-email-dns')) failures.push('DNS API task must require explicit DNS approval.');
@@ -168,6 +171,9 @@ async function main() {
   }
   const dkim = dashboardRecords.find((record) => record.id === 'google_dkim');
   if (dkim && dkim.manual_value_required !== true) failures.push('Google DKIM record must stay manual-value-required.');
+  if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:post-unblock-launch')) {
+    failures.push('Post-unblock checks must include the consolidated post-unblock launch audit.');
+  }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:launch-readiness')) {
     failures.push('Post-unblock checks must include launch readiness audit.');
   }

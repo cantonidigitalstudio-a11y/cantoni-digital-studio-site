@@ -197,6 +197,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
         allowed_mutation_command_after_approval: 'npm run deploy:cloudflare:direct',
         post_deploy_commands: [
           'npm run test:live-site',
+          'npm run audit:post-unblock-launch',
           'npm run audit:launch-readiness'
         ],
         execution_blockers: candidate.execution_blockers || []
@@ -245,6 +246,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
         id: 'post_unblock_checks',
         status: 'pending_external_changes',
         required_commands_after_external_changes: [
+          'npm run audit:post-unblock-launch',
           'npm run test:live-site',
           'npm run audit:email-dns',
           'npm run audit:cloudflare-pages-api',
@@ -346,6 +348,7 @@ function renderMarkdown(payload) {
     '## Post-Unblock Checks',
     '',
     '- `npm run test:live-site`',
+    '- `npm run audit:post-unblock-launch`',
     '- `npm run audit:email-dns`',
     '- `npm run audit:cloudflare-pages-api`',
     '- `npm run audit:cloudflare-dns-api`',
