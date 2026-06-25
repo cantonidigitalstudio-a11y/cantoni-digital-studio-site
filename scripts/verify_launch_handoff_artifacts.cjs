@@ -482,6 +482,11 @@ async function main() {
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');
     }
+    for (const requiredPostDeployCheck of REQUIRED_POST_DEPLOY_CHECKS) {
+      if (!launchMarkdown.includes(requiredPostDeployCheck)) {
+        failures.push(`launch_handoff: Markdown must require ${requiredPostDeployCheck} after deploy`);
+      }
+    }
 
     const cloudflareAuth = launchHandoff.cloudflare_auth || {};
     const cloudflareAuthOk = cloudflareAuth.ok === true;
