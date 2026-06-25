@@ -34,6 +34,10 @@ Per un deploy serio usa `npm run test:full`, poi `npm run audit:launch-readiness
 Il deploy parte solo se l'audit non segnala blocchi Cloudflare/DNS o hold
 operativi, dopo review del pacchetto e consenso esplicito.
 
+Se Cloudflare Pages API resta bloccata ma serve un handoff verificato, genera il
+pacchetto manuale con `npm run build:cloudflare-upload-package`. Lo ZIP prodotto
+resta sotto `sales-kit/generated/cloudflare-manual-upload/` ed e ignorato da git.
+
 ## Regole operative
 
 - Non salvare password, token, OTP, cookie o dati di recupero nel repo.

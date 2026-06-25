@@ -52,6 +52,31 @@ SITE_ROOT=.cloudflare-pages npm run test:payments
 
 L'artifact pubblicabile e solo `.cloudflare-pages`. Non pubblicare mai la root del repo.
 
+## Pacchetto manuale verificato
+Se l'API Pages resta bloccata ma serve preparare un handoff manuale per
+Cloudflare dashboard, genera uno ZIP verificato:
+
+```bash
+cd "<repo-root>"
+npm run build:cloudflare-upload-package
+```
+
+Il comando:
+
+1. ricostruisce `.cloudflare-pages`;
+2. esegue `test:artifact`, `test:browser` e `test:payments` sull'artifact;
+3. crea uno ZIP in `sales-kit/generated/cloudflare-manual-upload/`;
+4. scrive manifest JSON, checksum SHA-256 e README operativo accanto allo ZIP.
+
+Lo ZIP contiene i file pubblici direttamente alla root. Non contiene la root del
+repo, sorgenti, script, dati privati o `sales-kit` oltre a `sales-kit/fx_rates.json`.
+
+Fonte Cloudflare, verificata il 2026-06-25: Direct Upload supporta asset
+precompilati; Wrangler carica una cartella, mentre drag-and-drop dashboard
+accetta ZIP o cartella solo per progetti Direct Upload. Se il progetto esistente
+non espone drag-and-drop, usare lo ZIP solo come handoff/review e pubblicare la
+cartella `.cloudflare-pages` via Wrangler dopo auth corretta.
+
 ## Deploy preview
 ```bash
 cd "<repo-root>"
