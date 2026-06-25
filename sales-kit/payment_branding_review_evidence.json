@@ -1,8 +1,15 @@
 {
   "type": "cantoni_payment_branding_review_evidence_v1",
   "status": "blocked_paypal_not_visible",
-  "checked_at": "2026-06-25T11:08:02Z",
-  "review_surface": "Codex in-app Browser, Stripe Checkout public Payment Links",
+  "checked_at": "2026-06-25T15:21:32Z",
+  "review_surface": "Codex in-app Browser, Stripe Checkout public Payment Links, expanded payment methods",
+  "review_method": {
+    "browser": "Codex in-app Browser",
+    "expanded_additional_payment_methods": true,
+    "payment_submit_button_clicked": false,
+    "payment_fields_filled": false,
+    "stripe_checkout_language": "it"
+  },
   "reviewer_boundary": {
     "no_payment_data_entered": true,
     "no_login_attempted": true,
@@ -33,7 +40,7 @@
       ],
       "unrelated_brand_text_detected": false,
       "final_payment_submitted": false,
-      "note": "The Stripe Checkout page showed Cantoni Digital Studio and no EC8 text, but PayPal was not visible after expanding additional payment methods."
+      "note": "2026-06-25T15:21:32Z live check: Stripe Checkout showed Cantoni Digital Studio and no EC8 text; after expanding additional payment methods the visible options were card, MB WAY, Klarna, Bancontact, Amazon Pay and EPS, but PayPal was not visible."
     },
     {
       "id": "consultation_phase_2",
@@ -59,7 +66,7 @@
       ],
       "unrelated_brand_text_detected": false,
       "final_payment_submitted": false,
-      "note": "The Stripe Checkout page showed Cantoni Digital Studio and no EC8 text, but PayPal was not visible after expanding additional payment methods."
+      "note": "2026-06-25T15:21:32Z live check: Stripe Checkout showed Cantoni Digital Studio and no EC8 text; after expanding additional payment methods the visible options were card, MB WAY, Klarna, Bancontact, Amazon Pay and EPS, but PayPal was not visible."
     }
   ],
   "summary": {

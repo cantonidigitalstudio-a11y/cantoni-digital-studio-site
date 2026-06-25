@@ -2,11 +2,13 @@
 
 ## Stato verificato
 
-Data: 2026-06-25.
+Data: 2026-06-25. Ultima verifica Browser reale: 2026-06-25T15:21:32Z.
 
 `sales-kit/payment_branding_review_evidence.json` registra `status=blocked_paypal_not_visible` e `release_ready=false`.
 
 I due Payment Link pubblici aprono Stripe Checkout con merchant `Cantoni Digital Studio` e non mostrano testo `EC8` o `EC8 Platform`, ma PayPal non e selezionabile in Browser reale dopo l'espansione degli altri metodi di pagamento.
+
+La verifica aggiornata in Browser in-app ha espanso gli altri metodi su entrambi i link. I metodi visibili dopo espansione sono `card`, `mb_way`, `klarna`, `bancontact`, `amazon_pay` e `eps`; `paypal` non compare. Nessun dato pagamento e stato inserito e il pulsante finale non e stato premuto.
 
 ## Confine account
 
