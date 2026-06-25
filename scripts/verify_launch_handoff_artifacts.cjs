@@ -664,6 +664,17 @@ async function main() {
     if (!operatorMarkdown.includes('preview-cantoni-site') || !operatorMarkdown.includes('CLOUDFLARE_PAGES_BRANCH=main')) {
       failures.push('operator_pack: Markdown must document preview-vs-production branch behavior for live contract fix');
     }
+    for (const requiredExternalHandoffText of [
+      '## External Unblock Handoff Timing',
+      'This operator pack is the upstream source for the external unblock handoff.',
+      'npm run export:external-unblock-handoff',
+      'npm run test:external-unblock-handoff',
+      'The latest external unblock handoff must reference this exact operator pack before any external mutation starts.'
+    ]) {
+      if (!operatorMarkdown.includes(requiredExternalHandoffText)) {
+        failures.push(`operator_pack: Markdown must expose external unblock handoff timing text: ${requiredExternalHandoffText}`);
+      }
+    }
     if (!launchMarkdown.includes('## Verified Passing Gates') || !launchMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('launch_handoff: Markdown must expose verified passing readiness gates');
     }

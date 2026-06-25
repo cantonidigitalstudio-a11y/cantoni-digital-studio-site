@@ -230,6 +230,21 @@ function cloudflareDnsPlanLines(plan) {
   ];
 }
 
+function externalUnblockHandoffLines(readiness) {
+  const gate = (Array.isArray(readiness?.gates) ? readiness.gates : [])
+    .find((item) => item.id === 'external_unblock_handoff');
+  const details = gate?.details || {};
+
+  return [
+    '- This operator pack is the upstream source for the external unblock handoff.',
+    '- After regenerating this pack, run `npm run export:external-unblock-handoff` and `npm run test:external-unblock-handoff` before using the handoff with Cloudflare, Google Workspace, payment review, or another operator.',
+    '- The latest external unblock handoff must reference this exact operator pack before any external mutation starts.',
+    `- Current gate state during pack generation: ${gate ? `\`${gate.ok === true ? 'pass' : gate.severity || 'not_pass'}\`` : '`not_recorded`'}`,
+    `- Latest handoff JSON seen during pack generation: \`${details.handoff || 'not recorded'}\``,
+    `- Latest handoff source operator pack seen during pack generation: \`${details.source_operator_pack || 'not recorded'}\``
+  ];
+}
+
 function liveDriftPatchLines(liveDrift) {
   const patch = liveDrift?.contract_drift_patch;
   if (!patch) return ['- No live drift patch payload was available.'];
@@ -469,6 +484,10 @@ function renderMarkdown(payload) {
     '## Cloudflare Email DNS Plan',
     '',
     ...cloudflareDnsPlanLines(payload.steps.email_dns_cloudflare_plan?.output),
+    '',
+    '## External Unblock Handoff Timing',
+    '',
+    ...externalUnblockHandoffLines(readiness),
     '',
     '## Required Sequence',
     '',
