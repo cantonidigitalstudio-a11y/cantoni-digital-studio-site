@@ -78,6 +78,7 @@ const checks = [
       'ALLOW_PRODUCTION_DEPLOY',
       'CANTONI_PRODUCTION_DEPLOY_APPROVAL',
       'deploy-cantoni-production',
+      'post_deploy_checks=npm run test:live-site; npm run audit:post-unblock-launch; npm run audit:launch-readiness',
       'pages deploy "$PUBLIC_DIR"',
       '--project-name "$PROJECT_NAME"',
       '--branch "$DEPLOY_BRANCH"'
@@ -101,6 +102,7 @@ const checks = [
       'node scripts/verify_git_deploy_state.cjs',
       'npm run test:full',
       'bash "$ROOT_DIR/scripts/build_cloudflare_public_dir.sh"',
+      'post_deploy_checks=npm run test:live-site; npm run audit:post-unblock-launch; npm run audit:launch-readiness',
       'pages deploy "$PUBLIC_DIR"',
       '--project-name "$PROJECT_NAME"',
       '--branch "$DEPLOY_BRANCH"'

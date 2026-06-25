@@ -16,6 +16,11 @@ const UPSTREAM = `cantoni/${BRANCH}`;
 const REMOTE_URL = 'https://github.com/cantonidigitalstudio-a11y/cantoni-digital-studio-site.git';
 const PROJECT_NAME = 'cantonidigitalstudio';
 const DOMAIN = 'cantonidigitalstudio.com';
+const POST_DEPLOY_CHECKS = [
+  'npm run test:live-site',
+  'npm run audit:post-unblock-launch',
+  'npm run audit:launch-readiness'
+];
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -417,6 +422,10 @@ async function main() {
     assert(success.stdout.includes('deploy_channel=cloudflare-pages-direct-token'), 'direct deploy should report deploy channel');
     assert(success.stdout.includes('step=git_deploy_state'), 'direct deploy should verify git state before Cloudflare API preflight');
     assert(success.stdout.includes('step=cloudflare_deploy_candidate'), 'direct deploy should verify deploy candidate before Wrangler deploy');
+    assert(success.stdout.includes('post_deploy_checks='), 'direct deploy should print post-deploy checks');
+    for (const check of POST_DEPLOY_CHECKS) {
+      assert(success.stdout.includes(check), `direct deploy should instruct operator to run ${check} after deploy`);
+    }
 
     const apiPaths = fixture.requests.map((request) => request.path);
     assert(apiPaths.filter((item) => item === '/user/tokens/verify').length === 2, 'direct deploy should verify token before and after tests');
@@ -456,6 +465,7 @@ async function main() {
         'deploy_candidate_gate',
         'artifact_only_deploy_path',
         'preview_branch_deploy',
+        'post_deploy_check_handoff',
         'token_redaction'
       ]
     }, null, 2));

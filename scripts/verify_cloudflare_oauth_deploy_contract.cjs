@@ -13,6 +13,11 @@ const UPSTREAM = `cantoni/${BRANCH}`;
 const REMOTE_URL = 'https://github.com/cantonidigitalstudio-a11y/cantoni-digital-studio-site.git';
 const PROJECT_NAME = 'cantonidigitalstudio';
 const DOMAIN = 'cantonidigitalstudio.com';
+const POST_DEPLOY_CHECKS = [
+  'npm run test:live-site',
+  'npm run audit:post-unblock-launch',
+  'npm run audit:launch-readiness'
+];
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -306,6 +311,10 @@ async function main() {
     assert(success.stdout.includes('step=cloudflare_auth_recheck'), 'OAuth deploy should recheck auth after artifact checks');
     assert(success.stdout.includes('step=cloudflare_deploy_candidate'), 'OAuth deploy should verify deploy candidate before Wrangler deploy');
     assert(!success.stdout.includes('step=ensure_project'), 'OAuth deploy must not create or ensure projects implicitly');
+    assert(success.stdout.includes('post_deploy_checks='), 'OAuth deploy should print post-deploy checks');
+    for (const check of POST_DEPLOY_CHECKS) {
+      assert(success.stdout.includes(check), `OAuth deploy should instruct operator to run ${check} after deploy`);
+    }
 
     const log = await readToolLog(fakeTools.logPath);
     const npmCalls = log.filter((entry) => entry.tool === 'npm').map((entry) => entry.args.join(' '));
@@ -335,6 +344,7 @@ async function main() {
         'oauth_auth_recheck',
         'deploy_candidate_gate',
         'artifact_only_deploy_path',
+        'post_deploy_check_handoff',
         'no_implicit_project_create'
       ]
     }, null, 2));
