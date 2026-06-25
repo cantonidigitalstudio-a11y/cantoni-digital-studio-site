@@ -76,6 +76,36 @@ function taskById(payload, id) {
   return (payload.external_tasks || []).find((task) => task.id === id) || null;
 }
 
+function idsFromDetails(details) {
+  return (Array.isArray(details) ? details : []).map((item) => item.id);
+}
+
+function assertGateDetails({ ids, details, label, failures }) {
+  if (!Array.isArray(ids)) {
+    failures.push(`${label} IDs must be an array.`);
+    return;
+  }
+  if (!Array.isArray(details)) {
+    failures.push(`${label} details must be an array.`);
+    return;
+  }
+  const detailIds = idsFromDetails(details);
+  if (details.length !== ids.length) failures.push(`${label} details count must match IDs count.`);
+  for (const id of ids) {
+    const detail = details.find((item) => item.id === id);
+    if (!detail) {
+      failures.push(`${label} details missing ${id}.`);
+      continue;
+    }
+    if (!detail.label) failures.push(`${label} detail ${id} must include a label.`);
+    if (!Number.isInteger(detail.failure_count)) failures.push(`${label} detail ${id} must include integer failure_count.`);
+    if (!Array.isArray(detail.failures)) failures.push(`${label} detail ${id} must include failures array.`);
+  }
+  for (const id of detailIds) {
+    if (!ids.includes(id)) failures.push(`${label} details include unexpected ${id}.`);
+  }
+}
+
 async function main() {
   const failures = [];
   const handoffPath = await latestHandoffPath().catch((error) => {
@@ -103,17 +133,41 @@ async function main() {
   if (payload?.git?.current?.upstream !== currentGit.upstream) failures.push('External unblock handoff current Git upstream does not match repository state.');
 
   const operatorPackPath = resolveRepoPath(payload?.source_operator_pack);
+  let operatorPack = null;
   if (!operatorPackPath) {
     failures.push('Source operator pack path must be repo-relative.');
   } else {
     try {
-      const operatorPack = await readJson(operatorPackPath);
+      operatorPack = await readJson(operatorPackPath);
       if (operatorPack.git?.commit !== payload.git?.operator_pack?.commit) failures.push('Source operator pack commit does not match handoff payload.');
       if (operatorPack.cloudflare_deploy_candidate?.package?.zip_sha256 !== payload.deploy_candidate?.package?.zip_sha256) {
         failures.push('Source operator pack ZIP SHA-256 does not match handoff deploy candidate.');
       }
     } catch (error) {
       failures.push(`Unable to read source operator pack: ${error.message}`);
+    }
+  }
+
+  assertGateDetails({
+    ids: payload?.current_blockers,
+    details: payload?.current_blocker_details,
+    label: 'Current blocker',
+    failures
+  });
+  assertGateDetails({
+    ids: payload?.current_hold_ids,
+    details: payload?.current_hold_details,
+    label: 'Current hold',
+    failures
+  });
+  if (operatorPack) {
+    const operatorBlockerIds = (operatorPack.readiness?.blockers || []).map((blocker) => blocker.id);
+    const operatorHoldIds = (operatorPack.readiness?.holds || []).map((hold) => hold.id);
+    if (JSON.stringify(payload?.current_blockers || []) !== JSON.stringify(operatorBlockerIds)) {
+      failures.push('Current blockers must match source operator pack blockers.');
+    }
+    if (JSON.stringify(payload?.current_hold_ids || []) !== JSON.stringify(operatorHoldIds)) {
+      failures.push('Current holds must match source operator pack holds.');
     }
   }
 
@@ -352,6 +406,12 @@ async function main() {
       'If any commit, branch, upstream, ZIP checksum or operator pack reference differs from this handoff',
       'ZIP bytes:',
       'Current Holds',
+      'Production live-site contract',
+      'Cloudflare Pages deploy authorization',
+      'Cloudflare DNS API credentials',
+      'Cantoni domain email DNS',
+      'Payment branding review',
+      'Commercial outbound pause',
       'payment_branding_review',
       'commercial_outbound_pause'
     ]) {

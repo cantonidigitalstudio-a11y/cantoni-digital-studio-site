@@ -127,6 +127,32 @@ function failuresForGate(gate) {
   })) : [];
 }
 
+function gateDetails(items) {
+  return (Array.isArray(items) ? items : []).map((item) => {
+    const failures = failuresForGate(item);
+    return {
+      id: item.id || null,
+      label: item.label || null,
+      category: item.category || null,
+      severity: item.severity || null,
+      failure_count: failures.length,
+      failures
+    };
+  });
+}
+
+function currentGateLines(ids, details) {
+  if (!Array.isArray(ids) || ids.length === 0) return ['- none'];
+  return ids.map((id) => {
+    const detail = (details || []).find((item) => item.id === id) || {};
+    const label = detail.label ? `: ${detail.label}` : '';
+    const failureCount = Number.isInteger(detail.failure_count)
+      ? ` (${detail.failure_count} ${detail.failure_count === 1 ? 'failure' : 'failures'})`
+      : '';
+    return `- \`${id}\`${label}${failureCount}`;
+  });
+}
+
 function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, paymentBrandingEvidence }) {
   const readiness = operatorPack.readiness || {};
   const candidate = operatorPack.cloudflare_deploy_candidate || {};
@@ -160,7 +186,9 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
       operator_pack: operatorPack.git || null
     },
     current_blockers: blockerIds(readiness),
+    current_blocker_details: gateDetails(readiness.blockers),
     current_hold_ids: (readiness.holds || []).map((hold) => hold.id),
+    current_hold_details: gateDetails(readiness.holds),
     deploy_candidate: {
       status: candidate.status || null,
       artifact_ready: candidate.artifact_ready === true,
@@ -407,11 +435,11 @@ function renderMarkdown(payload) {
     '',
     '## Current Blockers',
     '',
-    ...(payload.current_blockers.length ? payload.current_blockers.map((id) => `- \`${id}\``) : ['- none']),
+    ...currentGateLines(payload.current_blockers, payload.current_blocker_details),
     '',
     '## Current Holds',
     '',
-    ...(payload.current_hold_ids.length ? payload.current_hold_ids.map((id) => `- \`${id}\``) : ['- none']),
+    ...currentGateLines(payload.current_hold_ids, payload.current_hold_details),
     '',
     '## Deploy Candidate',
     '',
