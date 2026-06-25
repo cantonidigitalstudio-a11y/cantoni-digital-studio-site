@@ -12,6 +12,16 @@ npm run audit:email-dns
 Il comando deve tornare `ok=true` prima di rimuovere `sales-kit/outbound_pause.flag`
 o scalare outreach da indirizzi `@cantonidigitalstudio.com`.
 
+Per generare un pacchetto operativo Markdown/JSON/CSV con i record Cloudflare
+derivati dal gate corrente:
+
+```bash
+npm run export:email-dns-handoff
+```
+
+Il CSV generato e un handoff operativo, non un permesso a modificare DNS senza
+review: il valore DKIM resta manuale finche non viene generato in Google Admin.
+
 ## Profilo scelto
 
 Profilo operativo: Google Workspace manuale a basso volume.

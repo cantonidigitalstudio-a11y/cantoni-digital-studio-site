@@ -42,6 +42,10 @@ Per produrre un riepilogo operativo dei blocker correnti, usa
 `npm run export:launch-handoff`. Il report resta sotto
 `sales-kit/generated/launch-handoff/` ed e ignorato da git.
 
+Per preparare i record DNS email in formato handoff/CSV per Cloudflare, usa
+`npm run export:email-dns-handoff`. Il report resta sotto
+`sales-kit/generated/email-dns-handoff/` ed e ignorato da git.
+
 ## Regole operative
 
 - Non salvare password, token, OTP, cookie o dati di recupero nel repo.
