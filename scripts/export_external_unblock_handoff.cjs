@@ -274,13 +274,14 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff }) {
           'npm run test:live-site',
           'npm run test:social-public',
           'npm run test:lead-endpoint',
+          'npm run test:outreach-readiness',
           'npm run audit:email-dns',
           'npm run audit:payment-branding',
           'npm run audit:cloudflare-pages-api',
           'npm run audit:cloudflare-dns-api',
           'npm run audit:launch-readiness'
         ],
-        outbound_rule: 'Keep sales-kit/outbound_pause.flag in place until launch readiness, email DNS, exact batch review and sender-account approval all pass.'
+        outbound_rule: 'Keep sales-kit/outbound_pause.flag in place until launch readiness, email DNS, outreach readiness, exact batch review and sender-account approval all pass.'
       }
     ],
     safety: {
@@ -388,6 +389,7 @@ function renderMarkdown(payload) {
     '- `npm run audit:post-unblock-launch`',
     '- `npm run test:social-public`',
     '- `npm run test:lead-endpoint`',
+    '- `npm run test:outreach-readiness`',
     '- `npm run audit:email-dns`',
     '- `npm run audit:payment-branding`',
     '- `npm run audit:cloudflare-pages-api`',
@@ -398,7 +400,7 @@ function renderMarkdown(payload) {
     '',
     '- No passwords, tokens, OTPs, cookies or recovery data belong in this repo.',
     '- Keep `sales-kit/payment_branding_review.flag` until Stripe Checkout and PayPal branding are verified.',
-    '- Keep `sales-kit/outbound_pause.flag` until all launch, email DNS, batch approval and sender checks pass.',
+    '- Keep `sales-kit/outbound_pause.flag` until all launch, email DNS, outreach readiness, batch approval and sender checks pass.',
     '- This file is a handoff, not deploy/DNS approval.',
     ''
   ].join('\n');

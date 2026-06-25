@@ -110,7 +110,7 @@ function outboundPauseContractStep() {
     command: `read ${path.relative(PROJECT_ROOT, OUTBOUND_PAUSE_PATH)}`,
     command_status: source === null ? 1 : 0,
     failures: ok ? [] : [
-      ...(source === null ? [failure('outbound_pause_missing', 'sales-kit/outbound_pause.flag must remain until launch, email DNS, social/public channels, lead endpoint, exact batch approval and sender approval are all cleared.')] : []),
+      ...(source === null ? [failure('outbound_pause_missing', 'sales-kit/outbound_pause.flag must remain until launch, email DNS, social/public channels, lead endpoint, outreach readiness, exact batch approval and sender approval are all cleared.')] : []),
       ...missing.map((snippet) => failure('missing_release_condition', `sales-kit/outbound_pause.flag is missing required release condition: ${snippet}`))
     ],
     details: {
@@ -319,9 +319,9 @@ const report = {
     failures: step.failures
   })),
   required_follow_up_when_ok: [
-    'Keep sales-kit/outbound_pause.flag until email DNS, exact batch review and sender-account approval are all explicitly cleared.',
+    'Keep sales-kit/outbound_pause.flag until email DNS, outreach readiness, exact batch review and sender-account approval are all explicitly cleared.',
     'Keep sales-kit/payment_branding_review.flag until Stripe Checkout and PayPal branding are verified in a real browser session.',
-    'Run npm run test:social-public and npm run test:lead-endpoint before starting any public outbound or campaign work.',
+    'Run npm run test:social-public, npm run test:lead-endpoint and npm run test:outreach-readiness before starting any public outbound or campaign work.',
     'Do not store Cloudflare, Google, OTP, cookie or recovery values in repository files.'
   ]
 };

@@ -76,6 +76,9 @@ function main() {
   if (!readme.includes('endpoint lead')) {
     failures.push('README.md: must document lead endpoint in post-unblock launch audits');
   }
+  if (!readme.includes('npm run test:outreach-readiness')) {
+    failures.push('README.md: must document outreach readiness before commercial outbound release');
+  }
   if (!readme.includes('npm run audit:payment-branding') || !readme.includes('sales-kit/payment_branding_review.flag')) {
     failures.push('README.md: must document payment branding audit and review flag');
   }
@@ -126,6 +129,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('npm run test:lead-endpoint')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document lead endpoint verification');
+  }
+  if (!cloudflareRunbook.includes('npm run test:outreach-readiness')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document outreach readiness verification');
   }
   if (!cloudflareRunbook.includes('npm run audit:payment-branding') || !cloudflareRunbook.includes('sales-kit/payment_branding_review.flag')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document payment branding audit and review flag');

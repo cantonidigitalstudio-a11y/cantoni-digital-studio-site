@@ -200,6 +200,9 @@ async function main() {
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run test:lead-endpoint')) {
     failures.push('Post-unblock checks must include lead endpoint verification.');
   }
+  if (!postChecks?.required_commands_after_external_changes?.includes('npm run test:outreach-readiness')) {
+    failures.push('Post-unblock checks must include outreach readiness verification.');
+  }
   if (!postChecks?.required_commands_after_external_changes?.includes('npm run audit:payment-branding')) {
     failures.push('Post-unblock checks must include payment branding audit.');
   }
@@ -225,7 +228,8 @@ async function main() {
       'sales-kit/payment_branding_review.flag',
       'sales-kit/outbound_pause.flag',
       'npm run test:social-public',
-      'npm run test:lead-endpoint'
+      'npm run test:lead-endpoint',
+      'npm run test:outreach-readiness'
     ]) {
       if (!markdown.includes(requiredText)) failures.push(`External unblock markdown missing required safety text: ${requiredText}`);
     }

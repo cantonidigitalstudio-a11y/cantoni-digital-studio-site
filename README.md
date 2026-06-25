@@ -142,6 +142,10 @@ pubblici, endpoint lead, payment branding, readiness senza rilascio outbound e
 handoff. Prima dello sblocco,
 `npm run test:post-unblock-launch` mostra gli stessi blocker senza fallire il
 comando.
+La pausa commerciale `sales-kit/outbound_pause.flag` resta comunque separata:
+prima di qualunque invio reale deve passare anche
+`npm run test:outreach-readiness`, oltre a social pubblici, endpoint lead,
+batch esatto e account mittente approvati.
 `npm run audit:payment-branding` controlla il flag
 `sales-kit/payment_branding_review.flag`: va rimosso solo dopo verifica reale
 dei Payment Link, merchant Stripe `Cantoni Digital Studio`, PayPal selezionabile

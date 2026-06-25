@@ -5,6 +5,7 @@ Do not remove this file or run outbound with OUTBOUND_FORCE_RUN=1 until all of t
 - `npm run audit:email-dns` returns ok=true for cantonidigitalstudio.com.
 - `npm run test:social-public` returns ok=true for current official Cantoni public channels.
 - `npm run test:lead-endpoint` returns ok=true before any public campaign or outreach run.
+- `npm run test:outreach-readiness` returns ok=true before any real outbound run.
 - The exact outbound batch has been reviewed and approved in chat.
 - The visible sender/account is verified as cantonidigitalstudio@gmail.com.
 - Any real send uses the explicit approval token required by scripts/day1_send_background.sh.

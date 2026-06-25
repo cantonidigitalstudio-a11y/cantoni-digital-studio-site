@@ -5,6 +5,7 @@ const OUTBOUND_PAUSE_REQUIRED_SNIPPETS = [
   'npm run audit:email-dns',
   'npm run test:social-public',
   'npm run test:lead-endpoint',
+  'npm run test:outreach-readiness',
   'exact outbound batch',
   'cantonidigitalstudio@gmail.com',
   'scripts/day1_send_background.sh',

@@ -291,6 +291,7 @@ Se PayPal non compare nemmeno nel browser reale, il codice del sito non può cor
 - Stripe checkout apribile senza fare transazioni
 - canali social pubblici verificati con `npm run test:social-public`
 - endpoint lead Apps Script verificato con `npm run test:lead-endpoint`
+- readiness outreach verificata con `npm run test:outreach-readiness` prima di qualunque invio reale
 
 ## Nota operativa
 Se `wrangler login` non completa la callback OAuth, il progetto resta comunque pronto: manca solo l'autorizzazione Cloudflare, non lavoro di configurazione locale.
