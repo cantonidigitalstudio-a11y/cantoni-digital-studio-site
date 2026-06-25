@@ -12,8 +12,11 @@ if (!/^[A-Za-z0-9._-]+$/.test(VERSION)) {
   throw new Error('LAUNCH_HANDOFF_VERSION may contain only letters, numbers, dots, underscores and dashes.');
 }
 
-const MARKDOWN_PATH = path.join(OUTPUT_DIR, `cantoni-launch-handoff-${VERSION}.md`);
-const JSON_PATH = path.join(OUTPUT_DIR, `cantoni-launch-handoff-${VERSION}.json`);
+const BASE_NAME = `cantoni-launch-handoff-${VERSION}`;
+const MARKDOWN_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.md`);
+const JSON_PATH = path.join(OUTPUT_DIR, `${BASE_NAME}.json`);
+const LATEST_MARKDOWN_PATH = path.join(OUTPUT_DIR, 'cantoni-launch-handoff-latest.md');
+const LATEST_JSON_PATH = path.join(OUTPUT_DIR, 'cantoni-launch-handoff-latest.json');
 
 function normalizeRel(value) {
   return value.split(path.sep).join('/');
@@ -54,7 +57,7 @@ async function findLatestManualPackage() {
   try {
     const entries = await fs.readdir(PACKAGE_DIR, { withFileTypes: true });
     const manifests = entries
-      .filter((entry) => entry.isFile() && /\.manifest\.json$/u.test(entry.name))
+      .filter((entry) => entry.isFile() && /^cantoni-cloudflare-pages-manual-upload-(?!latest\b).+\.manifest\.json$/u.test(entry.name))
       .map((entry) => path.join(PACKAGE_DIR, entry.name))
       .sort()
       .reverse();
@@ -332,16 +335,23 @@ async function main() {
     }
   };
 
-  await fs.mkdir(OUTPUT_DIR, { recursive: true });
-  await fs.writeFile(JSON_PATH, JSON.stringify(payload, null, 2) + '\n');
-  await fs.writeFile(MARKDOWN_PATH, renderMarkdown({
+  const jsonSource = JSON.stringify(payload, null, 2) + '\n';
+  const markdownSource = renderMarkdown({
     readiness: payload.readiness,
     emailDns: payload.email_dns,
     latestPackage,
     cloudflareAuth,
     cloudflareApi,
     git: payload.git
-  }));
+  });
+
+  await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  await Promise.all([
+    fs.writeFile(JSON_PATH, jsonSource),
+    fs.writeFile(MARKDOWN_PATH, markdownSource),
+    fs.writeFile(LATEST_JSON_PATH, jsonSource),
+    fs.writeFile(LATEST_MARKDOWN_PATH, markdownSource)
+  ]);
 
   console.log(JSON.stringify({
     ok: true,

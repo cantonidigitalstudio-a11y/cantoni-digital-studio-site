@@ -5,12 +5,25 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const GENERATED_ROOT = path.join(PROJECT_ROOT, 'sales-kit/generated');
 
 const FILE_PATTERNS = {
-  launchHandoff: /^cantoni-launch-handoff-.+\.json$/,
+  launchHandoff: /^cantoni-launch-handoff-(?!latest\b).+\.json$/,
   operatorPack: /^cantoni-launch-operator-pack-(?!latest\b).+\.json$/,
   emailDns: /^cantoni-email-dns-handoff-(?!.*\.cloudflare-api-records\.json$).+\.json$/,
   emailDnsApi: /^cantoni-email-dns-handoff-.+\.cloudflare-api-records\.json$/,
-  liveDrift: /^cantoni-live-drift-.+\.json$/
+  liveDrift: /^cantoni-live-drift-(?!latest\b).+\.json$/
 };
+
+const LAUNCH_HANDOFF_LATEST_ALIASES = [
+  {
+    label: 'launch_handoff_latest_json',
+    alias: 'cantoni-launch-handoff-latest.json',
+    timestampedPattern: /^cantoni-launch-handoff-(?!latest\b).+\.json$/
+  },
+  {
+    label: 'launch_handoff_latest_markdown',
+    alias: 'cantoni-launch-handoff-latest.md',
+    timestampedPattern: /^cantoni-launch-handoff-(?!latest\b).+\.md$/
+  }
+];
 
 const OPERATOR_PACK_LATEST_ALIASES = [
   {
@@ -68,6 +81,19 @@ const CLOUDFLARE_UPLOAD_LATEST_ALIASES = [
     label: 'cloudflare_upload_latest_readme',
     alias: 'cantoni-cloudflare-pages-manual-upload-latest.README.txt',
     timestampedPattern: /^cantoni-cloudflare-pages-manual-upload-(?!latest\b).+\.README\.txt$/
+  }
+];
+
+const LIVE_DRIFT_LATEST_ALIASES = [
+  {
+    label: 'live_drift_latest_json',
+    alias: 'cantoni-live-drift-latest.json',
+    timestampedPattern: /^cantoni-live-drift-(?!latest\b).+\.json$/
+  },
+  {
+    label: 'live_drift_latest_markdown',
+    alias: 'cantoni-live-drift-latest.md',
+    timestampedPattern: /^cantoni-live-drift-(?!latest\b).+\.md$/
   }
 ];
 
@@ -205,6 +231,64 @@ async function verifyOperatorPackLatestAliases(failures) {
   }
 }
 
+async function verifyLaunchHandoffLatestAliases(failures) {
+  const launchHandoffDir = path.join(GENERATED_ROOT, 'launch-handoff');
+
+  for (const item of LAUNCH_HANDOFF_LATEST_ALIASES) {
+    const aliasPath = path.join(launchHandoffDir, item.alias);
+    const timestampedPath = await latestFile('launch-handoff', item.timestampedPattern).catch((error) => {
+      failures.push(`${item.label}: unable to find latest timestamped artifact (${error.message})`);
+      return null;
+    });
+
+    if (!await pathExists(aliasPath)) {
+      failures.push(`${item.label}: missing stable latest alias ${item.alias}`);
+      continue;
+    }
+    if (!timestampedPath) {
+      failures.push(`${item.label}: missing timestamped source artifact`);
+      continue;
+    }
+
+    const [aliasSource, timestampedSource] = await Promise.all([
+      fs.readFile(aliasPath, 'utf8'),
+      fs.readFile(timestampedPath, 'utf8')
+    ]);
+    if (aliasSource !== timestampedSource) {
+      failures.push(`${item.label}: latest alias does not match latest timestamped artifact`);
+    }
+  }
+}
+
+async function verifyLiveDriftLatestAliases(failures) {
+  const liveDriftDir = path.join(GENERATED_ROOT, 'live-drift');
+
+  for (const item of LIVE_DRIFT_LATEST_ALIASES) {
+    const aliasPath = path.join(liveDriftDir, item.alias);
+    const timestampedPath = await latestFile('live-drift', item.timestampedPattern).catch((error) => {
+      failures.push(`${item.label}: unable to find latest timestamped artifact (${error.message})`);
+      return null;
+    });
+
+    if (!await pathExists(aliasPath)) {
+      failures.push(`${item.label}: missing stable latest alias ${item.alias}`);
+      continue;
+    }
+    if (!timestampedPath) {
+      failures.push(`${item.label}: missing timestamped source artifact`);
+      continue;
+    }
+
+    const [aliasSource, timestampedSource] = await Promise.all([
+      fs.readFile(aliasPath, 'utf8'),
+      fs.readFile(timestampedPath, 'utf8')
+    ]);
+    if (aliasSource !== timestampedSource) {
+      failures.push(`${item.label}: latest alias does not match latest timestamped artifact`);
+    }
+  }
+}
+
 function requireRelativePath(file, label, failures) {
   if (!file || typeof file !== 'string') {
     failures.push(`${label}: missing path`);
@@ -224,9 +308,11 @@ async function requireReferencedFile(relPath, label, failures) {
 
 async function main() {
   const failures = [];
+  await verifyLaunchHandoffLatestAliases(failures);
   await verifyOperatorPackLatestAliases(failures);
   await verifyEmailDnsLatestAliases(failures);
   await verifyCloudflareUploadLatestAliases(failures);
+  await verifyLiveDriftLatestAliases(failures);
 
   const files = {
     launchHandoff: await latestFile('launch-handoff', FILE_PATTERNS.launchHandoff),
@@ -276,6 +362,15 @@ async function main() {
     }
     if (launchHandoff.git?.upstream && operatorPack.git?.upstream && launchHandoff.git.upstream !== operatorPack.git.upstream) {
       failures.push('operator_pack: Git upstream does not match launch handoff');
+    }
+    if (String(normalizeRel(path.relative(PROJECT_ROOT, files.launchHandoff))).includes('-latest.')) {
+      failures.push('launch_handoff: verifier must inspect an immutable timestamped launch handoff, not the latest alias');
+    }
+    if (String(normalizeRel(path.relative(PROJECT_ROOT, files.liveDrift))).includes('-latest.')) {
+      failures.push('live_drift: verifier must inspect an immutable timestamped live drift report, not the latest alias');
+    }
+    if (String(launchHandoff.latest_cloudflare_manual_package?.manifest || '').includes('-latest.')) {
+      failures.push('launch_handoff: latest Cloudflare manual package manifest must be timestamped, not a latest alias');
     }
     const cloudflareDeployCandidate = operatorPack.cloudflare_deploy_candidate || {};
     if (String(normalizeRel(path.relative(PROJECT_ROOT, files.operatorPack))).includes('-latest.')) {

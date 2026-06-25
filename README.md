@@ -83,7 +83,9 @@ timestampati e verificati.
 
 Per produrre un riepilogo operativo dei blocker correnti, usa
 `npm run export:launch-handoff`. Il report resta sotto
-`sales-kit/generated/launch-handoff/` ed e ignorato da git.
+`sales-kit/generated/launch-handoff/` ed e ignorato da git. Scrive anche
+`cantoni-launch-handoff-latest.*` per revisione rapida; i verifier continuano a
+ispezionare il file timestampato piu recente.
 
 Per preparare i record DNS email in formato handoff/CSV per Cloudflare, usa
 `npm run export:email-dns-handoff`. Il report resta sotto
@@ -101,7 +103,8 @@ alla zona attiva `cantonidigitalstudio.com`.
 
 Per dimostrare se il live e solo indietro rispetto all'artifact pronto al
 deploy, usa `npm run export:live-drift`. Il report resta sotto
-`sales-kit/generated/live-drift/` ed e ignorato da git. Quando il drift e
+`sales-kit/generated/live-drift/` ed e ignorato da git. Scrive anche
+`cantoni-live-drift-latest.*` per revisione rapida. Quando il drift e
 risolvibile dal deploy, il report include anche `contract_drift_patch`: elenco
 dei file live che falliscono il contratto, hash live/artifact e regola
 vincolante di usare il full artifact Cloudflare, non un upload parziale.
