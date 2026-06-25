@@ -707,6 +707,19 @@ async function main() {
       failures.push('operator_pack: external_unblock_handoff gate must point to latest handoff JSON');
     } else if (externalUnblockHandoffGate.ok !== true && externalUnblockHandoffGate.severity !== 'advisory') {
       failures.push('operator_pack: external_unblock_handoff failures must be advisory during pack generation');
+    } else if (externalUnblockHandoffGate.ok !== true) {
+      const failureIds = (externalUnblockHandoffGate.failures || []).map((failure) => failure.id);
+      if (!failureIds.includes('operator_pack_pending_external_handoff_regeneration')) {
+        failures.push('operator_pack: external_unblock_handoff advisory must explain that the external handoff is regenerated after the operator pack');
+      }
+      if (externalUnblockHandoffGate.details?.expected_source_operator_pack !== operatorPack.operator_pack?.json) {
+        failures.push('operator_pack: external_unblock_handoff advisory must identify this operator pack as the expected source');
+      }
+      for (const command of ['npm run export:external-unblock-handoff', 'npm run test:external-unblock-handoff']) {
+        if (!externalUnblockHandoffGate.details?.required_follow_up_commands?.includes(command)) {
+          failures.push(`operator_pack: external_unblock_handoff advisory must require ${command}`);
+        }
+      }
     }
     const expectedArtifactReady = artifactGate?.ok === true &&
       artifactGate.details?.artifact_ok === true &&

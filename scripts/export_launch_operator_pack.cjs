@@ -384,6 +384,43 @@ function buildCloudflareDeployCandidate({ cloudflarePackage, liveDrift, readines
   };
 }
 
+function normalizeReadinessForOperatorPack(readiness, operatorPack) {
+  if (!readiness || !Array.isArray(readiness.gates)) return readiness || null;
+
+  const normalized = {
+    ...readiness,
+    gates: readiness.gates.map((gate) => {
+      if (gate.id !== 'external_unblock_handoff') return gate;
+      return {
+        ...gate,
+        ok: false,
+        severity: 'advisory',
+        failures: [{
+          id: 'operator_pack_pending_external_handoff_regeneration',
+          reason: `Run npm run export:external-unblock-handoff after this operator pack is written; the handoff must then reference ${operatorPack.json}.`
+        }],
+        details: {
+          ...(gate.details || {}),
+          expected_source_operator_pack: operatorPack.json,
+          required_follow_up_commands: [
+            'npm run export:external-unblock-handoff',
+            'npm run test:external-unblock-handoff'
+          ]
+        }
+      };
+    })
+  };
+
+  normalized.blockers = Array.isArray(readiness.blockers)
+    ? readiness.blockers.filter((gate) => gate.id !== 'external_unblock_handoff')
+    : [];
+  normalized.holds = Array.isArray(readiness.holds)
+    ? readiness.holds.filter((gate) => gate.id !== 'external_unblock_handoff')
+    : [];
+
+  return normalized;
+}
+
 function cloudflareDeployCandidateLines(candidate) {
   if (!candidate) return ['- No Cloudflare deploy candidate payload was available.'];
   return [
@@ -523,16 +560,17 @@ async function main() {
     ok: true,
     generated_at: new Date().toISOString(),
     git: gitProvenance(PROJECT_ROOT),
-    readiness: launchHandoffJson?.readiness || null,
+    readiness: null,
     cloudflare_auth: launchHandoffJson?.cloudflare_auth || null,
     cloudflare_api: launchHandoffJson?.cloudflare_api || null,
-    payment_branding_boundary: paymentBrandingBoundary(launchHandoffJson?.readiness),
     steps,
     operator_pack: {
       markdown: relativeToRoot(MARKDOWN_PATH),
       json: relativeToRoot(JSON_PATH)
     }
   };
+  payload.readiness = normalizeReadinessForOperatorPack(launchHandoffJson?.readiness, payload.operator_pack);
+  payload.payment_branding_boundary = paymentBrandingBoundary(payload.readiness);
   payload.cloudflare_deploy_candidate = buildCloudflareDeployCandidate({
     cloudflarePackage: steps.cloudflare_manual_upload.output,
     liveDrift: steps.live_drift.output,
