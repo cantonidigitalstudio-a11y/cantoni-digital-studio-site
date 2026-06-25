@@ -149,6 +149,7 @@ async function main() {
     const readinessGates = operatorPack.readiness?.gates || [];
     const artifactGate = readinessGates.find((gate) => gate.id === 'cloudflare_artifact_contract');
     const gitDeployStateGate = readinessGates.find((gate) => gate.id === 'git_deploy_state');
+    const externalUnblockHandoffGate = readinessGates.find((gate) => gate.id === 'external_unblock_handoff');
     if (!artifactGate) {
       failures.push('operator_pack: missing cloudflare_artifact_contract readiness gate');
     } else if (artifactGate.ok !== true) {
@@ -160,6 +161,13 @@ async function main() {
       failures.push('operator_pack: missing git_deploy_state readiness gate');
     } else if (!gitDeployStateGate.details || typeof gitDeployStateGate.details.dirty !== 'boolean') {
       failures.push('operator_pack: git_deploy_state gate must include Git cleanliness details');
+    }
+    if (!externalUnblockHandoffGate) {
+      failures.push('operator_pack: missing external_unblock_handoff readiness gate');
+    } else if (externalUnblockHandoffGate.ok !== true) {
+      failures.push('operator_pack: external_unblock_handoff gate must pass before handoff');
+    } else if (!String(externalUnblockHandoffGate.details?.handoff || '').endsWith('cantoni-external-unblock-handoff-latest.json')) {
+      failures.push('operator_pack: external_unblock_handoff gate must point to latest handoff JSON');
     }
     const expectedArtifactReady = artifactGate?.ok === true &&
       artifactGate.details?.artifact_ok === true &&
@@ -183,6 +191,9 @@ async function main() {
     const launchMarkdown = await fs.readFile(files.launchHandoff.replace(/\.json$/u, '.md'), 'utf8');
     if (!operatorMarkdown.includes('## Verified Passing Gates') || !operatorMarkdown.includes('cloudflare_artifact_contract')) {
       failures.push('operator_pack: Markdown must expose verified passing readiness gates');
+    }
+    if (!operatorMarkdown.includes('external_unblock_handoff')) {
+      failures.push('operator_pack: Markdown must expose external unblock handoff gate');
     }
     if (!operatorMarkdown.includes('npm run audit:git-deploy-state')) {
       failures.push('operator_pack: Markdown must require Git deploy state verification before deploy');

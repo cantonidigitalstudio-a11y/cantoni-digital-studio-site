@@ -146,6 +146,7 @@ const emailDnsRun = runJson(process.execPath, ['sales-kit/scripts/verify_cantoni
 const deployPolicyRun = runJson(process.execPath, ['scripts/verify_deploy_channel_policy.cjs']);
 const gitDeployStateRun = runJson(process.execPath, ['scripts/verify_git_deploy_state.cjs']);
 const liveSiteRun = runJson(process.execPath, ['scripts/verify_live_site.cjs']);
+const externalUnblockHandoffRun = runJson(process.execPath, ['scripts/verify_external_unblock_handoff.cjs']);
 const outboundPauseMessage = await readOptional('sales-kit/outbound_pause.flag');
 
 const gates = [
@@ -233,6 +234,19 @@ const gates = [
       domain: parsed?.domain || null,
       checked_at: parsed?.checked_at || null,
       check_count: Array.isArray(parsed?.checks) ? parsed.checks.length : 0
+    })
+  }),
+  gateFromRun({
+    id: 'external_unblock_handoff',
+    label: 'External unblock handoff',
+    category: 'handoff',
+    run: externalUnblockHandoffRun,
+    details: (parsed) => ({
+      handoff: parsed?.handoff || null,
+      source_operator_pack: parsed?.source_operator_pack || null,
+      status: parsed?.status || null,
+      deploy_candidate_status: parsed?.deploy_candidate_status || null,
+      checked_tasks: parsed?.checked_tasks || []
     })
   }),
   {

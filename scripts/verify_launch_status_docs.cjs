@@ -41,6 +41,9 @@ function main() {
   if (!readme.includes('cantoni-external-unblock-handoff-latest')) {
     failures.push('README.md: must document the stable latest external unblock handoff aliases');
   }
+  if (!readme.includes('external_unblock_handoff')) {
+    failures.push('README.md: must document the external unblock handoff readiness gate');
+  }
   if (!readme.includes('stato Git deploy') || !readme.includes('npm run audit:git-deploy-state')) {
     failures.push('README.md: must document Git deploy state as part of launch readiness');
   }
@@ -58,6 +61,9 @@ function main() {
   }
   if (!cloudflareRunbook.includes('cantoni-external-unblock-handoff-latest.md/json')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document latest external unblock handoff aliases');
+  }
+  if (!cloudflareRunbook.includes('external_unblock_handoff')) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document the external unblock handoff readiness gate');
   }
 
   const report = {

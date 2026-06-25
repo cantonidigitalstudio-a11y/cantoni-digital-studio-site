@@ -131,7 +131,9 @@ operator pack, il deploy candidate verificato, permessi minimi Cloudflare,
 record DNS Google Workspace, approval gate e controlli post-unblock. Il verifier
 blocca se il dossier contiene assegnazioni di valori Cloudflare, perde gli
 approval token, non punta allo ZIP corrente o gli alias latest non corrispondono
-all'ultimo file timestampato.
+all'ultimo file timestampato. `npm run audit:launch-readiness` espone lo stesso
+controllo come gate `external_unblock_handoff`, cosi il report principale mostra
+anche se il dossier di sblocco esterno e pronto.
 
 ## Deploy preview
 ```bash
