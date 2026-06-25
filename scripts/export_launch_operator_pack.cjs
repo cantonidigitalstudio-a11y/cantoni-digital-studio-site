@@ -181,6 +181,37 @@ function cloudflareDnsPlanLines(plan) {
   ];
 }
 
+function liveDriftPatchLines(liveDrift) {
+  const patch = liveDrift?.contract_drift_patch;
+  if (!patch) return ['- No live drift patch payload was available.'];
+  const files = Array.isArray(patch.files) ? patch.files : [];
+  if (!files.length) {
+    return [
+      `- Type: \`${patch.type || 'unknown'}\``,
+      '- Current live drift patch files: none'
+    ];
+  }
+
+  return [
+    `- Type: \`${patch.type || 'unknown'}\``,
+    `- Deploy action: \`${patch.deploy_action || 'unknown'}\``,
+    `- Full artifact required: ${patch.full_artifact_required === true ? 'yes' : 'no'}`,
+    `- Partial upload safe: ${patch.partial_upload_safe === true ? 'yes' : 'no'}`,
+    `- Upload root: \`${patch.upload_root || 'unknown'}\``,
+    `- Contract-failing live files fixed by the artifact: ${files.length}`,
+    '',
+    '| Page | Artifact file | Live missing snippets |',
+    '| --- | --- | --- |',
+    ...files.map((file) => {
+      const missingRequired = Array.isArray(file.live_missing_required) ? file.live_missing_required : [];
+      return `| \`${file.page}\` | \`${file.artifact_file}\` | ${missingRequired.map((snippet) => `\`${snippet}\``).join('<br>')} |`;
+    }),
+    '',
+    'Deploy rule:',
+    '- Use the full verified Cloudflare ZIP/artifact from this pack; the file list above is evidence for the drift, not a partial-deploy instruction.'
+  ];
+}
+
 function gitProvenanceLines(git) {
   if (!git) return ['- No Git provenance payload was available.'];
   return [
@@ -236,6 +267,10 @@ function renderMarkdown(payload) {
     `- Domain: ${cloudflarePackage.domain_name}`,
     `- Files: ${cloudflarePackage.files_count}`,
     `- ZIP SHA-256: \`${cloudflarePackage.zip?.sha256 || 'unknown'}\``,
+    '',
+    '## Live Drift Deploy Patch',
+    '',
+    ...liveDriftPatchLines(liveDrift),
     '',
     '## Cloudflare Auth Diagnostic',
     '',

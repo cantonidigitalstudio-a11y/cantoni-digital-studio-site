@@ -229,6 +229,33 @@ async function main() {
     if (liveDrift.live_contract_ok !== true && liveDrift.deploy_only_drift !== true) {
       failures.push('live_drift: production must either be contract-ready or have deploy-only drift evidence');
     }
+    const driftPatch = liveDrift.contract_drift_patch || {};
+    const driftPatchFiles = Array.isArray(driftPatch.files) ? driftPatch.files : [];
+    if (liveDrift.deploy_only_drift === true) {
+      if (driftPatch.type !== 'cloudflare_pages_contract_drift_patch_v1') {
+        failures.push('live_drift: missing contract drift patch payload');
+      }
+      if (driftPatch.full_artifact_required !== true || driftPatch.partial_upload_safe !== false) {
+        failures.push('live_drift: contract drift patch must require full artifact deployment');
+      }
+      if (!driftPatchFiles.length) {
+        failures.push('live_drift: deploy-only drift must list files fixed by the artifact');
+      }
+      for (const item of driftPatchFiles) {
+        if (!item.page || !item.artifact_file || !item.artifact_sha256 || !item.live_sha256) {
+          failures.push('live_drift: every patch file must include page, artifact file, and hashes');
+        }
+        if (item.deploy_should_fix !== true || item.artifact_satisfies_required !== true) {
+          failures.push(`live_drift: ${item.page || 'unknown page'} must be marked as fixed by the artifact`);
+        }
+        if (!Array.isArray(item.live_missing_required) || !item.live_missing_required.length) {
+          failures.push(`live_drift: ${item.page || 'unknown page'} must list live missing snippets`);
+        }
+      }
+      if (!operatorMarkdown.includes('## Live Drift Deploy Patch') || !operatorMarkdown.includes('Full artifact required: yes')) {
+        failures.push('operator_pack: Markdown must expose the live drift deploy patch and full-artifact rule');
+      }
+    }
 
     const stepOutput = operatorPack.steps?.email_dns_handoff?.output || {};
     await requireReferencedFile(operatorPack.steps?.cloudflare_manual_upload?.output?.zip?.path, 'operator_pack.cloudflare_zip', failures);

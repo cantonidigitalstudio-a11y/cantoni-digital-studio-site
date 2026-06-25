@@ -72,12 +72,17 @@ dns:cloudflare:plan`. L'apply reale resta separato e richiede
 
 Per dimostrare se il live e solo indietro rispetto all'artifact pronto al
 deploy, usa `npm run export:live-drift`. Il report resta sotto
-`sales-kit/generated/live-drift/` ed e ignorato da git.
+`sales-kit/generated/live-drift/` ed e ignorato da git. Quando il drift e
+risolvibile dal deploy, il report include anche `contract_drift_patch`: elenco
+dei file live che falliscono il contratto, hash live/artifact e regola
+vincolante di usare il full artifact Cloudflare, non un upload parziale.
 
 Per preparare un indice unico di deploy/DNS/drift/launch handoff generati nella
 stessa run, usa `npm run export:launch-operator-pack`. Il pack include anche il
 dry-run `dns:cloudflare:plan`, cosi l'operatore vede se i record DNS sono
-applicabili, bloccati o in attesa di lookup Cloudflare. Il report resta sotto
+applicabili, bloccati o in attesa di lookup Cloudflare. Include anche la sezione
+`Live Drift Deploy Patch`, che trasforma i failure del live-site contract in una
+checklist verificabile per chi ha accesso Cloudflare. Il report resta sotto
 `sales-kit/generated/launch-operator-pack/` ed e ignorato da git.
 
 ## Regole operative

@@ -44,6 +44,10 @@ function sha256Text(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
+function shortHash(value) {
+  return String(value || '').slice(0, 12);
+}
+
 async function fetchWithTimeout(url) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -87,11 +91,43 @@ async function readLive(page) {
   };
 }
 
+function buildContractDriftPatch(pages) {
+  const files = pages
+    .filter((page) => page.artifact.required_ok && !page.live.required_ok)
+    .map((page) => ({
+      page: page.path,
+      artifact_file: page.artifact.file,
+      live_url: page.live.url,
+      final_live_url: page.live.final_url,
+      live_status: page.live.status,
+      artifact_sha256: page.artifact.sha256,
+      live_sha256: page.live.sha256,
+      hashes_match: page.hashes_match,
+      live_missing_required: page.live.missing_required,
+      artifact_satisfies_required: page.artifact.required_ok,
+      deploy_should_fix: true
+    }));
+
+  return {
+    type: 'cloudflare_pages_contract_drift_patch_v1',
+    deploy_action: 'deploy_full_cloudflare_pages_artifact',
+    full_artifact_required: true,
+    partial_upload_safe: false,
+    upload_root: '.cloudflare-pages',
+    note: 'These are the contract-failing live pages that the current artifact fixes. Deploy the full verified artifact or ZIP, not only this subset.',
+    files_count: files.length,
+    files
+  };
+}
+
 function renderMarkdown(payload) {
   const driftRows = payload.pages.map((page) => {
     const deployWillFix = page.artifact.required_ok && !page.live.required_ok;
     return `| \`${page.path}\` | ${page.live.status} | ${page.live.required_ok ? 'yes' : 'no'} | ${page.artifact.required_ok ? 'yes' : 'no'} | ${deployWillFix ? 'yes' : 'no'} | ${page.live.missing_required.map((item) => `\`${item}\``).join('<br>') || ''} |`;
   });
+  const patchRows = payload.contract_drift_patch.files.map((item) => (
+    `| \`${item.page}\` | \`${item.artifact_file}\` | \`${shortHash(item.artifact_sha256)}\` | \`${shortHash(item.live_sha256)}\` | ${item.live_missing_required.map((snippet) => `\`${snippet}\``).join('<br>')} |`
+  ));
 
   return [
     '# Cantoni Live Drift Report',
@@ -108,6 +144,14 @@ function renderMarkdown(payload) {
     '| Page | Live HTTP | Live contract ok | Artifact contract ok | Deploy should fix | Live missing snippets |',
     '| --- | ---: | --- | --- | --- | --- |',
     ...driftRows,
+    '',
+    '## Contract Drift Patch',
+    '',
+    'This is not approval for a partial deploy. It identifies the live contract failures that the current verified artifact resolves; deploy the full Cloudflare Pages artifact or ZIP.',
+    '',
+    '| Page | Artifact file | Artifact SHA-256 | Live SHA-256 | Live missing snippets |',
+    '| --- | --- | --- | --- | --- |',
+    ...(patchRows.length ? patchRows : ['| n/a | n/a | n/a | n/a | none |']),
     '',
     '## Interpretation',
     '',
@@ -147,6 +191,7 @@ async function main() {
   const artifactContractOk = pages.every((page) => page.artifact.required_ok);
   const liveContractOk = pages.every((page) => page.live.required_ok);
   const deployOnlyDrift = artifactContractOk && !liveContractOk && pages.some((page) => page.artifact.sha256 !== page.live.sha256);
+  const contractDriftPatch = buildContractDriftPatch(pages);
   const payload = {
     ok: true,
     generated_at: new Date().toISOString(),
@@ -155,6 +200,7 @@ async function main() {
     artifact_contract_ok: artifactContractOk,
     live_contract_ok: liveContractOk,
     deploy_only_drift: deployOnlyDrift,
+    contract_drift_patch: contractDriftPatch,
     pages
   };
 
@@ -167,6 +213,8 @@ async function main() {
     artifact_contract_ok: artifactContractOk,
     live_contract_ok: liveContractOk,
     deploy_only_drift: deployOnlyDrift,
+    contract_drift_patch_files: contractDriftPatch.files_count,
+    contract_drift_patch: contractDriftPatch,
     pages_checked: pages.length,
     markdown: MARKDOWN_PATH,
     json: JSON_PATH

@@ -32,8 +32,14 @@ function main() {
   if (!readme.includes('`npm run audit:launch-readiness` ricostruisce anche `.cloudflare-pages`')) {
     failures.push('README.md: launch readiness must be documented as the current deploy gate');
   }
+  if (!readme.includes('contract_drift_patch') || !readme.includes('Live Drift Deploy Patch')) {
+    failures.push('README.md: must document the live drift patch manifest and operator-pack section');
+  }
   if (!cloudflareRunbook.includes('Stato verificato 2026-06-25')) {
     failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must carry the current verified Cloudflare blocker date');
+  }
+  if (!/Live\s+Drift\s+Deploy\s+Patch/u.test(cloudflareRunbook) || !/caricare\s+solo\s+quei\s+file/u.test(cloudflareRunbook)) {
+    failures.push('CLOUDFLARE_DEPLOY_RUNBOOK.md: must document that the drift patch is evidence, not a partial upload instruction');
   }
 
   const report = {

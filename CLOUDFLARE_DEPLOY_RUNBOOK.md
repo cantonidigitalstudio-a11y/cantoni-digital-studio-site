@@ -106,6 +106,11 @@ npm run export:launch-operator-pack
 
 L'indice viene scritto in `sales-kit/generated/launch-operator-pack/` e deve
 essere letto prima di qualsiasi operazione manuale su Cloudflare o DNS.
+Se il live-site contract fallisce ma l'artifact e pronto, la sezione `Live Drift
+Deploy Patch` elenca i file live che il full artifact risolve, con hash e
+snippet mancanti. Quell'elenco e evidenza del drift, non autorizzazione a
+caricare solo quei file: per Cloudflare Pages usare sempre lo ZIP/artifact
+completo referenziato nel pack.
 
 ## Deploy preview
 ```bash
