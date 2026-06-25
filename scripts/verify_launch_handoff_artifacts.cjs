@@ -447,6 +447,7 @@ async function main() {
     emailDnsApi: await latestFile('email-dns-handoff', FILE_PATTERNS.emailDnsApi),
     liveDrift: await latestFile('live-drift', FILE_PATTERNS.liveDrift)
   };
+  const leakScanFiles = new Set(Object.values(files).filter(Boolean));
 
   for (const [key, filePath] of Object.entries(files)) {
     if (!filePath) failures.push(`${key}: no generated artifact found`);
@@ -468,6 +469,18 @@ async function main() {
     const manualPackageReadme = manualPackageReadmePath
       ? await fs.readFile(path.join(PROJECT_ROOT, manualPackageReadmePath), 'utf8')
       : '';
+    for (const markdownPath of [
+      files.launchHandoff.replace(/\.json$/u, '.md'),
+      files.operatorPack.replace(/\.json$/u, '.md'),
+      files.emailDns.replace(/\.json$/u, '.md'),
+      files.liveDrift.replace(/\.json$/u, '.md')
+    ]) {
+      if (await pathExists(markdownPath)) leakScanFiles.add(markdownPath);
+      else failures.push(`${normalizeRel(path.relative(PROJECT_ROOT, markdownPath))}: paired Markdown artifact missing`);
+    }
+    if (manualPackageReadmePath) {
+      leakScanFiles.add(path.join(PROJECT_ROOT, manualPackageReadmePath));
+    }
     verifyManualUploadContractCoverage(manualPackageManifest, manualPackageReadme, failures);
 
     for (const [label, git] of [
@@ -923,7 +936,7 @@ async function main() {
     await requireReferencedFile(operatorPack.steps?.live_drift?.output?.json, 'operator_pack.live_drift_json', failures);
   }
 
-  for (const filePath of Object.values(files).filter(Boolean)) {
+  for (const filePath of leakScanFiles) {
     await scanLeaks(filePath, failures);
   }
 
