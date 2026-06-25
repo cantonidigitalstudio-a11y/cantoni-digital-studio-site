@@ -147,6 +147,10 @@ async function main() {
   if (payload?.account_boundary?.brand !== 'Cantoni Digital Studio') failures.push('Account boundary must be Cantoni Digital Studio.');
   if (payload?.account_boundary?.git_remote !== 'cantoni') failures.push('Account boundary must require git remote cantoni.');
   if (payload?.account_boundary?.operating_email !== 'cantonidigitalstudio@gmail.com') failures.push('Account boundary must use official Cantoni operating email.');
+  if (!payload?.deploy_candidate_status) failures.push('External unblock handoff must expose top-level deploy_candidate_status.');
+  if (payload?.deploy_candidate_status !== payload?.deploy_candidate?.status) {
+    failures.push('External unblock handoff top-level deploy_candidate_status must match deploy_candidate.status.');
+  }
 
   const currentGit = gitProvenance(PROJECT_ROOT);
   if (payload?.git?.current?.commit !== currentGit.commit) failures.push('External unblock handoff current Git commit does not match HEAD.');
@@ -162,6 +166,9 @@ async function main() {
       if (operatorPack.git?.commit !== payload.git?.operator_pack?.commit) failures.push('Source operator pack commit does not match handoff payload.');
       if (operatorPack.cloudflare_deploy_candidate?.package?.zip_sha256 !== payload.deploy_candidate?.package?.zip_sha256) {
         failures.push('Source operator pack ZIP SHA-256 does not match handoff deploy candidate.');
+      }
+      if (operatorPack.cloudflare_deploy_candidate?.status !== payload.deploy_candidate_status) {
+        failures.push('Source operator pack deploy candidate status does not match handoff payload.');
       }
     } catch (error) {
       failures.push(`Unable to read source operator pack: ${error.message}`);

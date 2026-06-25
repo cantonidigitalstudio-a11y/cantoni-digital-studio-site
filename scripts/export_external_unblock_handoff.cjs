@@ -175,6 +175,7 @@ function buildPayload({ operatorPackPath, operatorPack, emailDnsHandoff, payment
     source_operator_pack: relativeToRoot(operatorPackPath),
     operator_pack_generated_at: operatorPack.generated_at || null,
     status: readiness.ok === true ? 'no_external_unblock_required' : 'external_access_required',
+    deploy_candidate_status: candidate.status || null,
     account_boundary: {
       brand: 'Cantoni Digital Studio',
       cloudflare_project: candidate.target?.project_name || 'cantonidigitalstudio',
